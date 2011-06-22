@@ -1,0 +1,14 @@
+<% if @registration.active %>
+  $('#status').css('background', "url('/images/message.png') no-repeat");
+  $('#status').html("You account is ready. Automatically redirecting you...");
+  window.setTimeout(dashboard, 2000);
+<% elsif @time_elapsed > 60 %>
+  $('#status').html("This is taking longer than expected. Sorry for the delay...");
+  window.setTimeout(query, 5000);
+<% elsif @time_elapsed > 120 %>
+  $('#status').html("There appears to be a problem. Our technical staff are looking into it and will contact you.");
+  window.setTimeout(query, 3000);
+<% else %>
+  $('#status').html("Still working. Please wait... (<%= @time_elapsed.to_i %> sec)");
+  window.setTimeout(query, 3000);
+<% end %>

@@ -31,13 +31,15 @@ ActiveRecord::Schema.define(:version => 20110622101001) do
   add_index "partners", ["title"], :name => "index_partners_on_title", :unique => true
 
   create_table "registrations", :force => true do |t|
-    t.string   "identifier",      :null => false
-    t.string   "subdomain",       :null => false
-    t.string   "title",           :null => false
-    t.integer  "country_id",      :null => false
-    t.integer  "subscription_id", :null => false
+    t.string   "identifier",                         :null => false
+    t.string   "subdomain",                          :null => false
+    t.string   "title",                              :null => false
+    t.string   "email",                              :null => false
+    t.integer  "country_id",                         :null => false
+    t.integer  "subscription_id",                    :null => false
     t.integer  "partner_id"
-    t.string   "auth_token",      :null => false
+    t.string   "auth_token",                         :null => false
+    t.boolean  "active",          :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

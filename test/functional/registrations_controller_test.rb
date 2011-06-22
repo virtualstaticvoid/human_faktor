@@ -16,6 +16,13 @@ class RegistrationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get new with partner" do
+    partner_id = partners(:one).id
+    get :new, :partner => partner_id
+    assert_response :success
+    assert_equal partner_id, assigns(:registration).partner_id
+  end
+
   test "should create registration" do
     registration = registrations(:one)
     assert_difference('Registration.count') do
@@ -26,6 +33,11 @@ class RegistrationsControllerTest < ActionController::TestCase
 
   test "should show registration" do
     get :show, :id => @registration.to_param
+    assert_response :success
+  end
+
+  test "should query registration" do
+    get :query, :id => @registration.to_param, :started => Time.now.to_s, :format => :js
     assert_response :success
   end
 

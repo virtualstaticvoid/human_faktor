@@ -15,13 +15,27 @@
   <div class="field">
     <div><%= f.label :subdomain %></div>
     <div>http://<%= f.text_field :subdomain, :placeholder => 'companyname' %>.<%= AppConfig.domain %></div>
-    <div class="field_info"></div>
+    <div class="field_info">This will be the URL you use to access <%= AppConfig.title %>.</div>
   </div>
   
   <div class="field">
     <div><%= f.label :country %></div>
     <div><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></div>
     <div class="field_info"></div>
+  </div>
+
+  <h2>Contact Information</h2>
+  
+  <div class="field">
+    <div><%= f.label :email %></div>
+    <span><%= f.text_field :email %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div class="field">
+    <div><%= f.label :email_confirmation %></div>
+    <span><%= f.text_field :email_confirmation %></span>
+    <span class="field_info"></span>
   </div>
   
   <h2>Subscription</h2>

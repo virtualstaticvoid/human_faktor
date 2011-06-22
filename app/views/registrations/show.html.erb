@@ -1,9 +1,26 @@
 <% title "Registration Completed" %>
 
-<p>Your account is being provisioned, and will be available shortly.</p>
+<p>Your account is being provisioned and will be available shortly.</p>
 
-<p>TODO: show working animation....</p>
+<p id="status" style="background: url('/images/ajax-loader.gif') no-repeat; padding-left: 32px; height: 32px; line-height: 32px;">
+  Account creation in progress. Please wait...
+</p>
 
-<p>TODO: ajax request to see if ready... if it is, redirect...</p>
+<p>
+  Once your account is ready, you will be redirected automatically to your account <%= link_to 'dashboard', @registration.application_url %>.
+</p>
 
+<div style="display: none;">
+  <%= link_to '', query_registration_path(@registration, Time.now), :id => "query_status", :remote => true %>  
+</div>
 
+<script type="text/javascript">
+  function query() {
+    $('#query_status').click();
+  }
+  function dashboard() {
+    window.location = '<%= @registration.application_url %>';
+  }
+  // wait 10 seconds initially
+  window.setTimeout(query, 10000);
+</script>

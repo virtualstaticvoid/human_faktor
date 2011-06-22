@@ -3,6 +3,7 @@ class RegistrationsController < ApplicationController
  
   def new
     @registration = Registration.new()
+    @registration.partner = Partner.find(params[:partner]) if params[:partner]
   end
 
   def create
@@ -16,6 +17,11 @@ class RegistrationsController < ApplicationController
   end
   
   def show
+    @registration = Registration.find_by_identifier(params[:id])
+  end
+  
+  def query
+    @time_elapsed = Time.now - Time.parse(params[:started])
     @registration = Registration.find_by_identifier(params[:id])
   end
   

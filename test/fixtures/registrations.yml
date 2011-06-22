@@ -4,25 +4,31 @@ one:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client1
   title: Client One
+  email: info@human-faktor.com
   country: za
   subscription: free 
   partner: one
   auth_token: <%= TokenHelper.friendly_token %>
+  active: false
 
 two:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client2
   title: Client Two
+  email: info@human-faktor.com
   country: za
   subscription: free 
   partner: one
   auth_token: <%= TokenHelper.friendly_token %>
+  active: false
 
 three:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client3
   title: Client Two
+  email: info@human-faktor.com
   country: za
   subscription: free 
   auth_token: <%= TokenHelper.friendly_token %>
+  active: false
 

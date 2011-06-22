@@ -11,6 +11,7 @@ Hfwww::Application.routes.draw do
   get "registrations/new", :to => 'registrations#new', :as => :new_registration  
   post "registrations", :to => 'registrations#create'
   get "registrations/:id", :to => 'registrations#show', :as => :registration
+  get "registrations/:id/query/:started(.:format)", :to => 'registrations#query', :as => :query_registration
 
   root :to => "home#index"
 
