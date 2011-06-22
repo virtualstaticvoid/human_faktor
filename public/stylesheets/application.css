@@ -1,0 +1,184 @@
+* {
+  font-family: 'Ubuntu', Verdana, Arial, serif;
+  font-size: 11pt;
+}
+
+body {
+  color: darkslategray;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+h1 { font-size: 16pt; }
+h2 { font-size: 14pt; }
+h3 { font-size: 12pt; }
+h4 { font-size: 11pt; font-weight: bold; }
+h5 { font-size: 11pt; font-style: italic; }
+h6 { font-size: 11pt; text-decoration: underline; }
+
+hr {
+  border: 1px solid lightgray;
+}
+
+a img {
+  border: none;
+}
+
+.notices, .error_messages {
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.notices {
+  background-color: #FFEF8F;
+  border: 1px solid #F9DD34;
+} 
+
+.error_messages {
+  background-color: #FFEF8F;
+  border: 1px solid #CD0A0A;
+}
+
+.notices p, .error_messages p {
+  margin: 0 0 8px 0;
+  padding: 0;
+}
+
+.notices ul, .error_messages ul {
+  margin: 0;
+}
+
+.notices ul li, .error_messages ul li {
+  list-style: square;
+}
+
+.flash {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 0;
+}
+
+.flash_notice, .flash_error, .flash_alert {
+}
+
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+div.actions {
+  margin-top: 10px;
+}
+
+.field > div {
+  padding-bottom: 2px;
+}
+
+div.field input {
+  width: 318px;
+  border: 1px solid lightgray;
+}
+
+div.field input[type=checkbox] {
+  width: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+div.field input[type=file] {
+}
+
+div.field .dropdown {
+  width: 320px;
+  border: 1px solid lightgray;
+}
+
+div.field textarea {
+  height: 90px;
+  min-height: 90px;
+  width: 362px;
+  min-width: 362px;
+  border: 1px solid lightgray;
+}
+
+.field_info {
+  padding-left: 10px;
+}
+
+.field_info, .field_info a {
+  display: inline;
+  color: silver;
+  font-size: 9pt;
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+.field_with_errors label {
+  font-weight: bold;
+  color: red;
+}
+
+pre {
+  border: 1px dashed #C0C0C0;
+  background-color: #EFEFEF;
+  padding: 10px;
+  font-size: 11px;
+}
+
+.box_radius {
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+.box_radius_top {
+  border-radius: 6px 6px 0 0;
+  -moz-border-radius: 6px 6px 0 0;
+  -webkit-border-radius: 6px 6px 0 0;
+}
+
+.box_shadow {
+  box-shadow: 3px 3px 4px darkgray;
+  -moz-box-shadow: 3px 3px 4px darkgray;
+  -webkit-box-shadow: 3px 3px 4px darkgray;
+}
+
+#container {
+  margin: 20px;
+}
+
+.mock_address_bar {
+  padding: 0;
+  width: 400px;
+  height: 41px;
+  border: 1px solid gray;
+}
+
+.mock_address_bar > div {
+  margin: 0;
+  padding: 8px;
+  float: left;
+  height: 25px;
+  display: inline;
+}
+
+.mock_address_bar input[type=text] {
+  border: none;
+  width: 128px;
+  margin: 0;
+  padding: 0;
+}
+
+.mock_address_bar input[type=button] {
+  width: 40px;
+  height: 41px;
+  float: right;
+}
+

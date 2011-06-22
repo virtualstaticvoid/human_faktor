@@ -1,0 +1,75 @@
+<% title "New Registration" %>
+
+<%= form_for @registration do |f| %>
+  
+  <%= error_messages_for @registration %>
+
+  <h2>Company Details</h2>
+
+  <div class="field">
+    <div><%= f.label :title %></div>
+    <div><%= f.text_field :title, :placeholder => 'Company Name' %></div>
+    <div class="field_info">Supply the name of your company.</div>
+  </div>
+  
+  <div class="field">
+    <div><%= f.label :subdomain %></div>
+    <div>http://<%= f.text_field :subdomain, :placeholder => 'companyname' %>.<%= AppConfig.domain %></div>
+    <div class="field_info"></div>
+  </div>
+  
+  <div class="field">
+    <div><%= f.label :country %></div>
+    <div><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></div>
+    <div class="field_info"></div>
+  </div>
+  
+  <h2>Subscription</h2>
+
+  <div class="field">
+    <div><%= f.label :subscription %></div>
+    <div><%= f.select :subscription_id, Subscription.all.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></div>
+    <div class="field_info">Select the <%= link_to 'subscription', home_subscriptions_path %> you require.</div>
+  </div>
+  
+  <div class="field">
+    <div><%= f.label :partner %></div>
+    <div><%= f.select :partner_id, Partner.all.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></div>
+    <div class="field_info">Select the partner who referred you to <%= AppConfig.title %>.</div>
+  </div>
+  
+  <h2>Verification</h2>
+
+  <div class="field">
+    <div style="width: 440px;">
+      <%= raw recaptcha_tag(:challenge, :display => { :theme => 'white' }) %>
+    </div>
+  </div>
+  
+  <hr />
+  
+  <p>By clicking <em>Register</em> you agree to our <%= link_to "Terms of Service", home_terms_path %>.</p>
+
+  <div class="actions">
+    <%= f.submit 'Register' %> or <%= link_to 'cancel', root_path %>.
+  </div>
+  
+<% end %>
+
+<script type="text/javascript">
+
+  function to_name(src) {
+    return src.replace(/[^A-Z|^a-z|^0-9]/ig, '').toLowerCase();
+  }
+
+  var title = $("#registration_title");
+  var subdomain = $("#registration_subdomain");
+  
+  title.change(function() {
+    if (subdomain.val() == "") {
+      subdomain.val(to_name(title.val()));  
+    }
+  });
+
+</script>
+

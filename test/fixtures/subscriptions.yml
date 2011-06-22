@@ -1,0 +1,18 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+free:
+  sequence: 1
+  title: Free Trial
+
+small:
+  sequence: 2
+  title: Small
+  
+medium:
+  sequence: 3
+  title: Medium
+
+large:
+  sequence: 4
+  title: Large
+

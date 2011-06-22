@@ -1,0 +1,9 @@
+<!-- TODO: add js to hide and show (slide down/up transition) and add close button -->
+<% if flash.count > 0 %>
+<div class="notices box_radius">
+  <% flash.each do |type, msg| %>
+    <%= content_tag :div, msg, :class => "flash flash_#{type}" %>
+  <% end %>
+</div>
+<% end %>
+

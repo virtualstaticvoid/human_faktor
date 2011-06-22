@@ -1,0 +1,28 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: client1
+  title: Client One
+  country: one
+  subscription: free 
+  partner: one
+  auth_token: <%= TokenHelper.friendly_token %>
+
+two:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: client2
+  title: Client Two
+  country: one
+  subscription: free 
+  partner: one
+  auth_token: <%= TokenHelper.friendly_token %>
+
+three:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: client3
+  title: Client Two
+  country: one
+  subscription: free 
+  auth_token: <%= TokenHelper.friendly_token %>
+

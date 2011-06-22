@@ -1,0 +1,34 @@
+<% title "Account Sign In" %>
+
+<div style="margin: auto; width: 960;">
+
+  <p>When you first registered we sent you a welcome email with your
+  <strong><%= AppConfig.title %></strong> URL.</p>
+
+  <p>If you remember the company name (possible abbreviated) you may enter it here:</p>
+
+  <div class="mock_address_bar">
+    <div>
+    http://<input id="subdomain" type="text" placeholder="yourcompanyname" />.<%= AppConfig.domain %>
+    </div>
+    <input type="button" value="Go" onclick="javascript: try_url();" />
+  </div>
+
+  <p>You need to go to this address to login.</p>
+  <p>If can&apos;t remember the company name and you&apos;ve lost the welcome email, just send an
+  email to <%= mail_to AppConfig.support_email %> and we&apos;ll help you figure out your URL.</p>
+
+</div>
+
+<script type="text/javascript">
+  function try_url() {
+    var subdomain = $('#subdomain').val();
+    if (subdomain=="") {
+      alert('Please supply your company name.')
+      $('#subdomain').focus();
+    } else {
+      window.location = 'http://' + subdomain + '.<%= AppConfig.domain %>';
+    }
+  }
+</script>
+
