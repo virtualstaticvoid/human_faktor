@@ -13,6 +13,10 @@ Hfwww::Application.routes.draw do
   get "registrations/:id", :to => 'registrations#show', :as => :registration
   get "registrations/:id/query/:started(.:format)", :to => 'registrations#query', :as => :query_registration
 
+  if Rails.env.development?
+    mount Resque::Server, :at => "/resque"
+  end
+
   root :to => "home#index"
 
 end

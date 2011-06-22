@@ -27,6 +27,7 @@ gem 'jquery-rails', '~> 1.0.3'
 gem 'app_config', :git => 'git://github.com/virtualstaticvoid/app_config.git', :branch => 'master'
 gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_value_for.git', :branch => 'master'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
+gem 'resque', :require => "resque/server"
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
