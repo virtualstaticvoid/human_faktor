@@ -11,3 +11,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+# put reCAPTCHA into test mode!
+Rack::Recaptcha.test_mode! :return => true
+
