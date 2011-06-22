@@ -7,6 +7,7 @@ class Registration < ActiveRecord::Base
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :auth_token => lambda { TokenHelper.friendly_token },
                  :country => lambda { Country.default },
+                 :subscription => lambda { Subscription.default },
                  :active => false
 
   belongs_to :country

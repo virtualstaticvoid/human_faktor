@@ -3,16 +3,44 @@
 free:
   sequence: 1
   title: Free Trial
+  description: Free to get you started (1-10 employees)
+  price: 0
+  max_employees: 10
+  threshold: 1
+  price_over_threshold: 0
+  duration: 1
+  active: true
 
 small:
   sequence: 2
   title: Small
+  description: Small companies (1-5 employees)
+  price: 25.99
+  max_employees: 50
+  threshold: 5
+  price_over_threshold: 15.99
+  duration: 1
+  active: true
   
 medium:
   sequence: 3
   title: Medium
+  description: Medium companies (1-50 employees)
+  price: 12.99
+  max_employees: 100
+  threshold: 10
+  price_over_threshold: 25.99
+  duration: 1
+  active: true
 
 large:
   sequence: 4
   title: Large
+  description: Large companies (1-1000 employees)
+  price: 9.98
+  max_employees: 1000
+  threshold: 20
+  price_over_threshold: 25.99
+  duration: 1
+  active: false
 

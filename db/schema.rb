@@ -23,7 +23,10 @@ ActiveRecord::Schema.define(:version => 20110622101001) do
   add_index "countries", ["title"], :name => "index_countries_on_title", :unique => true
 
   create_table "partners", :force => true do |t|
-    t.string   "title",      :null => false
+    t.string   "title",                            :null => false
+    t.string   "contact_name",                     :null => false
+    t.string   "contact_email",                    :null => false
+    t.boolean  "active",        :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,8 +52,15 @@ ActiveRecord::Schema.define(:version => 20110622101001) do
   add_index "registrations", ["subdomain"], :name => "index_registrations_on_subdomain", :unique => true
 
   create_table "subscriptions", :force => true do |t|
-    t.integer  "sequence",   :null => false
-    t.string   "title",      :null => false
+    t.integer  "sequence",                                :null => false
+    t.string   "title",                                   :null => false
+    t.text     "description",                             :null => false
+    t.decimal  "price",                :default => 0.0,   :null => false
+    t.integer  "max_employees",                           :null => false
+    t.integer  "threshold",            :default => 0,     :null => false
+    t.decimal  "price_over_threshold", :default => 0.0,   :null => false
+    t.decimal  "duration",             :default => 1.0,   :null => false
+    t.boolean  "active",               :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

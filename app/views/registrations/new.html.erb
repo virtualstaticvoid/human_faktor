@@ -42,7 +42,7 @@
 
   <div class="field">
     <div><%= f.label :subscription %></div>
-    <div><%= f.select :subscription_id, Subscription.all.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></div>
+    <div><%= f.select :subscription_id, Subscription.active.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></div>
     <div class="field_info">Select the <%= link_to 'subscription', home_subscriptions_path %> you require.</div>
   </div>
   

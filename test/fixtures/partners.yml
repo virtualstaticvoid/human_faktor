@@ -1,7 +1,21 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  title: Partner One
+  title: HR Consultants
+  contact_name: Paula Jones
+  contact_email: info@human-faktor.com
+  active: true
 
 two:
-  title: Partner Two
+  title: MB2C
+  contact_name: Mind Your Own Business
+  contact_email: info@human-faktor.com
+  active: true
+
+three:
+  title: ABC
+  contact_name: ABC Consulting
+  contact_email: info@human-faktor.com
+  active: false
+
+
