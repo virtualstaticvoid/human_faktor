@@ -2,16 +2,16 @@
 
 <p>Your account is being provisioned and will be available shortly.</p>
 
-<p id="status" style="background: url('/images/ajax-loader.gif') no-repeat; padding-left: 32px; height: 32px; line-height: 32px;">
+<p id="status" class="working_message">
   Account creation in progress. Please wait...
 </p>
 
 <p>
-  Once your account is ready, you will be redirected automatically to your account <%= link_to 'dashboard', @registration.application_url %>.
+  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', @registration.application_url %>.
 </p>
 
 <div style="display: none;">
-  <%= link_to '', query_registration_path(@registration, Time.now), :id => "query_status", :remote => true %>  
+  <%= link_to '', query_registration_path(@registration, Time.now), :id => "query_status", :remote => true %>
 </div>
 
 <script type="text/javascript">
