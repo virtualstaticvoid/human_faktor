@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20110622101001) do
     t.string   "identifier",                         :null => false
     t.string   "subdomain",                          :null => false
     t.string   "title",                              :null => false
+    t.string   "name",                               :null => false
     t.string   "email",                              :null => false
     t.integer  "country_id",                         :null => false
     t.integer  "subscription_id",                    :null => false

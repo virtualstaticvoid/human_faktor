@@ -4,6 +4,7 @@ one:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client1
   title: Client One
+  name: Joe Soap
   email: info@human-faktor.com
   country: za
   subscription: free 
@@ -15,6 +16,7 @@ two:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client2
   title: Client Two
+  name: Adam Henry
   email: info@human-faktor.com
   country: za
   subscription: free 
@@ -26,6 +28,7 @@ three:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: client3
   title: Client Two
+  name: Paula Jones
   email: info@human-faktor.com
   country: za
   subscription: free 

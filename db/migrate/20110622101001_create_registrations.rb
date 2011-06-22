@@ -5,6 +5,7 @@ class CreateRegistrations < ActiveRecord::Migration
       t.string :identifier, :null => false
       t.string :subdomain, :null => false, :length => 255
       t.string :title, :null => false, :length => 255
+      t.string :name, :null => false, :length => 255
       t.string :email, :null => false
       t.references :country, :null => false
       t.references :subscription, :null => false

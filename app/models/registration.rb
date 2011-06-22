@@ -22,6 +22,7 @@ class Registration < ActiveRecord::Base
             :subdomain => true
   
   validates :title, :presence => true, :length => { :maximum => 255 }
+  validates :name, :presence => true, :length => { :maximum => 255 }
   validates :email, :confirmation => true, :email => true
   validates :country, :presence => true, :existence => true
   validates :subscription, :presence => true, :existence => true
