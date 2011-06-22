@@ -2,7 +2,7 @@ class CreateSubscriptions < ActiveRecord::Migration
   def self.up
     create_table :subscriptions do |t|
       t.integer :sequence, :null => false
-      t.string :title, :null => false
+      t.string :title, :null => false, :length => 255
 
       t.timestamps
     end

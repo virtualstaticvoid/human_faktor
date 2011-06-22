@@ -3,8 +3,8 @@ class CreateRegistrations < ActiveRecord::Migration
     create_table :registrations do |t|
     
       t.string :identifier, :null => false
-      t.string :subdomain, :null => false
-      t.string :title, :null => false
+      t.string :subdomain, :null => false, :length => 255
+      t.string :title, :null => false, :length => 255
       t.references :country, :null => false
       t.references :subscription, :null => false
       t.references :partner

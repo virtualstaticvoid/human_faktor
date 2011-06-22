@@ -1,8 +1,8 @@
 class CreateCountries < ActiveRecord::Migration
   def self.up
     create_table :countries do |t|
-      t.string :iso_code, :null => false
-      t.string :title, :null => false
+      t.string :iso_code, :null => false, :length => 2
+      t.string :title, :null => false, :length => 255
 
       t.timestamps
     end

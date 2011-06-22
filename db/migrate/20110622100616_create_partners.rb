@@ -1,7 +1,7 @@
 class CreatePartners < ActiveRecord::Migration
   def self.up
     create_table :partners do |t|
-      t.string :title, :null => false
+      t.string :title, :null => false, :length => 255
 
       t.timestamps
     end

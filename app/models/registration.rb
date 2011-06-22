@@ -12,10 +12,15 @@ class Registration < ActiveRecord::Base
   belongs_to :subscription
   belongs_to :partner
 
-  validates :subdomain, :presence => true, :uniqueness => true, :subdomain => true
-  validates :title, :presence => true
-  validates :country, :existence => true
-  validates :subscription, :existence => true
+  validates :subdomain, 
+            :presence => true, 
+            :length => { :maximum => 50 }, 
+            :uniqueness => true, 
+            :subdomain => true
+  
+  validates :title, :presence => true, :length => { :maximum => 255 }
+  validates :country, :presence => true, :existence => true
+  validates :subscription, :presence => true, :existence => true
   validates :partner, :existence => { :allow_nil => true }
   
   def application_url

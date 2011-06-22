@@ -1,7 +1,21 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  title: Country One
+au:
+  iso_code: au
+  title: Australia
 
-two:
-  title: Country Two
+za:
+  iso_code: za
+  title: South Africa
+
+uk:
+  iso_code: uk
+  title: United Kingdom
+
+us:
+  iso_code: us
+  title: United States of America
+
+
+
+
