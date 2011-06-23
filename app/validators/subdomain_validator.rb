@@ -4,7 +4,7 @@ class SubdomainValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return unless value.present?
     
-    reserved_names = %w(www ftp mail pop smtp admin ssl sftp secure test private internal)
+    reserved_names = %w(www ftp mail pop smtp admin ssl sftp secure test private internal demo queue)
     reserved_names = options[:reserved] if options[:reserved]
     if reserved_names.include?(value)
       record.errors[attribute] << 'cannot be a reserved name'
