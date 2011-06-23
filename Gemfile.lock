@@ -54,6 +54,12 @@ GEM
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    flay (1.4.2)
+      ruby_parser (~> 2.0)
+      sexp_processor (~> 3.0)
+    flog (2.5.1)
+      ruby_parser (~> 2.0)
+      sexp_processor (~> 3.0)
     i18n (0.5.0)
     jquery-rails (1.0.11)
       railties (~> 3.0)
@@ -82,6 +88,10 @@ GEM
       activesupport (= 3.0.9)
       bundler (~> 1.0)
       railties (= 3.0.9)
+    rails_code_qa (0.4.2)
+      flay (= 1.4.2)
+      flog (= 2.5.1)
+      rcov (= 0.9.9)
     railties (3.0.9)
       actionpack (= 3.0.9)
       activesupport (= 3.0.9)
@@ -89,6 +99,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     rake (0.9.2)
+    rcov (0.9.9)
     rdoc (3.6.1)
     redis (2.2.1)
     redis-namespace (1.0.3)
@@ -98,6 +109,9 @@ GEM
       redis-namespace (~> 1.0.2)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
+    ruby_parser (2.0.6)
+      sexp_processor (~> 3.0)
+    sexp_processor (3.0.5)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -123,6 +137,7 @@ DEPENDENCIES
   rack-recaptcha!
   rack-ssl
   rails (= 3.0.9)
+  rails_code_qa
   resque
   sqlite3
   unicorn
