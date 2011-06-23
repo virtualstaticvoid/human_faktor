@@ -1,5 +1,13 @@
 <h1>ENV</h1>
-<pre><%= ENV.inspect %></pre>
-<h1>Request</h1>
-<pre><%= request.inspect %></pre>
-
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Value</th>
+  </tr>
+  <% ENV.each do |key, value| %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= value %></td>
+    </tr>  
+  <% end %>
+</table>
