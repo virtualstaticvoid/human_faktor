@@ -7,6 +7,7 @@ Hfwww::Application.routes.draw do
   get "home/terms"
   get "home/partner"
   get "home/sign_in"
+  get "home/debug"
 
   get "registrations/new", :to => 'registrations#new', :as => :new_registration  
   post "registrations", :to => 'registrations#create'
