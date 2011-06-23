@@ -2,11 +2,27 @@
 
 # application settings
 AppConfig.title = "Human Faktor"
+AppConfig.domain = "human-faktor.com"
+
+# mail server settings
+AppConfig.smtp_server = ENV['SMTP_SERVER']
+AppConfig.smtp_domain = ENV['SMTP_DOMAIN'] || AppConfig.domain
+AppConfig.smtp_port = ENV['SMTP_PORT'] || 25
+AppConfig.smtp_user_name = ENV['SMTP_USERNAME']
+AppConfig.smtp_password = ENV['SMTP_PASSWORD']
 
 # email addresses
-AppConfig.info_email = "info@human-faktor.com"
-AppConfig.support_email = "support@human-faktor.com"
-AppConfig.no_reply_email = "noreply@human-faktor.com"
+AppConfig.info_email = "info@#{AppConfig.domain}"
+AppConfig.support_email = "support@#{AppConfig.domain}"
+AppConfig.no_reply_email = "noreply@#{AppConfig.domain}"
+
+# amazon S3 credentials
+AppConfig.s3_bucket = ENV['S3_BUCKET'] || AppConfig.domain.gsub(/\./, '_')
+AppConfig.s3_key = ENV['S3_KEY']
+AppConfig.s3_secret = ENV['S3_SECRET']
+
+# themes
+AppConfig.default_theme = 'default'
 
 # defaults
 AppConfig.default_country_iso_code = ENV['DEFAULT_COUNTRY_ISO_CODE'] || 'za'
