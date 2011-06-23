@@ -1,7 +1,7 @@
 # Put environment specific configuration settings here. 
 # This overwrites settings from ../application.rb.
 
-AppConfig.domain = "lvh.me:8080"
+AppConfig.domain = "lvh.me:3000"
 
 # mail server settings for mailcatcher
 AppConfig.smtp_server = "localhost"
