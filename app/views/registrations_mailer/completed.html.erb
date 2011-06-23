@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= AppConfig.title %></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style type="text/css">
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+    }
+    .block {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <p>Hello <%= @registration.name %>,</p>
+
+  <p>Your <strong><%= @registration.title %></strong> account on <strong><%= AppConfig.title %></strong> is ready!</p>
+
+  <p>Next steps:</p>
+  <ul>
+    <li>Setup your company logo and theme,</li>
+    <li>Optionally, create locations and departments,</li>
+    <li>Update leave type settings and allowances,</li>  
+    <li>Add employees and optionally specify leave take on balances.</li>
+  </ul>
+
+  <p>To access your account, please follow this link:</p>
+
+  <p class="block">
+  <%= link_to @registration.application_url %>
+  </p>
+
+  <p>
+  <strong>The <%= AppConfig.title %> Team</strong><br />
+  <%= link_to root_url, root_url %>
+  </p>
+
+</body>
+</html>
+

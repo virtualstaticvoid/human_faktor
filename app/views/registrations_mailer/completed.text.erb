@@ -1,0 +1,18 @@
+Hello <%= @registration.name %>,
+
+Your <%= @registration.title %> account on <%= AppConfig.title %> is ready!
+
+Next steps:
+
+* Setup your company logo and theme,
+* Optionally, create locations and departments,
+* Update leave type settings and allowances,  
+* Add employees and optionally specify leave take on balances.
+
+To access your account, please follow this link:
+
+<%= @registration.application_url %>
+
+The <%= AppConfig.title %> Team
+<%= root_url %>
+
