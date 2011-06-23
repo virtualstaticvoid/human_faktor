@@ -31,7 +31,7 @@ class Registration < ActiveRecord::Base
   validates :active, :inclusion => { :in => [true, false] }
   
   def application_url
-    "https://#{self.subdomain}.#{AppConfig.domain}/#{self.auth_token}"
+    "http://#{self.subdomain}.#{AppConfig.domain}/#{self.auth_token}"
   end
 
   def to_param
