@@ -1,28 +1,16 @@
 <% title "Account Sign In" %>
 
-<p>When you first registered we sent you a welcome email with your
-<strong><%= AppConfig.title %></strong> URL.</p>
+<div style="text-align: center;">
 
-<p>If you remember the company name (possible abbreviated) you may enter it here and click Go:</p>
+<p>When you registered we sent you a welcome email with your <strong><%= AppConfig.title %></strong> URL.</p>
+<p>The URL will have your <em title="Or possibly an abbreviation of your company name">company name</em> at the beginning, followed by &quot;.<%= AppConfig.domain %>&quot;.</p>
 
-<div class="mock_address_bar">
-  <div>
-  http://<input id="subdomain" type="text" placeholder="yourcompanyname" />.<%= AppConfig.domain %>
-  </div>
-  <input type="button" value="Go!" onclick="javascript: try_url();" />
+<p>It should look something like:</p>
+<h3 style="margin: 30px;">http://<em>companyname</em>.<%= AppConfig.domain %></h3>
+
+<p>Try typing the URL with your <em>company name</em> in your browser address bar.</p>
+<p>Otherwise, send an email to <%= mail_to AppConfig.support_email, AppConfig.support_email, :subject => "#{AppConfig.title} Support - Forgotten Company Name" %> so we help figure out your URL.</p>
+
 </div>
 
-<p>If can&apos;t remember the company name then send an email to <%= mail_to AppConfig.support_email, AppConfig.support_email, :subject => "#{AppConfig.title} Support - Forgotten Company Name" %>.</p>
-
-<script type="text/javascript">
-  function try_url() {
-    var subdomain = $('#subdomain').val();
-    if (subdomain=="") {
-      alert('Please supply your company name.')
-      $('#subdomain').focus();
-    } else {
-      window.location = 'http://' + subdomain + '.<%= AppConfig.domain %>';
-    }
-  }
-</script>
 

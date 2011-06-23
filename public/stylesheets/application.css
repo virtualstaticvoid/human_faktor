@@ -298,53 +298,6 @@ pre {
   padding-top: 8px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.mock_address_bar {
-  padding: 0;
-  width: 400px;
-  height: 41px;
-  border: 1px solid gray;
-}
-
-.mock_address_bar > div {
-  margin: 0;
-  padding: 8px;
-  float: left;
-  height: 25px;
-  display: inline;
-}
-
-.mock_address_bar input[type=text] {
-  border: none;
-  width: 128px;
-  margin: 0;
-  padding: 0;
-}
-
-.mock_address_bar input[type=button] {
-  width: 40px;
-  height: 41px;
-  float: right;
-}
-
 .working_message {
   background: url('/images/ajax-loader.gif') no-repeat left center; 
   padding-left: 32px; 
