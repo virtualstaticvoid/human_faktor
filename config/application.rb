@@ -44,7 +44,7 @@ module Hfwww
       g.stylesheets = false
     end
     
-    # configure reCAPTCHA
+    # Configure reCAPTCHA
     config.gem 'rack-recaptcha', :lib => 'rack/recaptcha'
     config.middleware.use Rack::Recaptcha, :public_key => ENV['RECAPTCHA_PUBLIC_KEY'], 
                                            :private_key => ENV['RECAPTCHA_PRIVATE_KEY']
