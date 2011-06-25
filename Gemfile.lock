@@ -51,6 +51,11 @@ GEM
       activesupport (= 3.0.9)
     activesupport (3.0.9)
     arel (2.0.10)
+    aws-ses (0.4.3)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -120,12 +125,14 @@ GEM
     tzinfo (0.3.28)
     vegas (0.1.8)
       rack (>= 1.0.0)
+    xml-simple (1.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   app_config!
+  aws-ses (~> 0.4.3)
   default_value_for!
   jquery-rails (~> 1.0.3)
   pg
