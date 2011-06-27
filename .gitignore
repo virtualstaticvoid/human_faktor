@@ -4,3 +4,5 @@ log/*.log
 tmp/
 coverage/*/*
 .rvmrc
+config/environments/*.yml
+
