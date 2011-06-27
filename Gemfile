@@ -29,6 +29,7 @@ gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_val
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
 gem 'resque', :require => "resque/server"
 gem 'aws-ses', '~> 0.4.3', :require => 'aws/ses'
+gem 'validates_timeliness', '~> 3.0.2'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
