@@ -2,7 +2,7 @@ class RegistrationsMailer < BaseMailer
 
   def completed(registration)  
     @registration = registration
-    mail(:to => registration.email, :subject => "Welcome to #{AppConfig.title} - Registration Complete")  
+    mail(:to => registration.email, :subject => "#{AppConfig.title} - Registration Completed")  
   end  
 
 end

@@ -8,7 +8,7 @@ class RegistrationsMailerTest < ActionMailer::TestCase
   
   test "completed" do
     mail = RegistrationsMailer.completed(@registration)
-    assert_equal "Welcome to #{AppConfig.title} - Registration Completed", mail.subject
+    assert_equal "#{AppConfig.title} - Registration Completed", mail.subject
     assert_equal [@registration.email], mail.to
     assert_equal [AppConfig.no_reply_email], mail.from
     #assert_match "Hi", mail.body.encoded
