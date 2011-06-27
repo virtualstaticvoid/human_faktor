@@ -9,6 +9,8 @@ class Country < ActiveRecord::Base
   validates :iso_code, :presence => true, :length => { :is => 2 }, :uniqueness => true
   validates :title, :presence => true, :length => { :maximum => 255 }, :uniqueness => true
   
+  has_many :calendar_entries, :dependent => :destroy
+
   def to_s
     self.title
   end
