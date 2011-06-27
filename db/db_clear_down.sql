@@ -1,3 +1,5 @@
+﻿truncate public.account_subscriptions;
+﻿truncate public.accounts;
 ﻿truncate public.calendar_entries;
 truncate public.countries;
 truncate public.partners;
