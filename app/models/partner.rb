@@ -11,7 +11,7 @@ class Partner < ActiveRecord::Base
   validates :active, :inclusion => { :in => [true, false] }
 
   def to_s
-    self.title
+    self.active ? self.title : "#{self.title} [Inactive]"
   end
 
 end
