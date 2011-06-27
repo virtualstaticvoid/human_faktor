@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 # Load environment variables
-env_config_filename = "#{Rails.root}/config/environments/#{Rails.env}.yml"
+env_config_filename = File.expand_path("../environments/#{Rails.env}.yml", __FILE__)
 if File.exist?(env_config_filename)
   env_config = File.read(env_config_filename)
   YAML.load(env_config).each do |key, value|
