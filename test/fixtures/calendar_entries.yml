@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  country: za 
+  title: New Years Day
+  entry_date: 2011-01-01
+
+two:
+  country: za 
+  title: Public Holiday
+  entry_date: 2011-01-02
+
+three:
+  country: za 
+  title: Workers Day
+  entry_date: 2011-06-16
+

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110622101001) do
+ActiveRecord::Schema.define(:version => 20110627105712) do
+
+  create_table "calendar_entries", :force => true do |t|
+    t.integer  "country_id"
+    t.string   "title"
+    t.date     "entry_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "calendar_entries", ["country_id", "entry_date"], :name => "index_calendar_entries_on_country_id_and_entry_date"
 
   create_table "countries", :force => true do |t|
     t.string   "iso_code",   :null => false
