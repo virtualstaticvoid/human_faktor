@@ -6,6 +6,15 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
+# Load environment variables
+env_config_filename = "#{Rails.root}/config/environments/#{Rails.env}.yml"
+if File.exist?(env_config_filename)
+  env_config = File.read(env_config_filename)
+  YAML.load(env_config).each do |key, value|
+    ENV[key] = value
+  end
+end
+
 module Hfwww
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
