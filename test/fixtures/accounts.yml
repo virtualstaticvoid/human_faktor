@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: acme1
+  title: Acme Corporation I
+  partner: one
+  country: za
+  fixed_daily_hours: 8
+
+two:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: acme2
+  title: Acme Corporation II
+  partner: one
+  country: za
+  fixed_daily_hours: 8
+  
+three:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: acme3
+  title: Acme Corporation III
+  country: za
+  fixed_daily_hours: 8
+
