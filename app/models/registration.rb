@@ -22,16 +22,21 @@ class Registration < ActiveRecord::Base
             :subdomain => true
   
   validates :title, :presence => true, :length => { :maximum => 255 }
+  
+  # contact details
   validates :name, :presence => true, :length => { :maximum => 255 }
   validates :email, :confirmation => true, :email => true
+  
   validates :country, :presence => true, :existence => true
   validates :subscription, :presence => true, :existence => true
   validates :partner, :existence => { :allow_nil => true }
-  validates :auth_token, :presence => true
   validates :active, :inclusion => { :in => [true, false] }
+
+  # access token for initial setup
+  validates :auth_token, :presence => true
   
   def application_url
-    "http://#{self.subdomain}.#{AppConfig.domain}/#{self.auth_token}"
+    "http://#{self.subdomain}.#{AppConfig.domain}/setup?token=#{self.auth_token}"
   end
 
   def to_param

@@ -5,13 +5,19 @@ class CreateRegistrations < ActiveRecord::Migration
       t.string :identifier, :null => false
       t.string :subdomain, :null => false, :length => 255
       t.string :title, :null => false, :length => 255
-      t.string :name, :null => false, :length => 255
-      t.string :email, :null => false
+
       t.references :country, :null => false
       t.references :subscription, :null => false
       t.references :partner
-      t.string :auth_token, :null => false
+      
+      # contact details
+      t.string :name, :null => false, :length => 255
+      t.string :email, :null => false
+
       t.boolean :active, :null => false, :default => false
+  
+      # access token for initial setup
+      t.string :auth_token, :null => false
 
       t.timestamps
     end
