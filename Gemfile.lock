@@ -51,6 +51,10 @@ GEM
       activesupport (= 3.0.9)
     activesupport (3.0.9)
     arel (2.0.10)
+    aws-s3 (0.6.2)
+      builder
+      mime-types
+      xml-simple
     aws-ses (0.4.3)
       builder
       mail (> 2.2.5)
@@ -76,6 +80,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    paperclip (2.3.11)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
     pg (0.11.0)
     polyglot (0.3.1)
     rack (1.2.3)
@@ -135,9 +142,11 @@ PLATFORMS
 
 DEPENDENCIES
   app_config!
+  aws-s3
   aws-ses (~> 0.4.3)
   default_value_for!
   jquery-rails (~> 1.0.3)
+  paperclip (~> 2.3)
   pg
   rack-recaptcha!
   rails (= 3.0.9)
