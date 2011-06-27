@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# assumes RVM setup and desired ruby and gemset selected
+
+bundle install --path .bundle
+
+bundle exec rake db:migrate RAILS_ENV=production
+#bundle exec rake db:seed RAILS_ENV=production
+
