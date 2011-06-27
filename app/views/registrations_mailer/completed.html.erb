@@ -17,7 +17,13 @@
 
   <p>Hello <%= @registration.name %>,</p>
 
-  <p>Your <strong><%= @registration.title %></strong> account on <strong><%= AppConfig.title %></strong> is ready!</p>
+  <p>Welcome to <strong><%= AppConfig.title %></strong>. Your account for <strong><%= @registration.title %></strong> is ready!</p>
+
+  <p>You can use the following URL to access your account:</p>
+
+  <p class="block">
+  <strong><%= link_to @registration.dashboard_url, @registration.dashboard_url %></strong>
+  </p>
 
   <p>Next steps:</p>
   <ul>
@@ -27,10 +33,10 @@
     <li>Add employees and optionally specify leave take on balances.</li>
   </ul>
 
-  <p>To access your account, please follow this link:</p>
+  <p>To complete your account setup, please follow this link:</p>
 
   <p class="block">
-  <%= link_to @registration.application_url, @registration.application_url %>
+  <%= link_to @registration.setup_url, @registration.setup_url %>
   </p>
 
   <p>

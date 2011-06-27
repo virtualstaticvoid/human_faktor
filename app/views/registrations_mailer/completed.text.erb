@@ -1,6 +1,10 @@
 Hello <%= @registration.name %>,
 
-Your <%= @registration.title %> account on <%= AppConfig.title %> is ready!
+Welcome to <%= AppConfig.title %>. Your account for <%= @registration.title %> is ready!
+
+You can use the following URL to access your account:
+
+  <%= @registration.dashboard_url %>
 
 Next steps:
 
@@ -9,9 +13,9 @@ Next steps:
 * Update leave type settings and allowances,  
 * Add employees and optionally specify leave take on balances.
 
-To access your account, please follow this link:
+To complete your account setup, please follow this link:
 
-<%= @registration.application_url %>
+  <%= @registration.setup_url %>
 
 The <%= AppConfig.title %> Team
 <%= root_url %>

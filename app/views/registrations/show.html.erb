@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', @registration.application_url %>.
+  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', @registration.setup_url %>.
 </p>
 
 <div style="display: none;">
@@ -19,7 +19,7 @@
     $('#query_status').click();
   }
   function dashboard() {
-    window.location = '<%= @registration.application_url %>';
+    window.location = '<%= @registration.setup_url %>';
   }
   // wait 10 seconds initially
   window.setTimeout(query, 10000);

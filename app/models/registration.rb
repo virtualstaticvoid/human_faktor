@@ -35,7 +35,11 @@ class Registration < ActiveRecord::Base
   # access token for initial setup
   validates :auth_token, :presence => true
   
-  def application_url
+  def dashboard_url
+    "http://#{self.subdomain}.#{AppConfig.domain}"
+  end
+  
+  def setup_url
     "http://#{self.subdomain}.#{AppConfig.domain}/setup?token=#{self.auth_token}"
   end
 
