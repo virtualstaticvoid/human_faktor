@@ -14,7 +14,7 @@ class Registration < ActiveRecord::Base
   belongs_to :subscription
   belongs_to :partner
 
-  validates :identifier, :presence => true
+  validates :identifier, :presence => true, :uniqueness => true
 
   validates :subdomain, 
             :presence => true, 
