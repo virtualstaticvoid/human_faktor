@@ -3,6 +3,7 @@
 # application settings
 AppConfig.title = "Human Faktor"
 AppConfig.domain = "human-faktor.com"
+AppConfig.scheme = "http"
 
 # mail server settings
 AppConfig.smtp_server = ENV['SMTP_SERVER']
