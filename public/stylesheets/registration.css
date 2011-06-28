@@ -1,0 +1,15 @@
+.working_message {
+  background: url('/images/ajax-loader.gif') no-repeat left center; 
+  padding-left: 32px; 
+  height: 32px; 
+  line-height: 32px;
+}
+
+.working_message_success {
+  background: url('/images/message.png') no-repeat left center; 
+}
+
+.working_message_failure {
+  background: url('/images/warning.png') no-repeat left center; 
+}
+
