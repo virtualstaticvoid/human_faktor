@@ -27,6 +27,7 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-ses', '~> 0.4.3', :require => 'aws/ses'
 gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_value_for.git', :branch => 'master'
 gem 'jquery-rails', '~> 1.0.3'
+gem 'kaminari', '~> 0.12.4'
 gem 'paperclip', '~> 2.3'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
 gem 'resque', :require => "resque/server"
