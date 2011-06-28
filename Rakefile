@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-Hfwww::Application.load_tasks
+HumanFaktor::Application.load_tasks

@@ -1,4 +1,4 @@
-Hfwww::Application.routes.draw do
+HumanFaktor::Application.routes.draw do
 
   get "home/about"
   get "home/contact"
