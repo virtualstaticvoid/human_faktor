@@ -7,6 +7,8 @@ one:
   partner: one
   country: za
   fixed_daily_hours: 8
+  auth_token: <%= TokenHelper.friendly_token %>
+  active: true
 
 two:
   identifier: <%= TokenHelper.friendly_token %>
@@ -15,6 +17,8 @@ two:
   partner: one
   country: za
   fixed_daily_hours: 8
+  auth_token: <%= TokenHelper.friendly_token %>
+  active: true
   
 three:
   identifier: <%= TokenHelper.friendly_token %>
@@ -22,4 +26,6 @@ three:
   title: Acme Corporation III
   country: za
   fixed_daily_hours: 8
+  auth_token: <%= TokenHelper.friendly_token %>
+  active: false
 

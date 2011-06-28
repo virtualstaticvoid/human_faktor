@@ -2,6 +2,12 @@ require 'date'
 
 class Account < ActiveRecord::Base
 
+  #
+  # When the account is created initially, active is false
+  # and the auth token is used to grant access to the system
+  # admin in order to setup the account
+  #
+
   default_scope order(:title)
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
@@ -35,10 +41,15 @@ class Account < ActiveRecord::Base
                     }
 
   validates :fixed_daily_hours, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
+
   validates :active, :inclusion => { :in => [true, false] }
+
+  # access token for initial setup
+  validates :auth_token, :presence => true
 
   def to_param
     self.identifier
   end
 
 end
+

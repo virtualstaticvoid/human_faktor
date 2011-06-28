@@ -14,7 +14,8 @@ class AccountProvisioner
       :country => registration.country,
       :partner => registration.partner,
       :theme => AppConfig.default_theme,
-      :active => true
+      :auth_token => registration.auth_token,
+      :active => false
     )
     
     # subscription

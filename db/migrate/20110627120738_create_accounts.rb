@@ -19,6 +19,9 @@ class CreateAccounts < ActiveRecord::Migration
       t.integer :logo_file_size
       t.datetime :logo_updated_at
 
+      # access token for initial setup
+      t.string :auth_token, :null => false
+
       t.timestamps
     end
     add_index :accounts, :subdomain, :unique => true
