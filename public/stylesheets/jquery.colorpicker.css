@@ -1,0 +1,55 @@
+.colorpicker-picker-span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  float: left;
+  border: 1px solid #000;
+  margin-right: 2px;
+  cursor: pointer;
+}
+
+.colorpicker-picker-info {
+  padding: 0 0 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.colorpicker-picker-span:hover {
+  border: 1px solid #fff;
+}
+
+.colorpicker-picker-span.active {
+  border: 1px solid #fff;
+}
+
+.colorpicker-picker {
+  border: 1px solid #aaaaaa;
+  background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #222222;
+  padding: 5px;
+  display: none;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.colorpicker-trigger {
+  display: block;
+  width: 15px;
+  height: 15px;
+  float: left;
+  border: 1px solid #000;
+  cursor: pointer;
+  background-color: #808080;;
+}
+
+.colorpicker-wrap {
+}
+
+.colorpicker-label {
+  float: left;
+  margin-right: 8px;
+}
+
