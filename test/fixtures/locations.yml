@@ -1,11 +1,14 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  account: one
   title: Location 1
 
 two:
+  account: one
   title: Location 2
 
 three:
+  account: one
   title: Location 3
 

@@ -1,12 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
+  account: one
   title: Department 1
 
 two:
+  account: one
   title: Department 2
 
 three:
+  account: one
   title: Department 3
 
 
