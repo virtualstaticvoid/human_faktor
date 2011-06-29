@@ -1,9 +1,9 @@
 class CreateCalendarEntries < ActiveRecord::Migration
   def self.up
     create_table :calendar_entries do |t|
-      t.references :country
-      t.string :title
-      t.date :entry_date
+      t.references :country, :null => false
+      t.string :title, :null => false
+      t.date :entry_date, :null => false
 
       t.timestamps
     end

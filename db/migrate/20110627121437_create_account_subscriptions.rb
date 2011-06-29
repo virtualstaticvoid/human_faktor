@@ -1,7 +1,7 @@
 class CreateAccountSubscriptions < ActiveRecord::Migration
   def self.up
     create_table :account_subscriptions do |t|
-      t.references :account
+      t.references :account, :null => false
 
       # validity period
       t.date :from_date, :null => false
