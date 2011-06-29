@@ -10,10 +10,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110628224210) do
+ActiveRecord::Schema.define(:version => 20110629135816) do
 
   create_table "account_subscriptions", :force => true do |t|
-    t.integer  "account_id"
+    t.integer  "account_id",                            :null => false
     t.date     "from_date",                             :null => false
     t.date     "to_date",                               :null => false
     t.string   "title",                                 :null => false
@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(:version => 20110628224210) do
   add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
 
   create_table "calendar_entries", :force => true do |t|
-    t.integer  "country_id"
-    t.string   "title"
-    t.date     "entry_date"
+    t.integer  "country_id", :null => false
+    t.string   "title",      :null => false
+    t.date     "entry_date", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(:version => 20110628224210) do
   add_index "departments", ["account_id", "title"], :name => "index_departments_on_account_id_and_title", :unique => true
 
   create_table "employees", :force => true do |t|
-    t.integer  "account_id"
+    t.integer  "account_id",                                                    :null => false
     t.string   "identifier",                                                    :null => false
     t.string   "user_name",                                                     :null => false
     t.string   "email",                                 :default => "",         :null => false
@@ -122,6 +122,34 @@ ActiveRecord::Schema.define(:version => 20110628224210) do
   add_index "employees", ["identifier"], :name => "index_employees_on_identifier", :unique => true
   add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
   add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
+
+  create_table "leave_types", :force => true do |t|
+    t.integer  "account_id",                                      :null => false
+    t.string   "type",                                            :null => false
+    t.date     "cycle_start_date",                                :null => false
+    t.integer  "cycle_duration",                                  :null => false
+    t.integer  "cycle_duration_unit",          :default => 3,     :null => false
+    t.decimal  "cycle_days_allowance",                            :null => false
+    t.decimal  "cycle_days_carry_over",        :default => 0.0,   :null => false
+    t.boolean  "employee_capture_allowed",     :default => true,  :null => false
+    t.boolean  "approver_capture_allowed",     :default => true,  :null => false
+    t.boolean  "admin_capture_allowed",        :default => true,  :null => false
+    t.boolean  "approval_required",            :default => true,  :null => false
+    t.boolean  "requires_documentation",       :default => false, :null => false
+    t.integer  "requires_documentation_after", :default => 1,     :null => false
+    t.boolean  "unscheduled_leave_allowed",    :default => true,  :null => false
+    t.integer  "max_days_for_future_dated",    :default => 365,   :null => false
+    t.integer  "max_days_for_back_dated",      :default => 365,   :null => false
+    t.decimal  "min_days_per_single_request",  :default => 0.5,   :null => false
+    t.decimal  "max_days_per_single_request",  :default => 30.0,  :null => false
+    t.decimal  "required_days_notice",         :default => 1.0,   :null => false
+    t.decimal  "max_negative_balance",         :default => 0.0,   :null => false
+    t.string   "color",                                           :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leave_types", ["account_id", "type"], :name => "index_leave_types_on_account_id_and_type", :unique => true
 
   create_table "locations", :force => true do |t|
     t.integer  "account_id", :null => false
