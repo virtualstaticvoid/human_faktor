@@ -33,6 +33,10 @@ class AccountProvisioner
       :price_over_threshold => subscription.price_over_threshold
     )
     
+    # default location and department
+    account.locations.build(:title => 'Default')
+    account.departments.build(:title => 'Default')
+    
     # make the registration active
     registration.update_attribute(:active, true)
 
