@@ -18,6 +18,9 @@ class Account < ActiveRecord::Base
   belongs_to :partner
 
   has_many :account_subscriptions, :dependent => :destroy
+  has_many :locations, :dependent => :destroy
+  has_many :departments, :dependent => :destroy
+  has_many :employees, :dependent => :destroy
 
   validates :identifier, :presence => true
 
