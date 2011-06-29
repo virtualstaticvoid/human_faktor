@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: Location 1
+
+two:
+  title: Location 2
+
+three:
+  title: Location 3
+
