@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= content_for?(:title) ? AppConfig.title + ' - ' + yield(:title) : AppConfig.title %></title>
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold&subset=cyrillic,latin' rel='stylesheet' type='text/css' />
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+  <%= yield(:head) %>
+</head>
+<body>
+
+  <div id="container">
+  
+    <%= yield %>
+
+  </div>
+
+</body>
+</html>
+
