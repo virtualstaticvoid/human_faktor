@@ -26,6 +26,7 @@ gem 'app_config', :git => 'git://github.com/virtualstaticvoid/app_config.git', :
 gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-ses', '~> 0.4.3', :require => 'aws/ses'
 gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_value_for.git', :branch => 'master'
+gem 'devise', '~> 1.4.0'
 gem 'jquery-rails', '~> 1.0.3'
 gem 'kaminari', '~> 0.12.4'
 gem 'paperclip', '~> 2.3'
