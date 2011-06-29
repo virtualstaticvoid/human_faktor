@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110627121437) do
+ActiveRecord::Schema.define(:version => 20110628224210) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id"
@@ -66,6 +66,71 @@ ActiveRecord::Schema.define(:version => 20110627121437) do
 
   add_index "countries", ["iso_code"], :name => "index_countries_on_iso_code", :unique => true
   add_index "countries", ["title"], :name => "index_countries_on_title", :unique => true
+
+  create_table "departments", :force => true do |t|
+    t.integer  "account_id", :null => false
+    t.string   "title",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "departments", ["account_id", "title"], :name => "index_departments_on_account_id_and_title", :unique => true
+
+  create_table "employees", :force => true do |t|
+    t.integer  "account_id"
+    t.string   "identifier",                                                    :null => false
+    t.string   "user_name",                                                     :null => false
+    t.string   "email",                                 :default => "",         :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",         :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                         :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.integer  "failed_attempts",                       :default => 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
+    t.string   "authentication_token"
+    t.string   "title"
+    t.string   "first_name",                                                    :null => false
+    t.string   "middle_name"
+    t.string   "last_name",                                                     :null => false
+    t.integer  "gender"
+    t.string   "designation"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "location_id"
+    t.integer  "department_id"
+    t.integer  "approver_id"
+    t.string   "role",                                  :default => "employee", :null => false
+    t.integer  "fixed_daily_hours",                     :default => 8,          :null => false
+    t.boolean  "active",                                :default => false,      :null => false
+    t.boolean  "notify",                                :default => false,      :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "employees", ["account_id", "user_name"], :name => "index_employees_on_account_id_and_user_name", :unique => true
+  add_index "employees", ["authentication_token"], :name => "index_employees_on_authentication_token", :unique => true
+  add_index "employees", ["identifier"], :name => "index_employees_on_identifier", :unique => true
+  add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
+  add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
+
+  create_table "locations", :force => true do |t|
+    t.integer  "account_id", :null => false
+    t.string   "title",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "locations", ["account_id", "title"], :name => "index_locations_on_account_id_and_title", :unique => true
 
   create_table "partners", :force => true do |t|
     t.string   "title",                            :null => false
