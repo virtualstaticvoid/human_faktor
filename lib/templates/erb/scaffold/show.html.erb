@@ -1,0 +1,13 @@
+<%% title "<%= human_name.capitalize %>" %>
+
+<% attributes.each do |attribute|
+  next if attribute.name == "account_id" -%><div>
+  <b><%= attribute.human_name %>:</b>
+  <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
+</div>
+
+<% end -%>
+
+<%%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>) %> |
+<%%= link_to 'Back', <%= index_helper %>_path %>
+

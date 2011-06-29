@@ -1,0 +1,24 @@
+<%%= form_for(@<%= singular_table_name %>) do |f| %>
+
+  <%%= error_messages_for @<%= singular_table_name %> %>
+
+<% attributes.each do |attribute|
+  next if attribute.name == "account_id" %>  <div class="field">
+  <% if attribute.field_type == 'check_box' %>
+    <span><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %></span>
+    <span><%%= f.label :<%= attribute.name %> %></span>
+  <% else %>
+    <div><%%= f.label :<%= attribute.name %> %></div>
+    <span><%%= f.<%= attribute.field_type %> :<%= attribute.name %> %></span>
+  <% end %>
+    <span class="field_info"></span>
+  </div>
+
+<% end %>
+  
+  <div class="actions">
+    <%%= f.submit %>
+  </div>
+  
+<%% end %>
+
