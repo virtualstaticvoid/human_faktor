@@ -1,0 +1,17 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  leave_request_constraints:
+    exceeds_number_of_days_notice_required: "Exceeds the number of days notice required."
+    exceeds_minimum_number_of_days_per_request: "Is less than the minimum allowed number of days per request."
+    exceeds_maximum_number_of_days_per_request: "Is greater than the maximum allowed number of days per request."
+    exceeds_leave_cycle_allowance: "Exceeds the maximum allowance for this leave cycle."
+    exceeds_negative_leave_balance: "Exceeds the maximum negative leave balancegmate for this leave cycle."
+    is_unscheduled: "May be considered as unscheduled leave."
+    is_adjacent: "Is adjacent to a weekend, public holiday or another leave request."
+    requires_documentation: "Requires supporting documentation explaining the absence."
+    overlapping_request: "Overlaps one or more another leave requests. Consider revising from and to dates."
+    exceeds_maximum_future_date: "Cannot request leave so far in advance."
+    exceeds_maximum_back_date: "Cannot request leave so far in the past."
+
