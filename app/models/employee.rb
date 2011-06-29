@@ -29,6 +29,7 @@ class Employee < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :department
+  belongs_to :approver, :class_name => 'Employee'
 
   # identifier  
   validates :identifier, :presence => true, :uniqueness => true
@@ -57,6 +58,7 @@ class Employee < ActiveRecord::Base
   validates :end_date, :timeliness => { :type => :date }, :allow_nil => true
   validates :location, :presence => true, :existence => true
   validates :department, :presence => true, :existence => true
+  validates :approver, :existence => true
 
   # system settings
 
