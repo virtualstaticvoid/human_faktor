@@ -19,13 +19,16 @@ class AccountProvisioner
     )
     
     # subscription
-    from_date = Date.today
     subscription = registration.subscription
+
+    #  calculate the start and end dates of the subscription
+    from_date = Date.today
+    to_date = Date.new(from_date.year, from_date.month + 1, 1) >> subscription.duration
     
     AccountSubscription.create(
       :account => account,
       :from_date => from_date,
-      :to_date => from_date >> subscription.duration,
+      :to_date => to_date,
       :title => subscription.title, 
       :price => subscription.price, 
       :max_employees => subscription.max_employees,
