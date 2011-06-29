@@ -3,5 +3,5 @@
 # assumes RVM setup and desired ruby and gemset selected
 
 # start resque worker process
-bundle exec rake resque:work QUEUE='account_provisioner_queue' VERBOSE=1 RAILS_ENV=production
+bundle exec rake resque:work QUEUE='*' VERBOSE=1 RAILS_ENV=production
 
