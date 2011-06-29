@@ -11,7 +11,7 @@ class RegistrationsController < ApplicationController
     
     if validate_recapture_and_save(@registration)
       Resque.enqueue(AccountProvisioner, @registration.id)
-      redirect_to @registration, :notice => 'Registration successfully created.'
+      redirect_to account_registration_path(@registration)
     else
       render :action => :new
     end

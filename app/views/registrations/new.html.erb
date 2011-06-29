@@ -1,6 +1,6 @@
 <% title "New Registration" %>
 
-<%= form_for @registration do |f| %>
+<%= form_for @registration, :url => create_account_registration_path do |f| %>
   
   <%= error_messages_for @registration %>
 
