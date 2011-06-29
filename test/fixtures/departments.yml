@@ -1,0 +1,12 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: Department 1
+
+two:
+  title: Department 2
+
+three:
+  title: Department 3
+
+
