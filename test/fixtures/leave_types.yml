@@ -1,0 +1,117 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+annual:
+  account: one
+  type: LeaveType::Annual
+  employee_capture_allowed: false
+  approver_capture_allowed: false
+  admin_capture_allowed: false
+  approval_required: false
+  unscheduled_leave_allowed: false
+  requires_documentation: false
+  requires_documentation_after: 1
+  max_days_for_future_dated: 12
+  max_days_for_back_dated: 12
+  min_days_per_single_request: 0.5
+  max_days_per_single_request: 21
+  required_days_notice: 1
+  max_negative_balance: 1
+  cycle_start_date: 2011-05-30
+  cycle_duration: 1
+  cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
+  cycle_days_allowance: 1
+  cycle_days_carry_over: 1
+  color: C0C0C0
+
+educational:
+  account: one
+  type: LeaveType::Educational
+  employee_capture_allowed: false
+  approver_capture_allowed: false
+  admin_capture_allowed: false
+  approval_required: false
+  unscheduled_leave_allowed: false
+  requires_documentation: false
+  requires_documentation_after: 1
+  max_days_for_future_dated: 12
+  max_days_for_back_dated: 12
+  min_days_per_single_request: 0.5
+  max_days_per_single_request: 21
+  required_days_notice: 1
+  max_negative_balance: 1
+  cycle_start_date: 2011-05-30
+  cycle_duration: 1
+  cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
+  cycle_days_allowance: 1
+  cycle_days_carry_over: 1
+  color: C0C0C0
+
+medical:
+  account: one
+  type: LeaveType::Medical
+  employee_capture_allowed: false
+  approver_capture_allowed: false
+  admin_capture_allowed: false
+  approval_required: false
+  unscheduled_leave_allowed: false
+  requires_documentation: false
+  requires_documentation_after: 1
+  max_days_for_future_dated: 12
+  max_days_for_back_dated: 12
+  min_days_per_single_request: 0.5
+  max_days_per_single_request: 21
+  required_days_notice: 1
+  max_negative_balance: 1
+  cycle_start_date: 2011-05-30
+  cycle_duration: 1
+  cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
+  cycle_days_allowance: 1
+  cycle_days_carry_over: 1
+  color: C0C0C0
+
+maternity:
+  account: one
+  type: LeaveType::Maternity
+  employee_capture_allowed: false
+  approver_capture_allowed: false
+  admin_capture_allowed: false
+  approval_required: false
+  unscheduled_leave_allowed: false
+  requires_documentation: false
+  requires_documentation_after: 1
+  max_days_for_future_dated: 12
+  max_days_for_back_dated: 12
+  min_days_per_single_request: 0.5
+  max_days_per_single_request: 21
+  required_days_notice: 1
+  max_negative_balance: 1
+  cycle_start_date: 2011-05-30
+  cycle_duration: 1
+  cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
+  cycle_days_allowance: 1
+  cycle_days_carry_over: 1
+  color: C0C0C0
+
+compassionate:
+  account: one
+  type: LeaveType::Compassionate
+  employee_capture_allowed: false
+  approver_capture_allowed: false
+  admin_capture_allowed: false
+  approval_required: false
+  unscheduled_leave_allowed: false
+  requires_documentation: false
+  requires_documentation_after: 1
+  max_days_for_future_dated: 12
+  max_days_for_back_dated: 12
+  min_days_per_single_request: 0.5
+  max_days_per_single_request: 21
+  required_days_notice: 1
+  max_negative_balance: 1
+  cycle_start_date: 2011-05-30
+  cycle_duration: 1
+  cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
+  cycle_days_allowance: 1
+  cycle_days_carry_over: 1
+  color: C0C0C0
+
