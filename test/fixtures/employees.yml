@@ -1,22 +1,5 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-#
-# Hierarchy:
-#
-#   admin
-#    + manager 1
-#    |  + approver 1
-#    |  |  + approver 2
-#    |  |  | - employee 1
-#    |  |  | - employee 2
-#    |  |  + employee 3
-#    |  + manager 2
-#    |     | - employee 4
-#    + manager 3
-#       | - employee 5
-#
-#
-
 admin:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
@@ -36,10 +19,10 @@ admin:
   active: true
   notify: true
 
-manager1:
+manager:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
-  user_name: manager1
+  user_name: manager
   email: info@human-faktor.com
   title: Mr
   first_name: Joe
@@ -55,6 +38,99 @@ manager1:
   active: true
   notify: true
 
+approver:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: approver
+  email: info@human-faktor.com
+  title: Mr
+  first_name: Joe
+  last_name: Approver
+  gender: 1
+  location: one
+  department: one
+  designation: Manager
+  start_date: 2011-05-17
+  approver: admin
+  role: approver
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
+employee:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: employee
+  email: info@human-faktor.com
+  title: Mr
+  first_name: Joe
+  last_name: Employee
+  gender: 1
+  location: one
+  department: one
+  designation: Manager
+  start_date: 2011-05-17
+  approver: admin
+  role: employee
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
+#
+# Hierarchy:
+#
+#   admin 1
+#    + manager 1
+#    |  + approver 1
+#    |  |  + approver 2
+#    |  |  | - employee 1
+#    |  |  | - employee 2
+#    |  |  + employee 3
+#    |  + manager 2
+#    |     | - employee 4
+#    + manager 3
+#       | - employee 5
+#
+#
+
+admin1:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: admin1
+  email: info@human-faktor.com
+  title: Mr
+  first_name: Joe
+  last_name: Admin1
+  gender: 1
+  location: one
+  department: one
+  designation: Admin
+  start_date: 2011-05-17
+  approver: admin
+  role: admin1
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
+manager1:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: manager1
+  email: info@human-faktor.com
+  title: Mr
+  first_name: Joe
+  last_name: Manager1
+  gender: 1
+  location: one
+  department: one
+  designation: Manager
+  start_date: 2011-05-17
+  approver: admin1
+  role: manager
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
 approver1:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
@@ -62,7 +138,7 @@ approver1:
   email: info@human-faktor.com
   title: Mr
   first_name: Joe
-  last_name: Manager
+  last_name: Approver1
   gender: 1
   location: one
   department: one
@@ -81,7 +157,7 @@ approver2:
   email: info@human-faktor.com
   title: Mr
   first_name: Joe
-  last_name: Manager
+  last_name: Approver2
   gender: 1
   location: one
   department: one
@@ -157,7 +233,7 @@ manager2:
   email: info@human-faktor.com
   title: Mr
   first_name: Joe
-  last_name: Manager
+  last_name: Manager2
   gender: 1
   location: one
   department: one
@@ -195,13 +271,13 @@ manager3:
   email: info@human-faktor.com
   title: Mr
   first_name: Joe
-  last_name: Manager
+  last_name: Manager3
   gender: 1
   location: one
   department: one
   designation: Manager
   start_date: 2011-05-17
-  approver: admin
+  approver: admin1
   role: manager
   fixed_daily_hours: 8
   active: true
