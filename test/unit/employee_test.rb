@@ -6,6 +6,12 @@ class EmployeeTest < ActiveSupport::TestCase
     employees.each {|record| assert_valid record }
   end
   
+  test "attach avatar" do
+    employee = employees(:admin)
+    employee.avatar = File.new(File.join(FIXTURES_DIR, 'logo.png'), 'r')
+    assert employee.save
+  end
+
   test "check employee with admin role" do
     employee = employees(:admin)
     assert_equal employee.role_sym, :admin
