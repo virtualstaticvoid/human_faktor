@@ -6,7 +6,7 @@ module AccountScopedModel
 
         belongs_to :account
 
-        validates :account_id, :presence => true, :existence => true
+        validates :account, :presence => true, :existence => true
 
         before_create do
           # TODO: assign account to the current account
