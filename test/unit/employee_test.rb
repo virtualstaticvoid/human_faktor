@@ -6,6 +6,7 @@ class EmployeeTest < ActiveSupport::TestCase
     employees.each {|record| assert_valid record }
   end
   
+  # NB: internet connection to S3 required 
   test "attach avatar" do
     employee = employees(:admin)
     employee.avatar = File.new(File.join(FIXTURES_DIR, 'logo.png'), 'r')

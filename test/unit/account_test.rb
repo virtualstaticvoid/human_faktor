@@ -6,6 +6,7 @@ class AccountTest < ActiveSupport::TestCase
     accounts.each {|record| assert_valid record }
   end
   
+  # NB: internet connection to S3 required 
   test "attach logo" do
     account = accounts(:one)
     account.logo = File.new(File.join(FIXTURES_DIR, 'logo.png'), 'r')

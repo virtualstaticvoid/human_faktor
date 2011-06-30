@@ -222,6 +222,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
 
   end
 
+  # NB: internet connection to S3 required 
   test "RequiresDocumentation" do
     constraint = LeaveConstraints::RequiresDocumentation.new()
 
