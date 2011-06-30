@@ -1,3 +1,5 @@
+require 'paper_clip_interpolations'
+
 class Employee < ActiveRecord::Base
   include AccountScopedModel
 
@@ -30,6 +32,8 @@ class Employee < ActiveRecord::Base
   belongs_to :location
   belongs_to :department
   belongs_to :approver, :class_name => 'Employee'
+  
+  has_many :leave_requests, :dependent => :destroy
 
   # identifier  
   validates :identifier, :presence => true, :uniqueness => true
@@ -99,7 +103,8 @@ class Employee < ActiveRecord::Base
   end
 
   # avatar for employee
-  # NNB: uses the ":account" interpolation
+  # NOTE: uses the ":account" interpolation
+  # TODO: add validations for mime-type and file size
   has_attached_file :avatar, 
                     :styles => { :avatar => "48x48>" },
                     :path => "accounts/:account/employees/:id/avatar/:filename",
@@ -124,7 +129,7 @@ class Employee < ActiveRecord::Base
     self.is_admin? || self.is_manager?
   end
 
-  def can_approve_decline_or_cancel_leave
+  def can_approve_decline_or_cancel_leave?
     self.is_admin? || self.is_manager? || self.is_approver?
   end
 
