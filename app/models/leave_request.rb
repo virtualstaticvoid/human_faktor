@@ -129,6 +129,38 @@ class LeaveRequest < ActiveRecord::Base
   def to_param
     self.identifier
   end
+  
+  #
+  # Actions
+  #
+  
+  def confirm
+    # TODO  
+    write_attribute :status, STATUS_PENDING
+  end
+  
+  def approve
+    # TODO  
+    write_attribute :status, STATUS_APPROVED
+  end
+  
+  def decline
+    # TODO  
+    write_attribute :status, STATUS_DECLINED
+  end
+  
+  def cancel
+    # TODO  
+    write_attribute :status, STATUS_CANCELLED
+  end
+
+  # test helpers
+  %w{confirm approve decline cancel}.each do |action|
+    define_method "#{action}!" do |approver = nil|
+      self.send(action, approver)
+      self.save!
+    end
+  end
 
   private
   

@@ -190,8 +190,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     approved_leave_request = leave_requests(:annual2)
     approved_leave_request.date_from = Date.new(2011, 6, 29)
     approved_leave_request.date_to = approved_leave_request.date_from
-    approved_leave_request.approve # NB: must be approved
-    approved_leave_request.save!
+    approved_leave_request.approve! # NB: must be approved
     
     #  before
     leave_request.date_from = approved_leave_request.date_from - 1
@@ -273,8 +272,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     approved_leave_request = leave_requests(:annual2)
     approved_leave_request.date_from = Date.new(2011, 7, 6)
     approved_leave_request.date_to = approved_leave_request.date_from
-    approved_leave_request.approve # NB: must be approved
-    approved_leave_request.save!
+    approved_leave_request.approve! # NB: must be approved
 
     leave_request.date_from = Date.new(2011, 7, 4)
     leave_request.date_to = Date.new(2011, 7, 8)
