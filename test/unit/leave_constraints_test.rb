@@ -46,7 +46,8 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request.date_to = leave_request.date_from
     assert constraint.evaluate(leave_request)
 
-    leave_request.date_to = leave_request.date_from + leave_request.leave_type.min_days_per_single_request
+    # ensure an integer is added to the date!
+    leave_request.date_to = leave_request.date_from + (leave_request.leave_type.min_days_per_single_request + 1).to_i
     assert_equal false, constraint.evaluate(leave_request)
 
     leave_request.date_to += 1
