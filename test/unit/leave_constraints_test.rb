@@ -3,12 +3,16 @@ require 'date'
 
 class LeaveConstraintsTest < ActiveSupport::TestCase
 
+  setup do
+    @leave_request = leave_requests(:annual)
+  end
+
   test "should evaluate all constraints" do
-    LeaveConstraints::Base.evaluate(leave_requests(:one))
+    LeaveConstraints::Base.evaluate(@leave_request)
   end
   
   test "evaluate should yield true or false result" do
-    constraint_flags = LeaveConstraints::Base.evaluate(leave_requests(:one))
+    constraint_flags = LeaveConstraints::Base.evaluate(@leave_request)
     constraint_flags.each do |key, value| 
       assert_equal false, value.nil?
       assert value.is_a?(true.class) || value.is_a?(false.class)
@@ -18,7 +22,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "ExceedsNumberOfDaysNoticeRequired" do
     constraint = LeaveConstraints::ExceedsNumberOfDaysNoticeRequired.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.required_days_notice = 1
 
     leave_request.date_from = leave_request.created_at.to_date - 1
@@ -35,7 +39,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "ExceedsMinimumNumberOfDaysPerRequest" do
     constraint = LeaveConstraints::ExceedsMinimumNumberOfDaysPerRequest.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.min_days_per_single_request = 2
 
     leave_request.date_from = Date.new(2011, 6, 13)
@@ -53,7 +57,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "ExceedsMaximumNumberOfDaysPerRequest" do
     constraint = LeaveConstraints::ExceedsMaximumNumberOfDaysPerRequest.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.max_days_per_single_request = 2
 
     leave_request.date_from = Date.new(2011, 6, 13)
@@ -91,7 +95,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "IsUnscheduled" do
     constraint = LeaveConstraints::IsUnscheduled.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.unscheduled_leave_allowed = false
     
     leave_request.date_from = leave_request.created_at.to_date - 1
@@ -125,7 +129,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "IsAdjacent" do
     constraint = LeaveConstraints::IsAdjacent.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
 
     ##
     # before Saturday or after Sunday
@@ -182,7 +186,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     ##
     # before or after scheduled leave
 
-    approved_leave_request = leave_requests(:two)
+    approved_leave_request = leave_requests(:annual2)
     approved_leave_request.date_from = Date.new(2011, 6, 29)
     approved_leave_request.date_to = approved_leave_request.date_from
     approved_leave_request.approve # NB: must be approved
@@ -221,7 +225,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "RequiresDocumentation" do
     constraint = LeaveConstraints::RequiresDocumentation.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
 
     # doesn't require documentation
     leave_request.leave_type.requires_documentation = false
@@ -250,8 +254,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     assert constraint.evaluate(leave_request)
 
     # attached a file...
-    leave_request.document = File.new(File.join(FIXTURES_DIR, 'document_attachment.txt'), 'r')
-    
+    leave_request.document = File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
     leave_request.leave_type.requires_documentation_after = 1
 
     leave_request.date_from = Date.new(2011, 6, 13)
@@ -263,9 +266,9 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "OverlappingRequest" do
     constraint = LeaveConstraints::OverlappingRequest.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
 
-    approved_leave_request = leave_requests(:two)
+    approved_leave_request = leave_requests(:annual2)
     approved_leave_request.date_from = Date.new(2011, 7, 6)
     approved_leave_request.date_to = approved_leave_request.date_from
     approved_leave_request.approve # NB: must be approved
@@ -287,7 +290,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "ExceedsMaximumFutureDate" do
     constraint = LeaveConstraints::ExceedsMaximumFutureDate.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.max_days_for_future_dated = 2
 
     leave_request.date_from = leave_request.created_at.to_date
@@ -311,7 +314,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   test "ExceedsMaximumBackDate" do
     constraint = LeaveConstraints::ExceedsMaximumBackDate.new()
 
-    leave_request = leave_requests(:one)
+    leave_request = @leave_request
     leave_request.leave_type.max_days_for_back_dated = 2
 
     leave_request.date_from = leave_request.created_at.to_date
