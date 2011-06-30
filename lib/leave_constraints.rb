@@ -119,7 +119,7 @@ module LeaveConstraints
       unless adjacent
         adjacent = request.employee.leave_requests.active.where(
                      ' ((date_to = :from_date) OR (date_from = :to_date)) AND id <> :id ',
-                     { :from_date => from, :to_date => to, :id => request.id }
+                     { :from_date => from.to_date, :to_date => to.to_date, :id => request.id }
                    ).any?
       end
       
@@ -145,7 +145,7 @@ module LeaveConstraints
     def evaluate(request)
       request.employee.leave_requests.active.where(
         ' (date_from BETWEEN :from_date AND :to_date) OR (date_to BETWEEN :from_date AND :to_date) ', 
-        { :from_date => request.date_from, :to_date => request.date_to }
+        { :from_date => request.date_from.to_date, :to_date => request.date_to.to_date }
       ).any?
     end
 

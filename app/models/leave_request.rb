@@ -109,7 +109,7 @@ class LeaveRequest < ActiveRecord::Base
     
     holidays = self.account.country.calendar_entries.where(
       ' entry_date BETWEEN :date_from AND :date_to ',
-      { :date_from => self.date_from, :date_to => self.date_to }
+      { :date_from => self.date_from.to_date, :date_to => self.date_to.to_date }
     ).count
   
     duration = (1 + (self.date_to - self.date_from).to_i) - weekend_days - holidays
