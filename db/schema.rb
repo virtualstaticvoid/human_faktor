@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110629135816) do
+ActiveRecord::Schema.define(:version => 20110630093556) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -122,6 +122,31 @@ ActiveRecord::Schema.define(:version => 20110629135816) do
   add_index "employees", ["identifier"], :name => "index_employees_on_identifier", :unique => true
   add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
   add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
+
+  create_table "leave_requests", :force => true do |t|
+    t.integer  "account_id",                               :null => false
+    t.string   "identifier",                               :null => false
+    t.integer  "employee_id",                              :null => false
+    t.integer  "leave_type_id",                            :null => false
+    t.integer  "status",                :default => 1,     :null => false
+    t.integer  "approver_id",                              :null => false
+    t.date     "date_from",                                :null => false
+    t.boolean  "half_day_from",         :default => false, :null => false
+    t.date     "date_to",                                  :null => false
+    t.boolean  "half_day_to",           :default => false, :null => false
+    t.boolean  "unpaid",                :default => false, :null => false
+    t.text     "comment"
+    t.string   "document_file_name"
+    t.string   "document_content_type"
+    t.integer  "document_file_size"
+    t.datetime "document_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leave_requests", ["account_id", "employee_id"], :name => "index_leave_requests_on_account_id_and_employee_id"
+  add_index "leave_requests", ["account_id", "leave_type_id"], :name => "index_leave_requests_on_account_id_and_leave_type_id"
+  add_index "leave_requests", ["identifier"], :name => "index_leave_requests_on_identifier", :unique => true
 
   create_table "leave_types", :force => true do |t|
     t.integer  "account_id",                                      :null => false

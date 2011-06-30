@@ -1,0 +1,67 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+annual:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: annual
+  approver: approver2 
+  date_from: 2011-01-01
+  half_day_from: false
+  date_to: 2011-01-12
+  half_day_to: false
+  unpaid: false
+  comment: Annual leave request
+
+educational:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: educational
+  approver: approver2 
+  date_from: 2011-02-01
+  half_day_from: false
+  date_to: 2011-02-12
+  half_day_to: false
+  unpaid: false
+  comment: Educational leave request
+
+medical:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: medical
+  approver: approver2 
+  date_from: 2011-03-01
+  half_day_from: false
+  date_to: 2011-03-12
+  half_day_to: false
+  unpaid: false
+  comment: Medical leave request
+
+maternity:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: maternity
+  approver: approver2 
+  date_from: 2011-04-01
+  half_day_from: false
+  date_to: 2011-04-12
+  half_day_to: false
+  unpaid: false
+  comment: Maternity leave request
+
+compassionate:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: compassionate
+  approver: approver2 
+  date_from: 2011-05-01
+  half_day_from: false
+  date_to: 2011-05-12
+  half_day_to: false
+  unpaid: false
+  comment: Compassionate leave request
+
