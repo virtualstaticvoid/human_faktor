@@ -28,7 +28,7 @@ class RegistrationsControllerTest < ActionController::TestCase
     assert_difference('Registration.count') do
       post :create, :registration => @registration_attributes
     end
-    assert_redirected_to registration_path(assigns(:registration))
+    assert_redirected_to account_registration_path(assigns(:registration))
   end
 
   test "should show registration" do
