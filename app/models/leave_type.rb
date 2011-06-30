@@ -121,6 +121,7 @@ class LeaveType < ActiveRecord::Base
   end
 
   # define helper methods for each type
+  # e.g. provides access via @account.leave_types.annual
   nested_classes.each do |klass|
     next unless klass.parent == LeaveType
     define_singleton_method klass.name.gsub(/LeaveType::/, '').downcase do
