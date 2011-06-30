@@ -1,0 +1,17 @@
+Hello <%= @leave_request.employee.full_name %>,
+
+<%= @leave_request.approver.full_name %> has approved your request for <%= @leave_request.leave_type.to_s.downcase %> leave.
+
+Leave Request Details:
+
+  From: <%= @leave_request.date_from_s %>
+  To: <%= @leave_request.date_to_s %>
+  Duration: <%= pluralize(@leave_request.duration, 'day') %>
+  Comment: <%= @leave_request.comment %>
+  
+To review the leave request, please follow this link:
+
+  <%= edit_leave_request_url(@leave_request) %>
+  
+Thank You.
+

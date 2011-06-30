@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= AppConfig.title %></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style type="text/css">
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+    }
+    .block {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <p>Hello <%= @leave_request.employee.full_name %>,</p>
+
+  <p><strong><%= @leave_request.approver.full_name %></strong> has declined your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+
+  <p>Leave Request Details:</p>
+
+  <p class="block">
+    From: <%= @leave_request.date_from_s %><br />
+    To: <%= @leave_request.date_to_s %><br />
+    Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
+    Comment: <%= @leave_request.comment %><br />
+  </p>
+  
+  <p>To review the leave request, please follow this link:</p>
+
+  <p class="block">
+    <%= edit_leave_request_url(@leave_request) %>
+  </p>
+  
+  <p>Thank You.</p>
+
+</body>
+</html>
+
