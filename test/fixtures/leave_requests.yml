@@ -13,6 +13,19 @@ annual:
   unpaid: false
   comment: Annual leave request
 
+annual2:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee1
+  leave_type: annual
+  approver: approver2 
+  date_from: 2011-01-01
+  half_day_from: false
+  date_to: 2011-01-12
+  half_day_to: false
+  unpaid: false
+  comment: Annual leave request
+
 educational:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
