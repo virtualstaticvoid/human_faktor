@@ -1,0 +1,21 @@
+<div style="float: left; padding-top: 6px; padding-left: 6px;">
+  <% # TODO: show partner logo (if any) %>
+  <%= link_to image_tag('app_logo_small.png'), dashboard_path %>    
+</div>
+
+<div style="float: right; padding-top: 6px; padding-right: 6px;">
+  <%= link_to image_tag('app_logo_small.png'), dashboard_path %>    
+</div>
+
+<div style="text-align: center;">
+  <%= link_to "Dashboard", dashboard_path %> |
+  <%= link_to "Profile", profile_path %> |
+  <%= link_to "Help", '/TODO' %> |
+  <%= link_to "Contact", home_contact_path %>
+</div>
+
+<div style="text-align: center; padding-top: 8px;">
+  <small>Copyright &copy; <%= Date.today.year %> Human Faktor Software</small>
+</div>
+
+

@@ -1,0 +1,20 @@
+<% if current_account.active? %>
+  <div class="menu_bar menu_bar_left">
+    <ul>
+      <li><%= link_to 'Dashboard', dashboard_path, :class => 'base_menu_item' %></li>
+      <li><%= link_to 'Account Admin', account_path, :class => 'base_menu_item' %></li>
+      <li><%= link_to 'Employees', employees_path %></li>
+    </ul>
+  </div>
+  <div class="menu_bar menu_bar_right">
+    <ul>
+      <li><%= link_to "Sign Out", destroy_employee_session_path %></li>
+    </ul>
+  </div>
+<% else %>
+  <div class="menu_bar menu_bar_left">
+    <ul>
+      <li><%= link_to 'Dashboard', dashboard_path, :class => 'base_menu_item' %></li>
+    </ul>
+  </div>
+<% end %>

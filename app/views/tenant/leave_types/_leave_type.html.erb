@@ -1,0 +1,144 @@
+<%= builder.fields_for leave_type do |f| %>
+  
+  <%= error_messages_for leave_type %>
+  
+  <div id="leave_type_config">
+  
+    <div class="leave_type_row">
+
+      <div class="leave_type_col">
+        
+        <h4>Leave Cycle</h4>
+
+        <div class="field">
+          <div><%= f.label :cycle_start_date %></div>
+          <span><%= f.date_picker :cycle_start_date %></span>
+          <span class="field_info"></span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :cycle_duration %></div>
+          <span><%= f.text_field :cycle_duration, :style => 'width: 158px;' %></span>
+          <span><%= f.select :cycle_duration_unit, [['days', LeaveType::DURATION_UNIT_DAYS], ['months', LeaveType::DURATION_UNIT_MONTHS], ['years', LeaveType::DURATION_UNIT_YEARS]], {}, { :class => 'dropdown', :style => 'width: 157px;' } %></span>
+          <span class="field_info"></span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :cycle_days_allowance %></div>
+          <span><%= f.text_field :cycle_days_allowance %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :cycle_days_carry_over %></div>
+          <span><%= f.text_field :cycle_days_carry_over %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :max_negative_balance %></div>
+          <span><%= f.text_field :max_negative_balance %></span>
+          <span class="field_info">days</span>
+        </div>
+      
+        <div class="field">
+        </div>
+      
+      </div>
+      
+      <div class="leave_type_col">
+
+        <h4>Constraints</h4>
+
+        <div class="field">
+          <div><%= f.label :required_days_notice, %></div>
+          <span><%= f.text_field :required_days_notice, %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :min_days_per_single_request %></div>
+          <span><%= f.text_field :min_days_per_single_request %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :max_days_per_single_request %></div>
+          <span><%= f.text_field :max_days_per_single_request %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :max_days_for_future_dated %></div>
+          <span><%= f.text_field :max_days_for_future_dated %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :max_days_for_back_dated %></div>
+          <span><%= f.text_field :max_days_for_back_dated %></span>
+          <span class="field_info">days</span>
+        </div>
+
+        <div class="field">
+          <div><%= f.label :requires_documentation_after, 'Documentation Required' %></div>
+          <span><%= f.check_box :requires_documentation %></span>
+          <!-- TODO: enable/disable control based on value of requires_documentation -->
+          <span><%= f.text_field :requires_documentation_after, :style => 'width: 295px;' %></span>
+          <span class="field_info">days</span>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    <div class="leave_type_row">
+
+      <div class="leave_type_col">
+
+        <h4>Capture Permissions</h4>
+
+        <div class="field">
+          <span><%= f.check_box :employee_capture_allowed %></span>
+          <span><%= f.label :employee_capture_allowed %></span>
+        </div>
+
+        <div class="field">
+          <span><%= f.check_box :approver_capture_allowed %></span>
+          <span><%= f.label :approver_capture_allowed %></span>
+        </div>
+
+        <div class="field">
+          <span><%= f.check_box :admin_capture_allowed %></span>
+          <span><%= f.label :admin_capture_allowed %></span>
+        </div>
+        
+        <div class="field">
+          <span><%= f.check_box :unscheduled_leave_allowed %></span>
+          <span><%= f.label :unscheduled_leave_allowed %></span>
+        </div>
+
+      </div>
+      
+      <div class="leave_type_col">
+      
+        <h4>Approval Permissions</h4>
+
+        <div class="field">
+          <span><%= f.check_box :approval_required %></span>
+          <span><%= f.label :approval_required %></span>
+        </div>
+
+        <div class="field">
+          <span><%= f.check_box :approval_required_for_cancellations %></span>
+          <span><%= f.label :approval_required_for_cancellations %></span>
+        </div>
+
+      </div>
+      
+    </div>
+
+  </div>
+    
+<% end %>
+

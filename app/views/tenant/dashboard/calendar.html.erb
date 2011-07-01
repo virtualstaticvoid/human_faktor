@@ -1,0 +1,64 @@
+<%= javascript_include_tag 'fullcalendar' %>
+<% content_title "Leave Calendar" %>
+
+<div id="loading_message">
+  <div id="loading">
+    Loading calendar entries.
+  </div>
+</div>
+
+<div id="calendar">
+</div>
+
+<script type='text/javascript'>
+
+	$(document).ready(function() {
+
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prevYear prev today',
+				center: 'title',
+				right: 'next nextYear'
+			},
+			selectable: true,
+			selectHelper: true,
+			select: function(start, end, allDay) {
+			  var sfrom = $.fullCalendar.formatDate(start, 'dd MMM yyyy');
+			  var from = $.fullCalendar.formatDate(start, 'dd-MM-yyyy');
+			  var sto = $.fullCalendar.formatDate(end, 'dd MMM yyyy');
+			  var to = $.fullCalendar.formatDate(end, 'dd-MM-yyyy');
+			
+				if (confirm('Add leave from ' + sfrom + ' to ' + sto + '?'))
+				  window.location = '<%= new_leave_request_path %>?from=' + from + '&to=' + to;
+				calendar.fullCalendar('unselect');
+			},
+			/*weekends: false, */
+			editable: false,
+			loading: function(bool) {
+			  if (bool) $('#loading').show();
+			  else $('#loading').hide();
+		  },
+		  eventSources: [
+			  { url: '<%= calendar_entries_feed_path(:format => 'json') %>', color: 'gray' },
+        { url: '<%= leave_requests_feed_path(:format => 'json') %>' }
+		  ],
+		  eventRender: function(event, element) {
+		    if (event.description != null) {
+          element.qtip({ 
+            content: event.description,
+            position: {
+              corner: {
+                target: 'bottomMiddle',
+                tooltip: 'topMiddle'
+              }
+            }
+          });
+		    }
+      }
+		});
+		
+	});
+
+</script>
+
+

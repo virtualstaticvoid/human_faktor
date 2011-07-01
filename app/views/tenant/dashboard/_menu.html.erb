@@ -1,0 +1,11 @@
+<div class="menu_bar menu_bar_left">
+  <ul>
+    <li><%= link_to "Dashboard", dashboard_path, :class => 'base_menu_item' %></li>
+    <%= render :partial => "tenant/dashboard/#{current_employee.role}/quick_nav" %>
+  </ul>
+</div>
+<div class="menu_bar menu_bar_right">
+  <ul>
+    <li><%= link_to "Sign Out", destroy_employee_session_path %></li>
+  </ul>
+</div>

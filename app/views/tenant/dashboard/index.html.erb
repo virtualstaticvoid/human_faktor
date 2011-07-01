@@ -1,0 +1,8 @@
+<% title "Dashboard" %>
+
+<% content_for :content_header do %>
+Welcome <strong><%= current_employee %></strong>!
+<% end %>
+
+<%= render :partial => "tenant/dashboard/#{current_employee.role}/dashboard" %>
+

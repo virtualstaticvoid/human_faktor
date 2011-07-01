@@ -1,0 +1,29 @@
+<% title "Leave Policies" %>
+
+<%= form_for(@account, :url => :update_leave_types) do |f| %>
+
+  <%= error_messages_for @account %>
+  
+  <%= render_tabs() do |tab_builder| %>
+
+    <%
+      LeaveType.for_each_leave_type do |leave_type_class|
+        method_name = leave_type_class.name.underscore.gsub(/\//, '_')
+        leave_type = @account.send(method_name)
+        tab_class = (leave_type.errors.count > 0) ? "tab_with_errors" : ""
+     %>
+
+      <% tab_builder.add_tab("#{leave_type}", :class => tab_class) do %>
+        <%= render 'leave_type', { :builder => f, :leave_type => leave_type } %>
+      <% end %>      
+    
+    <% end %>
+
+  <% end %>
+      
+  <div class="actions">
+    <%= f.submit 'Update Leave Policies' %> or <%= link_to 'cancel', account_admin_path %>
+  </div>
+
+<% end %>
+

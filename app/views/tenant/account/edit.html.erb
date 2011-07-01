@@ -1,0 +1,80 @@
+<% title "Edit Account" %>
+
+<%= form_for(@account, :url => :update_account, :html => { :multipart => true }) do |f| %>
+
+  <%= error_messages_for @account %>
+
+  <%= render_tabs(:height => '400px') do |tab_builder| %>
+
+    <% tab_builder.add_tab('General') do %>
+
+      <div class="field">
+        <div><%= f.label :title %></div>
+        <span><%= f.text_field :title %></span>
+        <span class="field_info">Company name for the account.</span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :subdomain %></div>
+        <span><%= f.text_field :subdomain, :disabled => 'disabled' %></span>
+        <span class="field_info"></span>
+      </div>
+
+    <% end %>
+
+    <% tab_builder.add_tab('Theme') do %>
+
+      <div>
+        <%= image_tag(@account.logo.url(:logo), :width => 140, :height => 60, :class => 'logo boxradius box_shadow') %>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :logo %><br /></div>
+        <span><%= f.file_field :logo %></span>
+        <span class="field_info">Company logo. 140x60 pixels in size.</span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :theme %></div>
+        <span><%= f.text_field :theme %></span>
+        <span class="field_info"></span>
+      </div>
+
+    <% end %>
+
+    <% tab_builder.add_tab('Defaults') do %>
+
+      <div class="field">
+        <div><%= f.label :country_id %></div>
+        <span><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :location_id %></div>
+        <span><%= f.select :location_id, @account.locations.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :department_id %></div>
+        <span><%= f.select :department_id, @account.departments.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :fixed_daily_hours %></div>
+        <span><%= f.text_field :fixed_daily_hours %></span>
+        <span class="field_info"></span>
+      </div>
+  
+    <% end %>
+
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %> or <%= link_to 'cancel', account_admin_path   %>
+  </div>
+
+<% end %>
+

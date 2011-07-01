@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="column grid_2">
+    <%= link_to image_tag(current_account.logo.url(:logo)), dashboard_path %>    
+  </div>
+  <div class="column grid_6">
+    <h2 class="title_bar_title"><%= h(current_account.title) %></h2>
+  </div>
+  <div class="column grid_4">
+    <%= render :partial => "shared/user_info" unless current_employee.nil? %>
+  </div>
+</div>
