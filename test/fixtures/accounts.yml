@@ -4,8 +4,9 @@ one:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: acme1
   title: Acme Corporation I
-  partner: one
   country: za
+  location: one
+  department: one  
   fixed_daily_hours: 8
   auth_token: <%= TokenHelper.friendly_token %>
   active: true
@@ -14,8 +15,9 @@ two:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: acme2
   title: Acme Corporation II
-  partner: one
   country: za
+  location: one
+  department: one  
   fixed_daily_hours: 8
   auth_token: <%= TokenHelper.friendly_token %>
   active: true

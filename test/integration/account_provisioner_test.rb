@@ -16,7 +16,6 @@ class AccountProvisionerTest < ActionDispatch::IntegrationTest
     assert_equal registration.subdomain, account.subdomain
     assert_equal registration.title, account.title
     assert_equal registration.country, account.country
-    assert_equal registration.partner, account.partner
     assert_equal registration.auth_token, account.auth_token
     assert_equal false, account.active
     

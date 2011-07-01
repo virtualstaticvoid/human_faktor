@@ -16,7 +16,8 @@ class Account < ActiveRecord::Base
                  :active => false
 
   belongs_to :country
-  belongs_to :partner
+  belongs_to :location
+  belongs_to :department
 
   has_many :account_subscriptions, :dependent => :destroy
   has_many :locations, :dependent => :destroy
@@ -40,9 +41,8 @@ class Account < ActiveRecord::Base
             :subdomain => true
 
   validates :title, :presence => true, :length => { :maximum => 255 }
-  validates :country, :presence => true, :existence => true
-  validates :partner, :existence => { :allow_nil => true }
-
+  validates :theme, :presence => true
+  
   # TODO: add validations for mime-type and file size
   has_attached_file :logo, 
                     :styles => { :logo => "140x60>" },
@@ -54,15 +54,23 @@ class Account < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     }
 
+  # access token for initial setup
+  validates :auth_token, :presence => true
+
+  # defaults  
+  validates :country, :presence => true, :existence => true
+  validates :location, :existence => { :allow_nil => true }
+  validates :department, :existence => { :allow_nil => true }
   validates :fixed_daily_hours, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
 
   validates :active, :inclusion => { :in => [true, false] }
 
-  # access token for initial setup
-  validates :auth_token, :presence => true
-
   def to_param
     self.identifier
+  end
+  
+  def to_s
+    self.title
   end
 
   # intercept in order to update leave types

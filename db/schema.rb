@@ -31,16 +31,17 @@ ActiveRecord::Schema.define(:version => 20110630093556) do
     t.string   "identifier",                               :null => false
     t.string   "subdomain",                                :null => false
     t.string   "title",                                    :null => false
-    t.integer  "country_id",                               :null => false
-    t.integer  "partner_id"
     t.string   "theme",             :default => "default", :null => false
-    t.integer  "fixed_daily_hours", :default => 8,         :null => false
-    t.boolean  "active",            :default => false,     :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
     t.string   "auth_token",                               :null => false
+    t.integer  "country_id",                               :null => false
+    t.integer  "location_id"
+    t.integer  "department_id"
+    t.integer  "fixed_daily_hours", :default => 8,         :null => false
+    t.boolean  "active",            :default => false,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
