@@ -14,8 +14,8 @@
   
   <div class="field">
     <div><%= f.label :subdomain %></div>
-    <div><%= AppConfig.scheme %>://<%= f.text_field :subdomain, :placeholder => 'companyname' %>.<%= AppConfig.domain %></div>
-    <div class="field_info">This will be the URL you use to access <%= AppConfig.title %>.</div>
+    <div><%= f.text_field :subdomain, :placeholder => 'companyname' %></div>
+    <div class="field_info">This will be used in the URL to access <%= AppConfig.title %>.</div>
   </div>
   
   <div class="field">

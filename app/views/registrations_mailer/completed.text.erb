@@ -4,7 +4,7 @@ Welcome to <%= AppConfig.title %>. Your account for <%= @registration.title %> i
 
 You can use the following URL to access your account:
 
-  <%= @registration.dashboard_url %>
+  <%= dashboard_url(:tenant => @registration.subdomain) %>
 
 Next steps:
 
@@ -15,7 +15,7 @@ Next steps:
 
 To complete your account setup, please follow this link:
 
-  <%= @registration.setup_url %>
+  <%= account_setup_url(:tenant => @registration.subdomain, :token => @registration.auth_token) %>
 
 The <%= AppConfig.title %> Team
 <%= root_url %>

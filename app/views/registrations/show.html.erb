@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', @registration.setup_url %>.
+  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', dashboard_path(:tenant => @registration.subdomain) %>.
 </p>
 
 <div style="display: none;">
@@ -19,7 +19,7 @@
     $('#query_status').click();
   }
   function dashboard() {
-    window.location = '<%= @registration.setup_url %>';
+    window.location = '<%= account_setup_path(:tenant => @registration.subdomain, :token => @registration.auth_token) %>';
   }
   // wait 10 seconds initially
   window.setTimeout(query, 10000);
