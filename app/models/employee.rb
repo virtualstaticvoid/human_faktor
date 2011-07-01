@@ -3,6 +3,13 @@ require 'paper_clip_interpolations'
 class Employee < ActiveRecord::Base
   include AccountScopedModel
 
+  # include account in devise queries!
+
+  def self.find_for_authentication(conditions = {})
+    conditions[:account_id] = AccountTracker.current.id
+    super
+  end
+
   before_save :downcase_user_name
 
   default_scope order(:first_name, :last_name)
@@ -14,7 +21,8 @@ class Employee < ActiveRecord::Base
          :trackable, 
          :timeoutable,
          :lockable,
-         :token_authenticatable
+         :token_authenticatable,
+         :authentication_keys => [ :user_name ] 
 
   # system roles
   ROLE_ADMIN = :admin
