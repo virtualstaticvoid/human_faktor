@@ -1,0 +1,40 @@
+#paginator {
+  padding: 8px;
+}
+
+#paginator .page {
+}
+
+#paginator .prev {
+  padding-right: 8px;
+}
+
+#paginator .next {
+  padding-left: 8px;
+}
+
+#paginator .first {
+  padding-right: 8px;
+}
+
+#paginator .gap {
+}
+
+#paginator .last {
+  padding-left: 8px;
+}
+
+#paginator .current {
+}
+
+#paginator span a {
+  padding: 5px;
+  border: 1px solid lightgray;
+  color: darkslategray;
+  text-decoration: none;
+}
+
+#paginator span a:hover {
+  text-decoration: underline;
+}
+

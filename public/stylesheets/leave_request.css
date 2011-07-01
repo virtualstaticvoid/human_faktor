@@ -1,0 +1,42 @@
+/* calendar styles */
+
+.leave_request_pending {
+  opacity: 0.60;
+}
+
+.leave_request_approved {
+}
+
+/* list styles */
+
+.status_pending {
+  background: url('../images/leave_request_pending.png') no-repeat center center;
+}
+
+.status_approved {
+  background: url('../images/leave_request_approved.png') no-repeat center center;
+}
+
+.status_declined {
+  background: url('../images/leave_request_declined.png') no-repeat center center;
+}
+
+.status_cancelled {
+  background: url('../images/leave_request_cancelled.png') no-repeat center center;
+}
+
+.leave_request_paperclip {
+  background: url('../images/paperclip.png') no-repeat center center;
+}
+
+
+
+#leave_requests tbody tr td p, .leave_request_comment {
+  padding: 6px 0 0 20px;
+  min-height: 27px;
+  color: gray;
+  font-size: 10pt;
+  text-align: left;
+}
+
+

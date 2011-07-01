@@ -1,0 +1,61 @@
+.table_grid {
+  width: 100%;
+  border: 1px solid lightgray;
+  font-size: 10pt;
+  border-spacing: 0;
+  margin-top: 10px;
+}
+
+.table_grid th {
+  padding: 0;
+  height: 32px;
+  background-color: #F0F0F0;
+}
+
+.table_grid thead tr:last-child {
+  border-bottom: 1px solid lightgray;
+}
+
+.table_grid th:first-child {
+}
+
+.table_grid tr {
+  margin: 0;
+  padding: 0;
+}
+
+.table_grid tr:nth-child(even) {
+  background-color: #F0F0F0;
+}
+
+.table_grid td {
+  margin: 0;
+  padding: 4px;
+  border-top: 1px solid lightgray;
+}
+
+.table_grid td:first-child {
+}
+
+.table_grid td.numeric {
+  text-align: right;
+}
+
+.table_grid td.boolean {
+  text-align: center;
+}
+
+.table_grid tbody tr:not(.no_hover):hover {
+  background-color: lightblue;
+  color: black;
+  cursor: pointer;
+}
+
+.table_grid tbody tr td:last-child {
+  text-align: center;
+}
+
+.table_grid .delete_button {
+  padding: 4px;
+}
+

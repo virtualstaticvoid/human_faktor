@@ -130,6 +130,11 @@ div.field textarea {
   border: 1px solid lightgray;
 }
 
+.button, input[type='submit'] {
+  min-height: 31px;
+  font-size: 12pt;
+}
+
 .field_info {
   padding-left: 10px;
 }
@@ -181,8 +186,8 @@ pre {
 }
 
 #top {
-	width: 960px;
-	margin: 0 auto;
+  width: 960px;
+  margin: 0 auto;
   display: block;
   border-left: 1px solid #A2A2A2;
   border-right: 1px solid #A2A2A2;
@@ -296,5 +301,47 @@ pre {
   border: 1px solid #A2A2A2;
   display: block;
   padding-top: 8px;
+}
+
+.panel_box {
+  background-color: whitesmoke;
+  border: 1px solid darkslategray;
+  margin: 10px 5px 10px 5px;
+  padding: 0;
+}
+
+.panel_box_title {
+  border-bottom: 1px solid #C0C0C0;
+  padding: 10px;
+  min-height: 18px;
+}
+
+.panel_box_title h2 {
+  margin: 0;
+}
+
+.panel_box_content {
+  margin: 22px;
+}
+
+#loading_message {
+  height: 32px;
+}
+
+#loading_image {
+  background: url('../images/ajax-loader.gif') no-repeat;
+  height: 32px;
+  line-height: 26px;
+  padding-left: 32px;
+}
+
+.user_info {
+  text-align: right;
+  font-size: 10pt;
+  margin: 12px 0 0 0;
+}
+
+.avatar, .logo {
+  border: 1px solid lightgray;
 }
 
