@@ -156,8 +156,8 @@ class LeaveRequest < ActiveRecord::Base
 
   # test helpers
   %w{confirm approve decline cancel}.each do |action|
-    define_method "#{action}!" do |approver = nil|
-      self.send(action, approver)
+    define_method "#{action}!" do
+      self.send(action)
       self.save!
     end
   end
