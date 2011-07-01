@@ -56,6 +56,15 @@ module HumanFaktor
     # Configure reCAPTCHA
     config.middleware.use Rack::Recaptcha, :public_key => ENV['RECAPTCHA_PUBLIC_KEY'], 
                                            :private_key => ENV['RECAPTCHA_PRIVATE_KEY']
+   
+    # Customize layout used by devise
+    config.to_prepare { 
+      Devise::SessionsController.layout "basic"
+      #Devise::RegistrationsController.layout "tenant"
+      #Devise::ConfirmationsController.layout "tenant"
+      Devise::UnlocksController.layout "basic"            
+      Devise::PasswordsController.layout "basic"        
+    }     
     
   end
 end
