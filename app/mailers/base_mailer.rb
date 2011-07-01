@@ -13,7 +13,7 @@ class BaseMailer < ActionMailer::Base
     }
   end
 
-  ActionMailer::Base.default_url_options[:host] = AppConfig.domain
+  ActionMailer::Base.default_url_options[:host] = "www.#{AppConfig.domain}"
 
   default :from => AppConfig.no_reply_email
   
