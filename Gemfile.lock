@@ -14,6 +14,16 @@ GIT
     default_value_for (1.0.2)
 
 GIT
+  remote: git://github.com/virtualstaticvoid/devise.git
+  revision: cff06ad2e3c90bd2720354684b3547546a7f19ef
+  branch: find_or_initialize_with_errors
+  specs:
+    devise (1.4.2)
+      bcrypt-ruby (~> 2.1.2)
+      orm_adapter (~> 0.0.3)
+      warden (~> 1.0.3)
+
+GIT
   remote: git://github.com/virtualstaticvoid/rack-recaptcha.git
   revision: d1ffa84f9567181179e74880c2cc26acfd6419aa
   tag: v0.5.0
@@ -64,10 +74,6 @@ GEM
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
     cocaine (0.1.0)
-    devise (1.4.0)
-      bcrypt-ruby (~> 2.1.2)
-      orm_adapter (~> 0.0.3)
-      warden (~> 1.0.3)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     flay (1.4.2)
@@ -158,7 +164,7 @@ DEPENDENCIES
   aws-s3
   aws-ses (~> 0.4.3)
   default_value_for!
-  devise (~> 1.4.0)
+  devise!
   jquery-rails (~> 1.0.3)
   kaminari (~> 0.12.4)
   paperclip (~> 2.3)
