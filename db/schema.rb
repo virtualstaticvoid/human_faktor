@@ -204,7 +204,8 @@ ActiveRecord::Schema.define(:version => 20110630093556) do
     t.integer  "country_id",                         :null => false
     t.integer  "subscription_id",                    :null => false
     t.integer  "partner_id"
-    t.string   "name",                               :null => false
+    t.string   "first_name",                         :null => false
+    t.string   "last_name",                          :null => false
     t.string   "email",                              :null => false
     t.boolean  "active",          :default => false, :null => false
     t.string   "auth_token",                         :null => false

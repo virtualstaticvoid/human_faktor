@@ -24,7 +24,8 @@ class Registration < ActiveRecord::Base
   validates :title, :presence => true, :length => { :maximum => 255 }
   
   # contact details
-  validates :name, :presence => true, :length => { :maximum => 255 }
+  validates :first_name, :presence => true, :length => { :maximum => 255 }
+  validates :last_name, :presence => true, :length => { :maximum => 255 }
   validates :email, :confirmation => true, :email => true
   
   validates :country, :presence => true, :existence => true
@@ -38,11 +39,23 @@ class Registration < ActiveRecord::Base
   def to_param
     self.identifier
   end
+  
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
 
+  def user_name
+    "#{clean(self.first_name)}.#{clean(self.last_name)}".downcase
+  end
+  
   private
   
   def downcase_subdomain
     self.subdomain.downcase!
+  end
+  
+  def clean(str)
+    str.gsub(/[^(A-Z|a-z|0-9)]/i, '')
   end
 
 end

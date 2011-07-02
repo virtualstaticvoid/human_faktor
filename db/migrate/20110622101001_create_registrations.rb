@@ -11,7 +11,8 @@ class CreateRegistrations < ActiveRecord::Migration
       t.references :partner
       
       # contact details
-      t.string :name, :null => false, :length => 255
+      t.string :first_name, :null => false, :length => 255
+      t.string :last_name, :null => false, :length => 255
       t.string :email, :null => false
 
       t.boolean :active, :null => false, :default => false
