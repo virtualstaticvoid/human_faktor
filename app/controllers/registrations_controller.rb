@@ -1,5 +1,7 @@
 class RegistrationsController < ApplicationController
   include Rack::Recaptcha::Helpers
+
+  skip_before_filter :ensure_account
  
   def new
     @registration = Registration.new()
