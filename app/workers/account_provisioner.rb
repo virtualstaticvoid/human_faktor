@@ -52,7 +52,7 @@ class AccountProvisioner
       create_leave_type account, :compassionate,  365,   3, 0, cycle_start_date,  0
       
       # save all changes
-      account.save
+      account.save!
       
       # make the registration is active
       registration.update_attribute(:active, true)
