@@ -36,7 +36,7 @@
 
       <div class="field">
         <div><%= f.label :theme %></div>
-        <span><%= f.text_field :theme %></span>
+        <span><%= f.select :theme, [['Default', 'default']], {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
 
