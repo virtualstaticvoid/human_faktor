@@ -1,0 +1,20 @@
+.account_setup_step {
+}
+
+.account_setup_step h2 {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 10px;
+}
+
+.account_setup_step_content {
+  margin-left: 10px;
+}
+
+.account_setup_step .actions {
+  border-top: 1px solid lightgray;
+  padding-top: 10px;
+}
+
+.account_setup_step_content h3 {
+  margin-top: 20px;
+}

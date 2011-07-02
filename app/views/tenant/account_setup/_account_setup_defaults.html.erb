@@ -1,0 +1,11 @@
+<%= builder.fields_for account do |f| %>
+
+  <%= error_messages_for account %>
+
+  <div class="field">
+    <div><%= f.label :fixed_daily_hours %></div>
+    <span><%= f.text_field :fixed_daily_hours %></span>
+    <span class="field_info"></span>
+  </div>
+
+<% end %>

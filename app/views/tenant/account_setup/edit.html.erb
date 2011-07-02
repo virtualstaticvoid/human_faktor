@@ -1,0 +1,103 @@
+<% title "Account Setup" %>
+
+<p>Supply the following information to setup you <strong><%= @account.title %></strong> account.</p>
+
+<%= form_for(@account, :url => :update_account_setup, :html => { :multipart => true }) do |f| %>
+
+  <div>
+
+    <div id="account_setup_administrator" class="account_setup_step">
+    
+      <h2>Administrator</h2>
+      <div class="account_setup_step_content">
+        <%= render :partial => 'account_setup_administrator', 
+            :locals => { :builder => f, 
+                         :employee => Employee.new(:role => :admin, 
+                                                   :first_name => @account.registration.first_name,
+                                                   :last_name => @account.registration.last_name,
+                                                   :user_name => @account.registration.user_name,
+                                                   :email => @account.registration.email) } %>
+      </div>
+      
+      <div class="actions">
+        <input type="button" class="button" value="Next" onclick="javascript: move('#account_setup_administrator', '#account_setup_defaults');" />
+      </div>
+      
+    </div>
+    
+    <div id="account_setup_defaults" style="display: none;" class="account_setup_step">
+    
+      <h2>Account Defaults</h2>
+      <div class="account_setup_step_content">
+        <%= render :partial => 'account_setup_defaults', 
+                   :locals => { :builder => f, 
+                                :account => @account } %>
+      </div>
+
+      <div class="actions">
+        <input type="button" class="button" value="Back" onclick="javascript: move('#account_setup_defaults', '#account_setup_administrator');" />
+        <input type="button" class="button" value="Next" onclick="javascript: move('#account_setup_defaults', '#account_setup_leave_types');" />
+      </div>
+
+    </div>
+    
+    <div id="account_setup_leave_types" style="display: none;" class="account_setup_step">
+
+      <h2>Leave Policies</h2>
+      <div class="account_setup_step_content">
+
+        <%
+          LeaveType.for_each_leave_type do |leave_type_class|
+            method_name = leave_type_class.name.underscore.gsub(/\//, '_')
+            leave_type = @account.send(method_name)
+         %>
+          <h3><%= leave_type.to_s %> Leave</h3>
+          <div class="account_setup_step_content">
+            <%= f.fields_for leave_type do |ltf| %>
+              <%= render :partial => 'account_setup_leave_type', 
+                         :locals => { :builder => f, 
+                                      :leave_type => leave_type } %>
+            <% end %>
+          </div>        
+        <% end %>
+        
+      </div>
+
+      <div class="actions">
+        <input type="button" class="button" value="Back" onclick="javascript: move('#account_setup_leave_types', '#account_setup_defaults');" />
+        <input type="button" class="button" value="Next" onclick="javascript: move('#account_setup_leave_types', '#account_setup_confirmation');" />
+      </div>
+
+    </div>
+    
+    <div id="account_setup_confirmation" style="display: none;" class="account_setup_step">
+
+      <h2>Confirmation</h2>
+      <div class="account_setup_step_content">
+      
+        <div class="field">
+          <div><%= f.label :auth_token_confirmation, 'Token' %></div>
+          <span><%= f.text_field :auth_token_confirmation %></span>
+          <span class="field_info"></span>
+        </div>
+      
+      </div>
+
+      <div class="actions">
+        <input type="button" class="button" value="Back" onclick="javascript: move('#account_setup_confirmation', '#account_setup_leave_types');" />
+        <%= f.submit "Setup Account" %>
+      </div>  
+
+    </div>
+
+  </div>
+
+<% end %>
+
+<script type="text/javascript">
+  function move(from, to) {
+    $(from).css('display', 'none');  
+    $(to).css('display', '');  
+  }
+</script>
+

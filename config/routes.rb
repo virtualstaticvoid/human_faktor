@@ -23,7 +23,8 @@ HumanFaktor::Application.routes.draw do
 
   scope "*tenant" do
 
-    get "setup", :to => "tenant/account_setup#index", :as => :account_setup
+    get "setup", :to => "tenant/account_setup#edit", :as => :account_setup
+    put "setup", :to => "tenant/account_setup#update", :as => :update_account_setup
 
     devise_for :employees, :path => "" do
       # TODO: additional configuration for devise
