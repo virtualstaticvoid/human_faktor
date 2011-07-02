@@ -15,6 +15,9 @@ class Account < ActiveRecord::Base
                  :fixed_daily_hours => 8,
                  :active => false
 
+  # huh... needed!
+  attr_accessible # TODO: specify accessible attributes
+
   belongs_to :country
   belongs_to :location
   belongs_to :department
