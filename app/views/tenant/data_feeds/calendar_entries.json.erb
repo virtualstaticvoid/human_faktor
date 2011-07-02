@@ -1,0 +1,11 @@
+<% first = true %>
+[
+<% @calendar_entries.each do |calendar_entry| %><%= ',' unless first %>  { 
+    "title" : "<%= calendar_entry.title %>", 
+    "start" : "<%= calendar_entry.entry_date %>", 
+    "end" : "<%= calendar_entry.entry_date %>", 
+    "allDay": true
+  }
+<%  first = false
+  end %>
+]

@@ -1,4 +1,4 @@
-HumanFaktor::Application.routes.drawdo
+HumanFaktor::Application.routes.draw do
 
   ###
   # routes for base
@@ -25,18 +25,19 @@ HumanFaktor::Application.routes.drawdo
 
     get "setup", :to => "tenant/account_setup#index", :as => :account_setup
 
-    devise_for :employees, :path => ""do
+    devise_for :employees, :path => "" do
       # TODO: additional configuration for devise
     end
 
+    # dashboard
     get "profile", :to => "tenant/dashboard#profile", :as => :profile
     get "balance", :to => "tenant/dashboard#balance", :as => :balance
     get "calendar", :to => "tenant/dashboard#calendar", :as => :calendar
-    get "leave", :to => "tenant/leave_requests#employee_index", :as => :leave_requests
-
     get "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
-    get "staff_leave", :to => "tenant/leave_requests#staff_index", :as => :staff_leave_requests
 
+    # leave requests
+    get "leave", :to => "tenant/leave_requests#employee_index", :as => :leave_requests
+    get "staff_leave", :to => "tenant/leave_requests#staff_index", :as => :staff_leave_requests
     get "leave/new", :to => "tenant/leave_requests#new", :as => :new_leave_request
     post "leave", :to => "tenant/leave_requests#create", :as => :create_leave_request
     get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
@@ -44,6 +45,10 @@ HumanFaktor::Application.routes.drawdo
     put "leave/:id/approve", :to => "tenant/leave_requests#approve", :as => :approve_leave_request
     put "leave/:id/decline", :to => "tenant/leave_requests#decline", :as => :decline_leave_request
     put "leave/:id/cancel", :to => "tenant/leave_requests#cancel", :as => :cancel_leave_request
+
+    # data feeds
+    get "calendar_entries_feed(.:format)", :to => "tenant/data_feeds#calendar_entries", :as => :calendar_entries_feed
+    get "leave_requests_feed(.:format)", :to => "tenant/data_feeds#leave_requests", :as => :leave_requests_feed
 
     scope "account" do
 
