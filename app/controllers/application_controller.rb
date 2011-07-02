@@ -24,19 +24,23 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_account
-    redirect_to home_sign_in_url if @current_account.nil?
+    redirect_to home_sign_in_url and return false if current_account.nil?
+    true
   end
   
   def ensure_admin
-    redirect_to(dashboard_path, :notice => 'You need to be an administrator to perform this action.') unless current_employee.is_admin?
+    redirect_to(dashboard_path, :notice => 'You need to be an administrator to perform this action.') and return false unless current_employee.is_admin?
+    true
   end
 
   def ensure_manager
-    redirect_to(dashboard_path, :notice => 'You need to be an manager to perform this action.') unless current_employee.is_manager?
+    redirect_to(dashboard_path, :notice => 'You need to be an manager to perform this action.') and return false unless current_employee.is_manager?
+    true
   end
 
   def ensure_approver
-    redirect_to(dashboard_path, :notice => 'You need to be an approver to perform this action.') unless current_employee.is_approver?
+    redirect_to(dashboard_path, :notice => 'You need to be an approver to perform this action.') and return false unless current_employee.is_approver?
+    true
   end
 
 end
