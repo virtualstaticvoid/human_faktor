@@ -5,7 +5,7 @@
 <%= form_for(@account, :url => :update_account_setup, :html => { :multipart => true }) do |f| %>
 
   <div class="account_setup_step">
-    <% if @administrator.errors.any? || @account.errors.any? %>
+    <% if @administrator.errors.any? || @account.errors.any? || !@account.leave_types_valid? %>
       <div class="error_messages box_radius">
         <p>One or more fields need to be supplied or corrected.</p>
       </div>

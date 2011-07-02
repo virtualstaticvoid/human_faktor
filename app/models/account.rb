@@ -35,6 +35,15 @@ class Account < ActiveRecord::Base
     leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
     class_eval "def #{method_name}; @#{method_name} ||= self.leave_types.#{leave_type_name}; end", __FILE__, __LINE__
   end
+  
+  def leave_types_valid?
+    valid = true
+    LeaveType.for_each_leave_type do |leave_type_class|
+      method_name = leave_type_class.name.underscore.gsub(/\//, '_')
+      valid &= self.send(method_name).valid?
+    end
+    valid
+  end
 
   validates :identifier, :presence => true
 
@@ -60,6 +69,10 @@ class Account < ActiveRecord::Base
   # access token for initial setup
   validates :auth_token, :presence => true
   attr_accessor :auth_token_confirmation  # checked manually during account setup
+  
+  def auth_token_valid?
+    self.auth_token == self.auth_token_confirmation
+  end
 
   # defaults  
   validates :country, :presence => true, :existence => true

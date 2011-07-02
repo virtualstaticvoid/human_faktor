@@ -23,21 +23,28 @@ module Tenant
     def update
       @account = current_account
       
-      @administrator = Employee.new(
-        params[:account][:employee].merge({
-          'account_id' => @account.id,
-          'role' => 'admin'
-        }))
-      #@administrator.approver = @administrator
-      @administrator.valid?
+      success = true
+      
+      ActiveRecord::Base.transaction do
+      
+        @administrator = Employee.new(
+          params[:account][:employee].merge({
+            'account_id' => @account.id,
+            'role' => 'admin'
+          }))
+        @administrator.valid?
+        
+        success = @account.update_attributes(params[:account])
 
-      params[:account].delete(:employee)
+        params[:account].delete(:employee)
 
-      @account.update_attributes(params[:account])
+        @account.auth_token_confirmation = params[:account][:auth_token_confirmation]
 
-      @account.valid?
-      @account.errors[:auth_token_confirmation] << "is invalid." unless @account.auth_token == params[:account][:auth_token_confirmation]
-
+        @account.errors[:auth_token_confirmation] << "is invalid." unless @account.auth_token_valid?
+      
+      end
+      
+  
       respond_to do |format|
         if false # TODO 
           format.html { redirect_to(dashboard_url, :notice => 'Account successfully setup.') }
