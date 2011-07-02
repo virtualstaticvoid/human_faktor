@@ -24,6 +24,14 @@ GIT
       warden (~> 1.0.3)
 
 GIT
+  remote: git://github.com/virtualstaticvoid/informal.git
+  revision: 2bae95397b33375fae7744bcd09ea644e86b3a8a
+  branch: rails_3_0_model_name_back_port
+  specs:
+    informal (0.1.0)
+      activemodel (~> 3.0)
+
+GIT
   remote: git://github.com/virtualstaticvoid/rack-recaptcha.git
   revision: d1ffa84f9567181179e74880c2cc26acfd6419aa
   tag: v0.5.0
@@ -165,6 +173,7 @@ DEPENDENCIES
   aws-ses (~> 0.4.3)
   default_value_for!
   devise!
+  informal!
   jquery-rails (~> 1.0.3)
   kaminari (~> 0.12.4)
   paperclip (~> 2.3)
