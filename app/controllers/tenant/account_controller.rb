@@ -13,7 +13,7 @@ module Tenant
       
       respond_to do |format|
         if @account.update_attributes(params[:account])
-          format.html { redirect_to(edit_account_admin_path, :notice => 'Account was successfully updated.') }
+          format.html { redirect_to(edit_account_path, :notice => 'Account was successfully updated.') }
         else
           format.html { render :action => "edit" }
         end
