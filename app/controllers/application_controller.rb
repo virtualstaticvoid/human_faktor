@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   attr_writer :partials_path
   
   def get_account
-    AccountTracker.current = Account.find_by_subdomain(params[:tenant])
+    AccountTracker.current = Account.find_by_subdomain(params[:tenant]) unless params[:tenant].nil?
   end
 
   def current_account
