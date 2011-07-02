@@ -20,12 +20,15 @@ module Tenant
         setup.admin_email = registration.email
         setup.fixed_daily_hours = @account.fixed_daily_hours
         setup.leave_cycle_start_date = Date.new(Date.today.year, 1, 1)
-        setup.annual_leave_allowance = @account.leave_type_annual.cycle_days_allowance
-        setup.educational_leave_allowance = @account.leave_type_educational.cycle_days_allowance  
-        setup.medical_leave_allowance = @account.leave_type_medical.cycle_days_allowance
-        setup.maternity_leave_allowance = @account.leave_type_maternity.cycle_days_allowance
-        setup.compassionate_leave_allowance = @account.leave_type_compassionate.cycle_days_allowance
-        setup.auth_token_confirmation = params[:token]
+
+        LeaveType.for_each_leave_type do |leave_type_class|
+          leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
+
+          leave_type = @account.send("leave_type_#{leave_type_name}")
+          setup.send("#{leave_type_name}_leave_allowance=", leave_type.cycle_days_allowance)
+        end
+
+        setup.auth_token_confirmation = params[:token] if @account.auth_token == params[:token]
       end
     end
     

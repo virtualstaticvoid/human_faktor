@@ -7,42 +7,96 @@
   <%= error_messages_for @account_setup %>
   
   <h2>Administrator</h2>
+
+  <h3>Personal Details</h3>
   
   <div class="field">
-    <div><%= f.label :admin_first_name %></div>
+    <div><%= f.label :admin_first_name, 'First name' %></div>
     <span><%= f.text_field :admin_first_name %></span>
     <span class="field_info"></span>
   </div>
   
   <div class="field">
-    <div><%= f.label :admin_last_name %></div>
+    <div><%= f.label :admin_last_name, 'Last name' %></div>
     <span><%= f.text_field :admin_last_name %></span>
     <span class="field_info"></span>
   </div>
   
-  <h2>Authentication</h2>
+  <h3>Authentication</h3>
   
   <div class="field">
-    <div><%= f.label :admin_user_name %></div>
+    <div><%= f.label :admin_user_name, 'User name' %></div>
     <span><%= f.text_field :admin_user_name %></span>
     <span class="field_info"></span>
   </div>
   
   <div class="field">
-    <div><%= f.label :admin_password %></div>
+    <div><%= f.label :admin_password, 'Password' %></div>
     <span><%= f.password_field :admin_password %></span>
     <span class="field_info"></span>
   </div>
   
   <div class="field">
-    <div><%= f.label :admin_password_confirmation %></div>
+    <div><%= f.label :admin_password_confirmation, 'Password confirmation' %></div>
     <span><%= f.password_field :admin_password_confirmation %></span>
     <span class="field_info"></span>
   </div>
   
-  <h2>Leave Policies</h2>
-
+  <h3>Contact Information</h3>
   
+  <div class="field">
+    <div><%= f.label :admin_email, 'Email' %></div>
+    <span><%= f.text_field :admin_email %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <h2>Account Settings</h2>
+
+  <h3>Defaults</h3>
+
+  <div class="field">
+    <div><%= f.label :fixed_daily_hours %></div>
+    <span><%= f.text_field :fixed_daily_hours %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <h3>Leave Policy Settings</h3>
+
+  <div class="field">
+    <div><%= f.label :leave_cycle_start_date %></div>
+    <span><%= f.date_picker :leave_cycle_start_date %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <%
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
+  %>
+  
+    <div class="field">
+      <div><%= f.label "#{leave_type_name}_leave_allowance".to_sym %></div>
+      <span><%= f.text_field "#{leave_type_name}_leave_allowance".to_sym, :style => 'width: 158px;' %></span>
+      <span class="field_info">days</span>
+    </div>
+
+  <% end %>
+  
+  <% unless @account_setup.auth_token_confirmation.present? %>
+  
+    <h2>Setup Verification</h2>
+    
+    <div class="field">
+      <div><%= f.label :auth_token_confirmation, 'Token' %></div>
+      <span><%= f.text_field :auth_token_confirmation %></span>
+      <span class="field_info">The token was sent via email at registration.</span>
+      <div><%= link_to "Never received the registration email?", "/TODO" %></div>
+    </div>
+  
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Setup Account" %>
+  </div>  
 
 <% end %>
 
