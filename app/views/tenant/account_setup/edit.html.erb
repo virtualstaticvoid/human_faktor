@@ -2,90 +2,47 @@
 
 <p>Supply the following information to setup you <strong><%= @account.title %></strong> account.</p>
 
-<%= form_for(@account, :url => :update_account_setup, :html => { :multipart => true }) do |f| %>
+<%= form_for(@account_setup, :url => :update_account_setup, :method => :put) do |f| %>
 
-  <div class="account_setup_step">
-    <% if @administrator.errors.any? || @account.errors.any? || !@account.leave_types_valid? %>
-      <div class="error_messages box_radius">
-        <p>One or more fields need to be supplied or corrected.</p>
-      </div>
-    <% end %>
-  </div>
-
-  <div id="account_setup_administrator" class="account_setup_step">
+  <%= error_messages_for @account_setup %>
   
-    <h2>Administrator</h2>
-    <div class="account_setup_step_content">
-      <%= render :partial => 'account_setup_administrator', 
-          :locals => { :builder => f, 
-                       :employee => @administrator } %>
-    </div>
-    
-    <div class="actions">
-      <input type="button" class="button" value="Next" 
-             onclick="javascript: move('#account_setup_administrator', '#account_setup_leave_types');" />
-    </div>
-    
+  <h2>Administrator</h2>
+  
+  <div class="field">
+    <div><%= f.label :admin_first_name %></div>
+    <span><%= f.text_field :admin_first_name %></span>
+    <span class="field_info"></span>
   </div>
   
-  <div id="account_setup_leave_types" style="display: none;" class="account_setup_step">
-
-    <h2>Leave Policies</h2>
-    <div class="account_setup_step_content">
-
-      <%
-        LeaveType.for_each_leave_type do |leave_type_class|
-          method_name = leave_type_class.name.underscore.gsub(/\//, '_')
-          leave_type = @account.send(method_name)
-       %>
-        <h3><%= leave_type.to_s %> Leave</h3>
-        <div class="account_setup_step_content">
-          <%= render :partial => 'account_setup_leave_type', 
-                     :locals => { :builder => f, 
-                                  :leave_type => leave_type } %>
-        </div>        
-      <% end %>
-      
-    </div>
-
-    <div class="actions">
-      <input type="button" class="button" value="Back" 
-             onclick="javascript: move('#account_setup_leave_types', '#account_setup_administrator');" />
-      <input type="button" class="button" value="Next" 
-             onclick="javascript: move('#account_setup_leave_types', '#account_setup_confirmation');" />
-    </div>
-
+  <div class="field">
+    <div><%= f.label :admin_last_name %></div>
+    <span><%= f.text_field :admin_last_name %></span>
+    <span class="field_info"></span>
   </div>
   
-  <div id="account_setup_confirmation" style="display: none;" class="account_setup_step">
-
-    <h2>Confirmation</h2>
-    <div class="account_setup_step_content">
-    
-      <%= error_messages_for @account %>
-    
-      <div class="field">
-        <div><%= f.label :auth_token_confirmation, 'Token' %></div>
-        <span><%= f.text_field :auth_token_confirmation %></span>
-        <span class="field_info"></span>
-      </div>
-    
-    </div>
-
-    <div class="actions">
-      <input type="button" class="button" value="Back" 
-             onclick="javascript: move('#account_setup_confirmation', '#account_setup_leave_types');" />
-      <%= f.submit "Setup Account" %>
-    </div>  
-
+  <h2>Authentication</h2>
+  
+  <div class="field">
+    <div><%= f.label :admin_user_name %></div>
+    <span><%= f.text_field :admin_user_name %></span>
+    <span class="field_info"></span>
   </div>
+  
+  <div class="field">
+    <div><%= f.label :admin_password %></div>
+    <span><%= f.password_field :admin_password %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div class="field">
+    <div><%= f.label :admin_password_confirmation %></div>
+    <span><%= f.password_field :admin_password_confirmation %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <h2>Leave Policies</h2>
+
+  
 
 <% end %>
-
-<script type="text/javascript">
-  function move(from, to) {
-    $(from).css('display', 'none');  
-    $(to).css('display', '');  
-  }
-</script>
 
