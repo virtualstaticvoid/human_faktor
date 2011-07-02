@@ -55,7 +55,7 @@ class Account < ActiveRecord::Base
                     }
 
   # access token for initial setup
-  validates :auth_token, :presence => true
+  validates :auth_token, :presence => true, :confirmation => true
 
   # defaults  
   validates :country, :presence => true, :existence => true
@@ -85,6 +85,10 @@ class Account < ActiveRecord::Base
       self.errors[:base] << "One or more leave policies are invalid." unless valid
       valid
     end
+  end
+  
+  def registration
+    @registration ||= Registration.find_by_auth_token(self.auth_token)
   end
 
 end
