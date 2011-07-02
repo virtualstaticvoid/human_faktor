@@ -68,9 +68,9 @@ class Employee < ActiveRecord::Base
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }
   validates :start_date, :timeliness => { :type => :date }, :allow_nil => true
   validates :end_date, :timeliness => { :type => :date }, :allow_nil => true
-  validates :location, :presence => true, :existence => true
-  validates :department, :presence => true, :existence => true
-  validates :approver, :existence => true
+  validates :location, :existence => { :allow_nil => true }
+  validates :department, :existence => { :allow_nil => true }
+  validates :approver, :existence => { :allow_nil => true }
 
   # system settings
 
