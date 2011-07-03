@@ -20,6 +20,9 @@ class AccountProvisioner
         :active => false
       )
       
+      # save
+      account.save!
+
       # subscription
       subscription = registration.subscription
 
@@ -27,8 +30,7 @@ class AccountProvisioner
       from_date = Date.today
       to_date = Date.new(from_date.year, from_date.month + 1, 1) >> subscription.duration
       
-      AccountSubscription.create(
-        :account => account,
+      account.account_subscriptions.build(
         :from_date => from_date,
         :to_date => to_date,
         :title => subscription.title, 
@@ -39,8 +41,14 @@ class AccountProvisioner
       )
       
       # default location and department
-      account.location = account.locations.build(:title => 'Default')
-      account.department = account.departments.build(:title => 'Default')
+      default_location = account.locations.build(:title => 'Default')
+      default_department = account.departments.build(:title => 'Default')
+      
+      default_location.save!
+      default_department.save!
+      
+      account.location = default_location
+      account.department = default_department
       
       # leave types
       cycle_start_date = Date.new(Date.today.year, 1, 1)
@@ -51,7 +59,7 @@ class AccountProvisioner
       create_leave_type account, :maternity,      365, 120, 0, cycle_start_date,  0
       create_leave_type account, :compassionate,  365,   3, 0, cycle_start_date,  0
       
-      # save all changes
+      # save
       account.save!
       
       # make the registration is active
