@@ -45,7 +45,9 @@ class Employee < ActiveRecord::Base
 
   # identifier  
   validates :identifier, :presence => true, :uniqueness => true
-  validates :user_name, :presence => true, :uniqueness => { :scope => [:account_id] }
+  validates :user_name, :presence => true, 
+                        :length => { :maximum => 20 },
+                        :uniqueness => { :scope => [:account_id] }
   validates :email, :email => true
   
   # authentication
