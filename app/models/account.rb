@@ -68,11 +68,6 @@ class Account < ActiveRecord::Base
 
   # access token for initial setup
   validates :auth_token, :presence => true
-  attr_accessor :auth_token_confirmation  # checked manually during account setup
-  
-  def auth_token_valid?
-    self.auth_token == self.auth_token_confirmation
-  end
 
   # defaults  
   validates :country, :presence => true, :existence => true
