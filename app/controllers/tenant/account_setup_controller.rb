@@ -33,8 +33,10 @@ module Tenant
     end
     
     def update
+      @account = current_account
       @account_setup = AccountSetup.new(params[:account_setup])
-  
+      @account_setup.auth_token = @account.auth_token
+      
       respond_to do |format|
         if @account_setup.save(current_account) 
           format.html { redirect_to(dashboard_url, :notice => 'Account successfully setup.') }
