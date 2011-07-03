@@ -15,9 +15,6 @@ class Account < ActiveRecord::Base
                  :fixed_daily_hours => 8,
                  :active => false
 
-  # huh... needed!
-  attr_accessible # TODO: specify accessible attributes
-
   belongs_to :country
   belongs_to :location
   belongs_to :department
@@ -73,6 +70,7 @@ class Account < ActiveRecord::Base
   validates :country, :presence => true, :existence => true
   validates :location, :existence => { :allow_nil => true }
   validates :department, :existence => { :allow_nil => true }
+  
   validates :fixed_daily_hours, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
 
   validates :active, :inclusion => { :in => [true, false] }
