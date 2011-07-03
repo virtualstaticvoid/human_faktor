@@ -3,27 +3,38 @@ require "informal"
 class AccountSetup
   include Informal::Model
   
-  #default_values 
-
   attr_accessor :admin_first_name
+  validates :admin_first_name, :presence => true, :length => { :maximum => 100 }
+
   attr_accessor :admin_last_name
+  validates :admin_last_name, :presence => true, :length => { :maximum => 100 }
+
   attr_accessor :admin_user_name
+  validates :admin_user_name, :presence => true, :length => { :maximum => 20 }
+
   attr_accessor :admin_password
-  attr_accessor :admin_password_confirmation
+  validates :admin_password, :presence => true, :confirmation => true
+
   attr_accessor :admin_email
-  
+  validates :admin_email, :presence => true, :email => true
+
   attr_accessor :fixed_daily_hours
+  validates :fixed_daily_hours, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
 
   attr_accessor :leave_cycle_start_date
+  validates :leave_cycle_start_date, :timeliness => { :type => :date}
 
   LeaveType.for_each_leave_type do |leave_type_class|
     leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
     attr_accessor "#{leave_type_name}_leave_allowance"
+    validates "#{leave_type_name}_leave_allowance".to_sym, :numericality => { :greater_than_or_equal_to => 1 }
   end
   
-  attr_accessor :auth_token_confirmation
+  attr_accessor :auth_token
+  validates :auth_token, :presence => true, :confirmation => true
 
   def save(account)
+    valid = self.valid?
     ActiveRecord::Base.transaction do 
     
       # create administrator
@@ -46,15 +57,26 @@ class AccountSetup
       
         leave_type = account.send("leave_type_#{leave_type_name}")
         leave_type.cycle_start_date = self.leave_cycle_start_date
-        leave_type.cycle_days_allowance = self.send("#{leave_type_name}__leave_allowance")
+        leave_type.cycle_days_allowance = self.send("#{leave_type_name}_leave_allowance")
+        
+        valid &= leave_type.save
         
       end
-    
-    end
+      
+      # activate account
+      account.active = true
+      
+      valid &= administrator.save
+      valid &= account.save
+      
+    end if valid
   
-    # TODO
-    false
-  
+    valid
+  end
+
+  # needed for form to work as expected
+  def persisted?
+    true
   end
 
 end
