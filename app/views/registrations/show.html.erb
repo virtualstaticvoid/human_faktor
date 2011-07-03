@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', dashboard_path(:tenant => @registration.subdomain) %>.
+  Once your account is ready, you will be automatically redirected to your <%= link_to 'dashboard', account_setup_path(:tenant => @registration.subdomain, :token => @registration.auth_token) %>.
 </p>
 
 <div style="display: none;">
