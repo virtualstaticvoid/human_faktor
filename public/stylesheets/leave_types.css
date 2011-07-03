@@ -1,0 +1,15 @@
+.leave_type_config {
+  margin: 0;
+  padding: 0;
+}
+
+.leave_type_row {
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.leave_type_col {
+  float: left;
+  width: 440px;
+}
+
