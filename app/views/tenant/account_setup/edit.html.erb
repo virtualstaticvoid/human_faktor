@@ -2,7 +2,7 @@
 
 <p>Supply the following information to setup you <strong><%= @account.title %></strong> account.</p>
 
-<%= form_for(@account_setup, :url => :update_account_setup, :method => :put) do |f| %>
+<%= form_for(@account_setup, :url => update_account_setup_path(:token => params[:token])) do |f| %>
 
   <%= error_messages_for @account_setup %>
   
@@ -81,8 +81,12 @@
 
   <% end %>
   
-  <% unless @account_setup.auth_token_confirmation.present? %>
+  <% if @account_setup.auth_token_confirmation.present? %>
   
+    <%= f.hidden_field :auth_token_confirmation %>
+    
+  <% else %>
+
     <h2>Setup Verification</h2>
     
     <div class="field">
