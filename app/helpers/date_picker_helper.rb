@@ -7,6 +7,8 @@ module DatePickerHelper
     sanitized_method_name ||= method.to_s.sub(/\?$/,"")
 
     value = @object.send(method)
+    
+    options[:style] = "width: 158px;" unless options[:style]
 
     html = ""
     html << text_field_tag("#{@object_name.to_s}[#{method.to_s}]", value, options)
