@@ -1,0 +1,5 @@
+<% title "Leave Request" %>
+<% content_title "Leave Request - #{@leave_request.status_text}" %>
+
+<%= render :partial => "tenant/leave_requests/status_#{@leave_request.status_text.underscore}" %>
+

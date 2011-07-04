@@ -1,0 +1,8 @@
+$('#paginator').html('<%= escape_javascript(paginate(@leave_requests, :remote => true).to_s) %>');
+<% if @leave_requests.count == 0 %>
+$('#data-rows').html('<tr class="no_hover"><td colspan="7"><p>No leave requests found for the given criteria.</p></td></tr>');
+<% else %>
+$('#data-rows').html('<%= escape_javascript(render(@leave_requests)) %>');
+<% end %>
+$('#ajax_working').css('display', 'none');
+

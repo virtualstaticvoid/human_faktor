@@ -1,0 +1,13 @@
+<% if leave_request.has_constraint_violations? %>
+  <div class="leave_request box_radius">
+    <h3>Warnings</h3>
+
+    <ul>
+      <% LeaveConstraints::Base.constraint_names.each do |constraint_name| %>
+        <% #= content_tag 'li', t(constraint_name, :scope => 'leave_request_constraints') if leave_request.send(constraint_name) %>
+      <% end %>
+    </ul>
+
+  </div>
+<% end %>
+

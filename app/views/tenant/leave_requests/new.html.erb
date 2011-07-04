@@ -1,0 +1,60 @@
+<% title "Apply for Leave" %>
+<% content_title "Apply for Leave" %>
+
+<%= form_for(@leave_request, :html => { :multipart => true }, :url => create_leave_request_path) do |f| %>
+
+  <%= error_messages_for @leave_request %>
+
+  <div class="field">
+    <div><%= f.label :leave_type_id %></div>
+    <span><%= f.select :leave_type_id, current_account.leave_types_for_employee.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
+    <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div>
+    <p>TODO: display available leave balance for selected leave type.</p>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :date_from %></div>
+    <span><%= f.date_picker :date_from %></span>
+    <span><%= f.check_box :half_day_from %></span>
+    <span><%= f.label :half_day_from, 'Half day?' %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :date_to %></div>
+    <span><%= f.date_picker :date_to %></span>
+    <span><%= f.check_box :half_day_to %></span>
+    <span><%= f.label :half_day_to, 'Half day?' %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :comment %></div>
+    <span><%= f.text_area :comment %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :document %></div>
+    <span><%= f.file_field :document %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <% if current_employee.can_choose_own_approver? %>
+    <div class="field">
+      <div><%= f.label :approver_id %></div>
+      <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+      <span class="field_info"></span>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit 'Apply for Leave' %> or <%= link_to 'cancel', dashboard_path %>
+  </div>
+  
+<% end %>
+

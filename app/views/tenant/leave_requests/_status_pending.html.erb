@@ -1,0 +1,62 @@
+<% if @leave_request.can_authorise?(current_employee) %>
+
+  <p>The <%= @leave_request.leave_type.to_s.downcase %> leave request for <strong><%= @leave_request.employee %></strong> needs to be <strong>approved</strong> or <strong>declined</strong> by <%=raw @leave_request.approver_id == current_employee.id ? "you" : "<strong>#{@leave_request.approver}</strong>" %>.</p>
+
+  <%= form_for @leave_request, :url => approve_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+
+    <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request, :show_balance => true } %>
+
+    <% if @leave_request.has_constraint_violations? %>
+      <div class="leave_request box_radius">
+        <h3>Warnings</h3>
+        <p>The following warnings have been issued for the request, you may override as necessary:</p>
+
+        <div style="margin: 0 0 20px 20px;">
+          <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
+              next unless @leave_request.send(constraint_name) %>
+            <div class="field">
+              <span><%= f.check_box constraint_name %></span>
+              <span><%= f.label t(constraint_name, :scope => 'leave_request_constraints') %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="leave_request box_radius">
+      <h3>Approver</h3>
+
+      <div class="field">
+        <span><%= f.check_box :unpaid %></span>
+        <span><%= f.label :unpaid, 'Unpaid Leave?' %></span>
+        <span class="field_info"></span>
+      </div>
+      
+      <div class="field">
+        <div><%= f.label :approver_comment, 'Comment' %></div>
+        <span><%= f.text_area :approver_comment %></span>
+        <span class="field_info"></span>
+      </div>
+
+    </div>
+    
+    <div class="actions">
+      <%= f.submit 'Approve' %> or <%= link_to 'decline', decline_leave_request_path(@leave_request), :method => :put %> the leave request.
+    </div>
+
+  <% end %>
+
+<% else %>
+
+  <p>The <%= @leave_request.leave_type.to_s.downcase %> leave request for <strong><%= @leave_request.employee %></strong> is <strong>pending</strong> approval by <strong><%= @leave_request.approver %></strong>.</p>
+
+  <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
+
+  <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+    <div class="actions">
+      <%= f.submit 'Cancel Leave Request' %>
+    </div>
+  <% end %>
+
+<% end %>
+

@@ -1,0 +1,48 @@
+<% title "Leave Requests" %>
+<% content_title "Leave Requests" %>
+
+<div id="paginator" style="float: left; max-width: 350px;">
+</div>
+
+<div style="height: 32px; margin-bottom: 10px;">
+
+  <div style="float: right;">
+    <%= render_buttonset(:id => 'leave_request_filter', :remote => true, :progress => true) do |builder| %>
+      <% builder.add_button("Pending", :url => leave_requests_path(:status => LeaveRequest::STATUS_PENDING), :checked => true) %>
+      <% builder.add_button("Approved", :url => leave_requests_path(:status => LeaveRequest::STATUS_APPROVED)) %>
+      <% builder.add_button("Declined", :url => leave_requests_path(:status => LeaveRequest::STATUS_DECLINED)) %>
+      <% builder.add_button("Cancelled", :url => leave_requests_path(:status => LeaveRequest::STATUS_CANCELLED)) %>
+    <% end %>
+  </div>
+
+  <div id="ajax_working" style="float: right; margin-right: 10px;">
+    <%= image_tag 'ajax-loader.gif' %>
+  </div>
+
+</div>
+
+<table id="leave_requests" class="table_grid">
+  <thead>
+    <tr>
+      <th width="20px"></th>
+      <th width="20px"></th>
+      <th>Type</th>
+      <th>Employee</th>
+      <th>Period</th>
+      <th>Requested</th>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+    <tr class="no_hover">
+      <td colspan="7">
+        <p>Loading leave requests...</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  $('#paginator a').live('ajax:before', function(e) { $('#ajax_working').css('display', ''); });
+  $('#a_leave_request_filter_pending').click();
+</script>
+

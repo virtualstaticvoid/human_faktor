@@ -1,0 +1,99 @@
+<div class="leave_request box_radius">
+  <h3>Leave Request Details</h3>
+  <table>
+
+    <tr>
+      <td width="140px">Status:</td>
+      <td width="160px"><%= leave_request.status_text %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Type:</td>
+      <td><%= leave_request.leave_type %> Leave</td>
+      <td></td>
+    </tr>
+    
+    <% if leave_request.unpaid %>
+      <tr>
+        <td>Unpaid:</td>
+        <td>Yes</td>
+        <td></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td>From:</td>
+      <td><%= leave_request.date_from_s %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>To:</td>
+      <td><%= leave_request.date_to_s %></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><abbr title="Excludes weekends and public holidays">*Duration</abbr>:</td>
+      <td><%= pluralize(leave_request.duration, 'day') %></td>
+      <td></td>
+    </tr>
+    
+    <% if leave_request.document_attached? %>
+    <tr>
+      <td>Document:</td>
+      <td><%= link_to leave_request.document_file_name, leave_request.document.url %></td>
+      <td></td>
+    </tr>
+    <% end %>
+    
+    <tr>
+      <td style="vertical-align: top;">Comment:</td>
+      <td colspan="2">
+        <div style="overflow: auto;">
+          <%= leave_request.comment %>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Assigned Approver:</td>
+      <td><%= leave_request.approver %></td>
+    </tr>
+
+<!--
+    <%# if leave_request.status_approved? || leave_request.status_declined? || leave_request.status_cancelled? %>
+      <tr>
+        <td>Approved By:</td>
+        <td><%#= leave_request.approved_by %></td>
+      </tr>
+    <%# else %>
+      <tr>
+        <td>Assigned Approver:</td>
+        <td><%= leave_request.approver %></td>
+      </tr>
+    <%# end %>
+
+    <%# if leave_request.approver_comment.present? %>
+      <tr>
+        <td style="vertical-align: top;">Approver Comment:</td>
+        <td colspan="2">
+          <div style="overflow: auto;">
+            <%# = leave_request.approver_comment %>
+          </div>
+        </td>
+      </tr>
+    <%# end %>
+-->
+
+  </table>
+
+</div>
+
+<div class="leave_request box_radius">
+  <h3>Leave Balance Details</h3>
+TODO: Show projected leave balance...
+</div>
+    
+

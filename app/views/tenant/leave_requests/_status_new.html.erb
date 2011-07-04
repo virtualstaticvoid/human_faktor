@@ -1,0 +1,15 @@
+<p>The <%= @leave_request.leave_type.to_s.downcase %> leave request needs to be <strong>confirmed</strong>.</p>
+
+<%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request, :show_balance => true } %>
+<%= render :partial => 'leave_request_constraints', :locals => { :leave_request => @leave_request } %>
+
+<p>Your leave request will be sent to <strong><%= @leave_request.approver %></strong> for approval.</p>
+
+<%= form_for @leave_request, :url => confirm_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+
+  <div class="actions">
+    <%= f.submit 'Continue?' %> or <%= link_to 'cancel', cancel_leave_request_path(@leave_request), :method => :put %> the request.
+  </div>
+
+<% end %>
+

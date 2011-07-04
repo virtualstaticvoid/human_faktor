@@ -1,0 +1,15 @@
+<tr onclick="window.location = '<%=	edit_leave_request_path(:tenant => current_account.subdomain, :id => leave_request.to_param) %>';">
+  <td class="status_<%= leave_request.status_text.downcase %><%= leave_request.has_constraint_violations? ? ' status_violation' : '' %>"></td>
+  <td class="<%= leave_request.document_attached? ? 'leave_request_paperclip' : '' %>"></td>
+  <td><%=	leave_request.leave_type %></td>
+  <td><%=	leave_request.employee.full_name %></td>
+  <td><%= leave_request.date_from_s %><span> to </span><%= leave_request.date_to_s %> (<%= pluralize(leave_request.duration, 'day') %>)</td>
+  <td><%=	time_ago_in_words(leave_request.created_at) %> ago</td>
+</tr>
+<tr class="no_hover">
+  <td colspan="8">
+    <div class="leave_request_comment">
+      <%= h(leave_request.comment.blank? ? '<None>' : leave_request.comment) %>
+    </div>
+  </td>
+</tr>
