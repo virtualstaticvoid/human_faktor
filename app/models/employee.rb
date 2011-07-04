@@ -128,6 +128,7 @@ class Employee < ActiveRecord::Base
   def to_s
     "#{self.first_name} #{self.last_name}"
   end
+  alias :full_name :to_s
 
   def to_param
     self.identifier
