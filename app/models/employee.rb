@@ -13,6 +13,8 @@ class Employee < ActiveRecord::Base
   before_save :downcase_user_name
 
   default_scope order(:first_name, :last_name)
+  
+  scope :active_approvers, where(:active => true, :notify => true, :role => [:admin, :manager, :approver]).order(:user_name)
 
   # include devise modules
   devise :database_authenticatable, 
