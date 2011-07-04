@@ -78,5 +78,26 @@ class AccountSetup
   def persisted?
     true
   end
+  
+  def attributes
+    attributes = {
+      :admin_first_name => self.admin_first_name,
+      :admin_last_name => self.admin_last_name,
+      :admin_user_name => self.admin_user_name,
+      :admin_password => self.admin_password,
+      :admin_email => self.admin_email,
+      :fixed_daily_hours => self.fixed_daily_hours,
+      :leave_cycle_start_date => self.leave_cycle_start_date,
+      :auth_token => self.auth_token,
+      :auth_token_confirmation => self.auth_token_confirmation
+    }
+    
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
+      attributes["#{leave_type_name}_leave_allowance".to_sym] = self.send("#{leave_type_name}_leave_allowance")
+    end
+    
+    attributes
+  end
 
 end
