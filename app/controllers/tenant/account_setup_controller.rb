@@ -12,6 +12,10 @@ module Tenant
     
     def edit
       @account = current_account
+      
+      # setup already?
+      redirect_to dashboard_url and return if @account.active?
+      
       registration = @account.registration
       @account_setup = AccountSetup.new().tap do |setup|
         setup.admin_first_name = registration.first_name
