@@ -35,8 +35,8 @@ class LeaveRequest < ActiveRecord::Base
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :status => STATUS_NEW,
-                 :from_half_day => false,
-                 :to_half_day => false,
+                 :half_day_from => false,
+                 :half_day_to => false,
                  :unpaid => false
 
   belongs_to :employee
