@@ -162,13 +162,13 @@ class Employee < ActiveRecord::Base
       staff << employee
       staff << employee.manager_for unless self == employee if is_admin_or_manager
     end
-    staff.flatten
+    staff.flatten.sort!{|a,b| a.full_name <=> b.full_name }
   end
   
   def is_manager_of?(employee)
     self.approver == employee || 
     employee.approver == self ||
-    !self.manager_for.index(employee).nil?
+    !self.manager_for.include?(employee)
   end
 
   private
