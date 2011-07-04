@@ -123,6 +123,14 @@ class LeaveRequest < ActiveRecord::Base
     duration < 0 ? 0 : duration
     
   end
+  
+  #
+  # Constraints
+  #
+  def has_constraint_violations?
+    # TODO
+    true
+  end
 
   # use the identifier for security
   #  users can't guess the number now :-)
@@ -160,6 +168,20 @@ class LeaveRequest < ActiveRecord::Base
       self.send(action)
       self.save!
     end
+  end
+  
+  # permissions
+  
+  def can_authorise?(employee)
+    # TODO
+    
+    false
+  end
+
+  def can_cancel?(employee)
+    # TODO
+    
+    false
   end
 
   private
