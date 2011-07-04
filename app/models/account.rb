@@ -83,10 +83,9 @@ class Account < ActiveRecord::Base
     self.title
   end
 
-  # intercept in order to update leave types
-  def update_attributes(attributes)
+  def update_leave_type_attributes(attributes)
     with_transaction_returning_status do
-      valid = super
+      valid = true
       LeaveType.for_each_leave_type do |leave_type_class|
         method_name = leave_type_class.name.underscore.gsub(/\//, '_')
         leave_type = self.send(method_name)
