@@ -14,7 +14,7 @@ class Employee < ActiveRecord::Base
 
   default_scope order(:first_name, :last_name)
   
-  scope :active_approvers, where(:active => true, :notify => true, :role => [:admin, :manager, :approver]).order(:user_name)
+  scope :active_approvers, where(:active => true, :notify => true, :role => [:admin, :manager, :approver])
 
   # include devise modules
   devise :database_authenticatable, 
