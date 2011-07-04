@@ -4,6 +4,7 @@ module Tenant
 
     before_filter :check_account_active
     before_filter :authenticate_employee!
+    before_filter :check_employee
 
     private
 
@@ -12,6 +13,11 @@ module Tenant
         redirect_to account_setup_url and return false
       end
       true
+    end
+    
+    def check_employee
+      # TODO: perform checks for the current employee
+      # has an email?
     end
 
   end
