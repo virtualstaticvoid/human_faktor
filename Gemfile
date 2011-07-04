@@ -26,7 +26,7 @@ gem 'app_config', :git => 'git://github.com/virtualstaticvoid/app_config.git', :
 gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-ses', '~> 0.4.3', :require => 'aws/ses'
 gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_value_for.git', :branch => 'master'
-gem 'devise', :git => 'git://github.com/virtualstaticvoid/devise.git', :branch => 'find_or_initialize_with_errors'
+gem 'devise', :git => 'git://github.com/virtualstaticvoid/devise.git', :branch => 'find_for_authentication'
 gem 'informal', :git => 'git://github.com/virtualstaticvoid/informal.git', :branch => 'rails_3_0_model_name_back_port'
 gem 'jquery-rails', '~> 1.0.3'
 gem 'kaminari', '~> 0.12.4'
