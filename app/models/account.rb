@@ -100,5 +100,19 @@ class Account < ActiveRecord::Base
     @registration ||= Registration.find_by_auth_token(self.auth_token)
   end
 
+  def leave_types_for_employee
+    self.leave_types.where(:employee_capture_allowed => true)
+  end
+
+  def leave_types_for_approver
+    self.leave_types.where(:approver_capture_allowed => true)
+  end
+  
+  alias :leave_types_for_manager :leave_types_for_approver
+
+  def leave_types_for_admin
+    self.leave_types.where(:admin_capture_allowed => true)
+  end
+
 end
 
