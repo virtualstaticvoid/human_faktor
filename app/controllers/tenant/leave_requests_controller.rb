@@ -1,8 +1,6 @@
 module Tenant
   class LeaveRequestsController < DashboardController
     
-    # TODO: filter available leave types based on role of employee
-
     def employee_index
       status_filter = params[:status] || LeaveRequest::STATUS_PENDING
       if status_filter == LeaveRequest::STATUS_PENDING
@@ -35,9 +33,7 @@ module Tenant
 
     def new
       @leave_request = LeaveRequest.new()
-      @leave_request.employee = current_employee
       @leave_request.approver = current_employee.approver
-      
       @leave_request.leave_type_id = params[:leave_type] if params[:leave_type]
       @leave_request.date_from = params[:from] if params[:from]
       @leave_request.date_to = params[:to] if params[:to]
@@ -49,7 +45,6 @@ module Tenant
 
     # POST
     def create
-      
       leave_request_params = params[:leave_request]
       
       # insert correct employee id
