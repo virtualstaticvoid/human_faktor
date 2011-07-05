@@ -37,10 +37,14 @@ HumanFaktor::Application.routes.draw do
     get "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
 
     # leave requests
-    get "leave", :to => "tenant/leave_requests#employee_index", :as => :leave_requests
-    get "staff_leave", :to => "tenant/leave_requests#staff_index", :as => :staff_leave_requests
-    get "leave/new", :to => "tenant/leave_requests#new", :as => :new_leave_request
-    post "leave", :to => "tenant/leave_requests#create", :as => :create_leave_request
+    get "leave", :to => "tenant/employee_leave_requests#index", :as => :employee_leave_requests
+    get "leave/new", :to => "tenant/employee_leave_requests#new", :as => :new_employee_leave_request
+    post "leave/new", :to => "tenant/employee_leave_requests#create", :as => :create_employee_leave_request
+
+    get "staff_leave", :to => "tenant/staff_leave_requests#index", :as => :staff_leave_requests
+    get "staff_leave/new", :to => "tenant/staff_leave_requests#new", :as => :new_staff__leave_request
+    post "staff_leave/new", :to => "tenant/staff_leave_requests#create", :as => :create_staff_leave_request
+
     get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
     put "leave/:id/confirm", :to => "tenant/leave_requests#confirm", :as => :confirm_leave_request
     put "leave/:id/approve", :to => "tenant/leave_requests#approve", :as => :approve_leave_request

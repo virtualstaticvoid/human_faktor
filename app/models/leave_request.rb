@@ -187,6 +187,14 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
   
+  def capture
+    if self.valid?
+      self.confirm
+      self.approve
+      self.save
+    end 
+  end
+  
   # permissions
   
   def can_authorise?(employee)
