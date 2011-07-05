@@ -10,7 +10,17 @@ module Tenant
       registration.save!
     end
   
+    test "should redirect to dashboard when account already active" do
+      assert @account.active
+      get :edit, :tenant => @account.subdomain, :token => @account.auth_token
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    end
+
     test "should get edit" do
+      
+      @account.active = false
+      @account.save!
+      
       get :edit, :tenant => @account.subdomain, :token => @account.auth_token
       assert_response :success
     end
