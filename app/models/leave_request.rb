@@ -20,24 +20,33 @@ class LeaveRequest < ActiveRecord::Base
     
     constant_value = LeaveRequest.const_get(constant)
     @@statuses << constant_value
-    @@status_names[constant_value] = constant.to_s.gsub(/STATUS_/, '').downcase
+    @@status_names[constant_value] = constant.to_s.gsub(/STATUS_/, '').capitalize
     
     define_method "#{constant.downcase}?" do
       self.status == constant_value
     end
     
   end
-  
+
   default_scope order('created_at DESC')
 
   scope :pending, where(:status => STATUS_PENDING)
   scope :active, where(:status => [STATUS_PENDING, STATUS_APPROVED])
+
+  # run the constraint checks before saving
+  before_save :evaluate_constraints
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :status => STATUS_NEW,
                  :half_day_from => false,
                  :half_day_to => false,
                  :unpaid => false
+
+  # constraint field default values
+  LeaveConstraints::Base.constraint_names.each do |constraint_name|
+    default_value_for "constraint_#{constraint_name}".to_sym, false
+    default_value_for "override_#{constraint_name}".to_sym, false
+  end
 
   belongs_to :employee
   belongs_to :leave_type
@@ -53,7 +62,7 @@ class LeaveRequest < ActiveRecord::Base
             :numericality => { :only_integer => true, :in => @@statuses }
 
   def status_text
-    @@status_names[self.status].capitalize
+    @@status_names[self.status]
   end                                                          
 
   validates :approver, :presence => true, :existence => true
