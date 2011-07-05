@@ -4,6 +4,9 @@ require 'paper_clip_interpolations'
 class LeaveRequest < ActiveRecord::Base
   include AccountScopedModel
 
+  class InvalidOperationException < Exception; end
+  class PermissionDeniedException < Exception; end
+
   # status values
   STATUS_NEW = 1
   STATUS_PENDING = 2
