@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110630093556) do
+ActiveRecord::Schema.define(:version => 20110705074853) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -125,17 +125,17 @@ ActiveRecord::Schema.define(:version => 20110630093556) do
   add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
 
   create_table "leave_requests", :force => true do |t|
-    t.integer  "account_id",                               :null => false
-    t.string   "identifier",                               :null => false
-    t.integer  "employee_id",                              :null => false
-    t.integer  "leave_type_id",                            :null => false
-    t.integer  "status",                :default => 1,     :null => false
-    t.integer  "approver_id",                              :null => false
-    t.date     "date_from",                                :null => false
-    t.boolean  "half_day_from",         :default => false, :null => false
-    t.date     "date_to",                                  :null => false
-    t.boolean  "half_day_to",           :default => false, :null => false
-    t.boolean  "unpaid",                :default => false, :null => false
+    t.integer  "account_id",                                                               :null => false
+    t.string   "identifier",                                                               :null => false
+    t.integer  "employee_id",                                                              :null => false
+    t.integer  "leave_type_id",                                                            :null => false
+    t.integer  "status",                                                :default => 1,     :null => false
+    t.integer  "approver_id",                                                              :null => false
+    t.date     "date_from",                                                                :null => false
+    t.boolean  "half_day_from",                                         :default => false, :null => false
+    t.date     "date_to",                                                                  :null => false
+    t.boolean  "half_day_to",                                           :default => false, :null => false
+    t.boolean  "unpaid",                                                :default => false, :null => false
     t.text     "comment"
     t.string   "document_file_name"
     t.string   "document_content_type"
@@ -143,6 +143,28 @@ ActiveRecord::Schema.define(:version => 20110630093556) do
     t.datetime "document_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "constraint_exceeds_number_of_days_notice_required",     :default => false, :null => false
+    t.boolean  "constraint_exceeds_minimum_number_of_days_per_request", :default => false, :null => false
+    t.boolean  "constraint_exceeds_maximum_number_of_days_per_request", :default => false, :null => false
+    t.boolean  "constraint_exceeds_leave_cycle_allowance",              :default => false, :null => false
+    t.boolean  "constraint_exceeds_negative_leave_balance",             :default => false, :null => false
+    t.boolean  "constraint_is_unscheduled",                             :default => false, :null => false
+    t.boolean  "constraint_is_adjacent",                                :default => false, :null => false
+    t.boolean  "constraint_requires_documentation",                     :default => false, :null => false
+    t.boolean  "constraint_overlapping_request",                        :default => false, :null => false
+    t.boolean  "constraint_exceeds_maximum_future_date",                :default => false, :null => false
+    t.boolean  "constraint_exceeds_maximum_back_date",                  :default => false, :null => false
+    t.boolean  "override_exceeds_number_of_days_notice_required",       :default => false, :null => false
+    t.boolean  "override_exceeds_minimum_number_of_days_per_request",   :default => false, :null => false
+    t.boolean  "override_exceeds_maximum_number_of_days_per_request",   :default => false, :null => false
+    t.boolean  "override_exceeds_leave_cycle_allowance",                :default => false, :null => false
+    t.boolean  "override_exceeds_negative_leave_balance",               :default => false, :null => false
+    t.boolean  "override_is_unscheduled",                               :default => false, :null => false
+    t.boolean  "override_is_adjacent",                                  :default => false, :null => false
+    t.boolean  "override_requires_documentation",                       :default => false, :null => false
+    t.boolean  "override_overlapping_request",                          :default => false, :null => false
+    t.boolean  "override_exceeds_maximum_future_date",                  :default => false, :null => false
+    t.boolean  "override_exceeds_maximum_back_date",                    :default => false, :null => false
   end
 
   add_index "leave_requests", ["account_id", "employee_id"], :name => "index_leave_requests_on_account_id_and_employee_id"
