@@ -169,7 +169,11 @@ class LeaveRequest < ActiveRecord::Base
   
   def cancel
     # TODO  
-    write_attribute :status, STATUS_CANCELLED
+    if self.status_new?
+      self.destroy
+    else
+      write_attribute :status, STATUS_CANCELLED
+    end
   end
 
   # test helpers
