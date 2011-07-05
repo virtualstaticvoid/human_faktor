@@ -29,14 +29,16 @@
   background: url('../images/paperclip.png') no-repeat center center;
 }
 
-
-
 #leave_requests tbody tr td p, .leave_request_comment {
   padding: 6px 0 0 20px;
   min-height: 27px;
   color: gray;
   font-size: 10pt;
   text-align: left;
+}
+
+.leave_request {
+  padding: 8px;
 }
 
 
