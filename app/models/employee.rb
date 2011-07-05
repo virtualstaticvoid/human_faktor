@@ -21,7 +21,7 @@ class Employee < ActiveRecord::Base
          :recoverable, 
          :rememberable, 
          :trackable, 
-         :timeoutable,
+         #:timeoutable,
          :lockable,
          :token_authenticatable,
          :authentication_keys => [ :user_name ] 
