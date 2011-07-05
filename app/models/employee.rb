@@ -152,25 +152,19 @@ class Employee < ActiveRecord::Base
 
   # employee lists
   
-  def approver_for
-    self.account.employees.where(:approver_id => self.id)
-  end
-  
   # REFACTOR: to reduce number of database round trips
-  def manager_for
+  def staff
     staff = []
     is_admin_or_manager = self.is_admin? || self.is_manager?
-    self.approver_for.each do |employee|
+    self.account.employees.where(:approver_id => self.id).each do |employee|
       staff << employee
-      staff << employee.manager_for unless self == employee if is_admin_or_manager
+      staff << employee.staff unless self == employee if is_admin_or_manager
     end
     staff.flatten.sort!{|a,b| a.full_name <=> b.full_name }
   end
   
   def is_manager_of?(employee)
-    self.approver == employee || 
-    employee.approver == self ||
-    !self.manager_for.include?(employee)
+    employee.approver == self || self.staff.include?(employee)
   end
 
   private
