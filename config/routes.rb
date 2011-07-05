@@ -50,6 +50,7 @@ HumanFaktor::Application.routes.draw do
     # data feeds
     get "calendar_entries_feed(.:format)", :to => "tenant/data_feeds#calendar_entries", :as => :calendar_entries_feed
     get "leave_requests_feed(.:format)", :to => "tenant/data_feeds#leave_requests", :as => :leave_requests_feed
+    get "employee_staff(.:format)", :to => "tenant/data_feeds#employee_staff", :as => :employee_staff_feed
 
     scope "account" do
 
