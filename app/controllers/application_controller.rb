@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     redirect_to(home_sign_in_url) and return false if current_account.nil?
     
     # check that employee belongs to this account
-    sign_out(current_employee) and return false if current_employee && current_employee.account != current_account
+    sign_out(current_employee) and return false if employee_signed_in? && current_employee.account != current_account
     
     true
   end
