@@ -18,7 +18,7 @@ module Tenant
       if current_employee.is_admin?
         @leave_requests = current_account.leave_requests
       elsif current_employee.is_manager?
-        @leave_requests = current_account.leave_requests.where(:approver_id => current_employee.manager_for)
+        @leave_requests = current_account.leave_requests.where(:approver_id => current_employee.staff)
       elsif current_employee.is_approver?
         @leave_requests = current_account.leave_requests.where(:approver_id => current_employee.id)
       else
