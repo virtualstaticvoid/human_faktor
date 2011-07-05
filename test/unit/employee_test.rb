@@ -77,18 +77,12 @@ class EmployeeTest < ActiveSupport::TestCase
     assert employee.can_choose_own_approver?
   end
 
-  test "check approver_for" do
+  test "check staff" do
     employees.each do |employee|
-      assert_not_nil employee.approver_for
+      assert_not_nil employee.staff
     end
   end
 
-  test "check manager_for" do
-    employees.each do |employee|
-      assert_not_nil employee.manager_for
-    end
-  end
-  
   #
   # Hierarchy:
   #
