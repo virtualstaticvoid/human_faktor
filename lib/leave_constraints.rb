@@ -8,10 +8,10 @@ module LeaveConstraints
       @@constraint_types << klass
     end
     
-    def self.evaluate(request)
+    def self.evaluate(leave_request)
       constraint_flags = {}
       @@constraint_types.each do |constraint_type|
-        constraint_flags[constraint_type.constraint_name] = constraint_type.new().evaluate(request)
+        constraint_flags[constraint_type.constraint_name] = constraint_type.new().evaluate(leave_request)
       end
       constraint_flags
     end
