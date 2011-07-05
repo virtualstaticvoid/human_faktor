@@ -4,7 +4,7 @@
 
     <ul>
       <% LeaveConstraints::Base.constraint_names.each do |constraint_name| %>
-        <% #= content_tag 'li', t(constraint_name, :scope => 'leave_request_constraints') if leave_request.send(constraint_name) %>
+        <%= content_tag 'li', t(constraint_name, :scope => 'leave_request_constraints') if leave_request.send("constraint_#{constraint_name}") %>
       <% end %>
     </ul>
 
