@@ -321,11 +321,7 @@ pre {
   margin: 22px;
 }
 
-#loading_message {
-  height: 32px;
-}
-
-#loading_image {
+#ajax_working {
   background: url('../images/ajax-loader.gif') no-repeat;
   height: 32px;
   line-height: 26px;
