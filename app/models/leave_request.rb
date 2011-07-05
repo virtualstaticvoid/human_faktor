@@ -137,8 +137,9 @@ class LeaveRequest < ActiveRecord::Base
   # Constraints
   #
   def has_constraint_violations?
-    # TODO
-    true
+    LeaveConstraints::Base.constraint_names.each do |constraint_name|
+      return true if self.send("constraint_#{constraint_name}".to_sym)
+    end
   end
 
   # use the identifier for security
@@ -208,6 +209,19 @@ class LeaveRequest < ActiveRecord::Base
   def same_date_half_day
     errors.add(:base, "From and to dates can't be the same and both be half day") if
       !(date_from.blank? || date_to.blank?) && (date_to == date_from) && (half_day_from && half_day_to)
+  end
+
+  def evaluate_constraints
+    return if self.persisted? || !self.valid?
+
+    # HACK: need to supply this for the constraint logic to work
+    # TODO: need to take time zone of client in account?
+    write_attribute :created_at, Time.now
+
+    LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
+      write_attribute "constraint_#{constraint_name.to_s}".to_sym, value
+    end
+
   end
 
 end
