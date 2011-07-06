@@ -40,6 +40,10 @@ module Tenant
     
       # insert correct approver id
       leave_request_params[:approver_id] = current_employee.id
+      
+      # indicate that this leave request was captured
+      leave_request_params[:status] = LeaveRequest::STATUS_PENDING
+      leave_request_params[:captured] = true
     
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
