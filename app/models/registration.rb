@@ -28,8 +28,8 @@ class Registration < ActiveRecord::Base
   validates :last_name, :presence => true, :length => { :maximum => 255 }
   validates :email, :confirmation => true, :email => true
   
-  validates :country, :presence => true, :existence => true
-  validates :subscription, :presence => true, :existence => true
+  validates :country, :existence => true
+  validates :subscription, :existence => true
   validates :partner, :existence => { :allow_nil => true }
   validates :active, :inclusion => { :in => [true, false] }
 

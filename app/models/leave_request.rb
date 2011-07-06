@@ -57,8 +57,8 @@ class LeaveRequest < ActiveRecord::Base
 
   validates :identifier, :presence => true, :uniqueness => true
 
-  validates :employee, :presence => true, :existence => true
-  validates :leave_type, :presence => true, :existence => true
+  validates :employee, :existence => true
+  validates :leave_type, :existence => true
 
   validates :status, 
             :presence => true, 
@@ -68,7 +68,7 @@ class LeaveRequest < ActiveRecord::Base
     @@status_names[self.status]
   end                                                          
 
-  validates :approver, :presence => true, :existence => true
+  validates :approver, :existence => true
   
   validates :date_from, :timeliness => { :type => :date }, :allow_nil => false
   validates :half_day_from, :inclusion => { :in => [true, false] }

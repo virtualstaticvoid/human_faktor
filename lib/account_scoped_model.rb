@@ -6,7 +6,7 @@ module AccountScopedModel
 
         belongs_to :account
 
-        validates :account, :presence => true, :existence => true
+        validates :account, :existence => true
 
       end
     end

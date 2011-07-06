@@ -67,7 +67,7 @@ class Account < ActiveRecord::Base
   validates :auth_token, :presence => true
 
   # defaults  
-  validates :country, :presence => true, :existence => true
+  validates :country, :existence => true
   validates :location, :existence => { :allow_nil => true }
   validates :department, :existence => { :allow_nil => true }
   

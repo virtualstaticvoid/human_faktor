@@ -4,7 +4,7 @@ class CalendarEntry < ActiveRecord::Base
   
   belongs_to :country
 
-  validates :country, :presence => true, :existence => true
+  validates :country, :existence => true
   validates :title, :presence => true
   validates :entry_date, :presence => true, :timeliness => { :type => :date }
   

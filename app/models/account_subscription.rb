@@ -8,7 +8,7 @@ class AccountSubscription < ActiveRecord::Base
 
   belongs_to :account
 
-  validates :account, :presence => true, :existence => true  
+  validates :account, :existence => true  
 
   # validity period
   validates :from_date, :timeliness => { :type => :date}
