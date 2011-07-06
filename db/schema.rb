@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110705074853) do
+ActiveRecord::Schema.define(:version => 20110706092640) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -165,6 +165,11 @@ ActiveRecord::Schema.define(:version => 20110705074853) do
     t.boolean  "override_overlapping_request",                          :default => false, :null => false
     t.boolean  "override_exceeds_maximum_future_date",                  :default => false, :null => false
     t.boolean  "override_exceeds_maximum_back_date",                    :default => false, :null => false
+    t.boolean  "captured",                                              :default => false, :null => false
+    t.integer  "approved_declined_by_id"
+    t.datetime "approved_declined_at"
+    t.text     "approver_comment"
+    t.datetime "cancelled_at"
   end
 
   add_index "leave_requests", ["account_id", "employee_id"], :name => "index_leave_requests_on_account_id_and_employee_id"

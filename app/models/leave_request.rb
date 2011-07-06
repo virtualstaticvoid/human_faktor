@@ -43,7 +43,8 @@ class LeaveRequest < ActiveRecord::Base
                  :status => STATUS_NEW,
                  :half_day_from => false,
                  :half_day_to => false,
-                 :unpaid => false
+                 :unpaid => false,
+                 :captured => false
 
   # constraint field default values
   LeaveConstraints::Base.constraint_names.each do |constraint_name|
@@ -108,6 +109,12 @@ class LeaveRequest < ActiveRecord::Base
     self.document.file?
   end                    
 
+  validates :captured, :inclusion => { :in => [true, false] }
+  
+  def captured?
+    self.captured
+  end
+
   # description for calendar tooltips
   def description
     "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
@@ -158,16 +165,25 @@ class LeaveRequest < ActiveRecord::Base
   def confirm
     # TODO  
     write_attribute :status, STATUS_PENDING
+    save
   end
   
-  def approve
+  def approve(approver, comment)
     # TODO  
+    write_attribute :approved_declined_by_id, approver.id
+    write_attribute :approver_comment, comment
+    write_attribute :approved_declined_at, Time.now
     write_attribute :status, STATUS_APPROVED
+    save
   end
   
-  def decline
+  def decline(approver, comment)
     # TODO  
+    write_attribute :approved_declined_by_id, approver.id
+    write_attribute :approver_comment, comment
+    write_attribute :approved_declined_at, Time.now
     write_attribute :status, STATUS_DECLINED
+    save
   end
   
   def cancel
@@ -175,38 +191,24 @@ class LeaveRequest < ActiveRecord::Base
     if self.status_new?
       self.destroy
     else
+      write_attribute :cancelled_at, Time.now
       write_attribute :status, STATUS_CANCELLED
+      save
     end
   end
 
-  # test helpers
-  %w{confirm approve decline cancel}.each do |action|
-    define_method "#{action}!" do
-      self.send(action)
-      self.save!
-    end
-  end
-  
-  def capture
-    if self.valid?
-      self.confirm
-      self.approve
-      self.save
-    end 
-  end
-  
   # permissions
   
   def can_authorise?(employee)
     # TODO
     
-    false
+    self.approver == employee
   end
 
   def can_cancel?(employee)
     # TODO
     
-    false
+    self.employee == employee
   end
 
   private
@@ -235,6 +237,7 @@ class LeaveRequest < ActiveRecord::Base
 
     LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
       write_attribute "constraint_#{constraint_name.to_s}".to_sym, value
+      write_attribute "override_#{constraint_name.to_s}".to_sym, value
     end
 
   end
