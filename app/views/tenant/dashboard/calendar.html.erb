@@ -29,7 +29,7 @@
 			  var to = $.fullCalendar.formatDate(end, 'dd-MM-yyyy');
 			
 				if (confirm('Add leave from ' + sfrom + ' to ' + sto + '?'))
-				  window.location = '<%= new_leave_request_path %>?from=' + from + '&to=' + to;
+				  window.location = '<%= new_employee_leave_request_path %>?from=' + from + '&to=' + to;
 				calendar.fullCalendar('unselect');
 			},
 			/*weekends: false, */
