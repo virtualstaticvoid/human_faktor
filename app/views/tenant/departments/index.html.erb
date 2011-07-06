@@ -1,0 +1,29 @@
+<% title "Departments" %>
+
+<div id="paginator">
+  <%= paginate @departments, :remote => true %>
+</div>
+
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th width="60px"></th>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+<%= render @departments %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Department', new_department_path %>
+
+<script type="text/javascript">
+$(".table_grid tbody").delegate('tr', 'click', function(e) {
+  if (e.srcElement.parentNode == this)
+    window.department = e.currentTarget.getAttribute('data-url');
+});
+</script>
+

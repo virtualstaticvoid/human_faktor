@@ -1,0 +1,16 @@
+<%= form_for(@department) do |f| %>
+
+  <%= error_messages_for @department %>
+
+  <div class="field">
+    <div><%= f.label :title %></div>
+    <span><%= f.text_field :title %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %> or <%= link_to 'cancel', departments_path %>
+  </div>
+  
+<% end %>
+

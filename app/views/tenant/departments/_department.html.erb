@@ -1,0 +1,5 @@
+<tr id="_department_<%= department.to_param %>" data-url="<%= edit_department_path(:tenant => current_account.subdomain, :id => department.id) %>">
+  <td><%= department.title %></td>
+  <td><%= link_to image_tag('delete.png'), department_path(:tenant => current_account.subdomain, :id => department.id), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "delete_button" %></td>
+</tr>
+
