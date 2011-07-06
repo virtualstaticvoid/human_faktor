@@ -4,6 +4,8 @@ class Country < ActiveRecord::Base
     @default_country ||= Country.find_by_iso_code(AppConfig.default_country_iso_code)
   end
   
+  before_save :downcase_iso_code
+
   default_scope order(:title)
 
   validates :iso_code, :presence => true, :length => { :is => 2 }, :uniqueness => true
@@ -13,6 +15,12 @@ class Country < ActiveRecord::Base
 
   def to_s
     self.title
+  end
+  
+  private
+  
+  def downcase_iso_code
+    self.iso_code.downcase!
   end
   
 end
