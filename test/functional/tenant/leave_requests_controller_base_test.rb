@@ -36,7 +36,6 @@ module Tenant
             sign_in_as role
             get :new, :tenant => @account.subdomain
             assert_response :success
-            assert_not_nil assigns(:leave_requests)
           end
 
         end
