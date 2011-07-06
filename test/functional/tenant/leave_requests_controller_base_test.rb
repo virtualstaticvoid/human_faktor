@@ -7,7 +7,7 @@ module Tenant
       klass.class_eval do
 
         setup do
-          @leave_request = leave_requests(:annual)
+          @leave_request = leave_requests(:one)
           @leave_request_attributes = @leave_request.attributes.merge!({ 
             "identifier" => TokenHelper.friendly_token
           })
@@ -55,6 +55,7 @@ module Tenant
         end
 
         test "should create leave_request" do
+          sign_in_as :employee
           assert_difference('LeaveRequest.count') do
             post :create, :tenant => @account.subdomain, :leave_request => @leave_request_attributes
           end
