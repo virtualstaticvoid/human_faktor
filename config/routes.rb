@@ -64,9 +64,9 @@ HumanFaktor::Application.routes.draw do
       get "policies", :to => "tenant/leave_types#edit", :as => :edit_leave_types
       put "policies", :to => "tenant/leave_types#update", :as => :update_leave_types
 
-      resources :locations
-      resources :departments
-      resources :employees
+      resources :locations, :module => 'tenant'
+      resources :departments, :module => 'tenant'
+      resources :employees, :module => 'tenant'
 
       get "/", :to => "tenant/account#index", :as => :account
 
