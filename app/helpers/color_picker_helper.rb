@@ -16,8 +16,11 @@ module ColorPickerHelper
 
     sanitized_object_name ||= @object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, "_").sub(/_$/, "")
     sanitized_method_name ||= method.to_s.sub(/\?$/,"")
+    has_error = @object.errors[method].present?
     
-    html = "<select id=\"id_#{sanitized_object_name}_#{sanitized_method_name}\" name=\"#{@object_name.to_s}[#{method.to_s}]\">"
+    html = ""
+    html << "<div class=\"field_with_errors\">" if has_error
+    html << "<select id=\"id_#{sanitized_object_name}_#{sanitized_method_name}\" name=\"#{@object_name.to_s}[#{method.to_s}]\">"
     options[:available].each do |color|
       html << "<option value=\"#{color}\""
       html << " selected=\"selected\"" if color == selected_color
@@ -31,6 +34,7 @@ module ColorPickerHelper
     html << ", label: '#{options[:title]}'" if options[:title]
     html << "}); "
     html << "</script>"
+    html << "</div>" if has_error
 
     html.html_safe
     

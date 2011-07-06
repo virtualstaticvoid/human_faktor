@@ -10,6 +10,7 @@ module JqueryUiAutoCompleteHelper
 
     sanitized_object_name ||= @object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, "_").sub(/_$/, "")
     sanitized_method_name ||= method.to_s.sub(/\?$/,"")
+    has_error = @object.errors[method].present?
 
     value = @object.send(method)
     value_resolved = (block_given? && block.arity == 1) ? 
@@ -20,6 +21,7 @@ module JqueryUiAutoCompleteHelper
     options[:min_length] = '2' unless options[:min_length]
 
     html = ""
+    html << "<div class=\"field_with_errors\">" if has_error
     html << hidden_field_tag("#{@object_name.to_s}[#{method.to_s}]", value) + "\n"
     html << text_field_tag("#{@object_name.to_s}_autocomplete[#{method.to_s}]", value_resolved, options) + "\n"
     html << "<script type=\"text/javascript\">" + "\n"
@@ -33,6 +35,7 @@ module JqueryUiAutoCompleteHelper
     html << "    });" + "\n"
     html << "  });" + "\n"
     html << "</script>" + "\n"
+    html << "</div>" if has_error
     
     html.html_safe
     
