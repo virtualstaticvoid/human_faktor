@@ -12,6 +12,11 @@ annual:
   half_day_to: false
   unpaid: false
   comment: Annual leave request
+  captured: false
+  approved_declined_by_id: one
+  approved_declined_at: <%= Time.now %>
+  approver_comment: Enjoy!
+  cancelled_at: <%= Time.now %>
 
 annual2:
   identifier: <%= TokenHelper.friendly_token %>
