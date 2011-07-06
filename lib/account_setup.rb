@@ -45,7 +45,9 @@ class AccountSetup
         :role => 'admin',
         :first_name => self.admin_first_name,
         :last_name => self.admin_last_name,
-        :email => self.admin_email
+        :email => self.admin_email,
+        :notify => true,
+        :active => true
       )
       
       # defaults
