@@ -42,6 +42,7 @@ module Tenant
       leave_request_params[:approver_id] = current_employee.id
       
       # indicate that this leave request was captured
+      #   and therefore is considered to be confirmed (pending) already
       leave_request_params[:status] = LeaveRequest::STATUS_PENDING
       leave_request_params[:captured] = true
     
