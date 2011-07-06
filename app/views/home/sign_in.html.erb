@@ -6,7 +6,7 @@
 <p>The URL will have your <em title="Or possibly an abbreviation of your company name">company name</em> in the path.</p>
 
 <p>It should look something like:</p>
-<h3 style="margin: 30px;"><%= AppConfig.scheme %>://www.<%= AppConfig.domain %>/<em>companyname</em></h3>
+<h3 style="margin: 30px;"><%= AppConfig.scheme %>://<%= "#{AppConfig.subdomain}.#{AppConfig.domain}" %>/<em>companyname</em></h3>
 
 <p>Try typing the URL with your <em>company name</em> in your browser address bar.</p>
 <p>Otherwise, send an email to <%= mail_to AppConfig.support_email, AppConfig.support_email, :subject => "#{AppConfig.title} Support - Forgotten Company Name" %> so we help figure out your URL.</p>

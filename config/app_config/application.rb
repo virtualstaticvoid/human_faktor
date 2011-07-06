@@ -2,6 +2,7 @@
 
 # application settings
 AppConfig.title = "Human Faktor"
+AppConfig.subdomain = "www"
 AppConfig.domain = "human-faktor.com"
 AppConfig.scheme = "http"
 
