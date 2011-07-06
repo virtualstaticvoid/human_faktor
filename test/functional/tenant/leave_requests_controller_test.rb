@@ -28,29 +28,21 @@ module Tenant
     end
 
     test "should get edit when status is pending" do
-      @leave_request.confirm!
-      assert @leave_request.status == LeaveRequest::STATUS_PENDING
-      get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
-      assert_response :success
-    end
-
-    test "should get edit when status is approved" do
-      @leave_request.approve!
+      @leave_request.confirm
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
     end
 
     test "should get edit when status is declined" do
-      @leave_request.decline!
+      @leave_request.decline(employees(:admin), '')
       assert @leave_request.status == LeaveRequest::STATUS_DECLINED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
     end
 
     test "should get edit when status is cancelled" do
-      @leave_request.approve
-      @leave_request.cancel!
+      @leave_request.cancel
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
