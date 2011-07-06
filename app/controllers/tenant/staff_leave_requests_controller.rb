@@ -24,12 +24,13 @@ module Tenant
 
     def new
       @leave_request = LeaveRequest.new()
+      @leave_request.approver = current_employee
       @leave_request.leave_type_id = params[:leave_type] if params[:leave_type]
       @leave_request.date_from = params[:from] if params[:from]
       @leave_request.date_to = params[:to] if params[:to]
 
       respond_to do |format|
-        format.html # capture.html.erb
+        format.html # new.html.erb
       end
     end
     
@@ -50,7 +51,7 @@ module Tenant
             format.html { redirect_to(dashboard_url, :notice => 'Leave successfully captured.') }
           end
         else
-          format.html { render :action => "capture" }
+          format.html { render :action => "new" }
         end
       end
     end

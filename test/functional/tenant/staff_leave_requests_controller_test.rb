@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'functional/tenant/leave_request_controller_base_test'
+require 'functional/tenant/leave_requests_controller_base_test'
 
 module Tenant
   class StaffLeaveRequestsControllerTest < ActionController::TestCase

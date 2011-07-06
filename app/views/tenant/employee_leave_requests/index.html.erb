@@ -8,10 +8,10 @@
 
   <div style="float: right;">
     <%= render_buttonset(:id => 'leave_request_filter', :remote => true, :progress => true) do |builder| %>
-      <% builder.add_button("Pending", :url => leave_requests_path(:status => LeaveRequest::STATUS_PENDING), :checked => true) %>
-      <% builder.add_button("Approved", :url => leave_requests_path(:status => LeaveRequest::STATUS_APPROVED)) %>
-      <% builder.add_button("Declined", :url => leave_requests_path(:status => LeaveRequest::STATUS_DECLINED)) %>
-      <% builder.add_button("Cancelled", :url => leave_requests_path(:status => LeaveRequest::STATUS_CANCELLED)) %>
+      <% builder.add_button("Pending", :url => employee_leave_requests_path(:status => LeaveRequest::STATUS_PENDING), :checked => true) %>
+      <% builder.add_button("Approved", :url => employee_leave_requests_path(:status => LeaveRequest::STATUS_APPROVED)) %>
+      <% builder.add_button("Declined", :url => employee_leave_requests_path(:status => LeaveRequest::STATUS_DECLINED)) %>
+      <% builder.add_button("Cancelled", :url => employee_leave_requests_path(:status => LeaveRequest::STATUS_CANCELLED)) %>
     <% end %>
   </div>
 

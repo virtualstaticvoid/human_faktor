@@ -1,15 +1,9 @@
-<% title "Capture Leave" %>
-<% content_title "Capture Leave for Employee" %>
+<% title "Apply for Leave" %>
+<% content_title "Apply for Leave" %>
 
-<%= form_for(@leave_request, :html => { :multipart => true }, :url => create_capture_leave_request_path) do |f| %>
+<%= form_for(@leave_request, :html => { :multipart => true }, :url => :create_employee_leave_request) do |f| %>
 
   <%= error_messages_for @leave_request %>
-
-  <div class="field">
-    <div><%= f.label :employee_id %></div>
-    <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name', :min_length => 1) {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
-    <span class="field_info"></span>
-  </div>
 
   <div class="field">
     <div><%= f.label :leave_type_id %></div>
@@ -19,7 +13,7 @@
   </div>
   
   <div>
-    <p>TODO: display available leave balance for employee for selected leave type.</p>
+    <p>TODO: display available leave balance for selected leave type.</p>
   </div>
 
   <div class="field">
@@ -50,8 +44,16 @@
     <span class="field_info"></span>
   </div>
 
+  <% if current_employee.can_choose_own_approver? %>
+    <div class="field">
+      <div><%= f.label :approver_id %></div>
+      <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+      <span class="field_info"></span>
+    </div>
+  <% end %>
+
   <div class="actions">
-    <%= f.submit 'Capture Leave' %> or <%= link_to 'cancel', dashboard_path %>
+    <%= f.submit 'Apply for Leave' %> or <%= link_to 'cancel', dashboard_path %>
   </div>
   
 <% end %>

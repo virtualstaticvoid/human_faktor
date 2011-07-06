@@ -42,7 +42,7 @@ HumanFaktor::Application.routes.draw do
     post "leave/new", :to => "tenant/employee_leave_requests#create", :as => :create_employee_leave_request
 
     get "staff_leave", :to => "tenant/staff_leave_requests#index", :as => :staff_leave_requests
-    get "staff_leave/new", :to => "tenant/staff_leave_requests#new", :as => :new_staff__leave_request
+    get "staff_leave/new", :to => "tenant/staff_leave_requests#new", :as => :new_staff_leave_request
     post "staff_leave/new", :to => "tenant/staff_leave_requests#create", :as => :create_staff_leave_request
 
     get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
