@@ -32,7 +32,7 @@ module Tenant
       # insert approver if not specified (or not allowed to specify)
       leave_request_params.merge!({
         'approver_id' => current_employee.approver_id
-      }) unless !current_employee.can_choose_own_approver? || leave_request_params[:approver_id]
+      }) if current_employee.can_choose_own_approver? && leave_request_params[:approver_id].nil?
       
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
