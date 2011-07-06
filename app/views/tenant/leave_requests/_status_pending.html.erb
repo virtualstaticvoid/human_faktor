@@ -41,7 +41,7 @@
     </div>
     
     <div class="actions">
-      <%= f.submit 'Approve' %> or <%= link_to 'decline', decline_leave_request_path(@leave_request), :method => :put %> the leave request.
+      <%= f.submit 'Approve' %> or <%= link_to 'decline', decline_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %> the leave request.
     </div>
 
   <% end %>
