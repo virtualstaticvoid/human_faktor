@@ -1,0 +1,29 @@
+<% title "Locations" %>
+
+<div id="paginator">
+  <%= paginate @locations, :remote => true %>
+</div>
+
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th width="60px"></th>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+<%= render @locations %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New Location', new_location_path %>
+
+<script type="text/javascript">
+$(".table_grid tbody").delegate('tr', 'click', function(e) {
+  if (e.srcElement.parentNode == this)
+    window.location = e.currentTarget.getAttribute('data-url');
+});
+</script>
+

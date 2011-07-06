@@ -1,0 +1,2 @@
+$('#_location_<%= @location.to_param %>').html('');
+$('#flash').html('<%= escape_javascript(render(:partial => "shared/flash", :locals => { :flash => {:notice => 'Location was successfully deleted.'} })) %>');
