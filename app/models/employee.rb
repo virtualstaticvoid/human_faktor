@@ -53,8 +53,7 @@ class Employee < ActiveRecord::Base
   validates :email, :email => true
   
   # authentication
-  validates :password, :allow_nil => true,
-            :confirmation => true, :length => { :in => 5..20 }
+  validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
 
   # personal information
   validates :title, :allow_blank => true, :length => { :maximum => 20 }
