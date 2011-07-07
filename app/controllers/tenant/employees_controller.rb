@@ -30,10 +30,17 @@ module Tenant
     end
     
     def update
-      @employee = current_account.employees.find_by_identifier(params[:id])
+      @employee = current_account.employees.find_by_identifier(params[:id]).first
+      employee_params = params[:employee]
+
+      # blank password?
+      unless employee_params[:password].present?
+        employee_params.delete(:password) 
+        employee_params.delete(:password_confirmation) 
+      end
 
       respond_to do |format|
-        if @employee.update_attributes(params[:employee])
+        if @employee.update_attributes(employee_params)
           format.html { redirect_to(employees_url, :notice => 'Employee was successfully updated.') }
         else
           format.html { render :action => "edit" }
