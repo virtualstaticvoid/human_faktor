@@ -30,7 +30,7 @@ module Tenant
     end
     
     def update
-      @employee = current_account.employees.find_by_identifier(params[:id]).first
+      @employee = current_account.employees.find_by_identifier(params[:id])
       employee_params = params[:employee]
 
       # blank password?
