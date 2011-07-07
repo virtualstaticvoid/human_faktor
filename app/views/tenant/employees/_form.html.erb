@@ -67,6 +67,12 @@
       </div>
 
       <div class="field">
+        <div></div>
+        <span><%= f.check_box :active %><%= f.label :active %></span>
+        <span class="field_info">Make active to allow sign in.</span>
+      </div>
+
+      <div class="field">
         <div><%= f.label :role %></div>
         <span><%= f.select :role, [['Administrator', :admin], ['Manager', :manager], ['Approver', :approver], ['Employee', :employee]], {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
@@ -75,8 +81,8 @@
 
     <% b.add_tab('Contact') do %>
       <div class="field">
-        <span><%= f.check_box :notify %></span>
-        <span><%= f.label :notify, 'Receive email notifications?' %></span>
+        <div></div>
+        <span><%= f.check_box :notify %><%= f.label :notify, 'Receive email notifications?' %></span>
         <span class="field_info"></span>
       </div>
     
@@ -102,10 +108,10 @@
 
       <div class="field">
         <div><%= f.label :end_date %></div>
-        <span><%= check_box_tag :id => 'employee_end_date' %> <%= f.date_picker :end_date %></span>
+        <span><%= f.date_picker :end_date %></span>
         <span class="field_info"></span>
       </div>
-
+      
       <div class="field">
         <div><%= f.label :location_id %></div>
         <span><%= f.select :location_id, current_account.locations.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
