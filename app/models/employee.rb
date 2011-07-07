@@ -170,7 +170,7 @@ class Employee < ActiveRecord::Base
   # devise mailer callback
   def headers_for(action)
     {
-      :subject => "#{AppConfig.title} - " + I18n.t(:subject, :scope => [:devise, :mailer, action], :default => [:subject, action.to_s.humanize]),
+      :subject => self.account.title + " " + I18n.t(:subject, :scope => [:devise, :mailer, action], :default => [:subject, action.to_s.humanize]),
       :reply_to => AppConfig.support_email
     }
   end
