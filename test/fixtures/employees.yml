@@ -11,7 +11,7 @@ admin:
   gender: 1
   location: one
   department: one
-  designation: Admin
+  designation: Administrator
   start_date: 2011-05-17
   approver: admin
   role: admin
@@ -49,7 +49,7 @@ approver:
   gender: 1
   location: one
   department: one
-  designation: Manager
+  designation: Approver
   start_date: 2011-05-17
   approver: admin
   role: approver
@@ -68,7 +68,26 @@ employee:
   gender: 1
   location: one
   department: one
-  designation: Manager
+  designation: Employee
+  start_date: 2011-05-17
+  approver: admin
+  role: employee
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
+test:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: test.employee
+  email: info@human-faktor.com
+  title: Mr
+  first_name: Test
+  last_name: Employee
+  gender: 1
+  location: one
+  department: one
+  designation: Employee
   start_date: 2011-05-17
   approver: admin
   role: employee
