@@ -1,4 +1,4 @@
-<%= form_for(@employee, :url => @employee.persisted? ? employee_path(:tenant => current_account.subdomain, :id => @employee.to_param) : employees_path) do |f| %>
+<%= form_for(@employee, :url => @employee.persisted? ? employee_path(:tenant => current_account.subdomain, :id => @employee.to_param) : employees_path, :html => { :multipart => true }) do |f| %>
 
   <%= error_messages_for @employee %>
 
