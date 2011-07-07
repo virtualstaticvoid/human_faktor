@@ -19,7 +19,7 @@ AppConfig.support_email = "support@#{AppConfig.domain}"
 AppConfig.no_reply_email = "noreply@#{AppConfig.domain}"
 
 # amazon S3 credentials
-AppConfig.s3_bucket = ENV['S3_BUCKET'] || AppConfig.domain.gsub(/\./, '_')
+AppConfig.s3_bucket = ENV['S3_BUCKET'] || "#{AppConfig.subdomain}.#{AppConfig.domain}".gsub(/\./, '_')
 AppConfig.s3_key = ENV['S3_KEY']
 AppConfig.s3_secret = ENV['S3_SECRET']
 

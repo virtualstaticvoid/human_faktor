@@ -1,5 +1,6 @@
 # Put environment specific configuration settings here. 
 # This overwrites settings from ../application.rb.
 
-AppConfig.domain = "test.host"
+AppConfig.subdomain = "test"
+AppConfig.domain = "host"
 
