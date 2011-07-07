@@ -107,6 +107,10 @@ class Employee < ActiveRecord::Base
     self.active
   end
   
+  def active_for_authentication?
+    self.active
+  end
+  
   # notifications      
   validates :notify, :inclusion => { :in => [true, false] }
 
