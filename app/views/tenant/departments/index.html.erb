@@ -23,7 +23,7 @@
 <script type="text/javascript">
 $(".table_grid tbody").delegate('tr', 'click', function(e) {
   if (e.srcElement.parentNode == this)
-    window.department = e.currentTarget.getAttribute('data-url');
+    window.location = e.currentTarget.getAttribute('data-url');
 });
 </script>
 
