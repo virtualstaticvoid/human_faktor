@@ -20,7 +20,7 @@
 
   <p>Hello <%= @leave_request.approver.full_name %>,</p>
 
-  <p><strong><%= @leave_request.employee.full_name %></strong> has applied for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+  <p><strong><%= @leave_request.employee.full_name %></strong> has cancelled the request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 
   <p>Leave Request Details:</p>
 
@@ -30,11 +30,11 @@
     Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
     Comment: <%= @leave_request.comment %><br />
   </p>
-
-  <p>To approve or decline the leave request, please follow this link:</p>
+  
+  <p>To review the leave request, please follow this link:</p>
 
   <p class="block">
-    <%= link_to 'Approve or Decline Leave Request', edit_leave_request_url(:tenant => @account.subdomain, :id => @leave_request.to_param) %>
+    <%= link_to 'View Leave Request', edit_leave_request_url(:tenant => @account.subdomain, :id => @leave_request.to_param) %>
   </p>
   
   <p>Thank You.</p>

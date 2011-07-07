@@ -11,7 +11,10 @@ Leave Request Details:
   
 To review the leave request, please follow this link:
 
-  <%= edit_leave_request_url(@leave_request) %>
+  <%= edit_leave_request_url(:tenant => @account.subdomain, :id => @leave_request.to_param) %>
   
 Thank You.
+
+<%= @account.title %>
+<%= dashboard_url(:tenant => @account.subdomain) %>
 
