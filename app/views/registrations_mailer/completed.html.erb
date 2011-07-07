@@ -1,6 +1,5 @@
 <%
   dashboard_link = dashboard_url(:tenant => @registration.subdomain)
-  setup_link = account_setup_url(:tenant => @registration.subdomain, :token => @registration.auth_token)
 %>
 <!DOCTYPE html>
 <html>
@@ -40,7 +39,7 @@
   <p>To complete your account setup, please follow this link:</p>
 
   <p class="block">
-  <%= link_to setup_link, setup_link %>
+  <%= link_to 'Account Setup', account_setup_url(:tenant => @registration.subdomain, :token => @registration.auth_token) %>
   </p>
 
   <p>
