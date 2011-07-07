@@ -167,6 +167,14 @@ class Employee < ActiveRecord::Base
     employee.approver == self || self.staff.include?(employee)
   end
 
+  # devise mailer callback
+  def headers_for(action)
+    {
+      :subject => "#{AppConfig.title} - " + I18n.t(:subject, :scope => [:devise, :mailer, action], :default => [:subject, action.to_s.humanize]),
+      :reply_to => AppConfig.support_email
+    }
+  end
+
   private
   
   def downcase_user_name
