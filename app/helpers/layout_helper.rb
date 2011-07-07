@@ -4,6 +4,12 @@ module LayoutHelper
     content_for(:title) { h(title.to_s) }
   end
   
+  def head(&block)
+    content_for(:head) do
+      block.call
+    end
+  end
+  
   def content_title(title)
     content_for(:content_title) { h(title.to_s) }
   end 
