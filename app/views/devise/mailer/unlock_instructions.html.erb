@@ -1,7 +1,33 @@
-<p>Hello <%= @resource.email %>!</p>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= AppConfig.title %></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style type="text/css">
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+    }
+    .block {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
 
-<p>Your account has been locked due to an excessive amount of unsuccessful sign in attempts.</p>
+  <p>Hello <%= @resource.full_name %>!</p>
 
-<p>Click the link below to unlock your account:</p>
+  <p>Your account has been locked due to an excessive amount of unsuccessful sign in attempts.</p>
 
-<p><%= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
+  <p>Click the link below to unlock your account:</p>
+
+  <p class="block"><%= link_to 'Unlock my account', unlock_url(@resource, :tenant => @resource.account.subdomain, :unlock_token => @resource.unlock_token) %></p>
+
+  <p>
+  <strong>The <%= AppConfig.title %> Team</strong><br />
+  <%= link_to root_url, root_url %>
+  </p>
+
+</body>
+</html>
+

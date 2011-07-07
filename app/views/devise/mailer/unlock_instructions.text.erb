@@ -1,0 +1,11 @@
+Hello <%= @resource.full_name %>!
+
+Your account has been locked due to an excessive amount of unsuccessful sign in attempts.
+
+Click the link below to unlock your account:
+
+  <%= unlock_url(@resource, :tenant => @resource.account.subdomain, :unlock_token => @resource.unlock_token) %>
+
+<strong>The <%= AppConfig.title %> Team</strong><br />
+<%= link_to root_url, root_url %>
+
