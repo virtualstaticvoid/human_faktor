@@ -41,20 +41,11 @@ module Tenant
       # insert correct approver id
       leave_request_params[:approver_id] = current_employee.id
       
-      # indicate that this leave request was captured
-      #   and therefore is considered to be confirmed (pending) already
-      leave_request_params[:status] = LeaveRequest::STATUS_PENDING
-      leave_request_params[:captured] = true
-    
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
       respond_to do |format|
-        if @leave_request.save
-          if @leave_request.has_constraint_violations?
-            format.html { redirect_to edit_leave_request_url(:tenant => current_account.subdomain, :id => @leave_request.to_param), :notice => 'Warnings issued for Leave request. Please review!' }
-          else
-            format.html { redirect_to(dashboard_url, :notice => 'Leave successfully captured.') }
-          end
+        if @leave_request.capture!
+          format.html { redirect_to edit_leave_request_url(:tenant => current_account.subdomain, :id => @leave_request.to_param), :notice => 'Warnings issued for Leave request. Please review!' }
         else
           format.html { render :action => "new" }
         end
