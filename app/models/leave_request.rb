@@ -36,9 +36,6 @@ class LeaveRequest < ActiveRecord::Base
   scope :pending, where(:status => STATUS_PENDING)
   scope :active, where(:status => [STATUS_PENDING, STATUS_APPROVED])
 
-  # run the constraint checks before saving
-  before_save :evaluate_constraints
-
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :status => STATUS_NEW,
                  :half_day_from => false,
@@ -165,12 +162,14 @@ class LeaveRequest < ActiveRecord::Base
   def request
     # TODO  
     write_attribute :captured, false
+    evaluate_constraints
     confirm unless self.has_constraint_violations?
   end
   
   def capture
     # TODO  
     write_attribute :captured, true
+    evaluate_constraints
     confirm
   end
 
