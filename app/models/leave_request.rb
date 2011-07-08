@@ -183,6 +183,7 @@ class LeaveRequest < ActiveRecord::Base
   
   def approve(approver, comment)
     raise InvalidOperationException unless self.status_pending?
+    raise PermissionDeniedException unless self.can_authorise?(approver)
 
     # TODO  
     write_attribute :approved_declined_by_id, approver.id
@@ -193,6 +194,7 @@ class LeaveRequest < ActiveRecord::Base
   
   def decline(approver, comment)
     raise InvalidOperationException unless self.status_pending?
+    raise PermissionDeniedException unless self.can_authorise?(approver)
 
     # TODO  
     write_attribute :approved_declined_by_id, approver.id
@@ -202,6 +204,8 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def cancel(approver)
+    raise PermissionDeniedException unless self.can_cancel?(approver)
+
     # TODO  
     if self.status_new?
       self.destroy
