@@ -3,14 +3,8 @@
   <table>
 
     <tr>
-      <td width="140px">Status:</td>
-      <td width="160px"><%= leave_request.status_text %></td>
-      <td></td>
-    </tr>
-
-    <tr>
-      <td>Type:</td>
-      <td><%= leave_request.leave_type %> Leave</td>
+      <td width="140px">Type:</td>
+      <td width="160px"><%= leave_request.leave_type %> Leave</td>
       <td></td>
     </tr>
     
@@ -48,6 +42,7 @@
     </tr>
     <% end %>
     
+    <% if leave_request.comment.present? %>
     <tr>
       <td style="vertical-align: top;">Comment:</td>
       <td colspan="2">
@@ -56,6 +51,7 @@
         </div>
       </td>
     </tr>
+    <% end %>
 
     <tr>
       <td>Assigned Approver:</td>
@@ -67,8 +63,47 @@
 </div>
 
 <div class="leave_request box_radius">
+  <h3>Leave Status</h3>
+  <table>
+
+    <tr>
+      <td width="140px">Status:</td>
+      <td width="160px"><%= leave_request.status_text %></td>
+      <td></td>
+    </tr>
+
+    <% unless leave_request.status_pending? %>
+
+      <tr>
+        <td><%= leave_request.status_text %> on:</td>
+        <td><%= leave_request.approved_declined_at.strftime("%Y-%m-%d") %></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><%= leave_request.status_text %> By:</td>
+        <td><%= leave_request.approved_declined_by %></td>
+        <td></td>
+      </tr>
+
+      <% if leave_request.approver_comment.present? %>
+      <tr>
+        <td style="vertical-align: top;">Comment:</td>
+        <td colspan="2">
+          <div style="overflow: auto;">
+            <%= leave_request.approver_comment %>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+
+    <% end %>
+
+  </table>
+</div>
+
+<div class="leave_request box_radius">
   <h3>Leave Balance Details</h3>
 TODO: Show projected leave balance...
 </div>
-    
 
