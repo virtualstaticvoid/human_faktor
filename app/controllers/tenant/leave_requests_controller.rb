@@ -64,6 +64,19 @@ module Tenant
       end
     end
     
+    # PUT
+    def reinstate
+      @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+
+      respond_to do |format|
+        if @leave_request.reinstate!(current_employee)
+          format.html { redirect_to dashboard_url, :notice => 'Leave request successfully reinstated.' }
+        else
+          format.html { render :action => "edit" }
+        end
+      end
+    end
+    
   end
 end
 

@@ -211,8 +211,17 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
   
+  def reinstate(approver)
+    raise InvalidOperationException unless self.status_cancelled?
+    raise PermissionDeniedException unless self.can_authorise?(approver)
+
+    # TODO  
+    write_attribute :cancelled_at, nil
+    write_attribute :status, STATUS_APPROVED
+  end
+  
   # helpers
-  [:request, :capture, :confirm, :approve, :decline].each do |method|
+  [:request, :capture, :confirm, :approve, :decline, :reinstate].each do |method|
     define_method "#{method}!" do |*args|
       self.send(method, *args)
       save
