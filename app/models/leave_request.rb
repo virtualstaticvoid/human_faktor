@@ -55,6 +55,7 @@ class LeaveRequest < ActiveRecord::Base
   belongs_to :employee
   belongs_to :leave_type
   belongs_to :approver, :class_name => 'Employee'
+  belongs_to :approved_declined_by, :class_name => 'Employee'
 
   validates :identifier, :presence => true, :uniqueness => true
 
