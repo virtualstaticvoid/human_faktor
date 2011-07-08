@@ -56,7 +56,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.cancel!
+        if @leave_request.cancel!(current_employee)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully cancelled.' }
         else
           format.html { render :action => "edit" }

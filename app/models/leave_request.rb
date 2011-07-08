@@ -201,7 +201,7 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :status, STATUS_DECLINED
   end
   
-  def cancel
+  def cancel(approver)
     # TODO  
     if self.status_new?
       self.destroy
@@ -228,8 +228,8 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
   
-  def cancel!
-    self.cancel
+  def cancel!(approver)
+    self.cancel(approver)
     save unless self.status_new?
   end
 

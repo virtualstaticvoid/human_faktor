@@ -57,7 +57,7 @@ module Tenant
     test "should get edit when status is cancelled" do
       sign_in_as :employee
       assert @leave_request.confirm
-      assert @leave_request.cancel!
+      assert @leave_request.cancel!(@leave_request.employee)
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
