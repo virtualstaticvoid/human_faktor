@@ -32,6 +32,7 @@ module Tenant
           setup.send("#{leave_type_name}_leave_allowance=", leave_type.cycle_days_allowance)
         end
 
+        setup.auth_token = @account.auth_token
         setup.auth_token_confirmation = params[:token] if @account.auth_token == params[:token]
       end
     end
