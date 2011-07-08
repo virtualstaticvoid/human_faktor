@@ -24,11 +24,12 @@ module Tenant
     
     # PUT
     def approve
+      leave_request_params = params[:leave_request]
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
-      @leave_request.unpaid = params[:leave_request][:unpaid]
+      @leave_request.unpaid = leave_request_params[:unpaid]
 
       respond_to do |format|
-        if @leave_request.approve(current_employee, params[:leave_request][:approver_comment])
+        if @leave_request.approve(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully approved.' }
         else
           format.html { render :action => "edit" }
@@ -38,10 +39,11 @@ module Tenant
 
     # PUT
     def decline
+      leave_request_params = params[:leave_request]
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.decline(current_employee, params[:leave_request][:approver_comment])
+        if @leave_request.decline(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully declined.' }
         else
           format.html { render :action => "edit" }
