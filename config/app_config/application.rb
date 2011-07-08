@@ -2,7 +2,7 @@
 
 # application settings
 AppConfig.title = "Human Faktor"
-AppConfig.subdomain = "www"
+AppConfig.subdomain = ENV['SUB_DOMAIN'] || "www"
 AppConfig.domain = "human-faktor.com"
 AppConfig.scheme = "http"
 

@@ -2,6 +2,9 @@
 # Environment Settings for Rails ENV
 #
 
+# Subdomain for URL's
+SUB_DOMAIN: www
+
 # Amazon S3 Keys
 S3_KEY: XXXX 
 S3_SECRET: YYYY
