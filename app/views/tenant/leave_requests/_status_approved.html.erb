@@ -8,7 +8,7 @@
   <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
 
     <div class="actions">
-      <%= f.submit 'Cancel Leave?' %>
+      <%= f.submit 'Cancel Leave' %>
     </div>
 
   <% end %>

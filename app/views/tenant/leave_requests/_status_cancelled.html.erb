@@ -3,6 +3,12 @@
 <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
 <%= render :partial => 'leave_request_constraints', :locals => { :leave_request => @leave_request } %>
 
-<% if @leave_request.employee == current_employee %>
-  <p><%= link_to 'Re-apply', new_employee_leave_request_path(:tenant => current_account.subdomain, :leave_type => @leave_request.leave_type, :from => @leave_request.date_from, :to => @leave_request.date_to) %> for leave?</p>
-<% end %>
+<p>
+  <% if @leave_request.can_authorise?(current_employee) %>
+    <%= button_tag 'Re-instate Leave', reinstate_leave_request_path(:tenant => current_account.subdomain, :leave_type => @leave_request.leave_type, :from => @leave_request.date_from, :to => @leave_request.date_to), :method => :put %>
+    <% if @leave_request.employee == current_employee %> or <% end %>
+  <% end %>
+  <% if @leave_request.employee == current_employee %>
+    <%= link_to 'Re-apply', new_employee_leave_request_path(:tenant => current_account.subdomain, :leave_type => @leave_request.leave_type, :from => @leave_request.date_from, :to => @leave_request.date_to) %> for leave?
+  <% end %>
+</p>

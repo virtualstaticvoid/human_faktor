@@ -8,7 +8,7 @@
 <%= form_for @leave_request, :url => confirm_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
 
   <div class="actions">
-    <%= f.submit 'Continue?' %> or <%= link_to 'cancel', cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %> the request.
+    <%= f.submit 'Continue' %> or <%= link_to 'cancel', cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %> the request.
   </div>
 
 <% end %>

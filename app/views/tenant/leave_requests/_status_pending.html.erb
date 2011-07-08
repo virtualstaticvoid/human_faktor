@@ -60,10 +60,12 @@
 
   <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
 
-  <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
-    <div class="actions">
-      <%= f.submit 'Cancel Leave Request' %>
-    </div>
+  <% if @leave_request.can_cancel?(current_employee) %>
+    <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+      <div class="actions">
+        <%= f.submit 'Cancel Leave Request' %>
+      </div>
+    <% end %>
   <% end %>
 
 <% end %>
