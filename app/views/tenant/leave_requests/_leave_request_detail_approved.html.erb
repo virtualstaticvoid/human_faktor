@@ -1,0 +1,23 @@
+<tr>
+  <td>Approved on:</td>
+  <td><%= leave_request.approved_declined_at.strftime("%Y-%m-%d") %></td>
+  <td></td>
+</tr>
+
+<tr>
+  <td>Approved By:</td>
+  <td><%= leave_request.approved_declined_by %></td>
+  <td></td>
+</tr>
+
+<% if leave_request.approver_comment.present? %>
+  <tr>
+    <td style="vertical-align: top;">Comment:</td>
+    <td colspan="2">
+      <div style="overflow: auto;">
+        <%= leave_request.approver_comment %>
+      </div>
+    </td>
+  </tr>
+<% end %>
+
