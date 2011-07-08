@@ -1,5 +1,9 @@
 module LeaveConstraints
 
+  # constraint name helpers
+  Symbol.send(:define_method, :as_constraint) { :"constraint_#{self}" }
+  Symbol.send(:define_method, :as_constraint_override) { :"override_#{self}" }
+
   class Base
   
     @@constraint_types = []
