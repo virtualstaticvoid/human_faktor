@@ -4,5 +4,5 @@
 <%= render :partial => 'leave_request_constraints', :locals => { :leave_request => @leave_request } %>
 
 <% if @leave_request.employee == current_employee %>
-  <p><%= link_to 'Re-apply', new_leave_request_path(:tenant => current_account.subdomain, :leave_type => @leave_request.leave_type, :from => @leave_request.date_from, :to => @leave_request.date_to) %> for leave?</p>
+  <p><%= link_to 'Re-apply', new_employee_leave_request_path(:tenant => current_account.subdomain, :leave_type => @leave_request.leave_type, :from => @leave_request.date_from, :to => @leave_request.date_to) %> for leave?</p>
 <% end %>
