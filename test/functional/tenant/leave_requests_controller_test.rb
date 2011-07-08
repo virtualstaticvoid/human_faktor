@@ -89,6 +89,15 @@ module Tenant
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
       end
     
+      test "should reinstate for #{role}" do
+        sign_in_as role
+        assert @leave_request.confirm
+        assert @leave_request.cancel!
+        assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
+        put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
+        assert_redirected_to dashboard_path(:tenant => @account.subdomain)
+      end
+
     end
 
     test "cannot approve for employee" do
@@ -107,8 +116,27 @@ module Tenant
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
 
-    test "should cancel for employee" do
+    test "cannot cancel for employee" do
       sign_in_as :employee
+      assert @leave_request.confirm
+      assert @leave_request.approve!(@leave_request.approver, '')
+      assert @leave_request.status == LeaveRequest::STATUS_APPROVED
+      put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
+      assert_redirected_to dashboard_path(:tenant => @account.subdomain)
+    end
+
+    test "cannot reinstate for employee" do
+      sign_in_as :employee
+      assert @leave_request.confirm
+      assert @leave_request.cancel!
+      assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
+      put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
+      assert_redirected_to dashboard_path(:tenant => @account.subdomain)
+    end
+
+    test "employee can cancel own leave" do
+      sign_in_as :employee
+      assert @leave_request.employee == employees(:employee)
       assert @leave_request.confirm!
       assert @leave_request.status == LeaveRequest::STATUS_PENDING
       put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
