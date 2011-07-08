@@ -62,20 +62,22 @@
 
 </div>
 
-<div class="leave_request box_radius">
-  <h3>Leave Status</h3>
-  <table>
+<% unless leave_request.status_new? %>
+  <div class="leave_request box_radius">
+    <h3>Leave Status</h3>
+    <table>
 
-    <tr>
-      <td width="140px">Status:</td>
-      <td width="160px"><%= leave_request.status_text %></td>
-      <td></td>
-    </tr>
-    
-    <%= render :partial => "leave_request_detail_#{leave_request.status_text.downcase}", :locals => { :leave_request => leave_request } %>
+      <tr>
+        <td width="140px">Status:</td>
+        <td width="160px"><%= leave_request.status_text %></td>
+        <td></td>
+      </tr>
+      
+      <%= render :partial => "leave_request_detail_#{leave_request.status_text.downcase}", :locals => { :leave_request => leave_request } %>
 
-  </table>
-</div>
+    </table>
+  </div>
+<% end %>
 
 <div class="leave_request box_radius">
   <h3>Leave Balance Details</h3>
