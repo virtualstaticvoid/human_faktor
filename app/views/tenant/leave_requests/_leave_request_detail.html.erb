@@ -72,7 +72,7 @@
       <td></td>
     </tr>
 
-    <% unless leave_request.status_pending? %>
+    <% unless leave_request.status_new? || leave_request.status_pending? %>
 
       <tr>
         <td><%= leave_request.status_text %> on:</td>
