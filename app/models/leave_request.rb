@@ -48,8 +48,8 @@ class LeaveRequest < ActiveRecord::Base
 
   # constraint field default values
   LeaveConstraints::Base.constraint_names.each do |constraint_name|
-    default_value_for "constraint_#{constraint_name}".to_sym, false
-    default_value_for "override_#{constraint_name}".to_sym, false
+    default_value_for constraint_name.as_constraint, false
+    default_value_for constraint_name.as_constraint_override, false
   end
 
   belongs_to :employee
@@ -147,8 +147,9 @@ class LeaveRequest < ActiveRecord::Base
   #
   def has_constraint_violations?
     LeaveConstraints::Base.constraint_names.each do |constraint_name|
-      return true if self.send("constraint_#{constraint_name}".to_sym)
+      return true if self.send(constraint_name.as_constraint_override) == true
     end
+    false
   end
 
   # use the identifier for security
@@ -235,8 +236,8 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :created_at, Time.now
 
     LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
-      write_attribute "constraint_#{constraint_name.to_s}".to_sym, value
-      write_attribute "override_#{constraint_name.to_s}".to_sym, value
+      write_attribute constraint_name.as_constraint, value
+      write_attribute constraint_name.as_constraint_override, value
     end
 
   end
