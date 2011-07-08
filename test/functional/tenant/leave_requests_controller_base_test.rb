@@ -59,12 +59,14 @@ module Tenant
           assert_difference('LeaveRequest.count') do
             post :create, :tenant => @account.subdomain, :leave_request => @leave_request_attributes
           end
-          
-          # TODO: if constraint violations, redirects to edit
-          # otherwise, redirects to dashboard 
-          #assert_redirected_to edit_leave_request_path(assigns(:leave_request))
-          pending
-          
+
+          leave_request = assigns(:leave_request)
+          if leave_request.has_constraint_violations?
+            assert_redirected_to edit_leave_request_url(:tenant => leave_request.account.subdomain, :id => leave_request.to_param)
+          else
+            assert_redirected_to dashboard_url(:tenant => leave_request.account.subdomain)
+          end
+
         end
       
       end
