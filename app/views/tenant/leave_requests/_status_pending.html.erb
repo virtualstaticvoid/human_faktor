@@ -41,8 +41,16 @@
     </div>
     
     <div class="actions">
-      <%= f.submit 'Approve' %> or <%= link_to 'decline', decline_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %> the leave request.
+      <%= f.submit 'Approve' %> or <a href="javascript: decline();">decline</a> the leave request.
     </div>
+    
+    <script type="text/javascript">
+      var form = $('form:first');
+      function decline() {
+        form.attr('action', '<%= decline_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) %>');
+        form.submit();
+      }
+    </script>
 
   <% end %>
 
