@@ -14,7 +14,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.confirm
+        if @leave_request.confirm!
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully created.' }
         else
           format.html { render :action => "edit" }
@@ -29,7 +29,7 @@ module Tenant
       @leave_request.unpaid = leave_request_params[:unpaid]
 
       respond_to do |format|
-        if @leave_request.approve(current_employee, leave_request_params[:approver_comment])
+        if @leave_request.approve!(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully approved.' }
         else
           format.html { render :action => "edit" }
@@ -43,7 +43,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.decline(current_employee, leave_request_params[:approver_comment])
+        if @leave_request.decline!(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully declined.' }
         else
           format.html { render :action => "edit" }
@@ -56,7 +56,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.cancel
+        if @leave_request.cancel!
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully cancelled.' }
         else
           format.html { render :action => "edit" }

@@ -165,7 +165,6 @@ class LeaveRequest < ActiveRecord::Base
   def confirm
     # TODO  
     write_attribute :status, STATUS_PENDING
-    save
   end
   
   def approve(approver, comment)
@@ -174,7 +173,6 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
     write_attribute :status, STATUS_APPROVED
-    save
   end
   
   def decline(approver, comment)
@@ -183,7 +181,6 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
     write_attribute :status, STATUS_DECLINED
-    save
   end
   
   def cancel
@@ -193,8 +190,20 @@ class LeaveRequest < ActiveRecord::Base
     else
       write_attribute :cancelled_at, Time.now
       write_attribute :status, STATUS_CANCELLED
+    end
+  end
+  
+  # helpers
+  [:confirm, :approve, :decline].each do |method|
+    define_method "#{method}!" do |*args|
+      self.send(method, *args)
       save
     end
+  end
+  
+  def cancel!
+    self.cancel
+    save unless self.status_new?
   end
 
   # permissions
