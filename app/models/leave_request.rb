@@ -175,11 +175,15 @@ class LeaveRequest < ActiveRecord::Base
   end
 
   def confirm
+    raise InvalidOperationException unless self.status_new?
+    
     # TODO  
     write_attribute :status, STATUS_PENDING
   end
   
   def approve(approver, comment)
+    raise InvalidOperationException unless self.status_pending?
+
     # TODO  
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approver_comment, comment
@@ -188,6 +192,8 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def decline(approver, comment)
+    raise InvalidOperationException unless self.status_pending?
+
     # TODO  
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approver_comment, comment
