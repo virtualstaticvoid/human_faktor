@@ -92,8 +92,6 @@ class LeaveRequest < ActiveRecord::Base
 
   validates :unpaid, :inclusion => { :in => [true, false] }
   
-  #validates :comment
-
   # excuse document
   # NOTE: uses the ":account" and ":employee" interpolations
   has_attached_file :document, 
