@@ -165,7 +165,7 @@ class LeaveRequest < ActiveRecord::Base
   def create
     # TODO  
     write_attribute :captured, false
-    confirm unless @leave_request.has_constraint_violations?
+    confirm unless self.has_constraint_violations?
   end
   
   def capture
