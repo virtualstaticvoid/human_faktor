@@ -162,7 +162,7 @@ class LeaveRequest < ActiveRecord::Base
   # Actions
   #
   
-  def create
+  def request
     # TODO  
     write_attribute :captured, false
     confirm unless self.has_constraint_violations?
@@ -206,7 +206,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   # helpers
-  [:create, :capture, :confirm, :approve, :decline].each do |method|
+  [:request, :capture, :confirm, :approve, :decline].each do |method|
     define_method "#{method}!" do |*args|
       self.send(method, *args)
       save

@@ -37,7 +37,7 @@ module Tenant
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
       respond_to do |format|
-        if @leave_request.create!
+        if @leave_request.request!
           if @leave_request.has_constraint_violations?
             format.html { redirect_to edit_leave_request_url(:tenant => current_account.subdomain, :id => @leave_request.to_param), :notice => 'Warnings issued for Leave request. Please review!' }
           else
