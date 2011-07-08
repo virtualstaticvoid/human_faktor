@@ -67,18 +67,24 @@ module Tenant
 
       test "should approve for #{role}" do
         sign_in_as role
+        assert @leave_request.confirm
+        assert @leave_request.status == LeaveRequest::STATUS_PENDING
         put :approve, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
       end
 
       test "should decline for #{role}" do
         sign_in_as role
+        assert @leave_request.confirm
+        assert @leave_request.status == LeaveRequest::STATUS_PENDING
         put :decline, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
       end
 
       test "should cancel for #{role}" do
         sign_in_as role
+        assert @leave_request.confirm
+        assert @leave_request.status == LeaveRequest::STATUS_PENDING
         put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
       end
@@ -87,18 +93,24 @@ module Tenant
 
     test "cannot approve for employee" do
       sign_in_as :employee
+      assert @leave_request.confirm
+      assert @leave_request.status == LeaveRequest::STATUS_PENDING
       put :approve, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
 
     test "cannot decline for employee" do
       sign_in_as :employee
+      assert @leave_request.confirm
+      assert @leave_request.status == LeaveRequest::STATUS_PENDING
       put :decline, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
 
     test "should cancel for employee" do
       sign_in_as :employee
+      assert @leave_request.confirm
+      assert @leave_request.status == LeaveRequest::STATUS_PENDING
       put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
