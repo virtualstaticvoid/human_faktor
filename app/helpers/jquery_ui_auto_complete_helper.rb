@@ -22,19 +22,24 @@ module JqueryUiAutoCompleteHelper
 
     html = ""
     html << "<div class=\"field_with_errors\">" if has_error
-    html << hidden_field_tag("#{@object_name.to_s}[#{method.to_s}]", value) + "\n"
-    html << text_field_tag("#{@object_name.to_s}_autocomplete[#{method.to_s}]", value_resolved, options) + "\n"
-    html << "<script type=\"text/javascript\">" + "\n"
-    html << "  $(function() {" + "\n"
-    html << "    $('##{sanitized_object_name}_autocomplete_#{sanitized_method_name}').autocomplete({" + "\n"
-    html << "         source: \"#{options[:source]}\", " + "\n"
-    html << "         minLength: #{options[:min_length]}, " + "\n"
-    html << "         select: function(event, ui) {" + "\n"
-    html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').val(ui.item.id);" + "\n"
-    html << "         }" + "\n"
-    html << "    });" + "\n"
-    html << "  });" + "\n"
-    html << "</script>" + "\n"
+    html << hidden_field_tag("#{@object_name.to_s}[#{method.to_s}]", value)
+    html << text_field_tag("#{@object_name.to_s}_autocomplete[#{method.to_s}]", value_resolved, options)
+    html << "<script type=\"text/javascript\">"
+    html << "  $(function() {"
+    html << "    $('##{sanitized_object_name}_autocomplete_#{sanitized_method_name}').autocomplete({"
+    html << "         source: \"#{options[:source]}\", "
+    html << "         minLength: #{options[:min_length]}, "
+    html << "         select: function(event, ui) {"
+    html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').val(ui.item.id);"
+    html << "         },"
+    html << "         change: function(event, ui) {"
+    html << "           if (ui.item == null) {"
+    html << "             $('##{sanitized_object_name}_#{sanitized_method_name}').val(null);"
+    html << "           }"
+    html << "         }"
+    html << "    });"
+    html << "  });"
+    html << "</script>"
     html << "</div>" if has_error
     
     html.html_safe
