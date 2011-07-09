@@ -14,8 +14,8 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        if @leave_request.confirm!
-          format.html { redirect_to dashboard_url, :notice => 'Leave request successfully created.' }
+        if @leave_request.confirm!(current_employee)
+          format.html { redirect_to dashboard_url, :notice => "Leave request successfully #{@leave_request.captured? ? 'captured' : 'created'}." }
         else
           format.html { render :action => "edit" }
         end

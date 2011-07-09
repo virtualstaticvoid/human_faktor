@@ -38,14 +38,15 @@ module Tenant
     def create
       leave_request_params = params[:leave_request]
     
-      # insert correct approver id
-      leave_request_params[:approver_id] = current_employee.id
-      
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
       respond_to do |format|
-        if @leave_request.capture!
-          format.html { redirect_to edit_leave_request_url(:tenant => current_account.subdomain, :id => @leave_request.to_param), :notice => 'Warnings issued for Leave request. Please review!' }
+        if @leave_request.capture!(current_employee)
+          if @leave_request.has_constraint_violations?
+            format.html { redirect_to edit_leave_request_url(:tenant => current_account.subdomain, :id => @leave_request.to_param), :notice => 'Warnings issued for leave request. Please review!' }
+          else
+            format.html { redirect_to(dashboard_url, :notice => 'Leave request successfully captured.') }
+          end
         else
           format.html { render :action => "new" }
         end

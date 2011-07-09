@@ -6,25 +6,14 @@
 
     <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request, :show_balance => true } %>
 
-    <% if @leave_request.has_constraint_violations? %>
-      <div class="leave_request box_radius">
-        <h3>Warnings</h3>
-        <p>The following warnings have been issued for the request, you may override as necessary:</p>
-
-        <div style="margin: 0 0 20px 20px;">
-          <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
-              next unless @leave_request.send(constraint_name.as_constraint) == true %>
-            <div class="field">
-              <span><%= f.check_box constraint_name.as_constraint_override %></span>
-              <span><%= f.label t(constraint_name, :scope => 'leave_request_constraints') %></span>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-
     <div class="leave_request box_radius">
-      <h3>Approver</h3>
+      <h3>Approval Details</h3>
+
+      <div class="field">
+        <div><%= f.label :approver_comment, 'Comment' %></div>
+        <span><%= f.text_area :approver_comment %></span>
+        <span class="field_info"></span>
+      </div>
 
       <div class="field">
         <span><%= f.check_box :unpaid %></span>
@@ -32,14 +21,10 @@
         <span class="field_info"></span>
       </div>
       
-      <div class="field">
-        <div><%= f.label :approver_comment, 'Comment' %></div>
-        <span><%= f.text_area :approver_comment %></span>
-        <span class="field_info"></span>
-      </div>
-
     </div>
     
+    <%= render :partial => 'leave_request_constraint_overrides', :locals => { :f => f, :leave_request => @leave_request } %>
+
     <div class="actions">
       <%= f.submit 'Approve' %> or <a href="javascript: decline();">decline</a> the leave request.
     </div>

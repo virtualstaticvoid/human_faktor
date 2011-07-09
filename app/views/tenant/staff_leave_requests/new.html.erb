@@ -46,6 +46,14 @@
     <span class="field_info"></span>
   </div>
 
+  <% if current_employee.can_choose_own_approver? %>
+    <div class="field">
+      <div><%= f.label :approver_id %></div>
+      <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+      <span class="field_info"></span>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit 'Capture Leave' %> or <%= link_to 'cancel', dashboard_path %>
   </div>

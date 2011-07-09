@@ -1,0 +1,16 @@
+<% if leave_request.has_constraint_violations? %>
+  <div class="leave_request box_radius">
+    <h3>Warnings</h3>
+    <p>The following warnings have been issued for the request, you may override them as necessary:</p>
+
+    <div style="margin: 0 0 20px 20px;">
+      <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
+          next unless leave_request.send(constraint_name.as_constraint) == true %>
+        <div class="field">
+          <span><%= f.check_box constraint_name.as_constraint_override %></span>
+          <span><%= f.label t(constraint_name, :scope => 'leave_request_constraints') %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

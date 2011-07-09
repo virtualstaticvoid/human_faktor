@@ -160,31 +160,31 @@ class LeaveRequest < ActiveRecord::Base
   #
   
   def request
-    # TODO  
     write_attribute :captured, false
     evaluate_constraints
     confirm unless self.has_constraint_violations?
   end
   
-  def capture
-    # TODO  
+  def capture(approver)
     write_attribute :captured, true
     evaluate_constraints
-    confirm
+    unless self.has_constraint_violations?
+      confirm(approver)
+      approve(approver, '') if self.approver == approver
+    end
   end
 
-  def confirm
+  def confirm(employee = nil)
     raise InvalidOperationException unless self.status_new?
     
-    # TODO  
     write_attribute :status, STATUS_PENDING
+    approve(employee, '') if !employee.nil? && self.captured? && self.approver == employee
   end
   
   def approve(approver, comment)
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
-    # TODO  
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
@@ -195,7 +195,6 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
-    # TODO  
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
@@ -205,7 +204,6 @@ class LeaveRequest < ActiveRecord::Base
   def cancel(approver)
     raise PermissionDeniedException unless self.can_cancel?(approver)
 
-    # TODO  
     if self.status_new?
       self.destroy
     else
@@ -218,7 +216,6 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_cancelled?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
-    # TODO  
     write_attribute :cancelled_at, nil
     write_attribute :status, STATUS_APPROVED
   end
@@ -268,7 +265,7 @@ class LeaveRequest < ActiveRecord::Base
     return if self.persisted? || !self.valid?
 
     # HACK: need to supply this for the constraint logic to work
-    # TODO: need to take time zone of client in account?
+    # IMPLEMENTATION: need to take time zone of client in account?
     write_attribute :created_at, Time.now
 
     LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
