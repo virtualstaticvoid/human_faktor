@@ -6,7 +6,11 @@ module Tenant
     end
     
     def new
-      @employee = Employee.new
+      @employee = Employee.new(
+        :location_id => current_account.location_id,
+        :department_id => current_account.department_id,
+        :fixed_daily_hours => current_account.fixed_daily_hours
+      )
 
       respond_to do |format|
         format.html # new.html.erb
