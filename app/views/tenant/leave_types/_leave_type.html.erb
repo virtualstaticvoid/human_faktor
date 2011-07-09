@@ -42,8 +42,10 @@
         </div>
       
         <div class="field">
+          <span><%= f.check_box :unscheduled_leave_allowed %></span>
+          <span><%= f.label :unscheduled_leave_allowed %></span>
         </div>
-      
+
       </div>
       
       <div class="leave_type_col">
@@ -112,11 +114,6 @@
           <span><%= f.label :admin_capture_allowed %></span>
         </div>
         
-        <div class="field">
-          <span><%= f.check_box :unscheduled_leave_allowed %></span>
-          <span><%= f.label :unscheduled_leave_allowed %></span>
-        </div>
-
       </div>
       
       <div class="leave_type_col">
