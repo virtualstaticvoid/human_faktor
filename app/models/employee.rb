@@ -145,7 +145,7 @@ class Employee < ActiveRecord::Base
     self.is_admin? || self.is_manager?
   end
 
-  def can_approve_decline_or_cancel_leave?
+  def can_approve_decline_leave?
     self.is_admin? || self.is_manager? || self.is_approver?
   end
 

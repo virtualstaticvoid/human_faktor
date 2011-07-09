@@ -239,14 +239,11 @@ class LeaveRequest < ActiveRecord::Base
   # permissions
   
   def can_authorise?(employee)
-    # TODO
-    
-    self.approver == employee
+    employee.can_approve_decline_leave? && 
+      (self.approver == employee || employee.is_manager_of?(self.employee))
   end
 
   def can_cancel?(employee)
-    # TODO
-    
     self.employee == employee
   end
 

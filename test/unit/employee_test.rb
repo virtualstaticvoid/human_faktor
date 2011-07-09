@@ -56,9 +56,9 @@ class EmployeeTest < ActiveSupport::TestCase
       assert_equal [:admin, :manager].include?(role), employee.can_create_leave_for_other_employees?
     end
 
-    test "check can_approve_decline_or_cancel_leave? for #{role}" do
+    test "check can_approve_decline_leave? for #{role}" do
       employee = employees(role)
-      assert_equal [:admin, :manager, :approver].include?(role), employee.can_approve_decline_or_cancel_leave?
+      assert_equal [:admin, :manager, :approver].include?(role), employee.can_approve_decline_leave?
     end
   
   end
