@@ -41,4 +41,7 @@
   padding: 8px;
 }
 
+.leave_request_actions form, .leave_request_actions form div {
+  display: inline;
+}
 
