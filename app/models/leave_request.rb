@@ -53,6 +53,7 @@ class LeaveRequest < ActiveRecord::Base
   belongs_to :leave_type
   belongs_to :approver, :class_name => 'Employee'
   belongs_to :approved_declined_by, :class_name => 'Employee'
+  belongs_to :cancelled_by, :class_name => 'Employee'
 
   validates :identifier, :presence => true, :uniqueness => true
 
@@ -207,6 +208,7 @@ class LeaveRequest < ActiveRecord::Base
     if self.status_new?
       self.destroy
     else
+      write_attribute :cancelled_by_id, approver.id
       write_attribute :cancelled_at, Time.now
       write_attribute :status, STATUS_CANCELLED
     end
@@ -216,6 +218,7 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_cancelled?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
+    write_attribute :cancelled_by_id, nil
     write_attribute :cancelled_at, nil
     write_attribute :status, STATUS_APPROVED
   end
