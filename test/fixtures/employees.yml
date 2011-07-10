@@ -119,7 +119,7 @@ takeon:
   active: true
   notify: true
   internal_reference: takeon
-  take_balance_as_at: <%= Date.today %>
+  take_on_balance_as_at: <%= Date.today %>
 <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
   <%= leave_type_name %>_leave_cycle_allocation: 27.5
   <%= leave_type_name %>_leave_cycle_carry_over: 5.5
