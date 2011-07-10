@@ -39,7 +39,7 @@ module Tenant
         assert_response :success
       end
 
-      # TODO: add additional actions
+      # NOTE: add additional actions here
 
     end
 

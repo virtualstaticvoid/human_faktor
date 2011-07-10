@@ -19,8 +19,6 @@ module JqueryUiAccordionHelper
     
     pane_builder.panes.each do |title, block|
     
-      # TODO: incorporate pane options
-    
       html << "<h3><a href=\"#\">#{title}</a></h3>"
       html << "<div>"
       

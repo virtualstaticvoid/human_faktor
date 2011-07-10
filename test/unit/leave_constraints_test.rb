@@ -77,7 +77,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     constraint = LeaveConstraints::ExceedsLeaveCycleAllowance.new()
   
     #
-    # TODO
+    # TODO: implement test for ExceedsLeaveCycleAllowance
     #
   
     pending
@@ -87,7 +87,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     constraint = LeaveConstraints::ExceedsNegativeLeaveBalance.new()
   
     #
-    # TODO
+    # TODO: implement test for ExceedsNegativeLeaveBalance
     #
   
     pending
