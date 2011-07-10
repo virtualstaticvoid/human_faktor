@@ -18,6 +18,7 @@ admin:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: admin
 
 manager:
   account: one
@@ -37,6 +38,7 @@ manager:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: manager
 
 approver:
   account: one
@@ -56,6 +58,7 @@ approver:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: approver
 
 employee:
   account: one
@@ -75,6 +78,7 @@ employee:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: employee
 
 test:
   account: one
@@ -94,6 +98,33 @@ test:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: test
+
+takeon:
+  account: one
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: takeon.employee
+  email: info@human-faktor.com
+  title: Mr
+  first_name: TakeOn
+  last_name: Employee
+  gender: 1
+  location: one
+  department: one
+  designation: Employee
+  start_date: 2011-05-17
+  approver: admin
+  role: employee
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+  internal_reference: takeon
+  take_balance_as_at: <%= Date.today %>
+<% LeaveType.for_each_leave_type_name do |leave_type_name| %>
+  <%= leave_type_name %>_leave_cycle_allocation: 27.5
+  <%= leave_type_name %>_leave_cycle_carry_over: 5.5
+  <%= leave_type_name %>_leave_take_on_balance: 10.5
+<% end %> 
 
 #
 # Hierarchy:
@@ -206,6 +237,7 @@ employee1:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: emp1
 
 employee2:
   account: one
@@ -225,6 +257,7 @@ employee2:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: emp2
 
 employee3:
   account: one
@@ -244,6 +277,7 @@ employee3:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: emp3
 
 manager2:
   account: one
@@ -282,6 +316,7 @@ employee4:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: emp4
 
 manager3:
   account: one
@@ -320,4 +355,5 @@ employee5:
   fixed_daily_hours: 8
   active: true
   notify: true
+  internal_reference: emp5
 
