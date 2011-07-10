@@ -112,6 +112,9 @@ class LeaveRequest < ActiveRecord::Base
     self.captured
   end
 
+  validates :approved_declined_by, :existence => true, :allow_nil => true
+  validates :cancelled_by, :existence => true, :allow_nil => true
+
   # description for calendar tooltips
   def description
     "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
