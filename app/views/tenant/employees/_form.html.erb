@@ -95,6 +95,12 @@
 
     <% b.add_tab('Employment') do %>
       <div class="field">
+        <div><%= f.label :internal_reference %></div>
+        <span><%= f.text_field :internal_reference %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
         <div><%= f.label :designation %></div>
         <span><%= f.text_field :designation %></span>
         <span class="field_info"></span>
@@ -142,8 +148,45 @@
         <span class="field_info"></span>
       </div>
 
-      <!-- TODO: Take on balances? -->
+      <h3>Leave Policy Overrides</h3>
 
+      <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
+        <div style="height: 58px;">
+          <div style="float: left; width: 441px;">
+            <div class="field">
+              <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation" %></div>
+              <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :style => 'width: 158px;' %></span>
+              <span class="field_info">days</span>
+            </div>
+          </div>
+          <div style="float: right; width: 441px;">
+            <div class="field">
+              <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over" %></div>
+              <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :style => 'width: 158px;' %></span>
+              <span class="field_info">days</span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    <% end %>
+
+    <% b.add_tab('Take on Balances') do %>
+
+      <div class="field">
+        <div><%= f.label :take_on_balance_as_at %></div>
+        <span><%= f.date_picker :take_on_balance_as_at %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
+        <div class="field">
+          <div><%= f.label :"#{leave_type_name}_leave_take_on_balance", "#{leave_type_name.capitalize} leave" %></div>
+          <span><%= f.text_field :"#{leave_type_name}_leave_take_on_balance", :style => 'width: 158px;' %></span>
+          <span class="field_info">days</span>
+        </div>
+      <% end %>
+      
     <% end %>
   <% end %>
   

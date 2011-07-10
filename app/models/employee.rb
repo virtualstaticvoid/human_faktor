@@ -63,11 +63,13 @@ class Employee < ActiveRecord::Base
 
   GENDER_MALE = 1
   GENDER_FEMALE = 2
+  GENDERS = [GENDER_MALE, GENDER_FEMALE]
   
   validates :gender, :allow_nil => true,
-            :numericality => { :only_integer => true, :in => [ GENDER_MALE, GENDER_FEMALE ] }
+            :numericality => { :only_integer => true, :in => GENDERS }
 
   # job information
+  validates :internal_reference, :length => { :maximum => 255 }, :allow_nil => true
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }
   validates :start_date, :timeliness => { :type => :date }, :allow_nil => true
   validates :end_date, :timeliness => { :type => :date }, :allow_nil => true
@@ -129,6 +131,20 @@ class Employee < ActiveRecord::Base
                       :access_key_id => AppConfig.s3_key,
                       :secret_access_key => AppConfig.s3_secret
                     }
+
+  # take on balances
+  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
+
+  # leave policy overrides and take on balances
+  LeaveType.for_each_leave_type_name do |leave_type_name|
+
+    validates :"#{leave_type_name}_leave_cycle_allocation", :numericality => { :greater_than => 0 }, :allow_nil => true
+    validates :"#{leave_type_name}_leave_cycle_carry_over", :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
+
+    default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
+    validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }
+      
+  end
 
   def to_s
     "#{self.first_name} #{self.last_name}"
