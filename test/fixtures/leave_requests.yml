@@ -3,7 +3,7 @@
 one:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: annual
   approver: admin 
   date_from: 2011-01-01
@@ -13,10 +13,41 @@ one:
   unpaid: false
   comment: Annual leave request
 
+two:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee
+  leave_type: annual
+  approver: admin 
+  date_from: 2011-01-01
+  half_day_from: false
+  date_to: 2011-01-12
+  half_day_to: false
+  unpaid: false
+  comment: Annual leave request
+  approved_declined_by: employee
+  approved_declined_at: <%= Time.now %>
+  approver_comment: Test comment
+
+three:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee
+  leave_type: annual
+  approver: admin 
+  date_from: 2011-01-01
+  half_day_from: false
+  date_to: 2011-01-12
+  half_day_to: false
+  unpaid: false
+  comment: Annual leave request
+  cancelled_by: employee
+  cancelled_at: <%= Time.now %>
+
 annual:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: annual
   approver: approver2 
   date_from: 2011-01-01
@@ -34,7 +65,7 @@ annual:
 annual2:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: annual
   approver: approver2 
   date_from: 2011-01-01
@@ -47,7 +78,7 @@ annual2:
 educational:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: educational
   approver: approver2 
   date_from: 2011-02-01
@@ -60,7 +91,7 @@ educational:
 medical:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: medical
   approver: approver2 
   date_from: 2011-03-01
@@ -73,7 +104,7 @@ medical:
 maternity:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: maternity
   approver: approver2 
   date_from: 2011-04-01
@@ -86,7 +117,7 @@ maternity:
 compassionate:
   identifier: <%= TokenHelper.friendly_token %>
   account: one
-  employee: employee1
+  employee: employee
   leave_type: compassionate
   approver: approver2 
   date_from: 2011-05-01
