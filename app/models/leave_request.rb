@@ -247,7 +247,7 @@ class LeaveRequest < ActiveRecord::Base
   end
 
   def can_cancel?(employee)
-    self.employee == employee
+    self.employee == employee || employee.is_manager_of?(self.employee)
   end
 
   private
