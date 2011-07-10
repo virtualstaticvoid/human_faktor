@@ -24,10 +24,9 @@ class AccountSetup
   attr_accessor :leave_cycle_start_date
   validates :leave_cycle_start_date, :timeliness => { :type => :date}
 
-  LeaveType.for_each_leave_type do |leave_type_class|
-    leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
-    attr_accessor "#{leave_type_name}_leave_allowance"
-    validates "#{leave_type_name}_leave_allowance".to_sym, :numericality => { :greater_than_or_equal_to => 1 }
+  LeaveType.for_each_leave_type_name do |leave_type_name|
+    attr_accessor :"#{leave_type_name}_leave_allowance"
+    validates :"#{leave_type_name}_leave_allowance", :numericality => { :greater_than_or_equal_to => 1 }
   end
   
   attr_accessor :auth_token
@@ -54,8 +53,7 @@ class AccountSetup
       account.fixed_daily_hours = self.fixed_daily_hours
       
       # leave policies
-      LeaveType.for_each_leave_type do |leave_type_class|
-        leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
+      LeaveType.for_each_leave_type_name do |leave_type_name|
       
         leave_type = account.send("leave_type_#{leave_type_name}")
         leave_type.cycle_start_date = self.leave_cycle_start_date
@@ -94,9 +92,8 @@ class AccountSetup
       :auth_token_confirmation => self.auth_token_confirmation
     }
     
-    LeaveType.for_each_leave_type do |leave_type_class|
-      leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
-      attributes["#{leave_type_name}_leave_allowance".to_sym] = self.send("#{leave_type_name}_leave_allowance")
+    LeaveType.for_each_leave_type_name do |leave_type_name|
+      attributes[:"#{leave_type_name}_leave_allowance"] = self.send("#{leave_type_name}_leave_allowance")
     end
     
     attributes

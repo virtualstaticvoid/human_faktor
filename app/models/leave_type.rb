@@ -134,11 +134,19 @@ class LeaveType < ActiveRecord::Base
     "LeaveType::#{symbol.to_s.capitalize}".constantize
   end
   
-  # helper
+  # helpers
   def self.for_each_leave_type(&block)
     nested_classes.each do |klass|
       next unless klass.parent == LeaveType
       block.call(klass)
+    end  
+  end
+
+  def self.for_each_leave_type_name(&block)
+    nested_classes.each do |klass|
+      next unless klass.parent == LeaveType
+      leave_type_name = klass.name.gsub(/LeaveType::/, '').downcase
+      block.call(leave_type_name)
     end  
   end
   

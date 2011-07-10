@@ -72,14 +72,11 @@
       <span class="field_info"></span>
     </div>
 
-    <%
-      LeaveType.for_each_leave_type do |leave_type_class|
-        leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
-    %>
+    <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
     
       <div class="field">
-        <div><%= f.label "#{leave_type_name}_leave_allowance".to_sym %></div>
-        <span><%= f.text_field "#{leave_type_name}_leave_allowance".to_sym, :style => 'width: 158px;' %></span>
+        <div><%= f.label :"#{leave_type_name}_leave_allowance" %></div>
+        <span><%= f.text_field :"#{leave_type_name}_leave_allowance", :style => 'width: 158px;' %></span>
         <span class="field_info">days</span>
       </div>
 

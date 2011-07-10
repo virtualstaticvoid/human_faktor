@@ -40,9 +40,7 @@ module Tenant
         setup.fixed_daily_hours = @account.fixed_daily_hours
         setup.leave_cycle_start_date = Date.new(Date.today.year, 1, 1)
 
-        LeaveType.for_each_leave_type do |leave_type_class|
-          leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
-
+        LeaveType.for_each_leave_type_name do |leave_type_name|
           leave_type = @account.send("leave_type_#{leave_type_name}")
           setup.send("#{leave_type_name}_leave_allowance=", leave_type.cycle_days_allowance)
         end
