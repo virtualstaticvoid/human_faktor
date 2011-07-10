@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110709153656) do
+ActiveRecord::Schema.define(:version => 20110710121328) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -141,6 +141,18 @@ ActiveRecord::Schema.define(:version => 20110709153656) do
   add_index "employees", ["reset_password_token"], :name => "index_employees_on_reset_password_token", :unique => true
   add_index "employees", ["unlock_token"], :name => "index_employees_on_unlock_token", :unique => true
 
+  create_table "leave_balances", :force => true do |t|
+    t.integer  "account_id",    :null => false
+    t.integer  "employee_id",   :null => false
+    t.integer  "leave_type_id", :null => false
+    t.date     "date_as_at",    :null => false
+    t.decimal  "balance",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leave_balances", ["account_id", "employee_id", "leave_type_id", "date_as_at"], :name => "leave_balances_unique_index", :unique => true
+
   create_table "leave_requests", :force => true do |t|
     t.integer  "account_id",                                                               :null => false
     t.string   "identifier",                                                               :null => false
@@ -187,6 +199,7 @@ ActiveRecord::Schema.define(:version => 20110709153656) do
     t.datetime "approved_declined_at"
     t.text     "approver_comment"
     t.datetime "cancelled_at"
+    t.integer  "cancelled_by_id"
   end
 
   add_index "leave_requests", ["account_id", "employee_id"], :name => "index_leave_requests_on_account_id_and_employee_id"
