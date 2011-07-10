@@ -15,7 +15,7 @@ class ExistenceValidator < ActiveModel::EachValidator
     #
     #  It is assumed that the employee has an `account_id` attribute
     #
-    attribute_validated = "#{attribute.to_s}_id".to_sym
+    attribute_validated = :"#{attribute.to_s}_id"
     
     if value.nil?
       record.errors[attribute_validated] << "can't be blank"
