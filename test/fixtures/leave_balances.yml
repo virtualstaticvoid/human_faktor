@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account: one
+  employee: employee
+  leave_type: annual
+  date_as_at: 2011-01-01
+  balance: 5.5
+
+two:
+  account: one
+  employee: employee
+  leave_type: medical
+  date_as_at: 2011-01-01
+  balance: 0
+
+
