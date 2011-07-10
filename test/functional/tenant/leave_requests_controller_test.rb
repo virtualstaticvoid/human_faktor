@@ -38,7 +38,7 @@ module Tenant
 
     test "should get edit when status is approved" do
       sign_in_as :employee
-      assert @leave_request.confirm
+      @leave_request.confirm
       assert @leave_request.approve!(employees(:admin), '')
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
@@ -47,7 +47,7 @@ module Tenant
 
     test "should get edit when status is declined" do
       sign_in_as :employee
-      assert @leave_request.confirm
+      @leave_request.confirm
       assert @leave_request.decline!(employees(:admin), '')
       assert @leave_request.status == LeaveRequest::STATUS_DECLINED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
@@ -56,7 +56,7 @@ module Tenant
 
     test "should get edit when status is cancelled" do
       sign_in_as :employee
-      assert @leave_request.confirm
+      @leave_request.confirm
       assert @leave_request.cancel!(@leave_request.employee)
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
@@ -91,8 +91,8 @@ module Tenant
     
       test "should reinstate for #{role}" do
         sign_in_as role
-        assert @leave_request.confirm
-        assert @leave_request.cancel!
+        @leave_request.confirm
+        assert @leave_request.cancel!(@leave_request.employee)
         assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
         put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
@@ -118,7 +118,7 @@ module Tenant
 
     test "cannot cancel for employee" do
       sign_in_as :employee
-      assert @leave_request.confirm
+      @leave_request.confirm
       assert @leave_request.approve!(@leave_request.approver, '')
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
       put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
@@ -127,8 +127,8 @@ module Tenant
 
     test "cannot reinstate for employee" do
       sign_in_as :employee
-      assert @leave_request.confirm
-      assert @leave_request.cancel!
+      @leave_request.confirm
+      assert @leave_request.cancel!(@leave_request.employee)
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
       put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
