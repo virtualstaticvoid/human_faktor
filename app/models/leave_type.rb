@@ -31,9 +31,9 @@ class LeaveType < ActiveRecord::Base
 
   # leave cycle information
   validates :cycle_start_date, :timeliness => { :type => :date}
-  validates :cycle_duration, :numericality => { :greater_than_or_equal_to => 1 }
+  validates :cycle_duration, :numericality => { :greater_than => 0 }
   validates :cycle_duration_unit, :inclusion => { :in => DURATIONS }
-  validates :cycle_days_allowance, :numericality => { :greater_than_or_equal_to => 1 }
+  validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
   validates :cycle_days_carry_over, :numericality => { :greater_than_or_equal_to => 0 }
 
   # capture permissions
