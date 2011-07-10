@@ -1,5 +1,7 @@
 module Tenant
   class LeaveRequestsController < DashboardController
+
+    before_filter :ensure_can_authorise_leave, :except => [:edit, :confirm, :cancel]
     
     def edit
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
@@ -26,6 +28,11 @@ module Tenant
     def approve
       leave_request_params = params[:leave_request]
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+      
+      unless @leave_request.can_authorise?(current_employee)
+        redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return
+      end
+      
       @leave_request.unpaid = leave_request_params[:unpaid]
 
       respond_to do |format|
@@ -41,7 +48,11 @@ module Tenant
     def decline
       leave_request_params = params[:leave_request]
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
-
+      
+      unless @leave_request.can_authorise?(current_employee)
+        redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return
+      end
+      
       respond_to do |format|
         if @leave_request.decline!(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully declined.' }
@@ -54,7 +65,11 @@ module Tenant
     # PUT
     def cancel
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
-
+      
+      unless @leave_request.can_cancel?(current_employee)
+        redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return
+      end
+      
       respond_to do |format|
         if @leave_request.cancel!(current_employee)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully cancelled.' }
@@ -67,7 +82,11 @@ module Tenant
     # PUT
     def reinstate
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
-
+      
+      unless @leave_request.can_authorise?(current_employee)
+        redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return
+      end
+      
       respond_to do |format|
         if @leave_request.reinstate!(current_employee)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully reinstated.' }
@@ -77,6 +96,13 @@ module Tenant
       end
     end
     
+    private
+    
+    def ensure_can_authorise_leave
+      redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return false unless current_employee.can_authorise_leave?
+      true
+    end
+
   end
 end
 
