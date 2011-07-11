@@ -7,6 +7,7 @@ HumanFaktor::Application.initialize!
 # Further configuration which uses AppConfig
 
 # mailer host
+puts "Setting mailer host option to '#{AppConfig.subdomain}.#{AppConfig.domain}'"
 ActionMailer::Base.default_url_options[:host] = "#{AppConfig.subdomain}.#{AppConfig.domain}"
 
 # configure mailer for SMTP in development
