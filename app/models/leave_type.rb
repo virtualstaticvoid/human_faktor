@@ -66,6 +66,10 @@ class LeaveType < ActiveRecord::Base
     self.class.name.gsub(/LeaveType::/, '')
   end
   
+  def leave_type_name
+    self.class.name.gsub(/LeaveType::/, '').downcase
+  end
+  
   def cycle_index_of(date)
     # REFACTOR: better way using a formula?
     index, start_date = -1, self.cycle_start_date
