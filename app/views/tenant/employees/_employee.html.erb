@@ -1,4 +1,4 @@
-<tr id="_employee_<%= employee.to_param %>" data-url="<%= edit_employee_path(:tenant => current_account.subdomain, :id => employee.to_param) %>">
+<tr id="_employee_<%= employee.to_param %>" data-url="<%= edit_employee_path(employee, :tenant => current_account.subdomain) %>">
   <td><%= image_tag(employee.avatar.url(:avatar), :width => 24, :height => 24, :class => 'avatar boxradius') %></td>
   <td><%= employee.email.present? ? mail_to(employee.email, employee.full_name) : employee.full_name %></td>
   <td><%= employee.designation %></td>
@@ -6,6 +6,6 @@
   <td><%= employee.location %></td>
   <td><%= employee.department %></td>
   <td class="boolean"><%= employee.active %></td>
-  <td><%= link_to image_tag('delete.png'), employee_path(:tenant => current_account.subdomain, :id => employee.to_param), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "delete_button" %></td>
+  <td><%= link_to image_tag('delete.png'), employee_path(employee, :tenant => current_account.subdomain), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "delete_button" %></td>
 </tr>
 

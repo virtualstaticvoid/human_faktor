@@ -1,4 +1,4 @@
-<%= form_for(@department, :url => @department.persisted? ? department_path(:tenant => current_account.subdomain, :id => @department.to_param) : departments_path) do |f| %>
+<%= form_for(@department, :url => @department.persisted? ? department_path(@department, :tenant => current_account.subdomain) : departments_path) do |f| %>
 
   <%= error_messages_for @department %>
 

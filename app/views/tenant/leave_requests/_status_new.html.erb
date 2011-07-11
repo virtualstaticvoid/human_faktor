@@ -1,4 +1,4 @@
-<%= form_for @leave_request, :url => confirm_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+<%= form_for @leave_request, :url => confirm_leave_request_path(@leave_request, :tenant => current_account.subdomain) do |f| %>
 
   <p>The <%= @leave_request.leave_type.to_s.downcase %> leave request needs to be <strong>confirmed</strong>.</p>
 
@@ -15,7 +15,7 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit 'Confirm' %> or <%= link_to 'cancel', cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %> the request.
+    <%= f.submit 'Confirm' %> or <%= link_to 'cancel', cancel_leave_request_path(@leave_request, :tenant => current_account.subdomain), :method => :put %> the request.
   </div>
 
 <% end %>

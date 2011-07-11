@@ -5,7 +5,7 @@
 
 <div class="leave_request_actions">
   <% if @leave_request.can_authorise?(current_employee) %>
-    <%= button_to 'Reinstate Leave', reinstate_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param), :method => :put %>
+    <%= button_to 'Reinstate Leave', reinstate_leave_request_path(@leave_request, :tenant => current_account.subdomain), :method => :put %>
     <% if @leave_request.employee == current_employee %> or <% end %>
   <% end %> 
   <% if @leave_request.employee == current_employee %>

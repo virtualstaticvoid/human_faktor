@@ -5,7 +5,7 @@
 
 <% if @leave_request.can_cancel?(current_employee) %>
 
-  <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+  <%= form_for @leave_request, :url => cancel_leave_request_path(@leave_request, :tenant => current_account.subdomain) do |f| %>
 
     <div class="actions">
       <%= f.submit 'Cancel Leave' %>

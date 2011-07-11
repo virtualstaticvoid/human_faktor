@@ -2,7 +2,7 @@
 
   <p>The <%= @leave_request.leave_type.to_s.downcase %> leave request for <strong><%= @leave_request.employee %></strong> needs to be <strong>approved</strong> or <strong>declined</strong> by <%=raw @leave_request.approver_id == current_employee.id ? "you" : "<strong>#{@leave_request.approver}</strong>" %>.</p>
 
-  <%= form_for @leave_request, :url => approve_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+  <%= form_for @leave_request, :url => approve_leave_request_path(@leave_request, :tenant => current_account.subdomain) do |f| %>
 
     <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request, :show_balance => true } %>
 
@@ -32,7 +32,7 @@
     <script type="text/javascript">
       var form = $('form:first');
       function decline() {
-        form.attr('action', '<%= decline_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) %>');
+        form.attr('action', '<%= decline_leave_request_path(@leave_request, :tenant => current_account.subdomain) %>');
         form.submit();
       }
     </script>
@@ -46,7 +46,7 @@
   <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
 
   <% if @leave_request.can_cancel?(current_employee) %>
-    <%= form_for @leave_request, :url => cancel_leave_request_path(:tenant => current_account.subdomain, :id => @leave_request.to_param) do |f| %>
+    <%= form_for @leave_request, :url => cancel_leave_request_path(@leave_request, :tenant => current_account.subdomain) do |f| %>
       <div class="actions">
         <%= f.submit 'Cancel Leave Request' %>
       </div>

@@ -34,7 +34,7 @@
   <p>To approve or decline the leave request, please follow this link:</p>
 
   <p class="block">
-    <%= link_to 'Approve or Decline Leave Request', edit_leave_request_url(:tenant => @account.subdomain, :id => @leave_request.to_param) %>
+    <%= link_to 'Approve or Decline Leave Request', edit_leave_request_url(@leave_request, :tenant => @account.subdomain) %>
   </p>
   
   <p>Thank You.</p>

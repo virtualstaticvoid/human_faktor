@@ -1,4 +1,4 @@
-<%= form_for(@location, :url => @location.persisted? ? location_path(:tenant => current_account.subdomain, :id => @location.to_param) : locations_path) do |f| %>
+<%= form_for(@location, :url => @location.persisted? ? location_path(@location, :tenant => current_account.subdomain) : locations_path) do |f| %>
 
   <%= error_messages_for @location %>
 
