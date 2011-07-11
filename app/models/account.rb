@@ -25,6 +25,7 @@ class Account < ActiveRecord::Base
   has_many :employees, :dependent => :destroy
   has_many :leave_types, :dependent => :destroy
   has_many :leave_requests, :dependent => :destroy
+  has_many :leave_balances, :dependent => :destroy
 
   # cache leave types, so that validations work!
   LeaveType.for_each_leave_type do |leave_type_class|
