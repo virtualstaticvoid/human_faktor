@@ -21,17 +21,17 @@ module JqueryUiButtonHelper
       button_id = "#{options[:id]}_#{title.underscore}"
       html << "<input type=\"radio\" id=\"#{button_id}\" name=\"#{options[:id]}\""
       html << " checked=\"checked\"" if button_options[:checked] == true
+      if options[:remote] == true
+        html << " onclick=\"javascript: $('#a_#{button_id}').click();\""  
+      end
       html << "/>"
 
-      html << "<label for=\"#{button_id}\">"
+      html << "<label for=\"#{button_id}\">#{title}</label>"
+
       if options[:remote] == true
-        html << "<a href=\"#{button_options[:url]}\" id=\"a_#{button_id}\" data-remote=\"true\">#{title}</a>"
-      else
-        html << title
+        html << "<a href=\"#{button_options[:url]}\" id=\"a_#{button_id}\" data-remote=\"true\" style=\"display: none;\"></a>"
       end
       
-      html << "</label>"
-
       if options[:remote] == true && options[:progress] == true
       
         content = "$('#a_#{button_id}').live('ajax:before', function(event) {"
