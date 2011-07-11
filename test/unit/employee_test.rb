@@ -103,5 +103,42 @@ class EmployeeTest < ActiveSupport::TestCase
   test "hierarchy tests" do
     pending
   end
+  
+  test "provides leave_cycle_allocation_for" do
+    employee = employees(:takeon)
+    employee.account.leave_types.each do |leave_type|
+      assert_equal 27.5, employee.leave_cycle_allocation_for(leave_type)
+    end
+  end
+  
+  test "provides leave_cycle_carry_over_for" do
+    employee = employees(:takeon)
+    employee.account.leave_types.each do |leave_type|
+      assert_equal 5.5, employee.leave_cycle_carry_over_for(leave_type)
+    end
+  end
+
+  test "provides take_on_balance_for" do
+    employee = employees(:takeon)
+    employee.account.leave_types.each do |leave_type|
+      assert_equal 10.5, employee.take_on_balance_for(leave_type)
+    end
+  end
+
+  test "provides take_on_balance_for of leave balance" do
+    employee = employees(:takeon)
+    employee.account.leave_types.each do |leave_type|
+      lb = LeaveBalance.create(
+        :account_id => employee.account_id,
+        :employee_id => employee.id,
+        :leave_type_id => leave_type.id,
+        :date_as_at => Date.today,
+        :balance => 9.998
+      )
+      puts lb.errors.full_messages
+      lb.save!
+      assert_equal 9.998, employee.take_on_balance_for(leave_type)
+    end
+  end
 
 end
