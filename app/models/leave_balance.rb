@@ -1,8 +1,6 @@
 class LeaveBalance < ActiveRecord::Base
   include AccountScopedModel
 
-  default_scope order('date_as_at DESC')
-
   belongs_to :employee
   belongs_to :leave_type
 
