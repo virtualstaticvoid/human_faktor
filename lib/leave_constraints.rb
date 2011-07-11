@@ -73,9 +73,8 @@ module LeaveConstraints
     protected
     
     def projected_leave_balance(request)
-      # TODO: calculate projected leave balance
-      # request.employee.leave_balance_for(request.leave_type) + request.duration
-      0
+      # calculate projected leave balance
+      LeaveBalance.balance_for(request.employee, request.leave_type, request.date_from) + request.duration
     end
   
   end

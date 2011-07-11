@@ -140,15 +140,28 @@ class Employee < ActiveRecord::Base
   # take on balances
   validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
 
-  # leave policy overrides and take on balances
+  # leave policy overrides
   LeaveType.for_each_leave_type_name do |leave_type_name|
-
     validates :"#{leave_type_name}_leave_cycle_allocation", :numericality => { :greater_than => 0 }, :allow_nil => true
     validates :"#{leave_type_name}_leave_cycle_carry_over", :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
+  end
+  
+  def leave_cycle_allocation(leave_type)
+    self.send(:"#{leave_type.leave_type_name}_leave_cycle_allocation") || leave_type.cycle_days_allowance
+  end
 
+  def leave_cycle_carry_over(leave_type)
+    self.send(:"#{leave_type.leave_type_name}_leave_cycle_carry_over") || leave_type.cycle_days_carry_over
+  end
+
+  # take on balances
+  LeaveType.for_each_leave_type_name do |leave_type_name|
     default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
-    validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }
-      
+    validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }  
+  end
+  
+  def take_on_balance_for(leave_type)
+    LeaveBalance.take_on_balance_for(self, leave_type)
   end
 
   def to_s
