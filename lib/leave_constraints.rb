@@ -159,8 +159,8 @@ module LeaveConstraints
   class ExceedsMaximumFutureDate < Base
 
     def evaluate(request)
-      # IMPLEMENTATION: implement based on the cycle start date and duration?
-      #                 rolling window periods for leave type?
+      # NOTE: implement based on the cycle start date and duration?
+      #  and what about rolling window periods for leave type?
       request.date_from > (request.created_at.to_date + request.leave_type.max_days_for_future_dated) 
     end
 
@@ -170,8 +170,8 @@ module LeaveConstraints
   class ExceedsMaximumBackDate < Base
 
     def evaluate(request)
-      # IMPLEMENTATION: implement based on the cycle start date and duration?
-      #                 rolling window periods for leave type?
+      # NOTE: implement based on the cycle start date and duration?
+      #  and what about rolling window periods for leave type?
       request.date_from < (request.created_at.to_date - request.leave_type.max_days_for_back_dated)
     end
 
