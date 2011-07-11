@@ -6,6 +6,6 @@ Click the link below to unlock your account:
 
   <%= unlock_url(@resource, :tenant => @resource.account.subdomain, :unlock_token => @resource.unlock_token) %>
 
-<strong>The <%= AppConfig.title %> Team</strong><br />
-<%= link_to root_url, root_url %>
+<%= @resource.account.title %>
+<%= dashboard_url(:tenant => @resource.account.subdomain) %>
 
