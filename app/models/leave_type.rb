@@ -89,11 +89,33 @@ class LeaveType < ActiveRecord::Base
     end
     start_date
   end
-  
-  # leave balance calculation
+
+  def cycle_end_date_of(date)
+    # REFACTOR: better way using a formula?
+    leave_cycle_index = self.cycle_index_of(date) + 1
+    start_date = self.cycle_start_date
+    leave_cycle_index.times do |i|
+      start_date += cycle_duration_hours
+    end
+    start_date - 1
+  end
+
   def balance_for(employee, date_as_at)
-    # TODO
-    0
+  
+    cycle_start_date = self.cycle_start_date_of(date_as_at)
+    cycle_end_date = self.cycle_end_date_of(date_as_at)
+    
+    leave_taken_for_cycle = employee.leave_requests.active.where(
+      :leave_type_id => self.id
+    
+    ).where(
+      ' date_from BETWEEN :from AND :to ',
+      { :from => cycle_start_date, :to => cycle_end_date }
+    
+    ).sum(:duration)
+
+    leave_taken_for_cycle
+
   end
 
   # supported leave types
