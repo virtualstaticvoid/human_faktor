@@ -56,9 +56,10 @@
 
     <div class="leave_request_right">
 
-      <div class="panel_box box_radius background_4">
+      <div class="panel_box">
         <div class="panel_box_title box_radius_top background_4">
-          <h2>Leave Balance</h2>
+          <div style="float: left;"><h2>Leave Balance</h2></div>
+          <div id="ajax_working" style="float: right; margin-top: -4px; display: none;"></div>
         </div>
         <div id="leave_balance" class="panel_box_content">
           <%= render :partial => 'tenant/leave_requests/leave_balance', 
@@ -82,11 +83,21 @@
 
 <script type="text/javascript">
   var leave_type = $('#leave_request_leave_type_id');
+  var date_from = $('#leave_request_date_from');
   var leave_balance_refresh = $('#leave_balance_refresh');
   
   leave_type.change(function(){
-    var path = '<%= leave_balance_url(:format => :js) %>?leave_type=' + leave_type.val() + '&date_as_at=<%= Date.today %>';
+    update_leave_balance();
+  });
+  
+  date_from.change(function(){
+    update_leave_balance();
+  });
+  
+  function update_leave_balance() {
+    $('#ajax_working').css('display', '');
+    var path = '<%= leave_balance_url(:format => :js) %>?leave_type=' + leave_type.val() + '&date_as_at=' + date_from.val();
     leave_balance_refresh.attr('href', path);
     leave_balance_refresh.click();
-  });
+  }
 </script>

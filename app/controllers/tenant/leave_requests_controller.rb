@@ -97,8 +97,12 @@ module Tenant
     end
     
     def balance
-      @leave_type = current_account.leave_types.find(params[:leave_type])
-      @date_as_at = Date.parse(params[:date_as_at])
+      @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type]
+      @date_as_at = begin
+                      Date.parse(params[:date_as_at]) 
+                    rescue
+                      Date.today
+                    end
 
       respond_to do |format|
         format.js

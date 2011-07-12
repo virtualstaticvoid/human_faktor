@@ -1,3 +1,5 @@
+<p>As at <strong><%= date_as_at.strftime("%e %b %Y") %></strong></p>
+
 <div class="field">
   <div><%= label_tag :leave_taken_to_date %></div>
   <span><%= text_field_tag :leave_taken_to_date, leave_type.leave_taken_for(current_employee, date_as_at), { :style => 'width: 158px;', :disabled => true} %></span>
@@ -15,4 +17,5 @@
   <span><%= text_field_tag :leave_balance, leave_type.balance_for(current_employee, date_as_at), { :style => 'width: 158px;', :disabled => true} %></span>
   <span class="field_info">days</span>
 </div>
+
 
