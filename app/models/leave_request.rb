@@ -77,7 +77,7 @@ class LeaveRequest < ActiveRecord::Base
 
   validates :date_to, :timeliness => { :type => :date }, :allow_nil => false
   validates :half_day_to, :inclusion => { :in => [true, false] }
-
+  
   def date_to_s
     self.date_to.strftime("%Y-%m-%d") + (self.half_day_to ? ' (Half day)' : '')
   end
@@ -118,27 +118,9 @@ class LeaveRequest < ActiveRecord::Base
     "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
   end
   
+  #validates :duration, :numericality => { :greater_than => 0 }
   def duration
-  
-    # subtract weekends and holidays!
-    
-    weekend_days = (self.date_from..self.date_to).select {|d| [6, 0].include?(d.wday) }.count
-    
-    holidays = self.account.country.calendar_entries.where(
-      ' entry_date BETWEEN :from AND :to ',
-      { :from => self.date_from, :to => self.date_to }
-    ).count
-
-    duration = (1 + (self.date_to - self.date_from).to_i) - weekend_days - holidays
-    
-    # subtract half day start/end
-    duration -= 0.5 if self.half_day_from
-    duration -= 0.5 if self.half_day_to
-    
-    # it's possible for negative values!
-    #  e.g. dates are on a weekend which also has a public holiday  
-    duration < 0 ? 0 : duration
-    
+    read_attribute(:duration) || 0
   end
   
   #
@@ -163,12 +145,14 @@ class LeaveRequest < ActiveRecord::Base
   
   def request
     write_attribute :captured, false
+    update_duration
     evaluate_constraints
     confirm unless self.has_constraint_violations?
   end
   
   def capture(approver)
     write_attribute :captured, true
+    update_duration
     evaluate_constraints
     unless self.has_constraint_violations?
       confirm(approver)
@@ -246,6 +230,27 @@ class LeaveRequest < ActiveRecord::Base
 
   def can_cancel?(employee)
     self.employee == employee || employee.is_manager_of?(self.employee)
+  end
+
+  def update_duration
+  
+    # subtract weekends and holidays!
+    weekend_days = (self.date_from..self.date_to).select {|d| [6, 0].include?(d.wday) }.count
+    
+    holidays = self.account.country.calendar_entries.where(
+      ' entry_date BETWEEN :from AND :to ',
+      { :from => self.date_from, :to => self.date_to }
+    ).count
+
+    duration = (1 + (self.date_to - self.date_from).to_i) - weekend_days - holidays
+    
+    # subtract half day start/end
+    duration -= 0.5 if self.half_day_from
+    duration -= 0.5 if self.half_day_to
+    
+    # it's possible for negative values!
+    #  e.g. dates are on a weekend which also has a public holiday  
+    self.duration = duration < 0 ? 0 : duration
   end
 
   private
