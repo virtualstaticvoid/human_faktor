@@ -105,7 +105,7 @@ class LeaveType < ActiveRecord::Base
     # override to provide accrual calculation
     def balance_for(employee, date_as_at)
       # TODO
-      0
+      super
     end
     
   end
