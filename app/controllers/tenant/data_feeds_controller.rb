@@ -22,7 +22,7 @@ module Tenant
       @leave_requests = current_employee.leave_requests.active.where(
         ' (date_from BETWEEN :from_date AND :to_date ) OR ( date_to BETWEEN :from_date AND :to_date ) ',
         { :from_date => from_date, :to_date => to_date } 
-      )
+      ).order('created_at DESC')
     
       respond_to do |format|
         format.json # leave_requests.json.erb

@@ -30,9 +30,7 @@ class LeaveRequest < ActiveRecord::Base
     end
     
   end
-
-  default_scope order('created_at DESC')
-
+  
   scope :pending, where(:status => STATUS_PENDING)
   scope :active, where(:status => [STATUS_PENDING, STATUS_APPROVED])
 
