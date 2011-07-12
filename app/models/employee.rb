@@ -160,8 +160,7 @@ class Employee < ActiveRecord::Base
   end
   
   def take_on_balance_for(leave_type)
-    leave_balance = LeaveBalance.take_on_balance_for(self, leave_type)
-    leave_balance.nil? ? self.send(:"#{leave_type.leave_type_name}_leave_take_on_balance") : leave_balance.balance
+    self.send(:"#{leave_type.leave_type_name}_leave_take_on_balance")
   end
 
   def to_s
