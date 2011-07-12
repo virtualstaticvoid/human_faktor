@@ -114,6 +114,20 @@ class LeaveType < ActiveRecord::Base
 
   def balance_for(employee, date_as_at)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
+    
+    self.allowance_for(employee, date_as_at) - self.leave_taken_for(employee, date_as_at)
+  end
+
+  def allowance_for(employee, date_as_at)
+    raise InvalidOperationException if date_as_at < self.cycle_start_date
+  
+    # TODO: calculate the allowance 
+    
+    self.cycle_days_allowance
+  end
+
+  def leave_taken_for(employee, date_as_at)
+    raise InvalidOperationException if date_as_at < self.cycle_start_date
   
     cycle_start_date = self.cycle_start_date_of(date_as_at)
     cycle_end_date = self.cycle_end_date_of(date_as_at)
@@ -128,13 +142,6 @@ class LeaveType < ActiveRecord::Base
     leave_taken_for_cycle
   end
   
-  def allowance_for(employee, date_as_at)
-  
-    # TODO: calculate the allowance 
-    
-    self.cycle_days_allowance
-  end
-
   # supported leave types
 
   class Annual < LeaveType
