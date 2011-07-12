@@ -101,6 +101,10 @@ class LeaveType < ActiveRecord::Base
   end
 
   def balance_for(employee, date_as_at)
+    raise InvalidOperationException if date_as_at < self.cycle_start_date
+  
+    # TODO: take into account previous cycle carry over
+    
   
     cycle_start_date = self.cycle_start_date_of(date_as_at)
     cycle_end_date = self.cycle_end_date_of(date_as_at)
@@ -124,9 +128,8 @@ class LeaveType < ActiveRecord::Base
   
     default_values :color => '0037C7'
   
-    # override to provide accrual calculation
     def balance_for(employee, date_as_at)
-      # TODO
+      # TODO: override to provide accrual calculation
       super
     end
     

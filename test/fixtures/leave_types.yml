@@ -16,7 +16,7 @@ annual:
   max_days_per_single_request: 21
   required_days_notice: 1
   max_negative_balance: 1
-  cycle_start_date: 2011-05-30
+  cycle_start_date: 2011-01-01
   cycle_duration: 1
   cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
   cycle_days_allowance: 1
@@ -39,7 +39,7 @@ educational:
   max_days_per_single_request: 21
   required_days_notice: 1
   max_negative_balance: 1
-  cycle_start_date: 2011-05-30
+  cycle_start_date: 2011-01-01
   cycle_duration: 1
   cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
   cycle_days_allowance: 1
@@ -62,7 +62,7 @@ medical:
   max_days_per_single_request: 21
   required_days_notice: 1
   max_negative_balance: 1
-  cycle_start_date: 2011-05-30
+  cycle_start_date: 2011-01-01
   cycle_duration: 1
   cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
   cycle_days_allowance: 1
@@ -85,7 +85,7 @@ maternity:
   max_days_per_single_request: 21
   required_days_notice: 1
   max_negative_balance: 1
-  cycle_start_date: 2011-05-30
+  cycle_start_date: 2011-01-01
   cycle_duration: 1
   cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
   cycle_days_allowance: 1
@@ -108,7 +108,7 @@ compassionate:
   max_days_per_single_request: 21
   required_days_notice: 1
   max_negative_balance: 1
-  cycle_start_date: 2011-05-30
+  cycle_start_date: 2011-01-01
   cycle_duration: 1
   cycle_duration_unit: <%= LeaveType::DURATION_UNIT_YEARS %>
   cycle_days_allowance: 1
