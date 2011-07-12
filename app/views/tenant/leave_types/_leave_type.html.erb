@@ -29,11 +29,13 @@
           <span class="field_info">days</span>
         </div>
 
-        <div class="field">
-          <div><%= f.label :cycle_days_carry_over %></div>
-          <span><%= f.text_field :cycle_days_carry_over, :style => 'width: 158px;' %></span>
-          <span class="field_info">days</span>
-        </div>
+        <% if leave_type.can_carry_over? %>
+          <div class="field">
+            <div><%= f.label :cycle_days_carry_over %></div>
+            <span><%= f.text_field :cycle_days_carry_over, :style => 'width: 158px;' %></span>
+            <span class="field_info">days</span>
+          </div>
+        <% end %>
 
         <div class="field">
           <div><%= f.label :max_negative_balance %></div>

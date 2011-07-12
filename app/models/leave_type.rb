@@ -35,6 +35,10 @@ class LeaveType < ActiveRecord::Base
   validates :cycle_duration_unit, :inclusion => { :in => DURATIONS }
   validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
   validates :cycle_days_carry_over, :numericality => { :greater_than_or_equal_to => 0 }
+  
+  def can_carry_over?
+    false
+  end
 
   # capture permissions
   validates :employee_capture_allowed, :inclusion => { :in => [true, false] }
@@ -111,23 +115,23 @@ class LeaveType < ActiveRecord::Base
   def balance_for(employee, date_as_at)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
-    # TODO: take into account previous cycle carry over
-    
-  
     cycle_start_date = self.cycle_start_date_of(date_as_at)
     cycle_end_date = self.cycle_end_date_of(date_as_at)
     
     leave_taken_for_cycle = employee.leave_requests.active.where(
       :leave_type_id => self.id
-    
     ).where(
       ' date_from BETWEEN :from AND :to ',
       { :from => cycle_start_date, :to => cycle_end_date }
-    
     ).sum(:duration)
 
     leave_taken_for_cycle
-
+  end
+  
+  def allowance_for(employee, date_as_at)
+  
+    
+  
   end
 
   # supported leave types
@@ -136,7 +140,11 @@ class LeaveType < ActiveRecord::Base
   
     default_values :color => '0037C7'
   
-    def balance_for(employee, date_as_at)
+    def can_carry_over?
+      true
+    end
+  
+    def allowance_for(employee, date_as_at)
       # TODO: override to provide accrual calculation
       super
     end
