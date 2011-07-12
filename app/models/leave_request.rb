@@ -281,4 +281,16 @@ class LeaveRequest < ActiveRecord::Base
 
   end
 
+  def self.find_leave_requests(account, employee, leave_type, date_from, date_to)
+    LeaveRequest.where(
+      :account_id => account.id,
+      :employee_id => employee.id,
+      :leave_type => leave_type.id,
+      :status => [STATUS_PENDING, STATUS_APPROVED]
+    ).where(
+      ' date_from BETWEEN :date_from AND :date_to ',
+      { :date_from => date_from, :date_to => date_to }    
+    ).order('date_from ASC')
+  end
+
 end
