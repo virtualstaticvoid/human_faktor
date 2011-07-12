@@ -45,3 +45,22 @@
   display: inline;
 }
 
+.leave_request_container {
+  height: 450px;
+}
+
+.leave_request_left {
+  width: 378px; 
+  float: left;
+}
+
+.leave_request_right {
+  width: 358px; 
+  padding-left: 20px;
+  float: right;
+}
+
+.leave_request_right input {
+  background: whitesmoke;
+}
+

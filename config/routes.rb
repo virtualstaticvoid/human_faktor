@@ -45,6 +45,8 @@ HumanFaktor::Application.routes.draw do
     get "staff_leave/new", :to => "tenant/staff_leave_requests#new", :as => :new_staff_leave_request
     post "staff_leave/new", :to => "tenant/staff_leave_requests#create", :as => :create_staff_leave_request
 
+    get "leave_balance", :to => "tenant/leave_requests#balance", :as => :leave_balance
+
     get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
     put "leave/:id/confirm", :to => "tenant/leave_requests#confirm", :as => :confirm_leave_request
     put "leave/:id/approve", :to => "tenant/leave_requests#approve", :as => :approve_leave_request

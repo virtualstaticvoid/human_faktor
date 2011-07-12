@@ -5,48 +5,74 @@
 
   <%= error_messages_for @leave_request %>
 
-  <div class="field">
-    <div><%= f.label :leave_type_id %></div>
-    <span><%= f.select :leave_type_id, current_account.leave_types_for_employee.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
-    <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
-    <span class="field_info"></span>
-  </div>
+  <div class="leave_request_container">
   
-  <div class="field">
-    <div><%= f.label :date_from %></div>
-    <span><%= f.date_picker :date_from %></span>
-    <span><%= f.check_box :half_day_from %></span>
-    <span><%= f.label :half_day_from, 'Half day?' %></span>
-    <span class="field_info"></span>
-  </div>
+    <div class="leave_request_left">
+    
+      <div class="field">
+        <div><%= f.label :leave_type_id %></div>
+        <span><%= f.select :leave_type_id, current_account.leave_types_for_employee.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
+        <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
+        <span class="field_info"></span>
+      </div>
+      
+      <div class="field">
+        <div><%= f.label :date_from %></div>
+        <span><%= f.date_picker :date_from %></span>
+        <span><%= f.check_box :half_day_from %></span>
+        <span><%= f.label :half_day_from, 'Half day?' %></span>
+        <span class="field_info"></span>
+      </div>
 
-  <div class="field">
-    <div><%= f.label :date_to %></div>
-    <span><%= f.date_picker :date_to %></span>
-    <span><%= f.check_box :half_day_to %></span>
-    <span><%= f.label :half_day_to, 'Half day?' %></span>
-    <span class="field_info"></span>
-  </div>
+      <div class="field">
+        <div><%= f.label :date_to %></div>
+        <span><%= f.date_picker :date_to %></span>
+        <span><%= f.check_box :half_day_to %></span>
+        <span><%= f.label :half_day_to, 'Half day?' %></span>
+        <span class="field_info"></span>
+      </div>
 
-  <div class="field">
-    <div><%= f.label :comment %></div>
-    <span><%= f.text_area :comment %></span>
-    <span class="field_info"></span>
-  </div>
+      <div class="field">
+        <div><%= f.label :comment %></div>
+        <span><%= f.text_area :comment %></span>
+        <span class="field_info"></span>
+      </div>
 
-  <div class="field">
-    <div><%= f.label :document %></div>
-    <span><%= f.file_field :document %></span>
-    <span class="field_info"></span>
-  </div>
+      <div class="field">
+        <div><%= f.label :document %></div>
+        <span><%= f.file_field :document %></span>
+        <span class="field_info"></span>
+      </div>
 
-  <% if current_employee.can_choose_own_approver? %>
-    <div class="field">
-      <div><%= f.label :approver_id %></div>
-      <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
-      <span class="field_info"></span>
+      <% if current_employee.can_choose_own_approver? %>
+        <div class="field">
+          <div><%= f.label :approver_id %></div>
+          <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+          <span class="field_info"></span>
+        </div>
+      <% end %>
+
     </div>
-  <% end %>
+
+    <div class="leave_request_right">
+
+      <div class="panel_box box_radius background_4">
+        <div class="panel_box_title box_radius_top background_4">
+          <h2>Leave Balance</h2>
+        </div>
+        <div id="leave_balance" class="panel_box_content">
+          <%= render :partial => 'tenant/leave_requests/leave_balance', 
+                     :locals => { :leave_type => current_account.leave_types_for_employee.first, 
+                                  :date_as_at => Date.today } %>
+        </div>
+
+        <%= link_to 'Update Balance', '', :remote => true, :id => 'leave_balance_refresh', :style => 'display: none;' %>
+
+      </div>
+    
+    </div>
+
+  </div>
 
   <div class="actions">
     <%= f.submit 'Apply for Leave' %> or <%= link_to 'cancel', dashboard_path %>
@@ -54,3 +80,13 @@
   
 <% end %>
 
+<script type="text/javascript">
+  var leave_type = $('#leave_request_leave_type_id');
+  var leave_balance_refresh = $('#leave_balance_refresh');
+  
+  leave_type.change(function(){
+    var path = '<%= leave_balance_url(:format => :js) %>?leave_type=' + leave_type.val() + '&date_as_at=<%= Date.today %>';
+    leave_balance_refresh.attr('href', path);
+    leave_balance_refresh.click();
+  });
+</script>

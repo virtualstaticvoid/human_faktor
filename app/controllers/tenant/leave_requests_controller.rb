@@ -96,6 +96,15 @@ module Tenant
       end
     end
     
+    def balance
+      @leave_type = current_account.leave_types.find(params[:leave_type])
+      @date_as_at = Date.parse(params[:date_as_at])
+
+      respond_to do |format|
+        format.js
+      end
+    end
+    
     private
     
     def ensure_can_authorise_leave

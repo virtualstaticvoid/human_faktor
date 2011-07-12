@@ -302,7 +302,7 @@ pre {
 
 .panel_box {
   background-color: whitesmoke;
-  border: 1px solid darkslategray;
+  border: 1px solid #C0C0C0;
   margin: 10px 5px 10px 5px;
   padding: 0;
 }
