@@ -67,14 +67,17 @@ module LeaveConstraints
   class ExceedsLeaveCycleAllowance < Base
   
     def evaluate(request)
-      self.projected_leave_balance(request) > request.leave_type.cycle_days_allowance
+      self.leave_balance(request) > self.leave_allowance(request)
     end
 
     protected
     
-    def projected_leave_balance(request)
-      # calculate projected leave balance
+    def leave_balance(request)
       request.leave_type.balance_for(request.employee, request.date_from) + request.duration
+    end
+
+    def leave_allowance(request)
+      request.leave_type.allowance_for(request.employee, request.date_from)
     end
   
   end
@@ -84,7 +87,7 @@ module LeaveConstraints
   
     def evaluate(request)
       super && 
-        (self.projected_leave_balance(request) - request.leave_type.cycle_days_allowance) < request.leave_type.max_negative_balance
+        (self.leave_balance(request) - self.leave_allowance(request)) < request.leave_type.max_negative_balance
     end
     
   end

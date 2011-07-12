@@ -130,8 +130,9 @@ class LeaveType < ActiveRecord::Base
   
   def allowance_for(employee, date_as_at)
   
+    # TODO: calculate the allowance 
     
-  
+    self.cycle_days_allowance
   end
 
   # supported leave types
