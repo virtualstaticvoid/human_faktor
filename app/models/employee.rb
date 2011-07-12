@@ -137,9 +137,6 @@ class Employee < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     }
 
-  # take on balances
-  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
-
   # leave policy overrides
   LeaveType.for_each_leave_type_name do |leave_type_name|
     validates :"#{leave_type_name}_leave_cycle_allocation", :numericality => { :greater_than => 0 }, :allow_nil => true
@@ -155,6 +152,8 @@ class Employee < ActiveRecord::Base
   end
 
   # take on balances
+  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
+
   LeaveType.for_each_leave_type_name do |leave_type_name|
     default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
     validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }  
