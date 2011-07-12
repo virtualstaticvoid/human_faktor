@@ -75,9 +75,17 @@ class LeaveType < ActiveRecord::Base
     index, start_date = -1, self.cycle_start_date
     while start_date <= date
       index += 1
-      start_date += cycle_duration_hours
+      start_date += cycle_duration_in_units
     end
     index
+  end
+  
+  def cycle_start_date_for(index)
+    self.cycle_start_date + cycle_duration_in_units(index)  
+  end
+
+  def cycle_end_date_for(index)
+    self.cycle_start_date + cycle_duration_in_units(index + 1) - 1.day
   end
   
   def cycle_start_date_of(date)
@@ -85,7 +93,7 @@ class LeaveType < ActiveRecord::Base
     leave_cycle_index = self.cycle_index_of(date)
     start_date = self.cycle_start_date
     leave_cycle_index.times do |i|
-      start_date += cycle_duration_hours
+      start_date += cycle_duration_in_units
     end
     start_date
   end
@@ -95,9 +103,9 @@ class LeaveType < ActiveRecord::Base
     leave_cycle_index = self.cycle_index_of(date) + 1
     start_date = self.cycle_start_date
     leave_cycle_index.times do |i|
-      start_date += cycle_duration_hours
+      start_date += cycle_duration_in_units
     end
-    start_date - 1
+    start_date - 1.day
   end
 
   def balance_for(employee, date_as_at)
@@ -191,11 +199,11 @@ class LeaveType < ActiveRecord::Base
   
   private
   
-  def cycle_duration_hours
+  def cycle_duration_in_units(multiplier = 1)
     case self.cycle_duration_unit
-      when DURATION_UNIT_DAYS then self.cycle_duration.days
-      when DURATION_UNIT_MONTHS then self.cycle_duration.months
-      when DURATION_UNIT_YEARS then self.cycle_duration.years
+      when DURATION_UNIT_DAYS then (self.cycle_duration * multiplier).days
+      when DURATION_UNIT_MONTHS then (self.cycle_duration * multiplier).months
+      when DURATION_UNIT_YEARS then (self.cycle_duration * multiplier).years
     end
   end
   
