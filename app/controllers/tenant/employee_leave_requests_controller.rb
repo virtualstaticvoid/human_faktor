@@ -14,7 +14,7 @@ module Tenant
       @leave_request = LeaveRequest.new()
       @leave_request.approver = current_employee.approver
       @leave_request.leave_type_id = params[:leave_type] if params[:leave_type]
-      @leave_request.date_from = params[:from] if params[:from]
+      @leave_request.date_from = params[:from] || Date.today
       @leave_request.date_to = params[:to] if params[:to]
 
       respond_to do |format|
