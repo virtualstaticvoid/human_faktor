@@ -7,7 +7,7 @@ en:
     exceeds_minimum_number_of_days_per_request: "Is less than the minimum allowed number of days per request."
     exceeds_maximum_number_of_days_per_request: "Is greater than the maximum allowed number of days per request."
     exceeds_leave_cycle_allowance: "Exceeds the maximum allowance for this leave cycle."
-    exceeds_negative_leave_balance: "Exceeds the maximum negative leave balancegmate for this leave cycle."
+    exceeds_negative_leave_balance: "Exceeds the maximum negative leave balance for this leave cycle."
     is_unscheduled: "May be considered as unscheduled leave."
     is_adjacent: "Is adjacent to a weekend, public holiday or another leave request."
     requires_documentation: "Requires supporting documentation explaining the absence."
