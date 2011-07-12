@@ -125,20 +125,4 @@ class EmployeeTest < ActiveSupport::TestCase
     end
   end
 
-  test "provides take_on_balance_for of leave balance" do
-    employee = employees(:takeon)
-    employee.account.leave_types.each do |leave_type|
-      lb = LeaveBalance.create(
-        :account_id => employee.account_id,
-        :employee_id => employee.id,
-        :leave_type_id => leave_type.id,
-        :date_as_at => Date.today,
-        :balance => 9.998
-      )
-      puts lb.errors.full_messages
-      lb.save!
-      assert_equal 9.998, employee.take_on_balance_for(leave_type)
-    end
-  end
-
 end
