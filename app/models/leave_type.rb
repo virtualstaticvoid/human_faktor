@@ -90,13 +90,23 @@ class LeaveType < ActiveRecord::Base
     start_date
   end
   
+  # leave balance calculation
+  def balance_for(employee, date_as_at)
+    # TODO
+    0
+  end
+
   # supported leave types
 
   class Annual < LeaveType
   
     default_values :color => '0037C7'
   
-    # TODO: add accrual calculation methods...
+    # override to provide accrual calculation
+    def balance_for(employee, date_as_at)
+      # TODO
+      0
+    end
     
   end
 
