@@ -1,7 +1,7 @@
 <ul>
   <li><%= link_to "Summary", dashboard_path %></li>
   <li><%= link_to "My Calendar", calendar_path %></li>
-  <li><%= link_to "My Requests", employee_leave_requests_path %></li>
+  <li><%= link_to "My Leave", employee_leave_requests_path %></li>
   <li><%= link_to "My Balance", balance_path %></li>
 <%= render :partial => "tenant/dashboard/#{current_employee.role}/nav_bar" %>
   <li><%= link_to "Profile", profile_path %></li>
