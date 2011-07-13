@@ -142,14 +142,14 @@ class LeaveRequest < ActiveRecord::Base
   
   def request
     write_attribute :captured, false
-    update_duration
+    write_attribute :duration, calculate_duration
     evaluate_constraints
     confirm unless self.has_constraint_violations?
   end
   
   def capture(approver)
     write_attribute :captured, true
-    update_duration
+    write_attribute :duration, calculate_duration
     evaluate_constraints
     unless self.has_constraint_violations?
       confirm(approver)
@@ -229,7 +229,7 @@ class LeaveRequest < ActiveRecord::Base
     self.employee == employee || employee.is_manager_of?(self.employee)
   end
 
-  def update_duration
+  def calculate_duration
   
     # subtract weekends and holidays!
     weekend_days = (self.date_from..self.date_to).select {|d| [6, 0].include?(d.wday) }.count
@@ -239,15 +239,18 @@ class LeaveRequest < ActiveRecord::Base
       { :from => self.date_from, :to => self.date_to }
     ).count
 
-    duration = (1 + (self.date_to - self.date_from).to_i) - weekend_days - holidays
+    duration = 0.00
+
+    duration += (1 + (self.date_to - self.date_from).to_i) - weekend_days - holidays
     
     # subtract half day start/end
     duration -= 0.5 if self.half_day_from
     duration -= 0.5 if self.half_day_to
-    
+
     # it's possible for negative values!
     #  e.g. dates are on a weekend which also has a public holiday  
-    self.duration = duration < 0 ? 0 : duration
+    (duration < 0) ? 0 : duration
+    
   end
 
   private
