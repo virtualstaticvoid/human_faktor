@@ -46,14 +46,14 @@
   <p></p>
 
   <div class="field">
-    <div><em>less</em> <%= label_tag :requested_duration %></div>
-    <span><%= text_field_tag :requested_duration, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
+    <div><em>less</em> <%= label_tag :leave_requested %></div>
+    <span><%= text_field_tag :leave_requested, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
 
   <div class="field">
-    <div class="total_row"><%= label_tag :leave_balance %></div>
-    <span><%= text_field_tag :leave_balance, leave_balance - request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
+    <div class="total_row"><%= label_tag :new_balance %></div>
+    <span><%= text_field_tag :new_balance, leave_balance - request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
 
