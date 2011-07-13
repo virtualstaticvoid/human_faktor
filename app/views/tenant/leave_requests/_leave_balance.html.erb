@@ -1,3 +1,9 @@
+<% if leave_type.nil? || date_as_at.nil?  %>
+
+<p>Please select a leave type and supply a from date.</p>
+
+<% else %>
+
 <p>As at <strong><%= date_as_at.strftime("%e %b %Y") %></strong></p>
 
 <div class="field">
@@ -18,4 +24,4 @@
   <span class="field_info">days</span>
 </div>
 
-
+<% end %>

@@ -101,7 +101,7 @@ module Tenant
       @date_as_at = begin
                       Date.parse(params[:date_as_at]) 
                     rescue
-                      Date.today
+                      nil
                     end
 
       respond_to do |format|
