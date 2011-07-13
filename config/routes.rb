@@ -74,6 +74,8 @@ HumanFaktor::Application.routes.draw do
       resources :departments, :module => 'tenant'
       resources :employees, :module => 'tenant'
 
+      get "employee_upload", :to => "tenant/employee_upload#index", :as => :employee_upload
+
       get "/", :to => "tenant/account#index", :as => :account
 
     end
