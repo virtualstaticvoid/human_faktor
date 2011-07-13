@@ -68,3 +68,8 @@
 .leave_request_right p {
   margin: 0 0 10px 0;
 }
+
+.leave_request_right .panel_box .panel_box_title {
+  background-color: #F0F0F0;
+}
+
