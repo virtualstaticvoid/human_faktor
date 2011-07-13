@@ -27,22 +27,6 @@ class Account < ActiveRecord::Base
   has_many :leave_requests, :dependent => :destroy
   has_many :leave_balances, :dependent => :destroy
 
-  # cache leave types, so that validations work!
-  LeaveType.for_each_leave_type do |leave_type_class|
-    method_name = leave_type_class.name.underscore.gsub(/\//, '_')
-    leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
-    class_eval "def #{method_name}; @#{method_name} ||= self.leave_types.#{leave_type_name}; end", __FILE__, __LINE__
-  end
-  
-  def leave_types_valid?
-    valid = true
-    LeaveType.for_each_leave_type do |leave_type_class|
-      method_name = leave_type_class.name.underscore.gsub(/\//, '_')
-      valid &= self.send(method_name).valid?
-    end
-    valid
-  end
-
   validates :identifier, :presence => true
 
   validates :subdomain, 
@@ -76,13 +60,21 @@ class Account < ActiveRecord::Base
 
   validates :active, :inclusion => { :in => [true, false] }
 
-  def to_param
-    self.identifier
+  # cache leave types, so that validations work!
+  LeaveType.for_each_leave_type do |leave_type_class|
+    method_name = leave_type_class.name.underscore.gsub(/\//, '_')
+    leave_type_name = leave_type_class.name.gsub(/LeaveType::/, '').downcase
+    class_eval "def #{method_name}; @#{method_name} ||= self.leave_types.#{leave_type_name}; end", __FILE__, __LINE__
   end
   
-  def to_s
-    self.title
-  end
+#  def leave_types_valid?
+#    valid = true
+#    LeaveType.for_each_leave_type do |leave_type_class|
+#      method_name = leave_type_class.name.underscore.gsub(/\//, '_')
+#      valid &= self.send(method_name).valid?
+#    end
+#    valid
+#  end
 
   def update_leave_type_attributes(attributes)
     with_transaction_returning_status do
@@ -96,7 +88,15 @@ class Account < ActiveRecord::Base
       valid
     end
   end
+
+  def to_param
+    self.identifier
+  end
   
+  def to_s
+    self.title
+  end
+
   def registration
     @registration ||= Registration.find_by_auth_token(self.auth_token)
   end
