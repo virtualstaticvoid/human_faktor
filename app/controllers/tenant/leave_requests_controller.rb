@@ -96,11 +96,10 @@ module Tenant
     
     def balance
       @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type]
-      @date_as_at = begin
-                      Date.parse(params[:date_as_at]) 
-                    rescue
-                      nil
-                    end
+      @date_from = ApplicationHelper.safe_parse_date(params[:date_from])
+      @half_day_from = params[:half_day_from] == '1'
+      @date_to = ApplicationHelper.safe_parse_date(params[:date_to])
+      @half_day_to = params[:half_day_to] == '1'
 
       respond_to do |format|
         format.js

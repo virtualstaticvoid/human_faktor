@@ -1,27 +1,62 @@
-<% if leave_type.nil? || date_as_at.nil?  %>
+<% if leave_type.nil? || date_from.nil?  %>
 
-<p>Please select a leave type and supply a from date.</p>
+<p>Please supply a <em>leave type</em>, <em>from</em> and <em>to</em> date.</p>
 
-<% else %>
+<% else
 
-<p>As at <strong><%= date_as_at.strftime("%e %b %Y") %></strong></p>
+    leave_allowance = leave_type.allowance_for(current_employee, date_from)
+    leave_taken_to_date = leave_type.leave_taken_for(current_employee, date_from)
+    leave_balance = leave_allowance - leave_taken_to_date
+  
+%>
 
-<div class="field">
-  <div><%= label_tag :leave_taken_to_date %></div>
-  <span><%= text_field_tag :leave_taken_to_date, leave_type.leave_taken_for(current_employee, date_as_at), { :style => 'width: 158px;', :disabled => true} %></span>
-  <span class="field_info">days</span>
-</div>
+  <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
 
-<div class="field">
-  <div><%= label_tag :leave_allowance %></div>
-  <span><%= text_field_tag :leave_allowance, leave_type.allowance_for(current_employee, date_as_at), { :style => 'width: 158px;', :disabled => true} %></span>
-  <span class="field_info">days</span>
-</div>
+  <div class="field">
+    <div><%= label_tag :leave_allowance %></div>
+    <span><%= text_field_tag :leave_allowance, leave_allowance, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
 
-<div class="field">
-  <div><%= label_tag :leave_balance %></div>
-  <span><%= text_field_tag :leave_balance, leave_type.balance_for(current_employee, date_as_at), { :style => 'width: 158px;', :disabled => true} %></span>
-  <span class="field_info">days</span>
-</div>
+  <div class="field">
+    <div><em>less</em> <%= label_tag :leave_taken %></div>
+    <span><%= text_field_tag :leave_taken, leave_taken_to_date, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
+
+  <div class="field">
+    <div class="total_row"><%= label_tag :leave_balance %></div>
+    <span><%= text_field_tag :leave_balance, leave_balance, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
+
+  <% unless date_to.nil? 
+
+    request_duration = current_account.leave_requests.build(
+      :employee_id => current_employee.id,
+      :leave_type_id => leave_type.id,
+      :date_from => date_from,
+      :half_day_from => half_day_from,
+      :date_to => date_to,
+      :half_day_to => half_day_to
+    ).calculate_duration
+
+  %>
+  
+  <p></p>
+
+  <div class="field">
+    <div><em>less</em> <%= label_tag :requested_duration %></div>
+    <span><%= text_field_tag :requested_duration, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
+
+  <div class="field">
+    <div class="total_row"><%= label_tag :leave_balance %></div>
+    <span><%= text_field_tag :leave_balance, leave_balance - request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
+
+  <% end %>
 
 <% end %>
