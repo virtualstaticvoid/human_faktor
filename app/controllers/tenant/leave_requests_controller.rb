@@ -1,8 +1,6 @@
 module Tenant
   class LeaveRequestsController < DashboardController
 
-    before_filter :ensure_can_authorise_leave, :except => [:edit, :confirm, :cancel]
-    
     def edit
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
@@ -109,13 +107,6 @@ module Tenant
       end
     end
     
-    private
-    
-    def ensure_can_authorise_leave
-      redirect_to(dashboard_url, :notice => 'You are not authorized to perform this action.') and return false unless current_employee.can_authorise_leave?
-      true
-    end
-
   end
 end
 
