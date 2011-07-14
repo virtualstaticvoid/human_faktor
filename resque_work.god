@@ -1,8 +1,8 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
 rails_root  = ENV['RAILS_ROOT'] || File.dirname(__FILE__)
 num_workers = ENV['RESQUE_WORKERS'] || 1
-bundler_path   = ENV['BUNDLER_PATH'] || '/usr/local/rvm/gems/ruby-1.9.2-p180/bin/bundle'
-queue_name  = ENV['RESQUE_QUEUE'] || '*'
+bundler_path = ENV['BUNDLER_PATH'] || '/usr/local/rvm/gems/ruby-1.9.2-p180/bin/bundle'
+queue_name = ENV['RESQUE_QUEUE'] || 'critical, high, medium, low'
 
 num_workers.times do |num|
   God.watch do |w|

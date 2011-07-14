@@ -1,7 +1,7 @@
 require 'date'
 
 class AccountProvisioner
-  @queue = :account_provisioner_queue
+  @queue = :high
   
   def self.perform(registration_id)
   
