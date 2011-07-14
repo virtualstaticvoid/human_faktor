@@ -7,6 +7,20 @@
       <td><%= leave_request.created_at_s %></td>
       <td width="160px"></td>
     </tr>
+    
+    <% if leave_request.captured? %>
+
+      <tr>
+        <td>Captured By:</td>
+        <td><%= leave_request.captured_by %></td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><br /></td>
+      </tr>
+      
+    <% end %>
 
     <tr>
       <td>Type:</td>
