@@ -41,6 +41,10 @@ module Tenant
       @leave_request.confirm
       assert @leave_request.approve!(employees(:admin), '')
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
+
+      assert_equal false, @leave_request.approved_declined_by.nil?
+      assert_equal false, @leave_request.approved_declined_at.nil?
+
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
     end
@@ -50,6 +54,10 @@ module Tenant
       @leave_request.confirm
       assert @leave_request.decline!(employees(:admin), '')
       assert @leave_request.status == LeaveRequest::STATUS_DECLINED
+
+      assert_equal false, @leave_request.approved_declined_by.nil?
+      assert_equal false, @leave_request.approved_declined_at.nil?
+
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
     end
@@ -57,8 +65,13 @@ module Tenant
     test "should get edit when status is cancelled" do
       sign_in_as :employee
       @leave_request.confirm
+      assert @leave_request.approve(employees(:admin), '')
       assert @leave_request.cancel!(@leave_request.employee)
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
+
+      assert_equal false, @leave_request.cancelled_by.nil?
+      assert_equal false, @leave_request.cancelled_at.nil?
+      
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
     end
@@ -66,8 +79,13 @@ module Tenant
     test "should get edit when status is reinstated" do
       sign_in_as :employee
       @leave_request.confirm
+      assert @leave_request.approve(employees(:admin), '')
       assert @leave_request.cancel(@leave_request.employee)
       assert @leave_request.reinstate!(@leave_request.approver)
+
+      assert_equal false, @leave_request.reinstated_by.nil?
+      assert_equal false, @leave_request.reinstated_at.nil?
+      
       assert @leave_request.status == LeaveRequest::STATUS_REINSTATED
       get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
       assert_response :success
