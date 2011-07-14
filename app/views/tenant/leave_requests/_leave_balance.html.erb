@@ -1,8 +1,14 @@
-<% if leave_type.nil? || date_from.nil?  %>
+<% if employee.nil? || leave_type.nil? || date_from.nil?  %>
 
-<p>Please supply a <em>leave type</em>, <em>from</em> and <em>to</em> date.</p>
+  <% if employee.nil? %>
+    <p>Please supply an <em>employee</em>, <em>leave type</em>, <em>from</em> and <em>to</em> dates.</p>
+  <% else %>
+    <p>Please supply a <em>leave type</em>, <em>from</em> and <em>to</em> dates.</p>
+  <% end %>
 
 <% else
+
+    # unpaid ?
 
     leave_allowance = leave_type.allowance_for(employee, date_from)
     # TODO: get take on balance, if in the current leave cycle
