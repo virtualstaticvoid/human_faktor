@@ -12,6 +12,11 @@ module Tenant
       @employee = params[:employee].present? ?
                     current_account.employees.find_by_identifier(params[:employee]) :
                     current_employee
+    
+      # permission check
+      if @employee != current_employee && !current_employee.is_manager_of?(@employee) 
+        redirect_to dashboard_url and return false
+      end
     end
 
     def calendar

@@ -95,10 +95,16 @@ module Tenant
     end
     
     #
-    # NOTE: exception to the rule for employees... uses the employee id and not the identifier
+    # NOTE: exception to the rule for employees... uses the employee id and not the identifier!
     #
     def balance
       @employee = current_account.employees.find(params[:employee]) if params[:employee].present?
+    
+      # permission check
+      if !@employee.nil? && @employee != current_employee && !current_employee.is_manager_of?(@employee)
+        redirect_to dashboard_url and return false
+      end
+      
       @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type].present?
       @date_from = ApplicationHelper.safe_parse_date(params[:date_from])
       @half_day_from = params[:half_day_from] == '1'

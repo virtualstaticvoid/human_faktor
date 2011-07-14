@@ -190,7 +190,35 @@ module Tenant
                     :unpaid => '0'
       assert_response :success
     end
+
+    test "should get balance for subordinate employee" do
+      sign_in_as :admin
+      get :balance, :format => :js, 
+                    :tenant => @account.subdomain,
+                    :employee => employees(:employee).id,
+                    :leave_type => @account.leave_type_annual,
+                    :date_from => Date.today,
+                    :half_day_from => '0',
+                    :date_to => Date.today + 4,
+                    :half_day_to => '0',
+                    :unpaid => '0'
+      assert_response :success
+    end
     
+    test "cannot get balance for non-subordinate employee" do
+      sign_in_as :employee
+      get :balance, :format => :js, 
+                    :tenant => @account.subdomain,
+                    :employee => employees(:employee1).id,
+                    :leave_type => @account.leave_type_annual,
+                    :date_from => Date.today,
+                    :half_day_from => '0',
+                    :date_to => Date.today + 4,
+                    :half_day_to => '0',
+                    :unpaid => '0'
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    end
+
   end
 end
 

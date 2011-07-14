@@ -89,5 +89,29 @@ module Tenant
 
     end
 
+    test "should get balance" do
+      sign_in_as :employee
+      get :balance, :tenant => @account.subdomain
+      assert_response :success
+    end
+
+    test "should get balance for self" do
+      sign_in_as :employee
+      get :balance, :tenant => @account.subdomain, :employee => employees(:employee).to_param
+      assert_response :success
+    end
+
+    test "cannot get balance for non-subordinate employee" do
+      sign_in_as :employee
+      get :balance, :tenant => @account.subdomain, :employee => employees(:employee1).to_param
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    end
+
+    test "should get balance for subordinate employee" do
+      sign_in_as :admin
+      get :balance, :tenant => @account.subdomain, :employee => employees(:employee).to_param
+      assert_response :success
+    end
+
   end
 end
