@@ -3,8 +3,14 @@
   <table>
 
     <tr>
-      <td width="140px">Type:</td>
-      <td width="160px"><%= leave_request.leave_type %> Leave</td>
+      <td width="140px">Created:</td>
+      <td><%= leave_request.created_at_s %></td>
+      <td width="160px"></td>
+    </tr>
+
+    <tr>
+      <td>Type:</td>
+      <td><%= leave_request.leave_type %> Leave</td>
       <td></td>
     </tr>
     

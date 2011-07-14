@@ -110,16 +110,29 @@ class LeaveRequest < ActiveRecord::Base
     self.captured
   end
 
+  def created_at_s
+    self.created_at.strftime("%Y-%m-%d")
+  end
+
   validates :approved_declined_by, :existence => true, :allow_nil => true
+  validates :approved_declined_at, :timeliness => { :type => :date }, :allow_nil => true
+
+  def approved_declined_at_s
+    self.approved_declined_at.strftime("%Y-%m-%d")
+  end
 
   validates :cancelled_by, :existence => true, :allow_nil => true
   validates :cancelled_at, :timeliness => { :type => :date }, :allow_nil => true
+  
+  def cancelled_at_s
+    self.cancelled_at.strftime("%Y-%m-%d")
+  end
 
   validates :reinstated_by, :existence => true, :allow_nil => true
   validates :reinstated_at, :timeliness => { :type => :date }, :allow_nil => true
   
-  def cancelled_at_s
-    self.cancelled_at.strftime('%Y-%m-%d')
+  def reinstated_at_s
+    self.reinstated_at.strftime('%Y-%m-%d')
   end
 
   # description for calendar tooltips
@@ -182,8 +195,8 @@ class LeaveRequest < ActiveRecord::Base
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
     write_attribute :approved_declined_by_id, approver.id
-    write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
+    write_attribute :approver_comment, comment
     write_attribute :status, STATUS_APPROVED
   end
   
@@ -192,8 +205,8 @@ class LeaveRequest < ActiveRecord::Base
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
     write_attribute :approved_declined_by_id, approver.id
-    write_attribute :approver_comment, comment
     write_attribute :approved_declined_at, Time.now
+    write_attribute :approver_comment, comment
     write_attribute :status, STATUS_DECLINED
   end
   
