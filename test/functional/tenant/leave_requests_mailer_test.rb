@@ -9,6 +9,8 @@ module Tenant
     end
 
     test "pending" do
+      @leave_request.confirm!
+
       mail = LeaveRequestsMailer.pending(@leave_request)
       assert_equal "#{@account.title} New Leave Request", mail.subject
       assert_equal [@leave_request.approver.email], mail.to
@@ -17,6 +19,9 @@ module Tenant
     end
 
     test "approved" do
+      @leave_request.confirm
+      @leave_request.approve!(@leave_request.approver, '')
+
       mail = LeaveRequestsMailer.approved(@leave_request)
       assert_equal "#{@account.title} Leave Approved", mail.subject
       assert_equal [@leave_request.employee.email], mail.to
@@ -25,6 +30,9 @@ module Tenant
     end
 
     test "declined" do
+      @leave_request.confirm
+      @leave_request.decline!(@leave_request.approver, '')
+
       mail = LeaveRequestsMailer.declined(@leave_request)
       assert_equal "#{@account.title} Leave Declined", mail.subject
       assert_equal [@leave_request.employee.email], mail.to
@@ -33,6 +41,10 @@ module Tenant
     end
 
     test "cancelled" do
+      @leave_request.confirm
+      @leave_request.approve(@leave_request.approver, '')
+      @leave_request.cancel!(@leave_request.employee)
+
       mail = LeaveRequestsMailer.cancelled(@leave_request)
       assert_equal "#{@account.title} Leave Cancelled", mail.subject
       assert_equal [@leave_request.approver.email], mail.to
