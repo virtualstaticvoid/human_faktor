@@ -32,10 +32,12 @@ module JqueryUiButtonHelper
         html << "<a href=\"#{button_options[:url]}\" id=\"a_#{button_id}\" data-remote=\"true\" style=\"display: none;\"></a>"
       end
       
+      # HACK... move this somewhere else... use a callback or some option...
       if options[:remote] == true && options[:progress] == true
       
         content = "$('#a_#{button_id}').live('ajax:before', function(event) {"
         content << " $('#ajax_working').css('display', '');"
+        content << " $('#paginator').css('display', 'none');"
         content << "});"
 
         #content << "$('#a_#{button_id}').live('ajax:complete', function(event) {"

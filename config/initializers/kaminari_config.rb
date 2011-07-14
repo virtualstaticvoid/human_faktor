@@ -1,8 +1,8 @@
 Kaminari.configure do |config|
   config.default_per_page = 20
-  # config.window = 4
-  # config.outer_window = 0
-  config.left = 2
-  config.right = 2
+  config.window = 0
+  config.outer_window = 0
+  config.left = 0
+  config.right = 0
   # config.param_name = :page
 end
