@@ -109,13 +109,19 @@ class LeaveRequest < ActiveRecord::Base
 
   validates :approved_declined_by, :existence => true, :allow_nil => true
   validates :cancelled_by, :existence => true, :allow_nil => true
+  validates :cancelled_at, :timeliness => { :type => :date }, :allow_nil => true
+  
+  def cancelled_at_s
+    self.cancelled_at.strftime('%Y-%m-%d')
+  end
 
   # description for calendar tooltips
   def description
     "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
   end
   
-  #validates :duration, :numericality => { :greater_than => 0 }
+  validates :duration, :numericality => { :greater_than_or_equal => 0 }
+  
   def duration
     read_attribute(:duration) || 0
   end
@@ -251,6 +257,10 @@ class LeaveRequest < ActiveRecord::Base
     #  e.g. dates are on a weekend which also has a public holiday  
     (duration < 0) ? 0 : duration
     
+  end
+  
+  def update_duration
+    write_attribute :duration, calculate_duration
   end
 
   private
