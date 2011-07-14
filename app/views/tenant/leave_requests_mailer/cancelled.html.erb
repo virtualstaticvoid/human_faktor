@@ -25,6 +25,7 @@
   <p>Leave Request Details:</p>
   
   <p class="block">
+    Created: <%= @leave_request.created_at_s %><br />
     From: <%= @leave_request.date_from_s %><br />
     To: <%= @leave_request.date_to_s %><br />
     Duration: <%= pluralize(@leave_request.duration, 'day') %><br />

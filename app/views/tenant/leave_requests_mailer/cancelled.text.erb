@@ -4,6 +4,7 @@ The <%= @leave_request.leave_type.to_s.downcase %> leave request for <%= @leave_
 
 Leave Request Details:
 
+  Created: <%= @leave_request.created_at_s %>
   From: <%= @leave_request.date_from_s %>
   To: <%= @leave_request.date_to_s %>
   Duration: <%= pluralize(@leave_request.duration, 'day') %>
