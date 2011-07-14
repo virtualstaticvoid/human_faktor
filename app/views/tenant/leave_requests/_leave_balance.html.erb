@@ -4,8 +4,9 @@
 
 <% else
 
-    leave_allowance = leave_type.allowance_for(current_employee, date_from)
-    leave_taken_to_date = leave_type.leave_taken_for(current_employee, date_from)
+    leave_allowance = leave_type.allowance_for(employee, date_from)
+    # TODO: get take on balance, if in the current leave cycle
+    leave_taken_to_date = leave_type.leave_taken_for(employee, date_from)
     leave_balance = leave_allowance - leave_taken_to_date
   
 %>
@@ -17,6 +18,8 @@
     <span><%= text_field_tag :leave_allowance, leave_allowance, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
+  
+  <!-- TODO: show take on balance -->
 
   <div class="field">
     <div><em>less</em> <%= label_tag :leave_taken %></div>
@@ -32,8 +35,9 @@
 
   <% unless date_to.nil? 
 
+    # create dummy request (which isn't saved) to calculate the duration
     request_duration = current_account.leave_requests.build(
-      :employee_id => current_employee.id,
+      :employee_id => employee.id,
       :leave_type_id => leave_type.id,
       :date_from => date_from,
       :half_day_from => half_day_from,

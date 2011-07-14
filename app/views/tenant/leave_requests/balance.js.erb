@@ -1,6 +1,7 @@
 $('#leave_balance').html('<%= escape_javascript(render(
         :partial => 'tenant/leave_requests/leave_balance', 
         :locals => { 
+          :employee => @employee,
           :leave_type => @leave_type, 
           :date_from => @date_from, 
           :half_day_from => @half_day_from, 

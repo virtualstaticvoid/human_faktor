@@ -95,6 +95,7 @@ module Tenant
     end
     
     def balance
+      @employee = current_employee
       @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type]
       @date_from = ApplicationHelper.safe_parse_date(params[:date_from])
       @half_day_from = params[:half_day_from] == '1'
