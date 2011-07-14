@@ -7,4 +7,7 @@
   }
 <%  first = false
   end %>
+<% if @employees.length > 20 %>
+  , { "id": "", "label": "...", "value": "" }
+<% end %>
 ]
