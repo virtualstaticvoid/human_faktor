@@ -10,7 +10,9 @@ class LeaveRequest < ActiveRecord::Base
   STATUS_APPROVED = 3
   STATUS_DECLINED = 4
   STATUS_CANCELLED = 5
-  STATUSES = [STATUS_NEW, STATUS_PENDING, STATUS_APPROVED, STATUS_DECLINED, STATUS_CANCELLED]
+  STATUS_REINSTATED = 6
+  STATUSES = [STATUS_NEW, STATUS_PENDING, STATUS_APPROVED, STATUS_DECLINED, STATUS_CANCELLED, STATUS_REINSTATED]
+  ACTIVE_STATUSES = [STATUS_PENDING, STATUS_APPROVED, STATUS_REINSTATED]
 
   @@statuses = []
   @@status_names = {}
@@ -29,7 +31,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   scope :pending, where(:status => STATUS_PENDING)
-  scope :active, where(:status => [STATUS_PENDING, STATUS_APPROVED])
+  scope :active, where(:status => ACTIVE_STATUSES)
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :status => STATUS_NEW,
@@ -49,6 +51,7 @@ class LeaveRequest < ActiveRecord::Base
   belongs_to :approver, :class_name => 'Employee'
   belongs_to :approved_declined_by, :class_name => 'Employee'
   belongs_to :cancelled_by, :class_name => 'Employee'
+  belongs_to :reinstated_by, :class_name => 'Employee'
 
   validates :identifier, :presence => true, :uniqueness => true
 
@@ -108,8 +111,12 @@ class LeaveRequest < ActiveRecord::Base
   end
 
   validates :approved_declined_by, :existence => true, :allow_nil => true
+
   validates :cancelled_by, :existence => true, :allow_nil => true
   validates :cancelled_at, :timeliness => { :type => :date }, :allow_nil => true
+
+  validates :reinstated_by, :existence => true, :allow_nil => true
+  validates :reinstated_at, :timeliness => { :type => :date }, :allow_nil => true
   
   def cancelled_at_s
     self.cancelled_at.strftime('%Y-%m-%d')
@@ -206,9 +213,13 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_cancelled?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
+    # NB: clear the cancellation details
     write_attribute :cancelled_by_id, nil
     write_attribute :cancelled_at, nil
-    write_attribute :status, STATUS_APPROVED
+    
+    write_attribute :reinstated_by_id, approver.id
+    write_attribute :reinstated_at, Time.now
+    write_attribute :status, STATUS_REINSTATED
   end
   
   # helpers
@@ -230,6 +241,7 @@ class LeaveRequest < ActiveRecord::Base
 
   # permissions
   
+  #  + approve, decline, reinstate
   def can_authorise?(employee)
     employee.can_authorise_leave? && 
       (self.approver == employee || employee.is_manager_of?(self.employee))
@@ -288,7 +300,7 @@ class LeaveRequest < ActiveRecord::Base
     return if self.persisted? || !self.valid?
 
     # HACK: need to supply this for the constraint logic to work
-    # IMPLEMENTATION: need to take time zone of client in account?
+    # NOTE: need to take time zone of client in account?
     write_attribute :created_at, Time.now
 
     LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
