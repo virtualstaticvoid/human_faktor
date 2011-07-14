@@ -63,6 +63,16 @@ module Tenant
       assert_response :success
     end
 
+    test "should get edit when status is reinstated" do
+      sign_in_as :employee
+      @leave_request.confirm
+      assert @leave_request.cancel(@leave_request.employee)
+      assert @leave_request.reinstate!(@leave_request.approver)
+      assert @leave_request.status == LeaveRequest::STATUS_REINSTATED
+      get :edit, :tenant => @account.subdomain, :id => @leave_request.to_param
+      assert_response :success
+    end
+
     [:admin, :manager, :approver].each do |role|
 
       test "should approve for #{role}" do
