@@ -145,7 +145,7 @@
                     current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]},
                     { :include_blank => true }, 
                     { :class => 'dropdown' } %></span>
-        <span class="field_info"></span>
+        <span class="field_info">NOTE: Only <b>active</b> approvers, managers and administrators, who receive <b>notifications</b> are listed.</span>
       </div>
 
       <h3>Leave Policy Overrides</h3>
