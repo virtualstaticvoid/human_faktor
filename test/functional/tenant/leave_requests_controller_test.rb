@@ -170,6 +170,26 @@ module Tenant
       put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
+
+    test "should get balance with no parameters" do
+      sign_in_as :employee
+      get :balance, :format => :js, :tenant => @account.subdomain
+      assert_response :success
+    end
+
+    test "should get balance with all parameters" do
+      sign_in_as :employee
+      get :balance, :format => :js, 
+                    :tenant => @account.subdomain,
+                    :employee => employees(:employee).id,
+                    :leave_type => @account.leave_type_annual,
+                    :date_from => Date.today,
+                    :half_day_from => '0',
+                    :date_to => Date.today + 4,
+                    :half_day_to => '0',
+                    :unpaid => '0'
+      assert_response :success
+    end
     
   end
 end
