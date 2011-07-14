@@ -4,6 +4,6 @@ class AddCancelledByToLeaveRequest < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :leave_requests, :cancelled_by
+    remove_column :leave_requests, :cancelled_by_id
   end
 end
