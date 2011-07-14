@@ -1,3 +1,12 @@
-<% content_title "Leave Balance" %>
+<% if @employee == current_employee %>
+  <% content_title "My Leave Balance" %>
+  <p>You leave balance as at <%= Date.today %>:</p>
+<% else %>
+  <% content_title "Leave Balance" %>
+  <p>Leave balance for <strong><%= @employee %></strong> as at <%= Date.today %>:</p>
+<% end %>
 
 <p>TODO</p>
+
+
+

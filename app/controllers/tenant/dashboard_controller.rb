@@ -9,6 +9,9 @@ module Tenant
     end
 
     def balance
+      @employee = params[:employee].present? ?
+                    current_account.employees.find_by_identifier(params[:employee]) :
+                    current_employee
     end
 
     def calendar
