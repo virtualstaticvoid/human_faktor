@@ -73,7 +73,7 @@ module LeaveConstraints
     protected
     
     def leave_taken(request)
-      request.leave_type.balance_for(request.employee, request.date_from) + request.duration
+      request.leave_type.leave_taken_for(request.employee, request.date_from) + request.duration
     end
 
     def leave_allowance(request)
