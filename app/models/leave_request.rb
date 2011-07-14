@@ -174,14 +174,14 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :captured, false
     write_attribute :duration, calculate_duration
     evaluate_constraints
-    confirm unless self.has_constraint_violations?
+    confirm unless !self.valid? || self.has_constraint_violations?
   end
   
   def capture(approver)
     write_attribute :captured, true
     write_attribute :duration, calculate_duration
     evaluate_constraints
-    unless self.has_constraint_violations?
+    unless !self.valid? || self.has_constraint_violations?
       confirm(approver)
       approve(approver, '') if self.approver == approver
     end
