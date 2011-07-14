@@ -139,10 +139,10 @@ div.field textarea {
   padding-left: 10px;
 }
 
-.field_info, .field_info a {
+.field_info, .field_info * {
   display: inline;
   color: silver;
-  font-size: 9pt;
+  font-size: 10pt;
 }
 
 .field_with_errors {
