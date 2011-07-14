@@ -20,7 +20,13 @@
 
   <p>Hello <%= @leave_request.employee.full_name %>,</p>
 
+<% if @leave_request.captured? %>
+  <p><strong><%= @leave_request.captured_by.full_name %></strong> has captured a request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.
+  <% if @leave_request.captured_by != @leave_request.approved_declined_by %><br />The request has been approved by <strong><%= @leave_request.approved_declined_by.fullname %></strong>.<% end %>
+  </p>
+<% else %>
   <p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has approved your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+<% end %>
 
   <p>Leave Request Details:</p>
 

@@ -1,6 +1,10 @@
 Hello <%= @leave_request.approver.full_name %>,
 
+<% if @leave_request.captured? %>
+<%= @leave_request.captured_by.full_name %> has captured <%= @leave_request.leave_type.to_s.downcase %> leave for <%= @leave_request.employee.full_name %>.
+<% else %>
 <%= @leave_request.employee.full_name %> has applied for <%= @leave_request.leave_type.to_s.downcase %> leave.
+<% end %>
 
 Leave Request Details:
 
