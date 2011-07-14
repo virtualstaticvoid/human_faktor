@@ -183,7 +183,6 @@ class LeaveRequest < ActiveRecord::Base
     evaluate_constraints
     unless !self.valid? || self.has_constraint_violations?
       confirm(approver)
-      approve(approver, '') if self.approver == approver
     end
   end
 
@@ -191,7 +190,7 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_new?
     
     write_attribute :status, STATUS_PENDING
-    approve(employee, '') if !employee.nil? && self.captured? && self.approver == employee
+    approve(employee, '') if !employee.nil? && self.valid? && self.captured? && self.approver == employee
   end
   
   def approve(approver, comment)
