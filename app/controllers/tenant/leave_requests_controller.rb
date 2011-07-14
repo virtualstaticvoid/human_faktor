@@ -94,6 +94,9 @@ module Tenant
       end
     end
     
+    #
+    # NOTE: exception to the rule for employees... uses the employee id and not the identifier
+    #
     def balance
       @employee = current_account.employees.find(params[:employee]) if params[:employee].present?
       @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type].present?
