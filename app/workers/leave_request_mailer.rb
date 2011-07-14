@@ -13,6 +13,8 @@ class LeaveRequestMailer
              Tenant::LeaveRequestsMailer.declined(leave_request)
            elsif leave_request.status_cancelled?
              Tenant::LeaveRequestsMailer.cancelled(leave_request)
+           elsif leave_request.status_reinstated?
+             Tenant::LeaveRequestsMailer.reinstated(leave_request)
            end
 
     mail.deliver if mail        
