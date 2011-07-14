@@ -17,9 +17,6 @@ module JqueryUiAutoCompleteHelper
       block.call(value) :
       value.to_s
     
-    # insert defaults
-    options[:min_length] = '2' unless options[:min_length]
-
     html = ""
     html << "<div class=\"field_with_errors\">" if has_error
     html << hidden_field_tag("#{@object_name.to_s}[#{method.to_s}]", value)
@@ -29,6 +26,18 @@ module JqueryUiAutoCompleteHelper
     html << "    $('##{sanitized_object_name}_autocomplete_#{sanitized_method_name}').autocomplete({"
     html << "         source: \"#{options[:source]}\", "
     html << "         minLength: #{options[:min_length]}, "
+    
+    # write out autocomplete options
+    # see http://jqueryui.com/demos/autocomplete/#options for available list
+    if options[:options].is_a?(Hash)
+      first = true
+      options[:options].each do |key, value|
+        html << "," unless first
+        html << " #{key}: #{value}"
+        first = false
+      end
+    end
+    
     html << "         select: function(event, ui) {"
     html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').val(ui.item.id);"
     html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').change();"
