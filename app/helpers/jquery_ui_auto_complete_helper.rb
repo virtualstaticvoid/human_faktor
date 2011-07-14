@@ -24,21 +24,17 @@ module JqueryUiAutoCompleteHelper
     html << "<script type=\"text/javascript\">"
     html << "  $(function() {"
     html << "    $('##{sanitized_object_name}_autocomplete_#{sanitized_method_name}').autocomplete({"
-    html << "         source: \"#{options[:source]}\", "
-    html << "         minLength: #{options[:min_length]}, "
+    html << "         source: \"#{options[:source]}\" "
     
     # write out autocomplete options
     # see http://jqueryui.com/demos/autocomplete/#options for available list
     if options[:options].is_a?(Hash)
-      first = true
       options[:options].each do |key, value|
-        html << "," unless first
-        html << " #{key}: #{value}"
-        first = false
+        html << ", #{key}: #{value}"
       end
     end
     
-    html << "         select: function(event, ui) {"
+    html << "         , select: function(event, ui) {"
     html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').val(ui.item.id);"
     html << "           $('##{sanitized_object_name}_#{sanitized_method_name}').change();"
     html << "         },"
