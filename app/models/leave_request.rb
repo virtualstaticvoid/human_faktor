@@ -174,9 +174,12 @@ class LeaveRequest < ActiveRecord::Base
   
   def request
     write_attribute :captured, false
-    write_attribute :duration, calculate_duration
-    evaluate_constraints
-    confirm unless !self.valid? || self.has_constraint_violations?
+
+    unless !self.valid?
+      write_attribute :duration, calculate_duration
+      evaluate_constraints
+      confirm unless self.has_constraint_violations?
+    end
   end
   
   def capture(approver)
@@ -184,10 +187,11 @@ class LeaveRequest < ActiveRecord::Base
 
     write_attribute :captured_by_id, approver.id
     write_attribute :captured, true
-    write_attribute :duration, calculate_duration
-    evaluate_constraints
-    unless !self.valid? || self.has_constraint_violations?
-      confirm(approver)
+    
+    unless !self.valid?
+      write_attribute :duration, calculate_duration
+      evaluate_constraints
+      confirm(approver) unless self.has_constraint_violations?
     end
   end
 
