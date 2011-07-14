@@ -221,7 +221,11 @@ class LeaveRequest < ActiveRecord::Base
   
   def cancel!(approver)
     self.cancel(approver)
-    save unless self.status_new?
+    if self.status_new?
+      true
+    else
+      save unless self.status_new?
+    end
   end
 
   # permissions
