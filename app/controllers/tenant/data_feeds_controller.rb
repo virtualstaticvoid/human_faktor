@@ -32,7 +32,7 @@ module Tenant
     def employee_staff
 
       search_pattern = params[:term].present? ? params[:term] : "%"
-      search_pattern.gsub!(/%/, '.*?')
+      search_pattern.gsub!(/\*/, '.*?')
       
       regexp = Regexp.new(search_pattern, Regexp::IGNORECASE)
       
