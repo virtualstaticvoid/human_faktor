@@ -20,15 +20,23 @@
 
   <p>Hello <%= @leave_request.approver.full_name %>,</p>
 
-  <p><strong><%= @leave_request.employee.full_name %></strong> has cancelled the request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+  <p>The <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave request for <strong><%= @leave_request.employee.full_name %></strong> has been cancelled.</p>
 
   <p>Leave Request Details:</p>
-
+  
   <p class="block">
     From: <%= @leave_request.date_from_s %><br />
     To: <%= @leave_request.date_to_s %><br />
     Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
+    Cancelled On: <%= @leave_request.cancelled_at_s %><br />
     Comment: <%= @leave_request.comment %><br />
+  </p>
+
+  <p>Cancellation Details:</p>
+
+  <p class="block">
+    Cancelled On: <%= @leave_request.cancelled_at_s %><br />
+    Cancelled By: <%= @leave_request.cancelled_by.full_name %>
   </p>
   
   <p>To review the leave request, please follow this link:</p>
