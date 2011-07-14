@@ -11,7 +11,7 @@
     
     <div class="field">
       <div><%= f.label :employee_id %></div>
-      <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name, or * for all', :min_length => 1) {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
+      <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name, or * for all') {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
       <span class="field_info"></span>
     </div>
 
