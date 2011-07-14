@@ -25,6 +25,10 @@
   background: url('../images/leave_request_cancelled.png') no-repeat center center;
 }
 
+.status_reinstated {
+  background: url('../images/leave_request_reinstated.png') no-repeat center center;
+}
+
 .leave_request_paperclip {
   background: url('../images/paperclip.png') no-repeat center center;
 }
