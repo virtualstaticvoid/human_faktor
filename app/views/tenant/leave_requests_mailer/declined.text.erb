@@ -1,6 +1,6 @@
 Hello <%= @leave_request.employee.full_name %>,
 
-<%= @leave_request.approver.full_name %> has declined your request for <%= @leave_request.leave_type.to_s.downcase %> leave.
+<%= @leave_request.approved_declined_by.full_name %> has declined your request for <%= @leave_request.leave_type.to_s.downcase %> leave.
 
 Leave Request Details:
 

@@ -20,7 +20,7 @@
 
   <p>Hello <%= @leave_request.employee.full_name %>,</p>
 
-  <p><strong><%= @leave_request.approver.full_name %></strong> has declined your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+  <p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has declined your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 
   <p>Leave Request Details:</p>
 
