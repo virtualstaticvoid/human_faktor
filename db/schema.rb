@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110714104546) do
+ActiveRecord::Schema.define(:version => 20110714143007) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20110714104546) do
     t.decimal  "duration"
     t.integer  "reinstated_by_id"
     t.date     "reinstated_at"
+    t.integer  "captured_by_id"
   end
 
   add_index "leave_requests", ["account_id", "employee_id"], :name => "index_leave_requests_on_account_id_and_employee_id"

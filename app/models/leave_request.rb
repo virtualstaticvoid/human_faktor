@@ -48,6 +48,7 @@ class LeaveRequest < ActiveRecord::Base
 
   belongs_to :employee
   belongs_to :leave_type
+  belongs_to :captured_by, :class_name => 'Employee'
   belongs_to :approver, :class_name => 'Employee'
   belongs_to :approved_declined_by, :class_name => 'Employee'
   belongs_to :cancelled_by, :class_name => 'Employee'
@@ -108,6 +109,7 @@ class LeaveRequest < ActiveRecord::Base
     self.document.file?
   end                    
 
+  validates :captured_by, :existence => true, :allow_nil => true
   validates :captured, :inclusion => { :in => [true, false] }
   
   def captured?
@@ -178,6 +180,9 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def capture(approver)
+    raise InvalidOperationException if approver.nil?
+
+    write_attribute :captured_by_id, approver.id
     write_attribute :captured, true
     write_attribute :duration, calculate_duration
     evaluate_constraints
