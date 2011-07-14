@@ -194,6 +194,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def approve(approver, comment)
+    raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
@@ -204,6 +205,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def decline(approver, comment)
+    raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
@@ -214,6 +216,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def cancel(approver)
+    raise InvalidOperationException if approver.nil?
     raise PermissionDeniedException unless self.can_cancel?(approver)
 
     if self.status_new?
@@ -226,6 +229,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def reinstate(approver)
+    raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_cancelled?
     raise PermissionDeniedException unless self.can_authorise?(approver)
 
@@ -247,6 +251,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def cancel!(approver)
+    raise InvalidOperationException if approver.nil?
     self.cancel(approver)
     if self.status_new?
       true
@@ -259,11 +264,15 @@ class LeaveRequest < ActiveRecord::Base
   
   #  + approve, decline, reinstate
   def can_authorise?(employee)
+    raise InvalidOperationException if employee.nil?
+    
     employee.can_authorise_leave? && 
       (self.approver == employee || employee.is_manager_of?(self.employee))
   end
 
   def can_cancel?(employee)
+    raise InvalidOperationException if employee.nil?
+    
     self.employee == employee || employee.is_manager_of?(self.employee)
   end
 
