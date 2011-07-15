@@ -1,8 +1,8 @@
 rails_env   = ENV['RAILS_ENV']  || "production"
 rails_root  = ENV['RAILS_ROOT'] || File.dirname(__FILE__)
 num_workers = ENV['RESQUE_WORKERS'] || 1
-bundler_path = ENV['BUNDLER_PATH'] || '/usr/local/rvm/gems/ruby-1.9.2-p180/bin/bundle'
-queue_name = ENV['RESQUE_QUEUE'] || 'critical, high, medium, low'
+rake_path   = ENV['BUNDLER_PATH'] || '/usr/local/rvm/gems/ruby-1.9.2-p180/bin/rake'
+queue_name  = ENV['RESQUE_QUEUE'] || '*'
 
 num_workers.times do |num|
   God.watch do |w|
@@ -10,7 +10,7 @@ num_workers.times do |num|
     w.name     = "resque-#{num}"
     w.group    = 'resque'
     w.interval = 30.seconds
-    w.start    = "#{bundler_path} rake -f #{rails_root}/Rakefile resque:work RAILS_ENV=#{rails_env} QUEUE='#{queue_name}'"
+    w.start    = "#{rake_path} -f #{rails_root}/Rakefile resque:work RAILS_ENV=#{rails_env} QUEUE='#{queue_name}'"
 
     w.uid = 'www-data'
     w.gid = 'www-data'
