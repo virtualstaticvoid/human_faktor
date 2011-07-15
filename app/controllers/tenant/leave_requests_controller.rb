@@ -110,7 +110,7 @@ module Tenant
       @half_day_from = params[:half_day_from] == '1'
       @date_to = ApplicationHelper.safe_parse_date(params[:date_to])
       @half_day_to = params[:half_day_to] == '1'
-      @unpaid = params[:unpaid] == '0'
+      @unpaid = params[:unpaid] == '1'
 
       respond_to do |format|
         format.js
