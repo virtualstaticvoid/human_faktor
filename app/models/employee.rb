@@ -147,6 +147,7 @@ class Employee < ActiveRecord::Base
     self.send(:"#{leave_type.leave_type_name}_leave_cycle_allocation") || leave_type.cycle_days_allowance
   end
 
+  # this is only applicable for annual leave*
   def leave_cycle_carry_over_for(leave_type)
     self.send(:"#{leave_type.leave_type_name}_leave_cycle_carry_over") || leave_type.cycle_days_carry_over
   end
