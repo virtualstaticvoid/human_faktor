@@ -132,8 +132,9 @@ class LeaveType < ActiveRecord::Base
     cycle_start_date = self.cycle_start_date_of(date_as_at)
     cycle_end_date = self.cycle_end_date_of(date_as_at)
     
-    leave_taken_for_cycle = employee.leave_requests.active.where(
-      :leave_type_id => self.id
+    leave_taken = employee.leave_requests.active.where(
+      :leave_type_id => self.id,
+      :unpaid => false
     ).where(
       ' date_from BETWEEN :from AND :to ',
       { :from => cycle_start_date, :to => cycle_end_date }
