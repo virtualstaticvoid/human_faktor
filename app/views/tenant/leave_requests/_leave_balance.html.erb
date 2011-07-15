@@ -12,14 +12,14 @@
   leave_take_on = leave_type.leave_take_on_for(employee, date_from)
   leave_taken = leave_type.leave_taken_for(employee, date_from)
   unpaid_leave_taken = leave_type.leave_taken_for(employee, date_from, true)
-  leave_balance = leave_allowance - leave_take_on - leave_taken
+  leave_available = leave_allowance - leave_take_on - leave_taken
   
 %>
 
   <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
 
   <div class="field">
-    <div><%= label_tag :leave_allowance %></div>
+    <div><%= label_tag :leave_allowance, 'Allowance' %></div>
     <span><%= text_field_tag :leave_allowance, leave_allowance, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
@@ -38,17 +38,9 @@
     <span class="field_info">days</span>
   </div>
   
-  <% if unpaid_leave_taken > 0 %>
-    <div class="field">
-      <div><em>less</em> <%= label_tag :unpaid_leave_taken %></div>
-      <span><%= text_field_tag :unpaid_leave_taken, unpaid_leave_taken, { :style => 'width: 158px;', :disabled => true} %></span>
-      <span class="field_info">days</span>
-    </div>
-  <% end %>
-
   <div class="field">
-    <div class="total_row"><%= label_tag :leave_balance %></div>
-    <span><%= text_field_tag :leave_balance, leave_balance, { :style => 'width: 158px;', :disabled => true} %></span>
+    <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave' %></strong></div>
+    <span><%= text_field_tag :leave_available, leave_available, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
 
@@ -66,22 +58,33 @@
 
   %>
   
-    <p></p>
-
     <div class="field">
-      <div><em>less</em> <%= label_tag :leave_requested %></div>
+      <div><%= unpaid ? 'Unpaid' : raw('<em>less</em>') %> <%= label_tag :leave_requested %></div>
       <span><%= text_field_tag :leave_requested, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
 
     <div class="field">
-      <div class="total_row"><%= label_tag :new_balance %></div>
-      <span><%= text_field_tag :new_balance, leave_balance - (unpaid ? 0 : request_duration), { :style => 'width: 158px;', :disabled => true} %></span>
+      <div class="total_row"><strong><%= label_tag :balance %></strong></div>
+      <span><%= text_field_tag :balance, leave_available - (unpaid ? 0 : request_duration), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
 
+    <% if (unpaid_leave_taken > 0) || unpaid %>
+      <div style="height: 12px;"></div>
+      <div class="field">
+        <div><%= label_tag :unpaid_leave %></div>
+        <span><%= text_field_tag :unpaid_leave, unpaid_leave_taken + (unpaid ? request_duration : 0), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span class="field_info">days</span>
+      </div>
+    <% end %>
+
   <% end %>
 
-  <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path(:employee => employee.to_param), :target => '_blank' %></p>
+  <% if employee != current_employee %>
+    <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path(:employee => employee.to_param), :target => '_blank' %></p>
+  <% else %>
+    <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path, :target => '_blank' %></p>
+  <% end %>
 
 <% end %>
