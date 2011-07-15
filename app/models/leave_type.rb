@@ -112,20 +112,38 @@ class LeaveType < ActiveRecord::Base
     start_date - 1.day
   end
 
-  def balance_for(employee, date_as_at)
-    raise InvalidOperationException if date_as_at < self.cycle_start_date
-    
-    self.allowance_for(employee, date_as_at) - self.leave_taken_for(employee, date_as_at)
-  end
-
+  # calculates the total allowance for the leave cycle of the given `date_as_at`
   def allowance_for(employee, date_as_at)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
-    # TODO: calculate the allowance 
-    
-    self.cycle_days_allowance
+    # for non-accruing leave types, this is simply the configured
+    # allowance irrespect of the leave cycle of the given `date_as_at`
+    employee.leave_cycle_allocation_for(self)
+
   end
 
+  # calculates the leave take on balance for the leave cycle of the given `date_as_at`
+  def leave_take_on_for(employee, date_as_at)
+    raise InvalidOperationException if date_as_at < self.cycle_start_date
+  
+    cycle_start_date = self.cycle_start_date_of(date_as_at)
+    cycle_end_date = self.cycle_end_date_of(date_as_at)
+
+    leave_take_on = 0
+
+    # include take on balance if within the given leave cycle
+    if !employee.take_on_balance_as_at.nil? && 
+          employee.take_on_balance_as_at >= cycle_start_date && 
+              employee.take_on_balance_as_at <= cycle_end_date
+
+      leave_take_on += employee.take_on_balance_for(self)
+    end
+
+    leave_take_on
+
+  end    
+
+  # calculates the leave taken for the leave cycle of the given `date_as_at`
   def leave_taken_for(employee, date_as_at)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
@@ -140,7 +158,7 @@ class LeaveType < ActiveRecord::Base
       { :from => cycle_start_date, :to => cycle_end_date }
     ).sum(:duration)
 
-    leave_taken_for_cycle
+    leave_taken
   end
   
   # supported leave types
@@ -154,7 +172,13 @@ class LeaveType < ActiveRecord::Base
     end
   
     def allowance_for(employee, date_as_at)
-      # TODO: override to provide accrual calculation
+
+      # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
+      # also, the employees fixed_daily_hours ratio needs to be applied
+      # leave carried over (or negative balance) from the previous cycle must be included
+
+      # TODO      
+      
       super
     end
     

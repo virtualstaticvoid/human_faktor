@@ -8,12 +8,10 @@
 
 <% else
 
-    # unpaid ?
-
     leave_allowance = leave_type.allowance_for(employee, date_from)
-    # TODO: get take on balance, if in the current leave cycle
+    leave_take_on = leave_type.leave_take_on_for(employee, date_from)
     leave_taken_to_date = leave_type.leave_taken_for(employee, date_from)
-    leave_balance = leave_allowance - leave_taken_to_date
+    leave_balance = leave_allowance - leave_take_on - leave_taken_to_date
   
 %>
 
@@ -25,7 +23,13 @@
     <span class="field_info">days</span>
   </div>
   
-  <!-- TODO: show take on balance -->
+  <% if leave_take_on > 0 %>
+    <div class="field">
+      <div><em>less</em> <%= label_tag :take_on_balance %></div>
+      <span><%= text_field_tag :take_on_balance, leave_take_on, { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+  <% end %>
 
   <div class="field">
     <div><em>less</em> <%= label_tag :leave_taken %></div>
@@ -53,19 +57,19 @@
 
   %>
   
-  <p></p>
+    <p></p>
 
-  <div class="field">
-    <div><em>less</em> <%= label_tag :leave_requested %></div>
-    <span><%= text_field_tag :leave_requested, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
-    <span class="field_info">days</span>
-  </div>
+    <div class="field">
+      <div><em>less</em> <%= label_tag :leave_requested %></div>
+      <span><%= text_field_tag :leave_requested, request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
 
-  <div class="field">
-    <div class="total_row"><%= label_tag :new_balance %></div>
-    <span><%= text_field_tag :new_balance, leave_balance - request_duration, { :style => 'width: 158px;', :disabled => true} %></span>
-    <span class="field_info">days</span>
-  </div>
+    <div class="field">
+      <div class="total_row"><%= label_tag :new_balance %></div>
+      <span><%= text_field_tag :new_balance, leave_balance - (unpaid ? 0 : request_duration), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
 
   <% end %>
 
