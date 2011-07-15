@@ -81,7 +81,12 @@
   border-top: 1px solid #C0C0C0;
 }
 
-.detailed_leave_balance_link, .detailed_leave_balance_link a {
+.detailed_leave_balance_link {
   text-align: right;
+}
+
+.detailed_leave_balance_link a {
+  margin-top: 20px;
   font-size: 10pt;
 }
+
