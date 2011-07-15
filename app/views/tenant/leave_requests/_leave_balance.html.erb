@@ -8,10 +8,11 @@
 
 <% else
 
-    leave_allowance = leave_type.allowance_for(employee, date_from)
-    leave_take_on = leave_type.leave_take_on_for(employee, date_from)
-    leave_taken_to_date = leave_type.leave_taken_for(employee, date_from)
-    leave_balance = leave_allowance - leave_take_on - leave_taken_to_date
+  leave_allowance = leave_type.allowance_for(employee, date_from)
+  leave_take_on = leave_type.leave_take_on_for(employee, date_from)
+  leave_taken = leave_type.leave_taken_for(employee, date_from)
+  unpaid_leave_taken = leave_type.leave_taken_for(employee, date_from, true)
+  leave_balance = leave_allowance - leave_take_on - leave_taken
   
 %>
 
@@ -33,9 +34,17 @@
 
   <div class="field">
     <div><em>less</em> <%= label_tag :leave_taken %></div>
-    <span><%= text_field_tag :leave_taken, leave_taken_to_date, { :style => 'width: 158px;', :disabled => true} %></span>
+    <span><%= text_field_tag :leave_taken, leave_taken, { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
+  
+  <% if unpaid_leave_taken > 0 %>
+    <div class="field">
+      <div><em>less</em> <%= label_tag :unpaid_leave_taken %></div>
+      <span><%= text_field_tag :unpaid_leave_taken, unpaid_leave_taken, { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+  <% end %>
 
   <div class="field">
     <div class="total_row"><%= label_tag :leave_balance %></div>

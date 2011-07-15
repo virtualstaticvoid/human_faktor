@@ -144,7 +144,7 @@ class LeaveType < ActiveRecord::Base
   end    
 
   # calculates the leave taken for the leave cycle of the given `date_as_at`
-  def leave_taken_for(employee, date_as_at)
+  def leave_taken_for(employee, date_as_at, unpaid = false)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
     cycle_start_date = self.cycle_start_date_of(date_as_at)
@@ -152,7 +152,7 @@ class LeaveType < ActiveRecord::Base
     
     leave_taken = employee.leave_requests.active.where(
       :leave_type_id => self.id,
-      :unpaid => false
+      :unpaid => unpaid
     ).where(
       ' date_from BETWEEN :from AND :to ',
       { :from => cycle_start_date, :to => cycle_end_date }
