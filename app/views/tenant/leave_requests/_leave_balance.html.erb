@@ -8,18 +8,27 @@
 
 <% else
 
-  leave_allowance = leave_type.allowance_for(employee, date_from)
   leave_take_on = leave_type.leave_take_on_for(employee, date_from)
+  leave_allowance = leave_type.allowance_for(employee, date_from)
+
   leave_taken = leave_type.leave_taken_for(employee, date_from)
   leave_outstanding = leave_type.leave_outstanding_for(employee, date_from)
   unpaid_leave_taken = leave_type.leave_taken_for(employee, date_from, true)
 
   # calculate available leave balance
-  leave_available = leave_allowance - leave_take_on - leave_taken - leave_outstanding
+  leave_available = leave_take_on + leave_allowance - leave_taken - leave_outstanding
   
 %>
 
   <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
+
+  <% if leave_take_on > 0 %>
+    <div class="field">
+      <div><%= label_tag :take_on_balance, 'Take on', :title => 'Take on leave balance allowance' %></div>
+      <span><%= text_field_tag :take_on_balance, number_with_precision(leave_take_on, :precision => 2), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+  <% end %>
 
   <div class="field">
     <div><%= label_tag :leave_allowance, 'Allowance', :title => 'Allowance for the current leave cycle' %></div>
@@ -27,14 +36,6 @@
     <span class="field_info">days</span>
   </div>
   
-  <% if leave_take_on > 0 %>
-    <div class="field">
-      <div><em>less</em> <%= label_tag :take_on_balance, 'Take on', :title => 'Take on leave balance' %></div>
-      <span><%= text_field_tag :take_on_balance, number_with_precision(leave_take_on, :precision => 2), { :style => 'width: 158px;', :disabled => true} %></span>
-      <span class="field_info">days</span>
-    </div>
-  <% end %>
-
   <div class="field">
     <div><em>less</em> <%= label_tag :leave_taken, 'Leave taken', :title => 'Leave taken to date' %></div>
     <span><%= text_field_tag :leave_taken, number_with_precision(leave_taken, :precision => 2), { :style => 'width: 158px;', :disabled => true} %></span>

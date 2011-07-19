@@ -89,6 +89,8 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     # TODO: implement test for ExceedsLeaveCycleAllowance
     #
   
+    # NOTE: check that the employee take on balance is included
+  
     pending
   end
 
@@ -98,6 +100,8 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     #
     # TODO: implement test for ExceedsNegativeLeaveBalance
     #
+
+    # NOTE: check that the employee take on balance is included
   
     pending
   end
