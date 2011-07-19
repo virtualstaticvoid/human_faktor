@@ -195,41 +195,61 @@ class LeaveType < ActiveRecord::Base
       final_allowance = 0
       carry_over = 0
       index = 0
-      
+      to_index = self.cycle_index_of(date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
       fixed_daily_hours_ratio = employee.fixed_daily_hours_ratio
       
-      (self.cycle_index_of(date_as_at) + 1).times do
-      
-        start_date = self.cycle_start_date_for(index)
-        end_date = self.cycle_end_date_for(index)
-
-        # end date should be up to the date_as_at
-        end_date = date_as_at if end_date > date_as_at
-
-        # ASSERT
-        raise InvalidOperationException if start_date > date_as_at
-      
-        days_in_cycle = end_date - start_date
+      # get the employee "start date"
+      employee_start_date = if employee.take_on_balance_as_at.present?
+                              employee.take_on_balance_as_at
+                            elsif employee.start_date.present?
+                              employee.start_date
+                            else
+                              self.cycle_start_date
+                            end  
         
-        leave_taken = leave_taken(employee, start_date, end_date, false)
-        unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
+      begin
+      
+        end_date = self.cycle_end_date_for(index)
+        
+        unless employee_start_date > end_date
 
-        allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * 
-                            days_in_cycle * fixed_daily_hours_ratio
+          start_date = self.cycle_start_date_for(index)
 
-        final_allowance = allowance + carry_over
+          # if the employee only started within the cycle...
+          #  then the accrual is pro-rated from that start date
+          start_date = employee_start_date if employee_start_date > start_date
 
-        if leave_taken < (allowance + carry_over)
-          # carry over up to a max of self.cycle_days_carry_over
-          carry_over = min(self.cycle_days_carry_over, allowance + carry_over - leave_taken)
-        else
-          carry_over = allowance + carry_over - leave_taken
+          # end date should be up to the date_as_at
+          end_date = date_as_at if end_date > date_as_at
+
+          # ASSERTIONS
+          raise InvalidOperationException if start_date > date_as_at
+        
+          days_in_cycle = end_date - start_date
+          
+          # NOTE: includes all leave up to the end of the cycle
+          leave_taken = leave_taken(employee, start_date, end_date, false)
+          unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
+
+          # the allowance is pro-rated 
+          allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * 
+                              days_in_cycle * fixed_daily_hours_ratio
+
+          final_allowance = allowance + carry_over
+
+          if leave_taken < (allowance + carry_over)
+            # carry over up to a max of self.cycle_days_carry_over
+            carry_over = min(self.cycle_days_carry_over, allowance + carry_over - leave_taken)
+          else
+            carry_over = allowance + carry_over - leave_taken
+          end
+
         end
-
+        
         index += 1
 
-      end
+      end while index <= to_index
 
       final_allowance
       
