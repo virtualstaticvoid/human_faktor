@@ -122,6 +122,11 @@ class LeaveType < ActiveRecord::Base
   
     # for non-accruing leave types, this is simply the configured
     # allowance irrespect of the leave cycle of the given `date_as_at`
+    
+    #
+    # TODO: implement rolling window functionality
+    #
+    
     employee.leave_cycle_allocation_for(self)
 
   end
