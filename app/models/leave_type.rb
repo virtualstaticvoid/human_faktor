@@ -157,11 +157,20 @@ class LeaveType < ActiveRecord::Base
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
     start_date = self.cycle_start_date_of(date_as_at)
-    end_date = self.cycle_end_date_of(date_as_at)
+    end_date = date_as_at # self.cycle_end_date_of(date_as_at)
     
     leave_taken(employee, start_date, end_date, unpaid)
   end
   
+  def leave_outstanding_for(employee, date_as_at, unpaid = false)
+    raise InvalidOperationException if date_as_at < self.cycle_start_date
+  
+    start_date = date_as_at # self.cycle_start_date_of(date_as_at)
+    end_date = self.cycle_end_date_of(date_as_at)
+    
+    leave_taken(employee, start_date, end_date, unpaid)
+  end
+
   # supported leave types
 
   class Annual < LeaveType

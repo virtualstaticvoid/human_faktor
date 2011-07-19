@@ -11,8 +11,11 @@
   leave_allowance = leave_type.allowance_for(employee, date_from)
   leave_take_on = leave_type.leave_take_on_for(employee, date_from)
   leave_taken = leave_type.leave_taken_for(employee, date_from)
+  leave_outstanding = leave_type.leave_outstanding_for(employee, date_from)
   unpaid_leave_taken = leave_type.leave_taken_for(employee, date_from, true)
-  leave_available = leave_allowance - leave_take_on - leave_taken
+
+  # calculate available leave balance
+  leave_available = leave_allowance - leave_take_on - leave_taken - leave_outstanding
   
 %>
 
@@ -38,8 +41,16 @@
     <span class="field_info">days</span>
   </div>
   
+  <% if leave_outstanding > 0 %>
+    <div class="field">
+      <div><em>less</em> <%= label_tag :outstanding, 'Outstanding', :title => 'Pending and approved leave, not yet taken' %></div>
+      <span><%= text_field_tag :outstanding, number_with_precision(leave_outstanding, :precision => 2), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+  <% end %>
+  
   <div class="field">
-    <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance for the current cycle' %></strong></div>
+    <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance up to the requested date' %></strong></div>
     <span><%= text_field_tag :leave_available, number_with_precision(leave_available, :precision => 2), { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
