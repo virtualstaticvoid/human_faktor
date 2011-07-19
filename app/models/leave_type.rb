@@ -39,6 +39,10 @@ class LeaveType < ActiveRecord::Base
   def can_carry_over?
     false
   end
+  
+  def gender_filter
+    Employee::GENDERS
+  end
 
   # capture permissions
   validates :employee_capture_allowed, :inclusion => { :in => [true, false] }
@@ -246,6 +250,10 @@ class LeaveType < ActiveRecord::Base
   class Maternity < LeaveType
 
     default_values :color => 'FF3F3F'
+
+    def gender_filter
+      [Employee::GENDER_FEMALE]
+    end
 
   end
 

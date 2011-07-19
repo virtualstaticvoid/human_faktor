@@ -68,6 +68,10 @@ class Employee < ActiveRecord::Base
   validates :gender, :allow_nil => true,
             :numericality => { :only_integer => true, :in => GENDERS }
 
+  def gender_filter
+    self.gender ? [self.gender] : GENDERS
+  end
+
   # job information
   validates :internal_reference, :length => { :maximum => 255 }, :allow_nil => true
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }

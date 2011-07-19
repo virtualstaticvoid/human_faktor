@@ -16,6 +16,11 @@ module Tenant
       @leave_request.leave_type_id = params[:leave_type].present? ? params[:leave_type] : current_account.leave_type_annual.id
       @leave_request.date_from = params[:from] if params[:from]
       @leave_request.date_to = params[:to] if params[:to]
+      
+      # filter by employee capture permissions and the gender of the employee
+      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
+        !(leave_type.gender_filter & current_employee.gender_filter).empty?
+      }
 
       respond_to do |format|
         format.html # new.html.erb
