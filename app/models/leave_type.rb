@@ -147,18 +147,10 @@ class LeaveType < ActiveRecord::Base
   def leave_taken_for(employee, date_as_at, unpaid = false)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
-    cycle_start_date = self.cycle_start_date_of(date_as_at)
-    cycle_end_date = self.cycle_end_date_of(date_as_at)
+    start_date = self.cycle_start_date_of(date_as_at)
+    end_date = self.cycle_end_date_of(date_as_at)
     
-    leave_taken = employee.leave_requests.active.where(
-      :leave_type_id => self.id,
-      :unpaid => unpaid
-    ).where(
-      ' date_from BETWEEN :from AND :to ',
-      { :from => cycle_start_date, :to => cycle_end_date }
-    ).sum(:duration)
-
-    leave_taken
+    leave_taken(employee, start_date, end_date, unpaid)
   end
   
   # supported leave types
@@ -176,10 +168,63 @@ class LeaveType < ActiveRecord::Base
       # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
       # also, the employees fixed_daily_hours ratio needs to be applied
       # leave carried over (or negative balance) from the previous cycle must be included
-
-      # TODO      
       
-      super
+      # this calculation needs to happen from the start_date of the leave type (i.e. beginning of time)
+      
+      # NB: unpaid leave affects the calculation!!!
+      #  i.e. comes off the allowance
+
+      final_allowance = 0
+      carry_over = 0
+      index = 0
+      
+      cycle_duration_days = cycle_duration_in_units / 1.days
+      fixed_daily_hours_ratio = employee.fixed_daily_hours_ratio
+      
+      (self.cycle_index_of(date_as_at) + 1).times do
+      
+        start_date = self.cycle_start_date_for(index)
+        end_date = self.cycle_end_date_for(index)
+
+        # end date should be up to the date_as_at
+        end_date = date_as_at if end_date > date_as_at
+
+        # ASSERT
+        raise InvalidOperationException if start_date > date_as_at
+      
+        days_in_cycle = end_date - start_date
+        
+        leave_taken = leave_taken(employee, start_date, end_date, false)
+        unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
+
+        allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * 
+                            days_in_cycle * fixed_daily_hours_ratio
+
+        final_allowance = allowance + carry_over
+
+        if leave_taken < (allowance + carry_over)
+          # carry over up to a max of self.cycle_days_carry_over
+          carry_over = min(self.cycle_days_carry_over, allowance + carry_over - leave_taken)
+        else
+          carry_over = allowance + carry_over - leave_taken
+        end
+
+        index += 1
+
+      end
+
+      final_allowance
+      
+    end
+    
+    private
+    
+    def min(value1, value2)
+      value1 < value2 ? value1 : value2
+    end
+
+    def max(value1, value2)
+      value1 > value2 ? value1 : value2
     end
     
   end
@@ -193,6 +238,8 @@ class LeaveType < ActiveRecord::Base
   class Medical < LeaveType
 
     default_values :color => '8B7300'
+    
+    # TODO: rolling window support
 
   end
 
@@ -236,6 +283,18 @@ class LeaveType < ActiveRecord::Base
       leave_type_name = klass.name.gsub(/LeaveType::/, '').downcase
       block.call(leave_type_name)
     end  
+  end
+  
+  protected
+  
+  def leave_taken(employee, start_date, end_date, unpaid = false)
+    employee.leave_requests.active.where(
+      :leave_type_id => self.id,
+      :unpaid => unpaid
+    ).where(
+      ' date_from BETWEEN :from AND :to ',
+      { :from => start_date, :to => end_date }
+    ).sum(:duration)
   end
   
   private
