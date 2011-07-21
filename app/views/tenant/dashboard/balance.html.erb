@@ -11,13 +11,13 @@
                         @date_as_at, 
                         { :style => 'width: 100px;', 
                           :options => { 
-                            :onSelect => "function(dateText, inst) { window.location = '#{balance_path(:employee => @employee)}&as_at=' + dateText; }" 
+                            :onSelect => "function(dateText, inst) { window.location = '#{balance_path(:employee => @employee)}&as_at=' + dateText; }"
                           } 
                         } %>
   </span>
 </p>
 
-<%= render_tabs() do |tab_builder| %>
+<%= render_tabs(:height => '412px') do |tab_builder| %>
   <% @leave_types.each do |leave_type| %>
     <% tab_builder.add_tab("#{leave_type}") do %>
       <%= render 'leave_balance', { :account => @account, 
