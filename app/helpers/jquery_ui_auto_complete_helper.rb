@@ -8,6 +8,8 @@ module JqueryUiAutoCompleteHelper
   #
   def auto_complete(method, options={}, &block)
 
+    auto_complete_options = options.delete(:options) || {}
+
     sanitized_object_name ||= @object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, "_").sub(/_$/, "")
     sanitized_method_name ||= method.to_s.sub(/\?$/,"")
     has_error = @object.errors[method].present?
@@ -28,10 +30,8 @@ module JqueryUiAutoCompleteHelper
     
     # write out autocomplete options
     # see http://jqueryui.com/demos/autocomplete/#options for available list
-    if options[:options].is_a?(Hash)
-      options[:options].each do |key, value|
-        html << ", #{key}: #{value}"
-      end
+    auto_complete_options.each do |key, value|
+      html << ", #{key}: #{value}"
     end
     
     html << "         , select: function(event, ui) {"
