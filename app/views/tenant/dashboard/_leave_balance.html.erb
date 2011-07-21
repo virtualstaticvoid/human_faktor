@@ -1,16 +1,17 @@
 <%
 
   # calculate each component
-  
-  leave_take_on = leave_type.leave_take_on_for(employee, date_as_at)
-  leave_allowance = leave_type.allowance_for(employee, date_as_at)
+  if leave_type.cycle_start_date <= date_as_at
+    
+    leave_take_on = leave_type.leave_take_on_for(employee, date_as_at)
+    leave_allowance = leave_type.allowance_for(employee, date_as_at)
 
-  leave_taken = leave_type.leave_taken_for(employee, date_as_at)
-  leave_outstanding = leave_type.leave_outstanding_for(employee, date_as_at)
-  unpaid_leave_taken = leave_type.leave_taken_for(employee, date_as_at, true)
+    leave_taken = leave_type.leave_taken_for(employee, date_as_at)
+    leave_outstanding = leave_type.leave_outstanding_for(employee, date_as_at)
+    unpaid_leave_taken = leave_type.leave_taken_for(employee, date_as_at, true)
 
-  # calculate available leave balance
-  leave_available = leave_take_on + leave_allowance - leave_taken - leave_outstanding
+    # calculate available leave balance
+    leave_available = leave_take_on + leave_allowance - leave_taken - leave_outstanding
   
 %>
 
@@ -61,3 +62,8 @@
 
 </div>
 
+<% else %>
+
+  <p>No leave balance available for the given date.</p>
+
+<% end %>
