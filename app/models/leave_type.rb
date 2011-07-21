@@ -193,11 +193,9 @@ class LeaveType < ActiveRecord::Base
       #  i.e. comes off the allowance
 
       final_allowance = 0
-      carry_over = 0
       index = 0
       to_index = self.cycle_index_of(date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
-      fixed_daily_hours_ratio = employee.fixed_daily_hours_ratio
       
       # get the employee "start date"
       employee_start_date = if employee.take_on_balance_as_at.present?
@@ -207,7 +205,7 @@ class LeaveType < ActiveRecord::Base
                             else
                               self.cycle_start_date
                             end  
-        
+
       begin
       
         end_date = self.cycle_end_date_for(index)
@@ -233,36 +231,18 @@ class LeaveType < ActiveRecord::Base
           unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
           # the allowance is pro-rated 
-          allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * 
-                              days_in_cycle * fixed_daily_hours_ratio
+          allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle
 
-          final_allowance = allowance + carry_over
-
-          if leave_taken < (allowance + carry_over)
-            # carry over up to a max of self.cycle_days_carry_over
-            carry_over = min(self.cycle_days_carry_over, allowance + carry_over - leave_taken)
-          else
-            carry_over = allowance + carry_over - leave_taken
-          end
-
+          final_allowance += allowance
+          
         end
         
         index += 1
 
       end while index <= to_index
 
-      final_allowance
+      final_allowance.round(1)  # NB: round up to 1 decimal
       
-    end
-    
-    private
-    
-    def min(value1, value2)
-      value1 < value2 ? value1 : value2
-    end
-
-    def max(value1, value2)
-      value1 > value2 ? value1 : value2
     end
     
   end
