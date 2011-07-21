@@ -29,6 +29,8 @@ module Tenant
       @leave_request.date_from = params[:from] if params[:from]
       @leave_request.date_to = params[:to] if params[:to]
 
+      load_leave_types
+
       respond_to do |format|
         format.html # new.html.erb
       end
@@ -48,9 +50,16 @@ module Tenant
             format.html { redirect_to(dashboard_url, :notice => 'Leave request successfully captured.') }
           end
         else
+          load_leave_types
           format.html { render :action => "new" }
         end
       end
+    end
+    
+    private
+    
+    def load_leave_types
+      @leave_types = current_account.leave_types
     end
 
   end

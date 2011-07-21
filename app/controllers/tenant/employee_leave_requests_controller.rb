@@ -17,10 +17,7 @@ module Tenant
       @leave_request.date_from = params[:from] if params[:from]
       @leave_request.date_to = params[:to] if params[:to]
       
-      # filter by employee capture permissions and the gender of the employee
-      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
-        !(leave_type.gender_filter & current_employee.gender_filter).empty?
-      }
+      load_leave_types
 
       respond_to do |format|
         format.html # new.html.erb
@@ -39,11 +36,6 @@ module Tenant
         'approver_id' => current_employee.approver_id
       }) unless current_employee.can_choose_own_approver? && leave_request_params[:approver_id].present?
       
-      # filter by employee capture permissions and the gender of the employee
-      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
-        !(leave_type.gender_filter & current_employee.gender_filter).empty?
-      }
-
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
       respond_to do |format|
@@ -54,9 +46,21 @@ module Tenant
             format.html { redirect_to(dashboard_url, :notice => 'Leave request successfully created.') }
           end
         else
+          load_leave_types
           format.html { render :action => "new" }
         end
       end
+    end
+    
+    private 
+    
+    def load_leave_types
+
+      # filter by employee capture permissions and the gender of the employee
+      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
+        !(leave_type.gender_filter & current_employee.gender_filter).empty?
+      }
+
     end
     
   end
