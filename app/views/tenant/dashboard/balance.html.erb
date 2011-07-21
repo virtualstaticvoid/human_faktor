@@ -1,12 +1,30 @@
-<% if @employee == current_employee %>
-  <% content_title "My Leave Balance" %>
-  <p>Your leave balance as at <%= Date.today %>:</p>
-<% else %>
-  <% content_title "Leave Balance" %>
-  <p>Leave balance for <strong><%= @employee %></strong> as at <%= Date.today %>:</p>
+<% content_title "#{ @employee == current_employee ? 'My ' : '' }Leave Balance" %>
+<p>
+  <% if @employee == current_employee %>
+    Your leave balance as at
+  <% else %>
+    Leave balance for <strong><%= @employee %></strong> as at 
+  <% end %>
+
+  <span class="field" style="margin-left: 8px;">
+    <%= date_picker_tag :date_as_as, 
+                        @date_as_at, 
+                        { :style => 'width: 100px;', 
+                          :options => { 
+                            :onSelect => "function(dateText, inst) { window.location = '#{balance_path(:employee => @employee)}&as_at=' + dateText; }" 
+                          } 
+                        } %>
+  </span>
+</p>
+
+<%= render_tabs() do |tab_builder| %>
+  <% @leave_types.each do |leave_type| %>
+    <% tab_builder.add_tab("#{leave_type}") do %>
+      <%= render 'leave_balance', { :account => @account, 
+                                    :employee => @employee, 
+                                    :leave_type => leave_type,
+                                    :date_as_at => @date_as_at } %>
+    <% end %>      
+  <% end %>
 <% end %>
-
-<p>TODO</p>
-
-
 
