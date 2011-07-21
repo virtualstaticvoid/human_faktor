@@ -108,7 +108,7 @@ class Employee < ActiveRecord::Base
   validates :fixed_daily_hours, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
   
   def fixed_daily_hours_ratio
-    self.fixed_daily_hours / self.account.fixed_daily_hours
+    self.fixed_daily_hours.to_f / self.account.fixed_daily_hours.to_f
   end
   
   validates :active, :inclusion => { :in => [true, false] }
