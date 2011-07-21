@@ -64,6 +64,6 @@
 
 <% else %>
 
-  <p>No leave balance available for the given date.</p>
+  <p>No leave balance available prior to <%= leave_type.cycle_start_date.strftime('%e %B %Y') %>.</p>
 
 <% end %>
