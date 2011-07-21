@@ -39,6 +39,11 @@ module Tenant
         'approver_id' => current_employee.approver_id
       }) unless current_employee.can_choose_own_approver? && leave_request_params[:approver_id].present?
       
+      # filter by employee capture permissions and the gender of the employee
+      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
+        !(leave_type.gender_filter & current_employee.gender_filter).empty?
+      }
+
       @leave_request = current_account.leave_requests.build(leave_request_params)
 
       respond_to do |format|
