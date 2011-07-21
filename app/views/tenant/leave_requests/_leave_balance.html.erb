@@ -96,8 +96,8 @@
 <% end %>
 
 <% if employee != current_employee %>
-  <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path(:employee => employee.to_param), :target => '_blank' %></p>
+  <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path(:as_at => date_from, :employee => employee.to_param), :target => '_blank' %></p>
 <% else %>
-  <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path, :target => '_blank' %></p>
+  <p class="detailed_leave_balance_link"><%= link_to 'Detailed Balance', balance_path(:as_at => date_from), :target => '_blank' %></p>
 <% end %>
 
