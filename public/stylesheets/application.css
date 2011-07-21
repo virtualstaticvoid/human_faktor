@@ -91,7 +91,7 @@ a img {
   background: -moz-linear-gradient(center top , #FAFAFA, #D0D0D0) repeat scroll 0 0 transparent;
 }
 
-div.field, div.actions {
+.field, .actions {
   margin-bottom: 10px;
 }
 
@@ -103,26 +103,26 @@ div.actions {
   padding-bottom: 2px;
 }
 
-div.field input {
+.field input {
   width: 318px;
   border: 1px solid lightgray;
 }
 
-div.field input[type=checkbox] {
+.field input[type=checkbox] {
   width: 20px;
   padding: 0;
   margin: 0;
 }
 
-div.field input[type=file] {
+.field input[type=file] {
 }
 
-div.field .dropdown {
+.field .dropdown {
   width: 320px;
   border: 1px solid lightgray;
 }
 
-div.field textarea {
+.field textarea {
   height: 90px;
   min-height: 90px;
   width: 362px;
