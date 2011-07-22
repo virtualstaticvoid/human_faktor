@@ -79,6 +79,9 @@ employee:
   active: true
   notify: true
   internal_reference: employee
+  telephone: +27 21 555 5555
+  telephone_extension: 1234
+  cellphone: +27 21 555 5555
 
 test:
   account: one
@@ -99,6 +102,9 @@ test:
   active: true
   notify: true
   internal_reference: test
+  telephone: +27 21 555 5555
+  telephone_extension: 1234
+  cellphone: +27 21 555 5555
 
 takeon:
   account: one

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110714143007) do
+ActiveRecord::Schema.define(:version => 20110722101124) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -133,6 +133,9 @@ ActiveRecord::Schema.define(:version => 20110714143007) do
     t.decimal  "maternity_leave_take_on_balance",                     :default => 0.0,        :null => false
     t.decimal  "compassionate_leave_take_on_balance",                 :default => 0.0,        :null => false
     t.string   "internal_reference"
+    t.string   "telephone"
+    t.string   "telephone_extension"
+    t.string   "cellphone"
   end
 
   add_index "employees", ["account_id", "user_name"], :name => "index_employees_on_account_id_and_user_name", :unique => true

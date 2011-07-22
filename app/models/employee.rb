@@ -71,6 +71,11 @@ class Employee < ActiveRecord::Base
   def gender_filter
     self.gender ? [self.gender] : GENDERS
   end
+  
+  # contact details
+  validates :telephone, :length => { :maximum => 20 }, :allow_nil => true
+  validates :telephone_extension, :length => { :maximum => 10 }, :allow_nil => true
+  validates :cellphone, :length => { :maximum => 20 }, :allow_nil => true
 
   # job information
   validates :internal_reference, :length => { :maximum => 255 }, :allow_nil => true
