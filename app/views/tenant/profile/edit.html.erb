@@ -1,0 +1,179 @@
+<% content_title "Profile" %>
+
+<p>View and update your personal information.</p>
+
+<%= form_for(@employee, :url => update_profile_path(:tenant => current_account.subdomain), :html => { :multipart => true }) do |f| %>
+
+  <%= error_messages_for @employee %>
+
+  <%= render_tabs(:height => '500px') do |b| %>
+
+    <% b.add_tab('Personal Details') do %>
+
+      <div>
+        <%= image_tag(@employee.avatar.url(:avatar), :width => 48, :height => 48, :class => 'avatar boxradius box_shadow') %>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :avatar %></div>
+        <span><%= f.file_field :avatar %></span>
+        <span class="field_info">Employee avatar. 48x48 pixels in size.</span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :title %></div>
+        <span><%= f.text_field :title %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :first_name %></div>
+        <span><%= f.text_field :first_name %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :middle_name %></div>
+        <span><%= f.text_field :middle_name %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :last_name %></div>
+        <span><%= f.text_field :last_name %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :gender %></div>
+        <span><%= f.select :gender, [['Male', 1], ['Female', 2]], { :include_blank => true }, { :class => 'dropdown' } %></span>
+        <span class="field_info"></span>
+      </div>
+
+    <% end %>
+
+    <% b.add_tab('Authentication') do %>
+
+      <div class="field">
+        <div><%= f.label :user_name %></div>
+        <span><%= f.text_field :user_name %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :password %></div>
+        <span><%= f.password_field :password %></span>
+        <span class="field_info">Leave blank if not updating</span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :password_confirmation %></div>
+        <span><%= f.password_field :password_confirmation %></span>
+        <span class="field_info"></span>
+      </div>
+
+    <% end %>
+
+    <% b.add_tab('Contact Details') do %>
+
+      <div class="field">
+        <div><%= f.label :email %></div>
+        <span><%= f.text_field :email %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div></div>
+        <span><%= f.check_box :notify %><%= f.label :notify, 'Receive email notifications?' %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :telephone %></div>
+        <span><%= f.text_field :telephone %> Ext: <%= f.text_field :telephone_extension, { :style => 'width: 80px;' } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :cellphone %></div>
+        <span><%= f.text_field :cellphone %></span>
+        <span class="field_info"></span>
+      </div>
+
+    <% end %>
+
+    <% b.add_tab('Employment') do %>
+    
+      <div class="field">
+        <div><%= f.label :designation %></div>
+        <span><%= f.text_field :designation, { :disabled => true } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :start_date %></div>
+        <span><%= f.text_field :start_date, { :style => 'width: 158px;', :disabled => true } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :location %></div>
+        <span><%= f.text_field :location, { :disabled => true } %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :department %></div>
+        <span><%= f.text_field :department, { :disabled => true } %></span>
+        <span class="field_info"></span>
+      </div>
+      
+    <% end %>
+
+    <% b.add_tab('Leave') do %>
+
+      <div class="field">
+        <div><%= f.label :approver, 'Assigned Approver' %></div>
+        <span><%= f.text_field :approver, { :disabled => true } %>
+        <span class="field_info"></span>
+      </div>
+
+      <h3>Leave Policies</h3>
+
+      <% @leave_types.each do |leave_type| 
+          allocation = @employee.leave_cycle_allocation_for(leave_type)
+          carry_over = @employee.leave_cycle_carry_over_for(leave_type)
+       %>
+        <div style="margin-left: 8px;">
+          <h4><%= leave_type.to_s %> Leave</h4>
+          <div style="height: 60px; margin-left: 16px;">
+            <div style="float: left; width: 280px;">
+              <div class="field">
+                <div><%= f.label :"#{leave_type}_leave_cycle_allocation", 'Allowance' %></div>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_allocation", allocation, { :style => 'width: 158px;', :disabled => true } %></span>
+                <span class="field_info">days</span>
+              </div>
+            </div>
+            <div style="float: left; width: 280px;">
+              <div class="field">
+                <div><%= f.label :"#{leave_type}_leave_cycle_carry_over", 'Carry Over Allowance' %></div>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_carry_over", carry_over, { :style => 'width: 158px;', :disabled => true } %></span>
+                <span class="field_info">days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    <% end %>
+
+  <% end %>
+  
+  <div style="height: 16px;"></div>
+
+  <div class="actions">
+    <%= f.submit 'Update' %> or <%= link_to 'cancel', dashboard_path %>
+  </div>
+  
+<% end %>
+

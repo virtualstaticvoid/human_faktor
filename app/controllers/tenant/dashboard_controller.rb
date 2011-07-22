@@ -5,9 +5,6 @@ module Tenant
     def index
     end
 
-    def profile
-    end
-
     def balance
       @employee = params[:employee].present? ?
                     current_account.employees.find_by_identifier(params[:employee]) :
