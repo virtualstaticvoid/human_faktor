@@ -196,7 +196,13 @@ class LeaveType < ActiveRecord::Base
       to_index = self.cycle_index_of(date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
       
+      #
       # get the employee "start date"
+      #  presidence:
+      #   * employee take on balance date
+      #   * employee start date
+      #   * leave type cycle start date
+      #
       employee_start_date = if employee.take_on_balance_as_at.present?
                               employee.take_on_balance_as_at
                             elsif employee.start_date.present?
@@ -209,20 +215,20 @@ class LeaveType < ActiveRecord::Base
       
         end_date = self.cycle_end_date_for(index)
         
-        unless employee_start_date > end_date
+        # only include cycles from when the employee was employed
+        if employee_start_date < end_date
 
           start_date = self.cycle_start_date_for(index)
 
-          # if the employee only started within the cycle...
-          #  then the accrual is pro-rated from that start date
+          # adjust the start date if the employee started after the cycle start date.
+          #  the accrual will therefore be pro-rated
           start_date = employee_start_date if employee_start_date > start_date
 
           # end date should be up to the date_as_at
-          end_date = date_as_at if end_date > date_as_at
+          end_date = date_as_at if date_as_at > start_date && date_as_at < end_date
 
           # ASSERTIONS
-          raise InvalidOperationException unless start_date < end_date
-          raise InvalidOperationException if start_date > date_as_at
+          raise InvalidOperationException if start_date > end_date
         
           days_in_cycle = end_date - start_date
           
