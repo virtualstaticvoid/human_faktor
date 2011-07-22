@@ -221,6 +221,7 @@ class LeaveType < ActiveRecord::Base
           end_date = date_as_at if end_date > date_as_at
 
           # ASSERTIONS
+          raise InvalidOperationException unless start_date < end_date
           raise InvalidOperationException if start_date > date_as_at
         
           days_in_cycle = end_date - start_date
