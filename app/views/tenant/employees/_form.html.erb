@@ -13,7 +13,7 @@
       <div class="field">
         <div><%= f.label :avatar %></div>
         <span><%= f.file_field :avatar %></span>
-        <span class="field_info">Employee avatar. 48x48 pixels in size.</span>
+        <span class="field_info">Employee picture. 48x48 pixels in size.</span>
       </div>
 
       <div class="field">
@@ -47,38 +47,6 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Authentication') do %>
-      <div class="field">
-        <div><%= f.label :user_name %></div>
-        <span><%= f.text_field :user_name %></span>
-        <span class="field_info"></span>
-      </div>
-
-      <div class="field">
-        <div><%= f.label :password %></div>
-        <span><%= f.password_field :password %></span>
-        <span class="field_info">Leave blank if not updating</span>
-      </div>
-
-      <div class="field">
-        <div><%= f.label :password_confirmation %></div>
-        <span><%= f.password_field :password_confirmation %></span>
-        <span class="field_info"></span>
-      </div>
-
-      <div class="field">
-        <div></div>
-        <span><%= f.check_box :active %><%= f.label :active %></span>
-        <span class="field_info">Make employee active to allow sign in.</span>
-      </div>
-
-      <div class="field">
-        <div><%= f.label :role %></div>
-        <span><%= f.select :role, [['Administrator', :admin], ['Manager', :manager], ['Approver', :approver], ['Employee', :employee]], {}, { :class => 'dropdown' } %></span>
-        <span class="field_info"></span>
-      </div>
-    <% end %>
-
     <% b.add_tab('Contact Details') do %>
 
       <div class="field">
@@ -107,7 +75,27 @@
 
     <% end %>
 
-    <% b.add_tab('Employment') do %>
+    <% b.add_tab('User Details') do %>
+      <div class="field">
+        <div><%= f.label :user_name %></div>
+        <span><%= f.text_field :user_name %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div></div>
+        <span><%= f.check_box :active %><%= f.label :active %></span>
+        <span class="field_info">Make employee active to allow sign in.</span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :role %></div>
+        <span><%= f.select :role, [['Administrator', :admin], ['Manager', :manager], ['Approver', :approver], ['Employee', :employee]], {}, { :class => 'dropdown' } %></span>
+        <span class="field_info"></span>
+      </div>
+    <% end %>
+
+    <% b.add_tab('Employment Details') do %>
       <div class="field">
         <div><%= f.label :internal_reference %></div>
         <span><%= f.text_field :internal_reference %></span>
@@ -151,7 +139,7 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Leave') do %>
+    <% b.add_tab('Leave Details') do %>
 
       <div class="field">
         <div><%= f.label :approver_id, 'Approver' %></div>
