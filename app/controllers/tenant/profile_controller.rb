@@ -9,7 +9,6 @@ module Tenant
       :middle_name, 
       :last_name, 
       :gender, 
-      :user_name, 
       :password, 
       :password_confirmation, 
       :notify, 
@@ -30,17 +29,16 @@ module Tenant
       
       # filter out any params not allowed!
       employee_params = params[:employee].keep_if {|key, value| PARAMS_ALLOWED.include?(key.to_sym) }
-
-puts ">>> #{employee_params.inspect}"
-
+      
       # blank password?
       unless employee_params[:password].present?
         employee_params.delete(:password) 
         employee_params.delete(:password_confirmation) 
       end
-      
+
       respond_to do |format|
         if @employee.update_attributes(employee_params)
+          sign_in(@employee, :bypass => true) if employee_params[:password].present? 
           format.html { redirect_to(profile_url, :notice => 'Profile was successfully updated.') }
         else
           format.html { render :action => "edit" }
