@@ -11,7 +11,8 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     LeaveConstraints::Base.evaluate(@leave_request)
   end
   
-  test "evaluate should yield true or false result" do
+  test "leave constraint should evaluate" do
+    @leave_request.update_attributes!(:date_from => Date.today, :date_to => Date.today + 1)
     constraint_flags = LeaveConstraints::Base.evaluate(@leave_request)
     constraint_flags.each do |key, value| 
       assert_equal false, value.nil?
