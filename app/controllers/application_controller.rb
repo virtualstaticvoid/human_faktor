@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
   helper_method :partials_path
   helper_method :current_account
   
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || dashboard_path
+  end
+
+  def after_sign_out_path_for(resource)
+    new_employee_session_path
+  end
+
   private
   
   def partials_path
