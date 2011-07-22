@@ -2,9 +2,9 @@
 
   <%= error_messages_for @employee %>
 
-  <%= render_tabs(:height => '500px') do |b| %>
+  <%= render_tabs(:height => '620px') do |b| %>
 
-    <% b.add_tab('General') do %>
+    <% b.add_tab('Personal Details') do %>
 
       <div>
         <%= image_tag(@employee.avatar.url(:avatar), :width => 48, :height => 48, :class => 'avatar boxradius box_shadow') %>
@@ -79,7 +79,14 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Contact') do %>
+    <% b.add_tab('Contact Details') do %>
+
+      <div class="field">
+        <div><%= f.label :email %></div>
+        <span><%= f.text_field :email %></span>
+        <span class="field_info"></span>
+      </div>
+
       <div class="field">
         <div></div>
         <span><%= f.check_box :notify %><%= f.label :notify, 'Receive email notifications?' %></span>
@@ -87,10 +94,17 @@
       </div>
     
       <div class="field">
-        <div><%= f.label :email %></div>
-        <span><%= f.text_field :email %></span>
+        <div><%= f.label :telephone %></div>
+        <span><%= f.text_field :telephone %> Ext: <%= f.text_field :telephone_extension, { :style => 'width: 80px;' } %></span>
         <span class="field_info"></span>
       </div>
+
+      <div class="field">
+        <div><%= f.label :cellphone %></div>
+        <span><%= f.text_field :cellphone %></span>
+        <span class="field_info"></span>
+      </div>
+
     <% end %>
 
     <% b.add_tab('Employment') do %>
@@ -145,25 +159,29 @@
                     current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]},
                     { :include_blank => true }, 
                     { :class => 'dropdown' } %></span>
-        <span class="field_info">NOTE: Only <b>active</b> approvers, managers and administrators, who receive <b>notifications</b> are listed.</span>
+        <span class="field_info">NOTE: Only <b>active</b> employees, who receive <b>notifications</b> are listed.</span>
       </div>
 
       <h3>Leave Policy Overrides</h3>
+      <p>Override the company defaults by supplying a value, or leave blank to use the company default.</p>
 
       <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
-        <div style="height: 58px;">
-          <div style="float: left; width: 441px;">
-            <div class="field">
-              <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation" %></div>
-              <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :style => 'width: 158px;' %></span>
-              <span class="field_info">days</span>
+        <div style="margin-left: 8px;">
+          <h4><%= leave_type_name.capitalize %> Leave</h4>
+          <div style="height: 58px; margin-left: 16px;">
+            <div style="float: left; width: 425px;">
+              <div class="field">
+                <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation", 'Allowance' %></div>
+                <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :style => 'width: 158px;' %></span>
+                <span class="field_info">days</span>
+              </div>
             </div>
-          </div>
-          <div style="float: right; width: 441px;">
-            <div class="field">
-              <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over" %></div>
-              <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :style => 'width: 158px;' %></span>
-              <span class="field_info">days</span>
+            <div style="float: left; width: 425px;">
+              <div class="field">
+                <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over", 'Carry over allowance' %></div>
+                <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :style => 'width: 158px;' %></span>
+                <span class="field_info">days</span>
+              </div>
             </div>
           </div>
         </div>
