@@ -6,7 +6,7 @@
 
   <%= error_messages_for @employee %>
 
-  <%= render_tabs(:height => '520px') do |b| %>
+  <%= render_tabs(:height => "#{@employee.gender_male? ? '500px' : '580px' }") do |b| %>
 
     <% b.add_tab('Personal Details') do %>
 

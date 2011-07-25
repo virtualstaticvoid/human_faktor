@@ -72,6 +72,10 @@ class Employee < ActiveRecord::Base
     self.gender ? [self.gender] : GENDERS
   end
   
+  def gender_male?
+    self.gender == GENDER_MALE
+  end
+  
   # contact details
   validates :telephone, :length => { :maximum => 20 }, :allow_nil => true
   validates :telephone_extension, :length => { :maximum => 10 }, :allow_nil => true
