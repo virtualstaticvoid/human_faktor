@@ -65,6 +65,10 @@ class LeaveRequest < ActiveRecord::Base
 
   def status_text
     @@status_names[self.status]
+  end
+  
+  def status_active?
+    ACTIVE_STATUSES.include? self.status
   end                                                          
 
   validates :approver, :existence => true
