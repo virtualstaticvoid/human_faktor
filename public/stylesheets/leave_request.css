@@ -54,13 +54,12 @@
 }
 
 .leave_request_left {
-  width: 378px; 
+  width: 498px; 
   float: left;
 }
 
 .leave_request_right {
   width: 258px; 
-  padding-left: 120px;
   float: right;
 }
 
