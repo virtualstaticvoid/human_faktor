@@ -95,7 +95,7 @@ module Tenant
     end
     
     #
-    # NOTE: exception to the rule for employees... uses the employee id and not the identifier!
+    # NOTE: employee parameter uses the employee id and not the identifier!
     #
     def balance
       @employee = current_account.employees.find(params[:employee]) if params[:employee].present?
