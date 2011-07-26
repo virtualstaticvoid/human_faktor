@@ -316,6 +316,10 @@ class LeaveRequest < ActiveRecord::Base
   def update_duration
     write_attribute :duration, calculate_duration
   end
+  
+  def leave_balance
+    @leave_balance || LeaveBalanceDetail.new(self)
+  end
 
   private
   
