@@ -3,11 +3,17 @@
   <table>
 
     <tr>
-      <td width="140px">Created:</td>
-      <td><%= leave_request.created_at_s %></td>
-      <td width="160px"></td>
+      <td width="140px">For:</td>
+      <td width="220px"><%= leave_request.employee %></td>
+      <td></td>
     </tr>
     
+    <tr>
+      <td>Created:</td>
+      <td><%= leave_request.created_at_s %></td>
+      <td></td>
+    </tr>
+
     <% if leave_request.captured? %>
 
       <tr>
@@ -31,20 +37,14 @@
     <% if leave_request.unpaid %>
       <tr>
         <td>Unpaid:</td>
-        <td>Yes</td>
+        <td><strong>Yes</strong></td>
         <td></td>
       </tr>
     <% end %>
 
     <tr>
-      <td>From:</td>
-      <td><%= leave_request.date_from_s %></td>
-      <td></td>
-    </tr>
-
-    <tr>
-      <td>To:</td>
-      <td><%= leave_request.date_to_s %></td>
+      <td>Date From/To:</td>
+      <td><%= leave_request.date_from_s %> to <%= leave_request.date_to_s %></td>
       <td></td>
     </tr>
 
@@ -89,7 +89,7 @@
 
       <tr>
         <td width="140px">Status:</td>
-        <td width="160px"><%= leave_request.status_text %></td>
+        <td width="220px"><%= leave_request.status_text %></td>
         <td></td>
       </tr>
       
@@ -101,62 +101,51 @@
 
 <% if leave_request.status_new? || leave_request.status_active? %>
 
-  <%
-    leave_type = leave_request.leave_type
-    employee = leave_request.employee
-    date_from = leave_request.date_from
-
-    leave_take_on = leave_type.leave_take_on_for(employee, date_from)
-    leave_allowance = leave_type.allowance_for(employee, date_from)
-
-    leave_taken = leave_type.leave_taken_for(employee, date_from)
-    leave_outstanding = leave_type.leave_outstanding_for(employee, date_from) # NB: includes this request
-
-    # calculate available leave balance
-    leave_available = leave_take_on + leave_allowance - leave_taken - leave_outstanding
-   %>
- 
   <div class="leave_request box_radius">
     <h3>Leave Balance Details</h3>
     <table>
 
       <tr>
         <td width="140px">Balance as at:</td>
-        <td width="160px"><%= leave_request.date_from_s %></td>
+        <td width="220px"><%= leave_request.date_from_s %></td>
         <td></td>
       </tr>
 
-      <% if leave_take_on > 0 %>
+      <% if leave_request.leave_balance.take_on > 0 %>
         <tr>
           <td>Take On:</td>
-          <td><%= pluralize(number_with_precision(leave_take_on, :precision => 1), 'day') %></td>
+          <td><%= pluralize(number_with_precision(leave_request.leave_balance.take_on, :precision => 1), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
 
       <tr>
         <td>Allowance:</td>
-        <td><%= pluralize(number_with_precision(leave_allowance, :precision => 1), 'day') %></td>
+        <td><%= pluralize(number_with_precision(leave_request.leave_balance.allowance, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
 
       <tr>
-        <td>Leave taken:</td>
-        <td><%= pluralize(number_with_precision(leave_taken, :precision => 1), 'day') %></td>
+        <td><abbr title="Leave taken or pending prior to this request"><i>less</i> Leave taken</abbr>:</td>
+        <td><%= pluralize(number_with_precision(leave_request.leave_balance.leave_taken, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
 
-      <% if leave_outstanding > 0 %>
-        <tr>
-          <td><abbr title="Pending and approved leave not yet taken, including this request">Leave outstanding</abbr>:</td>
-          <td><%= pluralize(number_with_precision(leave_outstanding, :precision => 1), 'day') %></td>
-          <td></td>
-        </tr>
-      <% end %>
+      <tr>
+        <td>Leave available:</td>
+        <td><%= pluralize(number_with_precision(leave_request.leave_balance.available, :precision => 1), 'day') %></td>
+        <td></td>
+      </tr>
 
       <tr>
-        <td>Available leave:</td>
-        <td><%= pluralize(number_with_precision(leave_available, :precision => 1), 'day') %></td>
+        <td><i>less</i> Requested:</td>
+        <td><%= pluralize(number_with_precision(leave_request.duration, :precision => 1), 'day') %></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><abbr title="Leave balance including this request">Leave balance</abbr>:</td>
+        <td><%= pluralize(number_with_precision(leave_request.leave_balance.projected, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
       
