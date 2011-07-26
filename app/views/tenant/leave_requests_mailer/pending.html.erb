@@ -36,6 +36,18 @@
     Comment: <%= @leave_request.comment %><br />
   </p>
 
+  <p>Leave Balance Details:</p>
+
+  <p class="block">
+    Balance as at: <%= @leave_request.date_from_s %><br /><% if @leave_request.leave_balance.take_on > 0 %>
+    Take On: <%= pluralize(number_with_precision(@leave_request.leave_balance.take_on, :precision => 1), 'day') %><br /><% end %>
+    Allowance: <%= pluralize(number_with_precision(@leave_request.leave_balance.allowance, :precision => 1), 'day') %><br />
+    less Leave taken: <%= pluralize(number_with_precision(@leave_request.leave_balance.leave_taken, :precision => 1), 'day') %><br />
+    Leave available: <%= pluralize(number_with_precision(@leave_request.leave_balance.available, :precision => 1), 'day') %><br />
+    less Requested: <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %><br />
+    Leave balance: <%= pluralize(number_with_precision(@leave_request.leave_balance.projected, :precision => 1), 'day') %><br />
+  </p>  
+
   <p>To approve or decline the leave request, please follow this link:</p>
 
   <p class="block">
