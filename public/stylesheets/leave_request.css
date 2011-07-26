@@ -36,13 +36,17 @@
 #leave_requests tbody tr td p, .leave_request_comment {
   padding: 6px 0 0 20px;
   min-height: 27px;
-  color: gray;
+  color: slategray;
   font-size: 10pt;
   text-align: left;
 }
 
 .leave_request {
   padding: 8px;
+}
+
+.leave_request table tr td:first-child {
+  color: slategray; 
 }
 
 .leave_request_actions form, .leave_request_actions form div {
@@ -78,7 +82,6 @@
 
 .total_row {
   border-top: 1px solid #C0C0C0;
-  padding-top: 12px;
 }
 
 .detailed_leave_balance_link {
