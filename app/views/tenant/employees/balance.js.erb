@@ -1,0 +1,8 @@
+$('#leave_balances').html('<%= escape_javascript(render(
+        :partial => 'tenant/employees/leave_balance', 
+        :locals => { 
+          :employee => @employee,
+          :leave_types => @leave_types, 
+          :date_as_at => @date_as_at 
+        })) %>');
+$('#ajax_working').css('display', 'none');

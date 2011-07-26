@@ -1,0 +1,13 @@
+<div id="leave_balances">
+  <%= render_tabs(:id => 'leave_balance_tabs', :height => '412px') do |tab_builder| %>
+    <% leave_types.each do |leave_type| %>
+      <% tab_builder.add_tab("#{leave_type}") do %>
+        <%= render 'tenant/dashboard/leave_balance', { :account => current_account, 
+                                                       :employee => employee, 
+                                                       :leave_type => leave_type,
+                                                       :date_as_at => date_as_at } %>
+      <% end %>      
+    <% end %>
+  <% end %>
+</div>
+

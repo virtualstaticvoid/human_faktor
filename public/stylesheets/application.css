@@ -322,9 +322,9 @@ pre {
 }
 
 #ajax_working {
-  background: url('../images/ajax-loader.gif') no-repeat;
+  background: url('../images/ajax-loader.gif') no-repeat left center;
   height: 32px;
-  line-height: 26px;
+  line-height: 32px;
   padding-left: 32px;
 }
 

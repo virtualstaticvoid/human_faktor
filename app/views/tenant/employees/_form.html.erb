@@ -4,7 +4,7 @@
 
   <%= render_tabs(:height => '620px') do |b| %>
 
-    <% b.add_tab('Personal Details') do %>
+    <% b.add_tab('Personal') do %>
 
       <div>
         <%= image_tag(@employee.avatar.url(:avatar), :width => 48, :height => 48, :class => 'avatar boxradius box_shadow') %>
@@ -47,7 +47,7 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Contact Details') do %>
+    <% b.add_tab('Contact') do %>
 
       <div class="field">
         <div><%= f.label :email %></div>
@@ -95,7 +95,7 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Employment Details') do %>
+    <% b.add_tab('Employment') do %>
       <div class="field">
         <div><%= f.label :internal_reference %></div>
         <span><%= f.text_field :internal_reference %></span>
@@ -139,7 +139,7 @@
       </div>
     <% end %>
 
-    <% b.add_tab('Leave Details') do %>
+    <% b.add_tab('Leave') do %>
 
       <div class="field">
         <div><%= f.label :approver_id, 'Approver' %></div>
@@ -202,6 +202,32 @@
       <% end %>
       
     <% end %>
+
+    <% if @employee.persisted?
+        @date_as_at = Date.today
+        b.add_tab('Leave Balances') do %>
+        
+        <div class="field" style="height: 32px; line-height: 32px;">Leave balance as at <%= date_picker_tag :date_as_at, 
+                        @date_as_at, 
+                        { :style => 'width: 100px;', 
+                          :options => { 
+                            :onSelect => 'function(dateText, item) { update_leave_balance(dateText); }'
+                          } 
+                        } %>
+          <%= link_to 'Update Leave Balance', 
+                  employee_balance_path(:tenant => current_account.subdomain, :id => @employee.to_param), 
+                  :id => 'update_leave_balance', 
+                  :remote => true, 
+                  :style => 'display: none' %>
+                  
+          <span id="ajax_working">Loading balances...</span>
+        </div>
+        
+        <div id="leave_balances"></div>
+        
+      <% end %>
+    <% end %>
+
   <% end %>
   
   <div style="height: 16px;"></div>
@@ -222,6 +248,7 @@
   var first_name = $("#employee_first_name");
   var last_name = $("#employee_last_name");
   var user_name = $("#employee_user_name");
+  var update_leave_balance_link = $("#update_leave_balance");
   
   first_name.change(function() {
     update_user_name();
@@ -236,6 +263,13 @@
       user_name.val(to_name(first_name.val()) + "." + to_name(last_name.val()));  
     }
   }
-  
+
+  function update_leave_balance(date) { 
+    $('#ajax_working').css('display', '');
+    update_leave_balance_link.attr('href', '<%= employee_balance_path(:tenant => current_account.subdomain, :id => @employee.to_param) %>&as_at=' + date);
+    update_leave_balance_link.click();
+  }
+
+  update_leave_balance_link.click();  
 </script>
 

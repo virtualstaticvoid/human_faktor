@@ -31,6 +31,7 @@ module Tenant
     
     def edit
       @employee = current_account.employees.find_by_identifier(params[:id])
+      load_leave_types
     end
     
     def update
@@ -40,6 +41,7 @@ module Tenant
         if @employee.update_attributes(params[:employee])
           format.html { redirect_to(employees_url, :notice => 'Employee was successfully updated.') }
         else
+          load_leave_types
           format.html { render :action => "edit" }
         end
       end
@@ -53,6 +55,25 @@ module Tenant
         format.html { redirect_to(employees_url, :notice => 'Employee was successfully deleted.') }
         format.js   {}
       end
+    end
+    
+    def balance
+      @employee = current_account.employees.find_by_identifier(params[:id])
+      @date_as_at = ApplicationHelper.safe_parse_date(params[:as_at], Date.today)
+      load_leave_types
+
+      respond_to do |format|
+        format.js   {}
+      end
+    end
+    
+    private
+    
+    def load_leave_types
+      # get leave types, filtered by the gender of the employee
+      @leave_types = current_account.leave_types.select {|leave_type| 
+        !(leave_type.gender_filter & @employee.gender_filter).empty?
+      }
     end
   
   end
