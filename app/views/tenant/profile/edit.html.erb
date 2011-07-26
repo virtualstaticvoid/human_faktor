@@ -8,7 +8,7 @@
 
   <%= render_tabs(:height => "#{@employee.gender_male? ? '500px' : '580px' }") do |b| %>
 
-    <% b.add_tab('Personal Details') do %>
+    <% b.add_tab('Personal') do %>
 
       <div>
         <%= image_tag(@employee.avatar.url(:avatar), :width => 48, :height => 48, :class => 'avatar boxradius box_shadow', :title => 'Your profile picture') %>
@@ -52,7 +52,7 @@
       
     <% end %>
 
-    <% b.add_tab('Contact Details') do %>
+    <% b.add_tab('Contact') do %>
 
       <div class="field">
         <div><%= f.label :email %></div>
@@ -80,7 +80,7 @@
 
     <% end %>
 
-    <% b.add_tab('Employment Details') do %>
+    <% b.add_tab('Employment') do %>
     
       <div class="field">
         <div><%= f.label :designation %></div>
@@ -130,7 +130,7 @@
 
     <% end %>
 
-    <% b.add_tab('Leave Details') do %>
+    <% b.add_tab('Leave') do %>
 
       <div class="field">
         <div><%= f.label :approver, 'Assigned Approver' %></div>
