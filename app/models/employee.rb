@@ -167,10 +167,18 @@ class Employee < ActiveRecord::Base
 
   # take on balances
   validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
+  validates_presence_of :take_on_balance_as_at, :if => lambda { self.has_take_on_balance }
 
   LeaveType.for_each_leave_type_name do |leave_type_name|
     default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
     validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }  
+  end
+  
+  def has_take_on_balance
+    LeaveType.for_each_leave_type_name do |leave_type_name|
+      return true if read_attribute(:"#{leave_type_name}_leave_take_on_balance") != 0
+    end
+    false
   end
   
   def take_on_balance_for(leave_type)
