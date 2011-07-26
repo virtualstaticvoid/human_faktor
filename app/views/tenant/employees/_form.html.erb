@@ -153,26 +153,30 @@
       <h3>Leave Policy Overrides</h3>
       <p>Override the company defaults by supplying a value, or leave blank to use the company default.</p>
 
-      <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
-        <div style="margin-left: 8px;">
-          <h4><%= leave_type_name.capitalize %> Leave</h4>
-          <div style="height: 58px; margin-left: 16px;">
-            <div style="float: left; width: 425px;">
-              <div class="field">
-                <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation", 'Allowance' %></div>
-                <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :style => 'width: 158px;' %></span>
-                <span class="field_info">days</span>
+      <% LeaveType.for_each_leave_type_name do |leave_type_name| 
+           leave_type = current_account.send(:"leave_type_#{leave_type_name}")
+           unless (leave_type.gender_filter & @employee.gender_filter).empty? 
+       %>
+          <div style="margin-left: 8px;">
+            <h4><%= leave_type_name.capitalize %> Leave</h4>
+            <div style="height: 58px; margin-left: 16px;">
+              <div style="float: left; width: 425px;">
+                <div class="field">
+                  <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation", 'Allowance' %></div>
+                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :placeholder => "#{leave_type.cycle_days_allowance}", :style => 'width: 158px;' %></span>
+                  <span class="field_info">days</span>
+                </div>
               </div>
-            </div>
-            <div style="float: left; width: 425px;">
-              <div class="field">
-                <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over", 'Carry over allowance' %></div>
-                <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :style => 'width: 158px;' %></span>
-                <span class="field_info">days</span>
+              <div style="float: left; width: 425px;">
+                <div class="field">
+                  <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over", 'Carry over allowance' %></div>
+                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :placeholder => "#{leave_type.cycle_days_carry_over}", :style => 'width: 158px;' %></span>
+                  <span class="field_info">days</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
 
     <% end %>
@@ -185,12 +189,16 @@
         <span class="field_info"></span>
       </div>
 
-      <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
-        <div class="field">
-          <div><%= f.label :"#{leave_type_name}_leave_take_on_balance", "#{leave_type_name.capitalize} leave" %></div>
-          <span><%= f.text_field :"#{leave_type_name}_leave_take_on_balance", :style => 'width: 158px;' %></span>
-          <span class="field_info">days</span>
-        </div>
+      <% LeaveType.for_each_leave_type_name do |leave_type_name| 
+           leave_type = current_account.send(:"leave_type_#{leave_type_name}")
+           unless (leave_type.gender_filter & @employee.gender_filter).empty? 
+      %>
+          <div class="field">
+            <div><%= f.label :"#{leave_type_name}_leave_take_on_balance", "#{leave_type_name.capitalize} leave" %></div>
+            <span><%= f.text_field :"#{leave_type_name}_leave_take_on_balance", :style => 'width: 158px;' %></span>
+            <span class="field_info">days</span>
+          </div>
+        <% end %>
       <% end %>
       
     <% end %>
