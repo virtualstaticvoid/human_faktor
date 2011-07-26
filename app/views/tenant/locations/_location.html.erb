@@ -1,5 +1,5 @@
 <tr id="_location_<%= location.to_param %>" data-url="<%= edit_location_path(location, :tenant => current_account.subdomain) %>">
   <td><%= location.title %></td>
-  <td><%= link_to image_tag('delete.png'), location_path(location, :tenant => current_account.subdomain), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "delete_button" %></td>
+  <td><%= link_to image_tag('delete.png'), location_path(location, :tenant => current_account.subdomain), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "grid_button" %></td>
 </tr>
 
