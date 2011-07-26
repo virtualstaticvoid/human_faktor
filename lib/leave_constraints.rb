@@ -67,7 +67,7 @@ module LeaveConstraints
   class ExceedsLeaveCycleAllowance < Base
   
     def evaluate(request)
-      self.leave_taken(request) > self.leave_allowance(request)
+      !request.unpaid? && self.leave_taken(request) > self.leave_allowance(request)
     end
 
     protected
