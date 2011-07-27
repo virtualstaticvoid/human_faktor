@@ -1,0 +1,44 @@
+<p>Leave Balance Details:</p>
+
+<table>
+  <tr>
+    <td width="20px"></td>
+    <td width="120px">Balance as at:</td>
+    <td><%= @leave_request.date_from_s %></td>
+  </tr>
+  
+  <% if @leave_request.leave_balance.take_on > 0 %>
+    <tr>
+      <td></td>
+      <td>Take On:</td>
+      <td><%= pluralize(number_with_precision(@leave_request.leave_balance.take_on, :precision => 1), 'day') %></td>
+    </tr>
+  <% end %>
+  
+  <tr>
+    <td></td>
+    <td>Allowance:</td>
+    <td><%= pluralize(number_with_precision(@leave_request.leave_balance.allowance, :precision => 1), 'day') %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><i>less</i> Leave taken:</td>
+    <td><%= pluralize(number_with_precision(@leave_request.leave_balance.leave_taken, :precision => 1), 'day') %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Leave available:</td>
+    <td><%= pluralize(number_with_precision(@leave_request.leave_balance.available, :precision => 1), 'day') %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><i>less</i> Requested:</td>
+    <td><%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Leave balance:</td>
+    <td><%= pluralize(number_with_precision(@leave_request.leave_balance.projected, :precision => 1), 'day') %></td>
+  </tr>
+</table>
+

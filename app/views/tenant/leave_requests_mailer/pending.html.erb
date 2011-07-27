@@ -26,27 +26,8 @@
   <p><strong><%= @leave_request.employee.full_name %></strong> has applied for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 <% end %>
 
-  <p>Leave Request Details:</p>
-
-  <p class="block">
-    Created: <%= @leave_request.created_at_s %><br />
-    From: <%= @leave_request.date_from_s %><br />
-    To: <%= @leave_request.date_to_s %><br />
-    Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
-    Comment: <%= @leave_request.comment %><br />
-  </p>
-
-  <p>Leave Balance Details:</p>
-
-  <p class="block">
-    Balance as at: <%= @leave_request.date_from_s %><br /><% if @leave_request.leave_balance.take_on > 0 %>
-    Take On: <%= pluralize(number_with_precision(@leave_request.leave_balance.take_on, :precision => 1), 'day') %><br /><% end %>
-    Allowance: <%= pluralize(number_with_precision(@leave_request.leave_balance.allowance, :precision => 1), 'day') %><br />
-    less Leave taken: <%= pluralize(number_with_precision(@leave_request.leave_balance.leave_taken, :precision => 1), 'day') %><br />
-    Leave available: <%= pluralize(number_with_precision(@leave_request.leave_balance.available, :precision => 1), 'day') %><br />
-    less Requested: <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %><br />
-    Leave balance: <%= pluralize(number_with_precision(@leave_request.leave_balance.projected, :precision => 1), 'day') %><br />
-  </p>  
+  <%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
+  <%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
 
   <p>To approve or decline the leave request, please follow this link:</p>
 

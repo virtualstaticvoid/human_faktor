@@ -9,21 +9,21 @@ Hello <%= @leave_request.employee.full_name %>,
 
 Leave Request Details:
 
-  Created: <%= @leave_request.created_at_s %>
-  From: <%= @leave_request.date_from_s %>
-  To: <%= @leave_request.date_to_s %>
+  Created:  <%= @leave_request.created_at_s %>
+  From:     <%= @leave_request.date_from_s %>
+  To:       <%= @leave_request.date_to_s %>
   Duration: <%= pluralize(@leave_request.duration, 'day') %>
-  Comment: <%= @leave_request.comment %>
+  Comment:  <%= @leave_request.comment %>
   
 Leave Balance Details:
 
-  Balance as at: <%= @leave_request.date_from_s %><% if @leave_request.leave_balance.take_on > 0 %>
-  Take On: <%= pluralize(number_with_precision(@leave_request.leave_balance.take_on, :precision => 1), 'day') %><% end %>
-  Allowance: <%= pluralize(number_with_precision(@leave_request.leave_balance.allowance, :precision => 1), 'day') %>
+  Balance as at:    <%= @leave_request.date_from_s %><% if @leave_request.leave_balance.take_on > 0 %>
+  Take On:          <%= pluralize(number_with_precision(@leave_request.leave_balance.take_on, :precision => 1), 'day') %><% end %>
+  Allowance:        <%= pluralize(number_with_precision(@leave_request.leave_balance.allowance, :precision => 1), 'day') %>
   less Leave taken: <%= pluralize(number_with_precision(@leave_request.leave_balance.leave_taken, :precision => 1), 'day') %>
-  Leave available: <%= pluralize(number_with_precision(@leave_request.leave_balance.available, :precision => 1), 'day') %>
-  less Requested: <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %>
-  Leave balance: <%= pluralize(number_with_precision(@leave_request.leave_balance.projected, :precision => 1), 'day') %>
+  Leave available:  <%= pluralize(number_with_precision(@leave_request.leave_balance.available, :precision => 1), 'day') %>
+  less Requested:   <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %>
+  Leave balance:    <%= pluralize(number_with_precision(@leave_request.leave_balance.projected, :precision => 1), 'day') %>
 
 To review the leave request, please follow this link:
 

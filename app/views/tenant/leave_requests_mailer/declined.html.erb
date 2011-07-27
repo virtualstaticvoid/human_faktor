@@ -22,15 +22,7 @@
 
   <p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has declined your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 
-  <p>Leave Request Details:</p>
-
-  <p class="block">
-    Created: <%= @leave_request.created_at_s %><br />
-    From: <%= @leave_request.date_from_s %><br />
-    To: <%= @leave_request.date_to_s %><br />
-    Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
-    Comment: <%= @leave_request.comment %><br />
-  </p>
+  <%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
   
   <p>To review the leave request, please follow this link:</p>
 

@@ -22,23 +22,23 @@
 
   <p>The <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave request for <strong><%= @leave_request.employee.full_name %></strong> has been cancelled.</p>
 
-  <p>Leave Request Details:</p>
-  
-  <p class="block">
-    Created: <%= @leave_request.created_at_s %><br />
-    From: <%= @leave_request.date_from_s %><br />
-    To: <%= @leave_request.date_to_s %><br />
-    Duration: <%= pluralize(@leave_request.duration, 'day') %><br />
-    Comment: <%= @leave_request.comment %><br />
-  </p>
+  <%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
 
   <p>Cancellation Details:</p>
+  <table>
+    <tr>
+      <td width="20px"></td>
+      <td width="120px">Cancelled On:</td>
+      <td><%= @leave_request.cancelled_at_s %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Cancelled By:</td>
+      <td><%= @leave_request.cancelled_by.full_name %></td>
+    </tr>
 
-  <p class="block">
-    Cancelled On: <%= @leave_request.cancelled_at_s %><br />
-    Cancelled By: <%= @leave_request.cancelled_by.full_name %>
-  </p>
-  
+  </table>
+
   <p>To review the leave request, please follow this link:</p>
 
   <p class="block">

@@ -4,11 +4,11 @@ Hello <%= @leave_request.employee.full_name %>,
 
 Leave Request Details:
 
-  Created: <%= @leave_request.created_at_s %>
-  From: <%= @leave_request.date_from_s %>
-  To: <%= @leave_request.date_to_s %>
+  Created:  <%= @leave_request.created_at_s %>
+  From:     <%= @leave_request.date_from_s %>
+  To:       <%= @leave_request.date_to_s %>
   Duration: <%= pluralize(@leave_request.duration, 'day') %>
-  Comment: <%= @leave_request.comment %>
+  Comment:  <%= @leave_request.comment %>
   
 To review the leave request, please follow this link:
 
