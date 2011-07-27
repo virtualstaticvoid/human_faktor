@@ -22,7 +22,7 @@
   </tr>
   <tr>
     <td></td>
-    <td><i>less</i> Leave taken:</td>
+    <td><em>less</em> Leave taken:</td>
     <td><%= pluralize(number_with_precision(@leave_request.leave_balance.leave_taken, :precision => 1), 'day') %></td>
   </tr>
   <tr>
@@ -32,7 +32,7 @@
   </tr>
   <tr>
     <td></td>
-    <td><i>less</i> Requested:</td>
+    <td><em>less</em> Requested:</td>
     <td><%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %></td>
   </tr>
   <tr>

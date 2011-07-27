@@ -126,7 +126,7 @@
       </tr>
 
       <tr>
-        <td><abbr title="Leave taken or pending prior to this request"><i>less</i> Leave taken</abbr>:</td>
+        <td><abbr title="Leave taken to date"><em>less</em> Leave taken</abbr>:</td>
         <td><%= pluralize(number_with_precision(leave_request.leave_balance.leave_taken, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
@@ -138,7 +138,7 @@
       </tr>
 
       <tr>
-        <td><i>less</i> Requested:</td>
+        <td><em>less</em> Requested:</td>
         <td><%= pluralize(number_with_precision(leave_request.duration, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
