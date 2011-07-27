@@ -3,10 +3,10 @@
 annual:
   account: one
   type: LeaveType::Annual
-  employee_capture_allowed: false
-  approver_capture_allowed: false
+  employee_capture_allowed: true
+  approver_capture_allowed: true
   admin_capture_allowed: false
-  approval_required: false
+  approval_required: true
   unscheduled_leave_allowed: false
   requires_documentation: false
   requires_documentation_after: 1
@@ -26,10 +26,10 @@ annual:
 educational:
   account: one
   type: LeaveType::Educational
-  employee_capture_allowed: false
-  approver_capture_allowed: false
+  employee_capture_allowed: true
+  approver_capture_allowed: true
   admin_capture_allowed: false
-  approval_required: false
+  approval_required: true
   unscheduled_leave_allowed: false
   requires_documentation: false
   requires_documentation_after: 1
@@ -49,10 +49,10 @@ educational:
 medical:
   account: one
   type: LeaveType::Medical
-  employee_capture_allowed: false
-  approver_capture_allowed: false
+  employee_capture_allowed: true
+  approver_capture_allowed: true
   admin_capture_allowed: false
-  approval_required: false
+  approval_required: true
   unscheduled_leave_allowed: false
   requires_documentation: false
   requires_documentation_after: 1
@@ -72,10 +72,10 @@ medical:
 maternity:
   account: one
   type: LeaveType::Maternity
-  employee_capture_allowed: false
-  approver_capture_allowed: false
+  employee_capture_allowed: true
+  approver_capture_allowed: true
   admin_capture_allowed: false
-  approval_required: false
+  approval_required: true
   unscheduled_leave_allowed: false
   requires_documentation: false
   requires_documentation_after: 1
@@ -95,10 +95,10 @@ maternity:
 compassionate:
   account: one
   type: LeaveType::Compassionate
-  employee_capture_allowed: false
-  approver_capture_allowed: false
+  employee_capture_allowed: true
+  approver_capture_allowed: true
   admin_capture_allowed: false
-  approval_required: false
+  approval_required: true
   unscheduled_leave_allowed: false
   requires_documentation: false
   requires_documentation_after: 1
