@@ -50,7 +50,8 @@ class Employee < ActiveRecord::Base
   validates :user_name, :presence => true, 
                         :length => { :maximum => 20 },
                         :uniqueness => { :scope => [:account_id] }
-  validates :email, :email => true
+
+  validates :email, :email => true #, :uniqueness => { :scope => [:account_id] }
   
   # authentication
   validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
