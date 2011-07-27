@@ -158,7 +158,7 @@ class LeaveRequest < ActiveRecord::Base
     "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
   end
   
-  validates :duration, :numericality => { :greater_than_or_equal => 0 }
+  validates :duration, :numericality => { :greater_than => 0 }
   
   def duration
     read_attribute(:duration) || 0
