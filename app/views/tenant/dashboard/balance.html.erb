@@ -20,8 +20,7 @@
 <%= render_tabs(:height => '412px') do |tab_builder| %>
   <% @leave_types.each do |leave_type| %>
     <% tab_builder.add_tab("#{leave_type}") do %>
-      <%= render 'leave_balance', { :account => @account, 
-                                    :employee => @employee, 
+      <%= render 'leave_balance', { :employee => @employee, 
                                     :leave_type => leave_type,
                                     :date_as_at => @date_as_at } %>
     <% end %>      
