@@ -190,7 +190,7 @@ class LeaveRequest < ActiveRecord::Base
     unless !self.valid?
       write_attribute :duration, calculate_duration
       evaluate_constraints
-      confirm unless self.has_constraint_violations?
+      confirm(self.employee) unless self.has_constraint_violations?
     end
   end
   
@@ -212,15 +212,17 @@ class LeaveRequest < ActiveRecord::Base
     
     write_attribute :status, STATUS_PENDING
     
-    # TODO: automatically approve the leave if approval isn't required for the leave type
-    
-    approve(employee, '') if !employee.nil? && self.valid? && self.captured? && self.approver == employee
+    # automatically approve the leave if captured
+    # or approval isn't required for the leave type
+    if !employee.nil? && self.valid?
+      approve(employee, '') if (self.captured? && self.approver == employee) || !self.leave_type.approval_required
+    end
   end
   
   def approve(approver, comment)
     raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
-    raise PermissionDeniedException unless self.can_authorise?(approver)
+    raise PermissionDeniedException unless self.can_authorise?(approver) || !self.leave_type.approval_required
 
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approved_declined_at, Time.now
