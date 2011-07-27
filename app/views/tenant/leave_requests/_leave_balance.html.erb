@@ -10,6 +10,7 @@
 
   if leave_type.cycle_start_date <= date_from 
     leave_balance = employee.leave_balance(leave_type, date_from)
+    request_duration = 0
 %>
 
     <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
@@ -34,6 +35,12 @@
       <span class="field_info">days</span>
     </div>
     
+    <div class="field">
+      <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance up to the requested date' %></strong></div>
+      <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+
     <% if leave_balance.outstanding > 0 %>
       <div class="field">
         <div><em>less</em> <%= label_tag :outstanding, 'Outstanding', :title => 'Pending and approved leave, not yet taken' %></div>
@@ -42,12 +49,6 @@
       </div>
     <% end %>
     
-    <div class="field">
-      <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance up to the requested date' %></strong></div>
-      <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
-      <span class="field_info">days</span>
-    </div>
-
     <% unless date_to.nil? 
 
       # create dummy request (which isn't saved) to calculate the duration
@@ -67,22 +68,22 @@
         <span><%= text_field_tag :leave_requested, number_with_precision(request_duration, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
+      
+    <% end %>
 
+    <div class="field">
+      <div class="total_row"><strong><%= label_tag :balance, 'Balance', :title => 'The new leave balance, taking into account this leave request' %></strong></div>
+      <span><%= text_field_tag :balance, number_with_precision(leave_balance.projected - (unpaid ? 0 : request_duration), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span class="field_info">days</span>
+    </div>
+
+    <% if (leave_balance.unpaid_leave_taken > 0) || unpaid %>
+      <div style="height: 12px;"></div>
       <div class="field">
-        <div class="total_row"><strong><%= label_tag :balance, 'Balance', :title => 'The new leave balance, taking into account this leave request' %></strong></div>
-        <span><%= text_field_tag :balance, number_with_precision(leave_balance.available - (unpaid ? 0 : request_duration), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <div><%= label_tag :unpaid_leave, 'Unpaid leave',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
+        <span><%= text_field_tag :unpaid_leave, number_with_precision(leave_balance.unpaid_leave_taken + (unpaid ? request_duration : 0), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
-
-      <% if (leave_balance.unpaid_leave_taken > 0) || unpaid %>
-        <div style="height: 12px;"></div>
-        <div class="field">
-          <div><%= label_tag :unpaid_leave, 'Unpaid leave',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
-          <span><%= text_field_tag :unpaid_leave, number_with_precision(leave_balance.unpaid_leave_taken + (unpaid ? request_duration : 0), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
-          <span class="field_info">days</span>
-        </div>
-      <% end %>
-
     <% end %>
 
   <% else %>

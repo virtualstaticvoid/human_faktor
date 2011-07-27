@@ -6,6 +6,7 @@ class LeaveBalanceDetail
   attr_reader :unpaid_leave_taken
   attr_reader :outstanding
   attr_reader :available
+  attr_reader :projected
 
   def initialize(leave_type, employee, date_as_at)
     @take_on = leave_type.leave_take_on_for(employee, date_as_at)
@@ -14,6 +15,7 @@ class LeaveBalanceDetail
     @unpaid_leave_taken = leave_type.leave_taken_for(employee, date_as_at, true)
     @outstanding = leave_type.leave_outstanding_for(employee, date_as_at)
     @available = @take_on + @allowance - @leave_taken
+    @projected = @available - @outstanding
   end
   
 end
