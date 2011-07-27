@@ -21,6 +21,11 @@
     <td>Duration:</td>
     <td><%= pluralize(leave_request.duration, 'day') %></td>
   </tr>
+  <tr>
+    <td></td>
+    <td>Warnings:</td>
+    <td><%= @leave_request.has_constraint_violations? ? 'Yes' : 'No' %></td>
+  </tr>
   <% if leave_request.comment.present? %>
     <tr>
       <td></td>

@@ -12,6 +12,7 @@ Leave Request Details:
   From:     <%= @leave_request.date_from_s %>
   To:       <%= @leave_request.date_to_s %>
   Duration: <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %>
+  Warnings: <%= @leave_request.has_constraint_violations? ? 'Yes' : 'No' %>
   Comment:  <%= @leave_request.comment %>
 
 Leave Balance Details:
