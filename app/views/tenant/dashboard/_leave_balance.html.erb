@@ -1,61 +1,48 @@
-<%
-
-  # calculate each component
-  if leave_type.cycle_start_date <= date_as_at
-    
-    leave_take_on = leave_type.leave_take_on_for(employee, date_as_at)
-    leave_allowance = leave_type.allowance_for(employee, date_as_at)
-
-    leave_taken = leave_type.leave_taken_for(employee, date_as_at)
-    leave_outstanding = leave_type.leave_outstanding_for(employee, date_as_at)
-    unpaid_leave_taken = leave_type.leave_taken_for(employee, date_as_at, true)
-
-    # calculate available leave balance
-    leave_available = leave_take_on + leave_allowance - leave_taken - leave_outstanding
-  
+<% if leave_type.cycle_start_date <= date_as_at
+     leave_balance = employee.leave_balance(leave_type, date_as_at)
 %>
 
 <div style="margin-left: 10px; width: 230px; height: 340px;">
 
-  <% if leave_take_on > 0 %>
+  <% if leave_balance.take_on > 0 %>
     <div class="field">
       <div><%= label_tag :take_on_balance, 'Take on', :title => 'Take on leave balance allowance' %></div>
-      <span><%= text_field_tag :take_on_balance, number_with_precision(leave_take_on, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :take_on_balance, number_with_precision(leave_balance.take_on, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
   <% end %>
 
   <div class="field">
     <div><%= label_tag :leave_allowance, 'Allowance', :title => 'Allowance for the current leave cycle' %></div>
-    <span><%= text_field_tag :leave_allowance, number_with_precision(leave_allowance, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+    <span><%= text_field_tag :leave_allowance, number_with_precision(leave_balance.allowance, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
   
   <div class="field">
     <div><em>less</em> <%= label_tag :leave_taken, 'Leave taken', :title => 'Leave taken to date' %></div>
-    <span><%= text_field_tag :leave_taken, number_with_precision(leave_taken, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+    <span><%= text_field_tag :leave_taken, number_with_precision(leave_balance.leave_taken, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
   
-  <% if leave_outstanding > 0 %>
+  <% if leave_balance.outstanding > 0 %>
     <div class="field">
       <div><em>less</em> <%= label_tag :outstanding, 'Outstanding', :title => 'Pending and approved leave, not yet taken' %></div>
-      <span><%= text_field_tag :outstanding, number_with_precision(leave_outstanding, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :outstanding, number_with_precision(leave_balance.outstanding, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
   <% end %>
   
   <div class="field">
     <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance up to the requested date' %></strong></div>
-    <span><%= text_field_tag :leave_available, number_with_precision(leave_available, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+    <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
     <span class="field_info">days</span>
   </div>
   
-  <% if unpaid_leave_taken > 0 %>
+  <% if leave_balance.unpaid_leave_taken > 0 %>
     <div style="height: 12px;"></div>
     <div class="field">
       <div><%= label_tag :unpaid_leave, 'Unpaid leave taken',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
-      <span><%= text_field_tag :unpaid_leave, number_with_precision(unpaid_leave_taken, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :unpaid_leave, number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
   <% end %>
