@@ -60,7 +60,7 @@ class LeaveType < ActiveRecord::Base
   validates :max_days_for_back_dated, :numericality => { :greater_than_or_equal_to => 1 }
   validates :min_days_per_single_request, :numericality => { :greater_than_or_equal_to => 0 }
   validates :max_days_per_single_request, :numericality => { :greater_than_or_equal_to => 1 }
-  validates :required_days_notice, :numericality => { :greater_than_or_equal_to => 1 }
+  validates :required_days_notice, :numericality => { :greater_than_or_equal_to => 0 }
   validates :max_negative_balance, :numericality => { :greater_than_or_equal_to => 0 }
   
   # display
