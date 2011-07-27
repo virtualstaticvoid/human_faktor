@@ -40,7 +40,8 @@ module LeaveConstraints
   class ExceedsNumberOfDaysNoticeRequired < Base
   
     def evaluate(request)
-      (request.date_from - request.created_at.to_date).to_i < request.leave_type.required_days_notice
+      request.leave_type.required_days_notice > 0 &&
+        (request.date_from - request.created_at.to_date).to_i < request.leave_type.required_days_notice
     end
     
   end

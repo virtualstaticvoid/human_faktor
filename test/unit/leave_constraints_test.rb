@@ -38,6 +38,12 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request.update_duration
     assert_equal false, constraint.evaluate(leave_request)
 
+    # if the required_days_notice is zero, then ignore
+    leave_request.leave_type.required_days_notice = 0
+    leave_request.date_from = leave_request.created_at.to_date - 1
+    leave_request.update_duration
+    assert_equal false, constraint.evaluate(leave_request)
+
   end
 
   test "ExceedsMinimumNumberOfDaysPerRequest" do
