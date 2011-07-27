@@ -102,17 +102,17 @@ class Account < ActiveRecord::Base
   end
 
   def leave_types_for_employee
-    self.leave_types.where(:employee_capture_allowed => true)
+    self.leave_types.where(:employee_capture_allowed => true).order(:type)
   end
 
   def leave_types_for_approver
-    self.leave_types.where(:approver_capture_allowed => true)
+    self.leave_types.where(:approver_capture_allowed => true).order(:type)
   end
   
   alias :leave_types_for_manager :leave_types_for_approver
 
   def leave_types_for_admin
-    self.leave_types.where(:admin_capture_allowed => true)
+    self.leave_types.where(:admin_capture_allowed => true).order(:type)
   end
 
 end
