@@ -70,10 +70,14 @@ module Tenant
     private
     
     def load_leave_types
-    
-      # TODO: apply filter for approver and admin capture permissions
-    
-      @leave_types = current_account.leave_types
+      # apply filter for approver, manager and admin capture permissions
+      if current_employee.is_admin?
+        @leave_types = current_account.leave_types_for_admin
+      elsif current_employee.is_manager? || current_employee.is_approver?
+        @leave_types = current_account.leave_types_for_approver
+      else
+        @leave_types = current_account.leave_types_for_employee
+      end
     end
 
   end

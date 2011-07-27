@@ -17,7 +17,7 @@
 
     <div class="field">
       <div><%= f.label :leave_type_id %></div>
-      <span><%= f.select :leave_type_id, current_account.leave_types_for_employee.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
+      <span><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
       <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
       <span class="field_info"></span>
     </div>
