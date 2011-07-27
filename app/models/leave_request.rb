@@ -211,6 +211,9 @@ class LeaveRequest < ActiveRecord::Base
     raise InvalidOperationException unless self.status_new?
     
     write_attribute :status, STATUS_PENDING
+    
+    # TODO: automatically approve the leave if approval isn't required for the leave type
+    
     approve(employee, '') if !employee.nil? && self.valid? && self.captured? && self.approver == employee
   end
   
