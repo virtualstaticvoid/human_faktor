@@ -23,11 +23,20 @@ module Tenant
     end
 
     def new
-      @leave_request = LeaveRequest.new()
-      @leave_request.approver = current_employee
-      @leave_request.leave_type_id = params[:leave_type] if params[:leave_type]
-      @leave_request.date_from = params[:from] if params[:from]
-      @leave_request.date_to = params[:to] if params[:to]
+      if params[:request].present? && (@leave_request = current_account.leave_requests.find_by_identifier(params[:request]))
+        @leave_request = LeaveRequest.new(@leave_request.attributes)
+      else
+        @leave_request = LeaveRequest.new()
+        @leave_request.employee_id = params[:employee] if params[:employee]
+        @leave_request.approver = current_employee
+        @leave_request.leave_type_id = params[:leave_type].present? ? params[:leave_type] : current_account.leave_type_annual.id
+        @leave_request.date_from = params[:from] if params[:from]
+        @leave_request.half_day_from = params[:half_day_from] == "1"
+        @leave_request.date_to = params[:to] if params[:to]
+        @leave_request.half_day_to = params[:half_day_to] == "1"
+        @leave_request.unpaid = params[:unpaid] == "1"
+        @leave_request.comment = params[:comment] if params[:comment]
+      end
 
       load_leave_types
 

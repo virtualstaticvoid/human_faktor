@@ -59,6 +59,7 @@ HumanFaktor::Application.routes.draw do
     put "leave/:id/decline", :to => "tenant/leave_requests#decline", :as => :decline_leave_request
     put "leave/:id/cancel", :to => "tenant/leave_requests#cancel", :as => :cancel_leave_request
     put "leave/:id/reinstate", :to => "tenant/leave_requests#reinstate", :as => :reinstate_leave_request
+    get "leave/:id/amend", :to => "tenant/leave_requests#amend", :as => :amend_leave_request
 
     # data feeds
     get "calendar_entries_feed(.:format)", :to => "tenant/data_feeds#calendar_entries", :as => :calendar_entries_feed
