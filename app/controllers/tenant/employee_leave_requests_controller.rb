@@ -32,6 +32,7 @@ module Tenant
       leave_request_params[:employee_id] = current_employee.id
       
       # insert approver if not specified (or not allowed to specify)
+      # TODO: ensure that the approver selected is allowed for this employee
       leave_request_params.merge!({
         'approver_id' => current_employee.approver_id
       }) unless current_employee.can_choose_own_approver? && leave_request_params[:approver_id].present?
