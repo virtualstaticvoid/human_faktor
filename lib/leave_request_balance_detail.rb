@@ -1,4 +1,4 @@
-class LeaveBalanceDetail
+class LeaveRequestBalanceDetail
 
   attr_reader :take_on
   attr_reader :allowance
