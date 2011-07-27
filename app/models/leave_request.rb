@@ -174,6 +174,14 @@ class LeaveRequest < ActiveRecord::Base
     false
   end
 
+  def constraint_violations
+    violations = []
+    LeaveConstraints::Base.constraint_names.each do |constraint_name|
+      violations << constraint_name if self.send(constraint_name.as_constraint_override) == true
+    end
+    violations
+  end
+
   # use the identifier for security
   #  users can't guess the number now :-)
   def to_param
