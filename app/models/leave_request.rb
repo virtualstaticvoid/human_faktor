@@ -79,12 +79,20 @@ class LeaveRequest < ActiveRecord::Base
   def date_from_s
     self.date_from.strftime("%Y-%m-%d") + (self.half_day_from ? ' (Half day)' : '')
   end
+  
+  def half_day_from?
+    self.half_day_from
+  end
 
   validates :date_to, :timeliness => { :type => :date }, :allow_nil => false
   validates :half_day_to, :inclusion => { :in => [true, false] }
   
   def date_to_s
     self.date_to.strftime("%Y-%m-%d") + (self.half_day_to ? ' (Half day)' : '')
+  end
+
+  def half_day_to?
+    self.half_day_to
   end
 
   validate :date_from_must_occur_before_date_to, 
