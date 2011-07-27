@@ -8,6 +8,7 @@ module Tenant
       else
         @leave_requests = current_employee.leave_requests.where(:status => status_filter).page(params[:page])
       end
+      @leave_requests = @leave_requests.order(:date_from)
     end
 
     def new
