@@ -1,4 +1,171 @@
+<% head do %>
+  <%= javascript_include_tag 'jit' %>
+  <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
+<% end %>
+
 <% content_title "Problem Staff" %>
 
-<p>TODO</p>
+<div style="margin-bottom: 14px;">
+
+  <%= form_for @heat_map, :url => '' do |f| %>
+
+    <%= error_messages_for @heat_map %>
+
+    <table width="100%">
+      <tr>
+        <td width="120px"><%= label_tag :heat_map %>:</td>
+        <td class="field"><%= f.select :heat_map, @heat_map.heat_maps.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown' } %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :leave_type_id %></td>
+        <td class="field"><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown', :style => 'width: 158px;' } %></td>
+      </tr>
+      <tr>
+        <td>From:</td>
+        <td class="field"><%= f.date_picker :date_from %></td>
+      </tr>
+      <tr>
+        <td>To:</td>
+        <td class="field"><%= f.date_picker :date_to %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag :display_by %>:</td>
+        <td class="field"><%= f.select :display_by, [
+            ['Country', 1 ], 
+            ['Location', 2], 
+            ['Department', 3]
+          ], { :include_blank => true }, { :class => 'dropdown' } %></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="right">
+          <%= f.submit 'Show' %>
+        </td>
+      </tr>
+    </table>
+    
+  <% end %>
+  
+</div>
+
+<div style="height: 32px; display: none;">
+  <div id="ajax_working">Loading heat map...</div>
+</div>
+
+<div id="treemap-display" style="height: 500px;">
+</div>    
+
+<div style="margin-top: 14px;">
+  <input id="go_to_parent" type="button" class="button" value="Go to Parent" />
+</div>
+
+<script type="text/javascript">
+  var json = {
+    "id": "root", 
+    "name": "<%= @heat_map.heat_map_type.display_name %>",
+    "children": [<%= @heat_map.json %>]
+  };
+</script>
+  
+<script type="text/javascript">
+
+  var labelType, useGradients, nativeTextSupport, animate;
+
+  (function() {
+    var ua = navigator.userAgent,
+             iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
+             typeOfCanvas = typeof HTMLCanvasElement,
+             nativeCanvasSupport = (typeOfCanvas == 'object' || typeOfCanvas == 'function'),
+             textSupport = nativeCanvasSupport && (typeof document.createElement('canvas').getContext('2d').fillText == 'function');
+    // I'm setting this based on the fact that ExCanvas provides text support for IE
+    // and that as of today iPhone/iPad current text support is lame
+    labelType = (!nativeCanvasSupport || (textSupport && !iStuff))? 'Native' : 'HTML';
+    nativeTextSupport = labelType == 'Native';
+    useGradients = nativeCanvasSupport;
+    animate = !(iStuff || !nativeCanvasSupport);
+  })();
+
+  // init TreeMap
+  var treeMap = new $jit.TM.Squarified({
+    injectInto: 'treemap-display',
+    levelsToShow: 1,
+    titleHeight: 32,
+    animate: animate,
+    offset: 0,
+    cushion: useGradients,
+    duration: 1000,
+    Label: {
+      type: "HTML", // labelType,
+      size: 14,
+      family: "Ubuntu"
+    },
+    Node: {
+      CanvasStyles: {
+        shadowBlur: 0,
+        shadowColor: '#000'
+      }
+    },
+    Events: {
+      enable: true,
+      onClick: function(node) {
+        if (node) {
+          var count = 0;
+          node.eachSubnode(function(){
+            count++;
+          });
+          if (count > 0) {
+            treeMap.enter(node);
+          }       
+        }
+      },
+      onRightClick: function() {
+        treeMap.out();
+      },
+      onMouseEnter: function(node, eventInfo) {
+        if (node) {
+          node.setCanvasStyle('shadowBlur', 7);
+          treeMap.fx.plotNode(node, treeMap.canvas);
+          treeMap.labels.plotLabel(treeMap.canvas, node);
+        }
+      },
+      onMouseLeave: function(node) {
+        if (node) {
+          node.removeCanvasStyle('shadowBlur');
+          treeMap.plot();
+        }
+      }
+    },
+    onCreateLabel: function(domElement, node) {
+      domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
+      var style = domElement.style;
+      style.display = '';
+      style.border = '1px solid transparent';
+      style.color = 'white';
+      domElement.onmouseover = function() {
+        style.border = '1px solid #9FD4FF';
+      };
+      domElement.onmouseout = function() {
+        style.border = '1px solid transparent';
+      };
+    }
+  });
+
+  treeMap.loadJSON(json);
+  treeMap.refresh();
+
+  $jit.util.addEvent($jit.id('go_to_parent'), 'click', function() {
+    treeMap.out();
+  });
+  
+  /*
+  function make_bread_crumb(node) {
+    html = "";
+    node.getParents().forEach(function(parent){
+      html += make_bread_crumb(parent);
+      html += "> " + node.name;
+    });
+    return html;
+  }
+  */
+
+</script>
 
