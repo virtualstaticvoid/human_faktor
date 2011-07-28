@@ -24,6 +24,10 @@ module LeaveConstraints
       self.name.gsub(/LeaveConstraints::/, '').underscore.to_sym
     end
 
+    def self.constraint_types
+      @@constraint_types
+    end
+
     def self.constraint_names
       @@constraint_types.map {|constraint_type| constraint_type.constraint_name }
     end
