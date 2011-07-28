@@ -1,0 +1,13 @@
+.node {
+  cursor: pointer;
+}
+
+.node_label {
+  margin: 6px; 
+  text-align: center; 
+  font-size: 9pt; 
+  overflow: hidden; 
+  height: 18px;
+  line-height: 18px;
+}
+
