@@ -9,6 +9,23 @@ module Tenant
       end
     end
     
+    def amend
+      @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+      
+      leave_request_params = {
+        :tenant => current_account.subdomain,
+        :request => @leave_request
+      }
+      
+      # check whether this leave request is captured, and route onto the staff requests view
+      if @leave_request.captured?
+        redirect_to new_staff_leave_request_url(leave_request_params)
+      else
+        redirect_to new_employee_leave_request_url(leave_request_params)
+      end
+            
+    end
+    
     # PUT
     def confirm
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
@@ -94,21 +111,19 @@ module Tenant
       end
     end
     
-    def amend
+    # PUT
+    def update
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
-      leave_request_params = {
-        :tenant => current_account.subdomain,
-        :request => @leave_request
-      }
+      # only allow update to attached document
       
-      # check whether this leave request is captured, and route onto the staff requests view
-      if @leave_request.captured?
-        redirect_to new_staff_leave_request_url(leave_request_params)
-      else
-        redirect_to new_employee_leave_request_url(leave_request_params)
+      respond_to do |format|
+        if @leave_request.update_attributes(:document => params[:leave_request][:document])
+          format.html { redirect_to dashboard_url, :notice => 'Leave request successfully updated.' }
+        else
+          format.html { render :action => "edit" }
+        end
       end
-            
     end
     
     #

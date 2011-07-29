@@ -226,6 +226,19 @@ module Tenant
     test "should get amend when status is pending for staff request" do
       pending
     end
+    
+    # NB: internet connection to S3 required 
+    test "should update attached document" do
+      sign_in_as :employee
+      assert @leave_request.confirm!
+      assert @leave_request.status == LeaveRequest::STATUS_PENDING
+      put :update, :tenant => @account.subdomain, 
+                   :id => @leave_request.to_param, 
+                   :leave_request => @leave_request_attributes.merge({
+                      'document' => File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
+                   })
+      assert_redirected_to dashboard_path(:tenant => @account.subdomain)
+    end
 
   end
 end

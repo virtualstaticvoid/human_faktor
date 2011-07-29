@@ -55,12 +55,13 @@ HumanFaktor::Application.routes.draw do
     get "leave_balance", :to => "tenant/leave_requests#balance", :as => :leave_balance
 
     get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
+    get "leave/:id/amend", :to => "tenant/leave_requests#amend", :as => :amend_leave_request
     put "leave/:id/confirm", :to => "tenant/leave_requests#confirm", :as => :confirm_leave_request
     put "leave/:id/approve", :to => "tenant/leave_requests#approve", :as => :approve_leave_request
     put "leave/:id/decline", :to => "tenant/leave_requests#decline", :as => :decline_leave_request
     put "leave/:id/cancel", :to => "tenant/leave_requests#cancel", :as => :cancel_leave_request
     put "leave/:id/reinstate", :to => "tenant/leave_requests#reinstate", :as => :reinstate_leave_request
-    get "leave/:id/amend", :to => "tenant/leave_requests#amend", :as => :amend_leave_request
+    put "leave/:id/update", :to => "tenant/leave_requests#update", :as => :update_leave_request
 
     # data feeds
     get "calendar_entries_feed(.:format)", :to => "tenant/data_feeds#calendar_entries", :as => :calendar_entries_feed
