@@ -40,7 +40,7 @@ class Account < ActiveRecord::Base
   # TODO: add validations for mime-type and file size
   has_attached_file :logo, 
                     :styles => { :logo => "140x60>" },
-                    :path => "accounts/:id/logo/:filename",
+                    :path => "accounts/:identifier/logo/:filename",
                     :storage => :s3,
                     :bucket => AppConfig.s3_bucket,
                     :s3_credentials => {
