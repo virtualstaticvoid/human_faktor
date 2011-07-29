@@ -147,7 +147,7 @@
       <% if leave_balance.outstanding > 0 %>
         <tr>
           <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
-          <td><%= pluralize(number_with_precision(leave_balance.outstanding, :precision => 1), 'day') %></td>
+          <td><%= pluralize(number_with_precision(leave_balance.outstanding - leave_request.duration, :precision => 1), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
