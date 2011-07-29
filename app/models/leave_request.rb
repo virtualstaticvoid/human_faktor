@@ -108,7 +108,7 @@ class LeaveRequest < ActiveRecord::Base
   # excuse document
   # NOTE: uses the ":account" and ":employee" interpolations
   has_attached_file :document, 
-                    :path => "accounts/:account/employees/:employee/leave_requests/:id/:filename",
+                    :path => "accounts/:account/employees/:employee/leave_requests/:identifier/:filename",
                     :storage => :s3,
                     :bucket => AppConfig.s3_bucket,
                     :s3_credentials => {
