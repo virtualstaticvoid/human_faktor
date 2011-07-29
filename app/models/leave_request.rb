@@ -318,6 +318,8 @@ class LeaveRequest < ActiveRecord::Base
     holidays = self.account.country.calendar_entries.where(
       ' entry_date BETWEEN :from AND :to ',
       { :from => self.date_from, :to => self.date_to }
+    ).where(
+      'EXTRACT(DOW FROM entry_date) IN (?)', [1, 2, 3, 4, 5]    # NB: exclude holidays on Saturdays and Sundays
     ).count
 
     duration = 0.00
