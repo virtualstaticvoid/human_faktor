@@ -36,9 +36,9 @@ module Tenant
     def problem_staff
       redirect_to dashboard_url if current_employee.is_employee?
       
-      reportpar = params[:problem_staff_heat_map] || {}
+      reportpar = params[:heat_map_enquiry] || {}
       
-      @heat_map = ProblemStaffHeatMap.new(current_account, current_employee).tap do |config| 
+      @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |config| 
         config.leave_type_id = reportpar[:leave_type_id] if reportpar[:leave_type_id].present?
         config.date_from = ApplicationHelper.safe_parse_date(reportpar[:date_from]) if reportpar[:date_from]
         config.date_to = ApplicationHelper.safe_parse_date(reportpar[:date_to]) if reportpar[:date_to]

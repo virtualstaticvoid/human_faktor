@@ -2,7 +2,7 @@ require 'date'
 require 'informal'
 require 'action_view/helpers/text_helper'
 
-class ProblemStaffHeatMap
+class HeatMapEnquiry
   include Informal::Model
 
   attr_reader :account
@@ -33,7 +33,7 @@ class ProblemStaffHeatMap
   end
   
   def heat_maps
-    HeatMap.heat_maps
+    Base.heat_maps
   end
   
   def heat_map_type
@@ -44,7 +44,7 @@ class ProblemStaffHeatMap
     self.heat_map_type.new(self).json
   end
   
-  class HeatMap
+  class Base
     include ActionView::Helpers::TextHelper
   
     @@heat_maps = []
@@ -89,9 +89,13 @@ class ProblemStaffHeatMap
       return query
     end
   
+    def heat_map_color(value)
+      "#C0C0C0"
+    end
+    
   end
   
-  class LeaveRequestsByEmployee < HeatMap
+  class LeaveRequestsByEmployee < Base
 
     def self.display_name
       'Leave requests by employee'
@@ -103,14 +107,14 @@ class ProblemStaffHeatMap
           .group(:employee)
           .sum(:duration).each do |employee, duration|
           
-        data << "{ 'id': '#{employee.to_param}', 'name': '#{employee} (#{pluralize(duration, 'day')})', 'data': { '$area': #{duration}} },"
+        data << "{ 'id': '#{employee.to_param}', 'name': '#{employee} (#{pluralize(duration, 'day')})', 'data': { '$area': #{duration}, '$color': '#{heat_map_color(duration)}' } },"
       end
       data
     end
 
   end
 
-  class LeaveRequestsByDuration < HeatMap
+  class LeaveRequestsByDuration < Base
 
     def self.display_name
       'Leave requests by duration'
@@ -123,12 +127,12 @@ class ProblemStaffHeatMap
           .count().each do |no_days, count|
             
         data << "{"
-        data << " 'id': '_#{no_days}', 'name': '#{pluralize(no_days, 'day')} (#{count})', 'data': { '$area': #{count}},"
+        data << " 'id': '_#{no_days}', 'name': '#{pluralize(no_days, 'day')} (#{count})', 'data': { '$area': #{count}, '$color': '#{heat_map_color(count)}' },"
         data << " 'children': ["
         
         @account.leave_requests.active
             .where(:duration => no_days).each do |leave_request|
-          data << "{ 'id': '_#{leave_request.to_param}', 'name': '#{leave_request.to_s}', 'data': { '$area': #{leave_request.duration} } },"
+          data << "{ 'id': '_#{leave_request.to_param}', 'name': '#{leave_request.to_s}', 'data': { '$area': #{leave_request.duration}, '$color': '#{heat_map_color(leave_request.duration)}' } },"
         end
         
         data << " ] "
@@ -140,7 +144,7 @@ class ProblemStaffHeatMap
 
   end
   
-  class LeaveRequestsUnpaid < HeatMap
+  class LeaveRequestsUnpaid < Base
 
     def self.display_name
       'Unpaid leave requests'
@@ -155,7 +159,7 @@ class ProblemStaffHeatMap
             
         employee = Employee.find(employee_id)
 
-        data << "{ 'id': '#{employee.to_param}', 'name': '#{employee} (#{count})', 'data': { '$area': #{count}} },"
+        data << "{ 'id': '#{employee.to_param}', 'name': '#{employee} (#{count})', 'data': { '$area': #{count}, '$color': '#{heat_map_color(count)}' } },"
       end
       data
     end
@@ -179,13 +183,13 @@ class ProblemStaffHeatMap
         employee = Employee.find(employee_id)
         
         data << "{"
-        data << " 'id': '#{employee.to_param}', 'name': '#{employee} (#{count})', 'data': { '$area': #{count}}, "
+        data << " 'id': '#{employee.to_param}', 'name': '#{employee} (#{count})', 'data': { '$area': #{count}, '$color': '#{heat_map_color(count)}' }, "
         data << " 'children': ["
         
         @account.leave_requests.active
             .where(:employee_id => employee_id)
             .where(constraint.as_constraint_override => true).each do |leave_request|
-          data << "{ 'id': '_#{leave_request.to_param}', 'name': '#{leave_request.to_s}', 'data': { '$area': #{leave_request.duration} } },"
+          data << "{ 'id': '_#{leave_request.to_param}', 'name': '#{leave_request.to_s}', 'data': { '$area': #{leave_request.duration}, '$color': '#{heat_map_color(leave_request.duration)}' } },"
         end
         
         data << " ] "
@@ -198,7 +202,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_number_of_days_notice_required: "Exceeds the number of days notice required"
-  class LeaveRequestsExceedingDaysNotice < HeatMap
+  class LeaveRequestsExceedingDaysNotice < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -213,7 +217,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_minimum_number_of_days_per_request: "Is less than the minimum allowed number of days per request"
-  class LeaveRequestsExceedingMinDays < HeatMap
+  class LeaveRequestsExceedingMinDays < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -228,7 +232,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_maximum_number_of_days_per_request: "Is greater than the maximum allowed number of days per request"
-  class LeaveRequestsExceedingMaxDays < HeatMap
+  class LeaveRequestsExceedingMaxDays < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -243,7 +247,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_leave_cycle_allowance: "Exceeds the maximum allowance for the leave cycle"
-  class LeaveRequestsExceedingAllowance < HeatMap
+  class LeaveRequestsExceedingAllowance < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -258,7 +262,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_negative_leave_balance: "Exceeds the maximum negative balance for the leave cycle"
-  class LeaveRequestsExceedingNegativeBalance < HeatMap
+  class LeaveRequestsExceedingNegativeBalance < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -273,7 +277,7 @@ class ProblemStaffHeatMap
   end
 
   # is_unscheduled: "May be considered as unscheduled leave"
-  class UnscheduledLeaveRequests < HeatMap
+  class UnscheduledLeaveRequests < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -288,7 +292,7 @@ class ProblemStaffHeatMap
   end
 
   # is_adjacent: "Is adjacent to a weekend, public holiday or another leave request"
-  class AdjacentLeaveRequests < HeatMap
+  class AdjacentLeaveRequests < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -303,7 +307,7 @@ class ProblemStaffHeatMap
   end
 
   # requires_documentation: "Requires supporting documentation"
-  class LeaveRequestsRequiringDocumentation < HeatMap
+  class LeaveRequestsRequiringDocumentation < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -318,7 +322,7 @@ class ProblemStaffHeatMap
   end
 
   # overlapping_request: "Overlaps one or more another leave request"
-  class OverlappingLeaveRequests < HeatMap
+  class OverlappingLeaveRequests < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -333,7 +337,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_maximum_future_date: "Leave request made far in advance"
-  class LeaveRequestsExceedingMaxFutureDate < HeatMap
+  class LeaveRequestsExceedingMaxFutureDate < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -348,7 +352,7 @@ class ProblemStaffHeatMap
   end
 
   # exceeds_maximum_back_date: "Leave request made far in the past"
-  class LeaveRequestsExceedingMaxBackDate < HeatMap
+  class LeaveRequestsExceedingMaxBackDate < Base
     include LeaveConstraints
     
     def initialize(criteria)
@@ -374,5 +378,5 @@ class ProblemStaffHeatMap
     end
     constant
   end
-    
+  
 end
