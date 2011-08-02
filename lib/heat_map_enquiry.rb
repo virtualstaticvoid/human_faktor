@@ -108,12 +108,11 @@ JSON_DATA
     end
     
     def json
-      data = ""
-      
-      # get unscheduled leave, which is adjacent to a weekend, public holiday or leave request
-      query = base_query.where(:is_unscheduled.as_constraint_override => true, 
-                               :is_adjacent.as_constraint_override => true)
-      
+      build_for_employees(base_query.where(:is_unscheduled.as_constraint_override => true))
+    end
+    
+    def build_for_employees(query)
+      json = ""
       query.group(:employee_id)
            .count()
            .each do |employee_id, count_of_unscheduled|
@@ -123,51 +122,120 @@ JSON_DATA
         # calculate the duration of the leave requests
         duration = query.where(:employee_id => employee_id).sum(:duration)
 
-        data << data_item(employee.to_param, 
+        json << data_item(employee.to_param, 
                           employee.full_name, 
                           count_of_unscheduled, 
                           duration, 
                           "#{employee.full_name} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
-
-          build = ""
-          
-          # get the leave requests that make up the summary
-          query.where(:employee_id => employee_id).each do |leave_request|
-            build << data_item(leave_request.to_param, 
-                               leave_request.to_s, 
-                               leave_request.duration, 
-                               leave_request.duration, 
-                               "#{leave_request.leave_type} - #{leave_request.status_text} (#{pluralize(leave_request.duration, 'day')})")
-          end
-          build
+        
+          build_for_leave_requests(query.where(:employee_id => employee_id))
+        
         end
         
       end
-      data
+      json
+    end
+  
+    def build_for_leave_requests(query)
+      json = ""
+      query.each do |leave_request|
+        json << data_item(leave_request.to_param, 
+                          leave_request.to_s, 
+                          leave_request.duration, 
+                          leave_request.duration, 
+                          "#{leave_request.leave_type} - #{leave_request.status_text} (#{pluralize(leave_request.duration, 'day')})")
+      end
+      json
+    end
+    
+  end
+  
+  class UnscheduledLeaveAdjacent < UnscheduledLeave
+  
+    def self.display_name
+      'Unscheduled leave adjacent to a weekend, holiday or other leave'
+    end
+    
+    def json
+      build_for_employees(base_query.where(:is_unscheduled.as_constraint_override => true, :is_adjacent.as_constraint_override => true))
     end
   
   end
-  
-  class UnscheduledLeaveByDepartment < Base
+
+  class UnscheduledLeaveByDepartment < UnscheduledLeave
   
     def self.display_name
       'Unscheduled leave by department'
     end
     
     def json
-          
+      json = ""
+      
+      query = base_query
+        .where(:is_unscheduled.as_constraint_override => true)
+          .joins(:employee => :department)
+      
+      query.group(:department_id)
+           .count()
+           .each do |department_id, count_of_unscheduled|
+        
+        department = Department.find(department_id)
+        
+        # calculate the duration of the leave requests
+        department_query = query.where(:employees => {:department_id => department_id})
+        duration = department_query.sum(:duration)
+
+        json << data_item(department.to_param, 
+                          department.title, 
+                          count_of_unscheduled, 
+                          duration, 
+                          "#{department.title} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+
+          build_for_employees(department_query)
+                          
+        end
+        
+      end
+      json
     end
   
   end
   
-  class UnscheduledLeaveByLocation < Base
+  class UnscheduledLeaveByLocation < UnscheduledLeave
   
     def self.display_name
       'Unscheduled leave by location'
     end
     
     def json
-          
+      json = ""
+      
+      query = base_query
+        .where(:is_unscheduled.as_constraint_override => true)
+          .joins(:employee => :location)
+      
+      query.group(:location_id)
+           .count()
+           .each do |location_id, count_of_unscheduled|
+        
+        location = Location.find(location_id)
+        
+        # calculate the duration of the leave requests
+        location_query = query.where(:employees => {:location_id => location_id})
+        duration = location_query.sum(:duration)
+
+        json << data_item(location.to_param, 
+                          location.title, 
+                          count_of_unscheduled, 
+                          duration, 
+                          "#{location.title} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+
+          build_for_employees(location_query)
+                          
+        end
+        
+      end
+      json
     end
   
   end
