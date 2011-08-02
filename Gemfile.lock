@@ -7,6 +7,13 @@ GIT
       rails (~> 3.0.0)
 
 GIT
+  remote: git://github.com/virtualstaticvoid/colorist.git
+  revision: 88a14d1d1a1fd1c05155840e37485579068f6130
+  branch: master
+  specs:
+    colorist (0.0.3)
+
+GIT
   remote: git://github.com/virtualstaticvoid/default_value_for.git
   revision: 43c3ab1c43273310d200682d377e95ea0a3a186f
   branch: master
@@ -171,6 +178,7 @@ DEPENDENCIES
   app_config!
   aws-s3
   aws-ses (~> 0.4.3)
+  colorist!
   default_value_for!
   devise!
   informal!
