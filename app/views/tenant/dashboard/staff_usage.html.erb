@@ -27,7 +27,7 @@
       </tr>
       <tr>
         <td colspan="2" align="right">
-          <%= f.submit 'Show' %>
+          <%= f.submit 'Update Displayed Data' %>
         </td>
       </tr>
     </table>
@@ -40,7 +40,10 @@
   <div id="ajax_working">Loading heat map...</div>
 </div>
 
-<table width="100%">
+<div id="treemap-display" style="height: 500px; border: 1px solid #C0C0C0;">
+</div>    
+
+<table width="100%" style="margin-top: 2px; border-spacing: 0; height: 4px;">
   <tr>
     <% HeatMapColorSupport.color_table.each do |color| %>
       <td style="background-color: <%= color.to_s %>"></td>
@@ -48,11 +51,8 @@
   </tr>
 </table>
 
-<div id="treemap-display" style="height: 500px;">
-</div>    
-
 <div style="margin-top: 14px;">
-  <input id="go_to_parent" type="button" class="button" value="Go to Parent" />
+  <input id="go_to_parent" type="button" class="button" value="Back" />
 </div>
 
 <script type="text/javascript">
@@ -86,12 +86,12 @@
     injectInto: 'treemap-display',
     levelsToShow: 1,
     titleHeight: 32,
-    animate: false, // animate
+    animate: animate,
     offset: 0,
     cushion: useGradients,
-    duration: 1000,
+    duration: 500,
     Label: {
-      type: "HTML", // labelType,
+      type: "HTML", // "HTML", "Native" labelType,
       size: 14,
       family: "Ubuntu"
     },
