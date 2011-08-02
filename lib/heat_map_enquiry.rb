@@ -128,7 +128,7 @@ class HeatMapEnquiry
           .count().each do |no_days, count|
             
         data << "{"
-        data << " 'id': '_#{no_days}', 'name': '#{pluralize(no_days, 'day')} (#{count})', 'data': { '$area': #{count}, '$color': '#{heat_map_color(count)}' },"
+        data << " 'id': '_#{no_days}', 'name': '#{pluralize(no_days, 'day')} (#{count})', 'data': { '$area': #{no_days}, '$color': '#{heat_map_color(no_days)}' },"
         data << " 'children': ["
         
         @account.leave_requests.active
