@@ -33,8 +33,8 @@ module Tenant
     end
     
     # GET && POST
-    def problem_staff
-      redirect_to dashboard_url if current_employee.is_employee?
+    def staff_usage
+      redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       
       reportpar = params[:heat_map_enquiry] || {}
       
@@ -52,7 +52,7 @@ module Tenant
     end
     
     def staff_leave_carry_over
-      redirect_to dashboard_url if current_employee.is_employee?
+      redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
     end
     
     def help

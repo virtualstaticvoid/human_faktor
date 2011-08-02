@@ -49,19 +49,29 @@ module Tenant
       assert_redirected_to calendar_url(:tenant => @account.subdomain)
     end
 
-    test "should redirect to dashboard if employee requests staff leave carry over" do
-      sign_in_as :employee
-      get :staff_leave_carry_over, :tenant => @account.subdomain
-      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    [:approver, :employee].each do |role|
+
+      test "should redirect to dashboard if #{role} requests staff usage analysis" do
+        sign_in_as role
+        get :staff_usage, :tenant => @account.subdomain
+        assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+      end
+
+      test "should redirect to dashboard if #{role} requests staff leave carry over" do
+        sign_in_as role
+        get :staff_leave_carry_over, :tenant => @account.subdomain
+        assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+      end
+
     end
 
-    test "should redirect to dashboard if employee requests problem staff" do
-      sign_in_as :employee
-      get :problem_staff, :tenant => @account.subdomain
-      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    test "should get staff calendar for approver" do
+      sign_in_as :approver
+      get :staff_calendar, :tenant => @account.subdomain
+      assert_response :success
     end
-
-    [:approver, :manager, :admin].each do |role|
+  
+    [:manager, :admin].each do |role|
 
       test "should get staff calendar for #{role}" do
         sign_in_as role
@@ -69,9 +79,9 @@ module Tenant
         assert_response :success
       end
 
-      test "should get problem staff for #{role}" do
+      test "should get staff usage for #{role}" do
         sign_in_as role
-        get :problem_staff, :tenant => @account.subdomain
+        get :staff_usage, :tenant => @account.subdomain
         assert_response :success
       end
 
