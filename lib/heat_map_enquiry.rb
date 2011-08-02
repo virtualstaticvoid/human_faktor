@@ -79,13 +79,14 @@ class HeatMapEnquiry
           .where('date_from BETWEEN :date_from AND :date_to', { :date_from => date_from, :date_to => date_to })
     end
     
-    def data_item(id, name, area, heat)
+    def data_item(id, name, area, heat, title)
       return <<JSON_DATA
 { 'id': '#{id}', 
   'name': '#{name}', 
   'data': { 
     '$area': #{area}, 
-    '$color': '#{heat_map_color(heat)}' 
+    '$color': '#{heat_map_color(heat)}',
+    'title': '#{title}' 
   }, 
   'children': [#{yield if block_given?}] 
 },
@@ -108,21 +109,35 @@ JSON_DATA
     
     def json
       data = ""
-      base_query
-        .where(:is_unscheduled.as_constraint_override => true)
-        .group(:employee_id)
-        .count()
-        .each do |employee_id, count_of_unscheduled|
+      
+      # get unscheduled leave, which is adjacent to a weekend, public holiday or leave request
+      query = base_query.where(:is_unscheduled.as_constraint_override => true, 
+                               :is_adjacent.as_constraint_override => true)
+      
+      query.group(:employee_id)
+           .count()
+           .each do |employee_id, count_of_unscheduled|
         
         employee = Employee.find(employee_id)
         
-        duration = base_query.where(:employee_id => employee_id)
-                            .sum(:duration)
+        # calculate the duration of the leave requests
+        duration = query.where(:employee_id => employee_id).sum(:duration)
 
-        data << data_item(employee.to_param, employee.full_name, count_of_unscheduled, duration) do
+        data << data_item(employee.to_param, 
+                          employee.full_name, 
+                          count_of_unscheduled, 
+                          duration, 
+                          "#{employee.full_name} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+
           build = ""
-          base_query.where(:employee_id => employee_id).each do |leave_request|
-            build << data_item(leave_request.to_param, leave_request.to_s, leave_request.duration, leave_request.duration)
+          
+          # get the leave requests that make up the summary
+          query.where(:employee_id => employee_id).each do |leave_request|
+            build << data_item(leave_request.to_param, 
+                               leave_request.to_s, 
+                               leave_request.duration, 
+                               leave_request.duration, 
+                               "#{leave_request.leave_type} - #{leave_request.status_text} (#{pluralize(leave_request.duration, 'day')})")
           end
           build
         end

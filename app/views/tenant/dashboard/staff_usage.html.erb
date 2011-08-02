@@ -1,6 +1,7 @@
 <% head do %>
   <%= javascript_include_tag 'jit' %>
   <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
+  <%= javascript_include_tag 'jquery.qtip' %>
 <% end %>
 
 <% content_title "Usage Analysis" %>
@@ -107,7 +108,9 @@
       },
       onRightClick: function() {
         treeMap.out();
-      },
+      } /*,
+       
+      // only applicable for `Native` label type 
       onMouseEnter: function(node, eventInfo) {
         if (node) {
           node.setCanvasStyle('shadowBlur', 7);
@@ -120,10 +123,17 @@
           node.removeCanvasStyle('shadowBlur');
           treeMap.plot();
         }
-      }
+      } */
+      
     },
+    
+    // only applicable for `HTML` label type
     onCreateLabel: function(domElement, node) {
+
       domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
+  
+      $(domElement).qtip({content: node.data['title'], position: { corner: { target: 'center', tooltip: 'center' } } });
+
       var style = domElement.style;
       style.display = '';
       style.border = '1px solid transparent';
@@ -144,16 +154,5 @@
     treeMap.out();
   });
   
-  /*
-  function make_bread_crumb(node) {
-    html = "";
-    node.getParents().forEach(function(parent){
-      html += make_bread_crumb(parent);
-      html += "> " + node.name;
-    });
-    return html;
-  }
-  */
-
 </script>
 

@@ -153,17 +153,23 @@ class LeaveRequest < ActiveRecord::Base
   def reinstated_at_s
     self.reinstated_at.strftime('%Y-%m-%d')
   end
-
-  # description for calendar tooltips
-  def description
-    "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
-  end
   
   validates :duration, :numericality => { :greater_than_or_equal => 0 }
   
   def duration
     read_attribute(:duration) || 0
   end
+
+
+  # description for calendar tooltips
+  def description
+    "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
+  end
+
+  def to_s
+    "#{self.leave_type} Leave (#{self.date_from_s} to #{self.date_to_s})"
+  end
+
   
   #
   # Constraints
