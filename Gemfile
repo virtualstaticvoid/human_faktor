@@ -34,7 +34,7 @@ gem 'paperclip', '~> 2.3'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
 gem 'resque', :require => "resque/server"
 gem 'validates_timeliness', '~> 3.0.2'
-gem 'colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
+gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators

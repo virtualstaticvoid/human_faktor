@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: git://github.com/virtualstaticvoid/colorist.git
-  revision: 88a14d1d1a1fd1c05155840e37485579068f6130
+  revision: 415413db8d891edc1851c8e7f77e31d79d01b607
   branch: master
   specs:
-    colorist (0.0.3)
+    kmandrup-colorist (0.1.5)
 
 GIT
   remote: git://github.com/virtualstaticvoid/default_value_for.git
@@ -178,12 +178,12 @@ DEPENDENCIES
   app_config!
   aws-s3
   aws-ses (~> 0.4.3)
-  colorist!
   default_value_for!
   devise!
   informal!
   jquery-rails (~> 1.0.3)
   kaminari (~> 0.12.4)
+  kmandrup-colorist!
   paperclip (~> 2.3)
   pg
   rack-recaptcha!
