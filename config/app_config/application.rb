@@ -29,3 +29,6 @@ AppConfig.default_theme = 'default'
 # defaults
 AppConfig.default_country_iso_code = ENV['DEFAULT_COUNTRY_ISO_CODE'] || 'za'
 
+# hash secret for hashing filenames
+AppConfig.hash_secret = 'e5a308a4c7a74480ef81ffd9aa7e288c1860e10b6dda45a5a92d45168bd211299fc88b066c35785b596b7420f4e6cb062ff6c9315f18f9bff872dda011500970'
+

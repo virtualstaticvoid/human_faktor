@@ -108,13 +108,14 @@ class LeaveRequest < ActiveRecord::Base
   # excuse document
   # NOTE: uses the ":account" and ":employee" interpolations
   has_attached_file :document, 
-                    :path => "accounts/:account/employees/:employee/leave_requests/:identifier/:filename",
-                    :storage => :s3,
+                    :path => "accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension",
+                    :storage => Rails.env.production? ? :s3 : :filesystem,
                     :bucket => AppConfig.s3_bucket,
                     :s3_credentials => {
                       :access_key_id => AppConfig.s3_key,
                       :secret_access_key => AppConfig.s3_secret
-                    }
+                    },
+                    :hash_secret => AppConfig.hash_secret
                     
   def document_attached?
     # correct method for determining whether there is an attached file?
