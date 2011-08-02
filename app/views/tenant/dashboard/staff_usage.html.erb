@@ -3,9 +3,9 @@
   <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
 <% end %>
 
-<% content_title "Problem Staff" %>
+<% content_title "Usage Analysis" %>
 
-<div style="margin-bottom: 14px;">
+<div style="margin-bottom: 14px; z-order: 0;">
 
   <%= form_for @heat_map, :url => '' do |f| %>
 
@@ -17,24 +17,12 @@
         <td class="field"><%= f.select :heat_map, @heat_map.heat_maps.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown' } %></td>
       </tr>
       <tr>
-        <td><%= f.label :leave_type_id %></td>
-        <td class="field"><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown', :style => 'width: 158px;' } %></td>
-      </tr>
-      <tr>
         <td>From:</td>
         <td class="field"><%= f.date_picker :date_from %></td>
       </tr>
       <tr>
         <td>To:</td>
         <td class="field"><%= f.date_picker :date_to %></td>
-      </tr>
-      <tr>
-        <td><%= label_tag :display_by %>:</td>
-        <td class="field"><%= f.select :display_by, [
-            ['Country', 1 ], 
-            ['Location', 2], 
-            ['Department', 3]
-          ], { :include_blank => true }, { :class => 'dropdown' } %></td>
       </tr>
       <tr>
         <td colspan="2" align="right">
