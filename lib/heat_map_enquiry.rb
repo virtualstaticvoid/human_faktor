@@ -12,8 +12,8 @@ class HeatMapEnquiry
   attr_reader :employee
   validates_presence_of :employee
 
-  attr_accessor :heat_map
-  validates_presence_of :heat_map
+  attr_accessor :enquiry
+  validates_presence_of :enquiry
   
   attr_accessor :date_from
   validates :date_from, :timeliness => { :type => :date }
@@ -24,34 +24,34 @@ class HeatMapEnquiry
   def initialize(account, employee)
     @account = account
     @employee = employee
-    @heat_map = UnscheduledLeave.name
+    @enquiry = LeaveRequestsByEmployee.name
     @date_from = Date.today - 365
     @date_to = Date.today
   end
   
-  def heat_maps
-    Base.heat_maps
+  def enquiry_types
+    Base.enquiry_types
   end
   
-  def heat_map_type
-    constantize(@heat_map)
+  def enquiry_type
+    constantize(@enquiry)
   end
   
   def json
-    self.heat_map_type.new(self).json
+    self.enquiry_type.new(self).json
   end
   
   class Base
     include ActionView::Helpers::TextHelper
   
-    @@heat_maps = []
+    @@enquiry_types = []
   
     def self.inherited(klass)
-      @@heat_maps << klass
+      @@enquiry_types << klass
     end
     
-    def self.heat_maps
-      @@heat_maps
+    def self.enquiry_types
+      @@enquiry_types
     end
     
     attr_reader :account
@@ -83,52 +83,27 @@ class HeatMapEnquiry
       return <<JSON_DATA
 { 'id': '#{id}', 
   'name': '#{name}', 
-  'data': { 
-    '$area': #{area}, 
-    '$color': '#{heat_map_color(heat)}',
-    'title': '#{title}' 
-  }, 
-  'children': [#{yield if block_given?}] 
-},
-
+  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title}' }, 
+  'children': [#{yield if block_given?}] },
 JSON_DATA
                 
     end
   
-    def heat_map_color(value)
-      HeatMapColorSupport.color_for(value).to_s
-    end
-    
-  end
-  
-  class UnscheduledLeave < Base
-  
-    def self.display_name
-      'Unscheduled leave'
-    end
-    
-    def json
-      build_for_employees(base_query.where(:is_unscheduled.as_constraint_override => true))
-    end
-    
-    def build_for_employees(query)
+    def build_employee_json(query, parent_id = '')
       json = ""
       query.group(:employee_id)
-           .count()
-           .each do |employee_id, count_of_unscheduled|
+           .sum(:duration)
+           .each do |employee_id, duration|
         
         employee = Employee.find(employee_id)
         
-        # calculate the duration of the leave requests
-        duration = query.where(:employee_id => employee_id).sum(:duration)
-
-        json << data_item(employee.to_param, 
+        json << data_item("_#{parent_id}_#{employee.to_param}", 
                           employee.full_name, 
-                          count_of_unscheduled, 
                           duration, 
-                          "#{employee.full_name} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+                          duration, 
+                          employee.full_name) do
         
-          build_for_leave_requests(query.where(:employee_id => employee_id))
+          build_leave_request_json(query.where(:employee_id => employee_id), "#{parent_id}_#{employee.to_param}")
         
         end
         
@@ -136,10 +111,10 @@ JSON_DATA
       json
     end
   
-    def build_for_leave_requests(query)
+    def build_leave_request_json(query, parent_id = '')
       json = ""
       query.each do |leave_request|
-        json << data_item(leave_request.to_param, 
+        json << data_item("_#{parent_id}_#{leave_request.to_param}", 
                           leave_request.to_s, 
                           leave_request.duration, 
                           leave_request.duration, 
@@ -148,21 +123,255 @@ JSON_DATA
       json
     end
     
+    def heat_map_color(value)
+      HeatMapColorSupport.color_for(value).to_s
+    end
+    
   end
   
-  class UnscheduledLeaveAdjacent < UnscheduledLeave
+  class LeaveRequestsByEmployee < Base
+
+    def self.display_name
+      'Leave requests by employee'
+    end
+
+    def json
+      build_employee_json(base_query)
+    end
+
+  end
+
+  class LeaveRequestsByDuration < Base
+
+    def self.display_name
+      'Leave requests by duration'
+    end
+
+    def json
+      json = ""
+      base_query.group(:duration)
+                .count().each do |duration, count|
+            
+        json << data_item("_#{duration}_", 
+                          pluralize(duration, 'day'), 
+                          duration, 
+                          count, 
+                          "#{pluralize(duration, 'day')}") do
+          
+          build_employee_json(base_query.where(:duration => duration), "#{duration}")
+        
+        end
+        
+      end
+      json
+    end
+
+  end
+  
+  class LeaveRequestsUnpaid < Base
+
+    def self.display_name
+      'Unpaid leave requests'
+    end
+
+    def json
+      build_employee_json(base_query.where(:unpaid => true))
+    end
+
+  end
+
+  module LeaveConstraints
+    require 'leave_constraints'
+  
+    attr_reader :constraint
+
+    def json()
+      throw :constraint_not_set if constraint.nil?
+      build_employee_json(base_query.where(constraint.as_constraint_override => true), "#{constraint}")
+    end
+  
+  end
+
+  # exceeds_number_of_days_notice_required: "Exceeds the number of days notice required"
+  class LeaveRequestsExceedingDaysNotice < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_number_of_days_notice_required
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding required notice period'
+    end
+
+  end
+
+  # exceeds_minimum_number_of_days_per_request: "Is less than the minimum allowed number of days per request"
+  class LeaveRequestsExceedingMinDays < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_minimum_number_of_days_per_request
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding minimum days per request'
+    end
+
+  end
+
+  # exceeds_maximum_number_of_days_per_request: "Is greater than the maximum allowed number of days per request"
+  class LeaveRequestsExceedingMaxDays < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_maximum_number_of_days_per_request
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding maximum days per request'
+    end
+
+  end
+
+  # exceeds_leave_cycle_allowance: "Exceeds the maximum allowance for the leave cycle"
+  class LeaveRequestsExceedingAllowance < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_leave_cycle_allowance
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding cycle allowance'
+    end
+
+  end
+
+  # exceeds_negative_leave_balance: "Exceeds the maximum negative balance for the leave cycle"
+  class LeaveRequestsExceedingNegativeBalance < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_negative_leave_balance
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding permitted negative balance'
+    end
+
+  end
+
+  # is_unscheduled: "May be considered as unscheduled leave"
+  class UnscheduledLeaveRequests < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :is_unscheduled
+      super
+    end
+
+    def self.display_name
+      'Unscheduled leave'
+    end
+
+  end
+
+  # is_adjacent: "Is adjacent to a weekend, public holiday or another leave request"
+  class AdjacentLeaveRequests < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :is_adjacent
+      super
+    end
+
+    def self.display_name
+      'Leave adjacent to a weekend, public holiday or other leave'
+    end
+
+  end
+
+  # requires_documentation: "Requires supporting documentation"
+  class LeaveRequestsRequiringDocumentation < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :requires_documentation
+      super
+    end
+
+    def self.display_name
+      'Leave requiring documentation'
+    end
+
+  end
+
+  # overlapping_request: "Overlaps one or more another leave request"
+  class OverlappingLeaveRequests < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :overlapping_request
+      super
+    end
+
+    def self.display_name
+      'Leave with overlapping leave'
+    end
+
+  end
+
+  # exceeds_maximum_future_date: "Leave request made far in advance"
+  class LeaveRequestsExceedingMaxFutureDate < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_maximum_future_date
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding max permitted future date'
+    end
+
+  end
+
+  # exceeds_maximum_back_date: "Leave request made far in the past"
+  class LeaveRequestsExceedingMaxBackDate < Base
+    include LeaveConstraints
+    
+    def initialize(criteria)
+      @constraint = :exceeds_maximum_back_date
+      super
+    end
+
+    def self.display_name
+      'Leave exceeding max permitted back date'
+    end
+
+  end
+
+  # additional
+
+  class UnscheduledLeaveAdjacent < Base
   
     def self.display_name
       'Unscheduled leave adjacent to a weekend, holiday or other leave'
     end
     
     def json
-      build_for_employees(base_query.where(:is_unscheduled.as_constraint_override => true, :is_adjacent.as_constraint_override => true))
+      build_employee_json(base_query.where(:is_unscheduled.as_constraint_override => true, :is_adjacent.as_constraint_override => true))
     end
   
   end
 
-  class UnscheduledLeaveByDepartment < UnscheduledLeave
+  class UnscheduledLeaveByDepartment < Base
   
     def self.display_name
       'Unscheduled leave by department'
@@ -177,7 +386,7 @@ JSON_DATA
       
       query.group(:department_id)
            .count()
-           .each do |department_id, count_of_unscheduled|
+           .each do |department_id, count|
         
         department = Department.find(department_id)
         
@@ -187,11 +396,11 @@ JSON_DATA
 
         json << data_item(department.to_param, 
                           department.title, 
-                          count_of_unscheduled, 
+                          count, 
                           duration, 
-                          "#{department.title} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+                          "#{department.title} (#{count}/#{pluralize(duration, 'day')})") do
 
-          build_for_employees(department_query)
+          build_employee_json(department_query)
                           
         end
         
@@ -201,7 +410,7 @@ JSON_DATA
   
   end
   
-  class UnscheduledLeaveByLocation < UnscheduledLeave
+  class UnscheduledLeaveByLocation < Base
   
     def self.display_name
       'Unscheduled leave by location'
@@ -216,7 +425,7 @@ JSON_DATA
       
       query.group(:location_id)
            .count()
-           .each do |location_id, count_of_unscheduled|
+           .each do |location_id, count|
         
         location = Location.find(location_id)
         
@@ -226,11 +435,11 @@ JSON_DATA
 
         json << data_item(location.to_param, 
                           location.title, 
-                          count_of_unscheduled, 
+                          count, 
                           duration, 
-                          "#{location.title} (#{count_of_unscheduled}/#{pluralize(duration, 'day')})") do
+                          "#{location.title} (#{count}/#{pluralize(duration, 'day')})") do
 
-          build_for_employees(location_query)
+          build_employee_json(location_query)
                           
         end
         

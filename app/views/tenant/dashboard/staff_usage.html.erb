@@ -14,8 +14,8 @@
 
     <table width="100%">
       <tr>
-        <td width="120px"><%= label_tag :heat_map %>:</td>
-        <td class="field"><%= f.select :heat_map, @heat_map.heat_maps.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown' } %></td>
+        <td width="120px"><%= label_tag :enquiry %>:</td>
+        <td class="field"><%= f.select :enquiry, @heat_map.enquiry_types.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown', :style => 'width: 420px;' } %></td>
       </tr>
       <tr>
         <td>From:</td>
@@ -40,6 +40,14 @@
   <div id="ajax_working">Loading heat map...</div>
 </div>
 
+<table width="100%">
+  <tr>
+    <% HeatMapColorSupport.color_table.each do |color| %>
+      <td style="background-color: <%= color.to_s %>"></td>
+    <% end %>
+  </tr>
+</table>
+
 <div id="treemap-display" style="height: 500px;">
 </div>    
 
@@ -50,7 +58,7 @@
 <script type="text/javascript">
   var json = {
     "id": "root", 
-    "name": "<%= @heat_map.heat_map_type.display_name %>",
+    "name": "<%= @heat_map.enquiry_type.display_name %>",
     "children": [<%= @heat_map.json %>]
   };
 </script>
@@ -78,7 +86,7 @@
     injectInto: 'treemap-display',
     levelsToShow: 1,
     titleHeight: 32,
-    animate: animate,
+    animate: false, // animate
     offset: 0,
     cushion: useGradients,
     duration: 1000,
@@ -155,4 +163,5 @@
   });
   
 </script>
+
 

@@ -39,7 +39,7 @@ module Tenant
       reportpar = params[:heat_map_enquiry] || {}
       
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |config| 
-        config.heat_map = reportpar[:heat_map] if reportpar[:heat_map]
+        config.enquiry = reportpar[:enquiry] if reportpar[:enquiry]
         config.date_from = ApplicationHelper.safe_parse_date(reportpar[:date_from]) if reportpar[:date_from]
         config.date_to = ApplicationHelper.safe_parse_date(reportpar[:date_to]) if reportpar[:date_to]
         config.valid?
