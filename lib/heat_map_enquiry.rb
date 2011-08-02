@@ -1,10 +1,11 @@
 require 'date'
 require 'informal'
 require 'action_view/helpers/text_helper'
+require 'heat_map_color_support'
 
 class HeatMapEnquiry
   include Informal::Model
-
+  
   attr_reader :account
   validates_presence_of :account
   
@@ -90,7 +91,7 @@ class HeatMapEnquiry
     end
   
     def heat_map_color(value)
-      "#C0C0C0"
+      HeatMapColorSupport.color_for(value).to_s
     end
     
   end
