@@ -20,13 +20,14 @@ class HeatMapEnquiry
   
   attr_accessor :date_to
   validates :date_to, :timeliness => { :type => :date }
+
+  validate :date_from_must_occur_before_date_to, 
+           :date_to_must_occur_after_date_from
   
   def initialize(account, employee)
     @account = account
     @employee = employee
     @enquiry = LeaveRequestsByEmployee.name
-    @date_from = Date.today - 365
-    @date_to = Date.today
   end
   
   def enquiry_types
@@ -73,6 +74,9 @@ class HeatMapEnquiry
     protected
     
     def base_query
+    
+      # TODO: filter for current employee... can only see leave requests of subordinates!!!
+    
       @account
           .leave_requests
           .active
@@ -466,6 +470,16 @@ JSON_DATA
 #  end
 
   private
+
+  def date_from_must_occur_before_date_to
+    errors.add(:date_from, "can't be after the to date") if
+      !(date_from.blank? || date_to.blank?) && (date_from > date_to)
+  end
+
+  def date_to_must_occur_after_date_from
+    errors.add(:date_to, "can't be before the from date") if
+      !(date_from.blank? || date_to.blank?) && (date_to < date_from)
+  end
   
   def constantize(string)
     names = string.split('::')

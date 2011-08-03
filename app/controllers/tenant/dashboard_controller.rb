@@ -36,13 +36,13 @@ module Tenant
     def staff_usage
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       
-      reportpar = params[:heat_map_enquiry] || {}
+      heat_map_params = params[:heat_map_enquiry] || {}
       
-      @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |config| 
-        config.enquiry = reportpar[:enquiry] if reportpar[:enquiry]
-        config.date_from = ApplicationHelper.safe_parse_date(reportpar[:date_from]) if reportpar[:date_from]
-        config.date_to = ApplicationHelper.safe_parse_date(reportpar[:date_to]) if reportpar[:date_to]
-        config.valid?
+      @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
+        c.enquiry = heat_map_params[:enquiry] if heat_map_params[:enquiry]
+        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 6)
+        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 6)
+        c.valid?
       end
       
       @leave_types = current_account.leave_types
