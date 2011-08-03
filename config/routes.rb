@@ -33,9 +33,13 @@ HumanFaktor::Application.routes.draw do
     # dashboard
     get "balance", :to => "tenant/dashboard#balance", :as => :balance
     get "calendar", :to => "tenant/dashboard#calendar", :as => :calendar
+
     get "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
+    post "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
+
     get "staff_usage", :to => "tenant/dashboard#staff_usage", :as => :staff_usage
     post "staff_usage", :to => "tenant/dashboard#staff_usage", :as => :staff_usage
+
     get "staff_carry_over", :to => "tenant/dashboard#staff_leave_carry_over", :as => :staff_leave_carry_over
     get "help", :to => "tenant/dashboard#help", :as => :help
     

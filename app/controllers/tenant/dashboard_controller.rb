@@ -28,8 +28,18 @@ module Tenant
     def calendar
     end
 
+    # GET && POST
     def staff_calendar
       redirect_to calendar_url if current_employee.is_employee?
+
+      staff_calendar_params = params[:staff_calendar_enquiry] || {}
+
+      @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
+        c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 6)
+        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 6)
+        c.valid?
+      end
+
     end
     
     # GET && POST

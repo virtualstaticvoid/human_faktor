@@ -1,0 +1,45 @@
+
+#staff_calendar thead tr th {
+  height: 30px;
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  background-color: #F0F0F0;
+}
+
+#staff_calendar thead tr th:last-child {
+  border-right: 1px solid lightgray;
+}
+
+#staff_calendar tbody tr td {
+  height: 60px;
+  text-align: right;
+  vertical-align: top;
+  padding: 4px;
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  width: 10%;
+}
+
+#staff_calendar tbody tr td:last-child {
+  border-right: 1px solid lightgray;
+}
+
+#staff_calendar tbody tr:last-child td {
+  border-bottom: 1px solid lightgray;
+}
+
+#staff_calendar tbody tr td:first-child {
+  text-align: left;
+  width: 254px;
+  padding-left: 8px;
+}
+
+#staff_calendar tbody .request_row td {
+  border-top: none;
+  height: 12px;
+}
+
+#staff_calendar .request {
+  background-color: yellow;
+}
+
