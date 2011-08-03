@@ -366,7 +366,8 @@ JSON_DATA
     end
     
     def json
-      build_employee_json(base_query.where(:is_unscheduled.as_constraint_override => true, :is_adjacent.as_constraint_override => true))
+      build_employee_json(base_query.where(:is_unscheduled.as_constraint_override => true, 
+                                           :is_adjacent.as_constraint_override => true))
     end
   
   end
