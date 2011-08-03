@@ -117,7 +117,6 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     constraint = LeaveConstraints::IsUnscheduled.new()
 
     leave_request = @leave_request
-    leave_request.leave_type.unscheduled_leave_allowed = false
     
     leave_request.date_from = leave_request.created_at.to_date - 1
     leave_request.date_to = leave_request.date_from
@@ -131,20 +130,6 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request.date_to = leave_request.date_from
     assert_equal false, constraint.evaluate(leave_request)
 
-    leave_request.leave_type.unscheduled_leave_allowed = true
-
-    leave_request.date_from = leave_request.created_at.to_date - 1
-    leave_request.date_to = leave_request.date_from
-    assert_equal false, constraint.evaluate(leave_request)
-
-    leave_request.date_from = leave_request.created_at.to_date
-    leave_request.date_to = leave_request.date_from
-    assert_equal false, constraint.evaluate(leave_request)
-
-    leave_request.date_from = leave_request.created_at.to_date + 1
-    leave_request.date_to = leave_request.date_from
-    assert_equal false, constraint.evaluate(leave_request)
-    
   end
 
   test "IsAdjacent" do

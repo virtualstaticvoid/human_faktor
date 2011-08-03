@@ -7,9 +7,11 @@ module LeaveConstraints
   class Base
   
     @@constraint_types = []
+    @@constraint_types_by_name = {}
   
     def self.inherited(klass)
       @@constraint_types << klass
+      @@constraint_types_by_name[klass.constraint_name] = klass
     end
     
     def self.evaluate(leave_request)
@@ -28,8 +30,17 @@ module LeaveConstraints
       @@constraint_types
     end
 
+    def self.constraint_type(constraint_name)
+      @@constraint_types_by_name[constraint_name]
+    end
+
     def self.constraint_names
       @@constraint_types.map {|constraint_type| constraint_type.constraint_name }
+    end
+    
+    # constraint can be overridden by approver?
+    def self.can_override?(leave_request)
+      true
     end
   
     protected 
@@ -102,9 +113,12 @@ module LeaveConstraints
   # Is considered to be unscheduled
   class IsUnscheduled < Base
   
+    def self.can_override?(leave_request)
+      leave_request.leave_type.unscheduled_leave_allowed
+    end
+
     def evaluate(request)
-      !request.leave_type.unscheduled_leave_allowed && 
-        request.date_from < request.created_at.to_date
+      request.date_from < request.created_at.to_date
     end
 
   end
