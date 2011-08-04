@@ -1,10 +1,22 @@
 /* calendar styles */
 
+.leave_request_new {
+}
+
 .leave_request_pending {
   opacity: 0.60;
 }
 
 .leave_request_approved {
+}
+
+.leave_request_declined {
+}
+
+.leave_request_cancelled {
+}
+
+.leave_request_reinstated {
 }
 
 /* list styles */
