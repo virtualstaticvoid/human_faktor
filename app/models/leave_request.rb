@@ -163,11 +163,11 @@ class LeaveRequest < ActiveRecord::Base
 
   # description for calendar tooltips
   def description
-    "#{self.leave_type} - #{self.employee.full_name} - #{self.status_text}"
+    "#{self.leave_type} Leave - #{self.employee.full_name} - #{self.status_text}"
   end
 
   def to_s
-    "#{self.leave_type} Leave (#{self.date_from_s} to #{self.date_to_s})"
+    "#{self.leave_type} Leave (#{self.date_from_s} to #{self.date_to_s})#{self.status_pending? ? ' - Pending' : ''}"
   end
 
   
