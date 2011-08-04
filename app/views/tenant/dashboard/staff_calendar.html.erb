@@ -49,5 +49,87 @@
   
 </div>
 
-<p>TODO: calendar control</p>
+<div id="staff_calendar">
+
+  <div style="width: 120px; float: left;">
+    <table id="staff" width="100%">
+      <thead>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td style="text-align: center;">Employee</td></tr>
+      </thead>
+      <tbody>
+      <% @staff_calendar.employees.each do |employee| %>
+        <tr><td><%= employee.full_name %></td></tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="width: 634px; float: left; overflow: auto;">
+    <table id="leave" width="<%= @staff_calendar.date_range.count * 30 %>px">
+    
+      <thead>
+      <!-- months -->
+        <tr>
+          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b')] = (r[d.strftime('%b')] || 0) + 1; r }.each do |month, count| %>
+            <td colspan="<%= count %>"><%= month %></td>
+          <% end %>
+        </tr>
+        <!-- days of week -->
+        <tr>
+          <% @staff_calendar.date_range.each do |date| %>
+            <td width="30px"><%= case date.wday
+                when 0 then 'S'
+                when 1 then 'M'
+                when 2 then 'T'
+                when 3 then 'W'
+                when 4 then 'T'
+                when 5 then 'F'
+                when 6 then 'S'
+              end %></td>
+          <% end %>
+        </tr>
+        <!-- days -->
+        <tr>
+          <% @staff_calendar.date_range.each do |date| %>
+            <td><%= date.day %></td>
+          <% end %>
+        </tr>
+      </thead>
+        
+      <tbody>
+      <% @staff_calendar.employees.each do |employee| %>
+      
+        <%
+          
+          leave_requests = employee.leave_requests
+            .active
+            .where(
+              ' date_from BETWEEN :date_from AND :date_to OR date_to BETWEEN :date_from AND :date_to ',
+              { :date_from => @staff_calendar.date_from, :date_to => @staff_calendar.date_to }
+            ).to_a
+        
+        %>
+      
+        <tr>
+          <% @staff_calendar.date_range.each do |date| %>
+          
+            <% if leave_requests.select {|l| date >= l.date_from && date <= l.date_to }.length > 0 %>
+              <td>X</td>
+            <% else %>
+              <td>&nbsp;</td>
+            <% end %>
+          
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+      
+    </table>
+  </div>
+
+</div>
+
+<p style="text-align: right;"><%= link_to 'Download CSV', '/TODO' %></p>
 
