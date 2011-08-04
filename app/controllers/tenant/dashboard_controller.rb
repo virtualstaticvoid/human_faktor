@@ -37,6 +37,9 @@ module Tenant
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
         c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 6)
         c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 6)
+        
+        # TODO: additional criteria
+        
         c.valid?
       end
 
@@ -52,6 +55,9 @@ module Tenant
         c.enquiry = heat_map_params[:enquiry] if heat_map_params[:enquiry]
         c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 6)
         c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 6)
+        
+        # TODO: additional criteria
+        
         c.valid?
       end
       
