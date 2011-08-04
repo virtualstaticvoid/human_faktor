@@ -105,7 +105,7 @@ JSON_DATA
                           employee.full_name, 
                           duration, 
                           duration, 
-                          employee.full_name) do
+                          "#{employee.full_name} (#{pluralize(duration, 'day')})") do
         
           build_leave_request_json(query.where(:employee_id => employee_id), "#{parent_id}_#{employee.to_param}")
         
