@@ -39,6 +39,8 @@
   </tbody>
 </table>
 
+<p style="text-align: right;"><%= link_to "Download CSV", employee_leave_requests_path(:format => :csv, :status => LeaveRequest::STATUS_PENDING), :id => 'download_csv' %></p>
+
 <script type="text/javascript">
   $('#paginator a').live('ajax:before', function(e) { 
     $('#ajax_working').css('display', '');
