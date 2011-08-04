@@ -6,9 +6,10 @@
     <div style="margin: 0 0 20px 20px;">
       <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
           constraint_type = LeaveConstraints::Base.constraint_type(constraint_name)
-          can_override = constraint_type.can_override?(leave_request) || !leave_request.send(constraint_name.as_constraint)
+          constraint_value = leave_request.send(constraint_name.as_constraint)
+          can_override = constraint_type.can_override?(leave_request) || !constraint_value
        %>
-        <div class="field">
+        <div class="field <%= constraint_value ? '' : 'extra_leave_constraint' %>" style="display: <%= constraint_value ? '' : 'none' %>;">
           <span><%= f.check_box constraint_name.as_constraint_override, :disabled => !can_override %></span>
           <span>
             <%= f.label t(constraint_name, :scope => 'leave_request_constraints') %>
@@ -20,5 +21,18 @@
 
       <% end %>
     </div>
+    
+    <div style="text-align: right;">
+      <a id="show_leave_constraints" href="javascript: show_leave_constraints();">Show all available?</a>
+    </div>
+    
   </div>
+  
+  <script type="text/javascript">
+    function show_leave_constraints() {
+      $('.extra_leave_constraint').css('display', '');
+      $('#show_leave_constraints').css('display', 'none');
+    }
+  </script>
+  
 <% end %>
