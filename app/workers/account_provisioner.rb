@@ -55,7 +55,7 @@ class AccountProvisioner
       
       create_leave_type account, :annual,         1,  21, 5, cycle_start_date, 10
       create_leave_type account, :educational,    1,   3, 0, cycle_start_date,  0, { :employee_capture_allowed => false }
-      create_leave_type account, :medical,        3,   9, 0, cycle_start_date,  0, { :requires_documentation => true, :requires_documentation_after => 2 }
+      create_leave_type account, :medical,        3,  30, 0, cycle_start_date,  0, { :requires_documentation => true, :requires_documentation_after => 2 }
       create_leave_type account, :maternity,      1, 120, 0, cycle_start_date,  0
       create_leave_type account, :compassionate,  1,   3, 0, cycle_start_date,  0
       
