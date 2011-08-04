@@ -109,12 +109,18 @@
           node.eachSubnode(function(){
             count++;
           });
+          
+          // hide any tips if displayed.
+          $('.qtip').css('display', 'none');
+          
           if (count > 0) {
             treeMap.enter(node);
           }       
         }
       },
       onRightClick: function() {
+        // hide any tips if displayed.
+        $('.qtip').css('display', 'none');
         treeMap.out();
       } /*,
        
