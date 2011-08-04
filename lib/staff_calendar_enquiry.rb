@@ -31,6 +31,15 @@ class StaffCalendarEnquiry
     @filter_by = 'none'
   end
 
+  def date_range
+    (self.date_from..self.date_to)
+  end
+  
+  def employees
+    self.employee.staff
+  end
+
+
   # TODO: implement enquiry here!!!
   #  refactor view to use this class instead  
 
