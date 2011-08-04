@@ -8,15 +8,38 @@
 
     <table width="100%">
       <tr>
-        <td>From:</td>
+        <td width="120px">From:</td>
+        <td width="30px"></td>
         <td class="field"><%= f.date_picker :date_from %></td>
       </tr>
       <tr>
         <td>To:</td>
+        <td></td>
         <td class="field"><%= f.date_picker :date_to %></td>
       </tr>
       <tr>
-        <td colspan="2" align="right">
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td class="field">
+          <%= f.select :item_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td class="field">
+          <%= f.select :item_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td class="field">
+          <%= f.select :item_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" align="right">
           <%= f.submit 'Update Displayed Data' %>
         </td>
       </tr>
@@ -26,120 +49,5 @@
   
 </div>
 
-<%
+<p>TODO: calendar control</p>
 
-def o(date)
-  unless date.nil?
-    date.day == 1 ? date.strftime('%e %b %y') : date.strftime('%e')
-  end
-end
-
-def get_first_date(matrix, row, col, dir)
-  date = nil
-  begin
-    date = matrix[col][row]
-    col += dir
-  end until !date.nil?
-  date
-end
-
-
-start_date = @staff_calendar.date_from
-end_date = @staff_calendar.date_to
-
-if (end_date - start_date) >= 6
-
-  columns = []
-
-  (0..(start_date.wday - 1)).each do |i|
-    columns[i] = [] 
-    columns[i] << nil
-  end
-
-  (start_date..end_date).each do |date|
-    columns[date.wday] ||= []
-    columns[date.wday] << date
-  end
-
-  row_count = 0
-  columns.each do |column|
-    row_count = column.length if row_count < column.length
-  end
-
-  leave_requests = current_account.leave_requests.active
-
- %>
-
-  <table id="staff_calendar" width="100%" style="border-spacing: 0px;">
-
-    <thead>
-      <tr>
-        <th></th>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
-        <th>Sat</th>
-        <th>Sun</th>
-      </tr>
-    
-    </thead>
-
-    <tbody>
-      <% (0..(row_count - 1)).each_slice(1) do |slices| %>
-          
-        <% 
-          date_from = get_first_date(columns, slices[0], 0, 1)
-          date_to = get_first_date(columns, slices[slices.length - 1], 6, -1)
-          requests = leave_requests.select { |leave_request| 
-            leave_request.date_from >= date_from && leave_request.date_to <= date_to
-          }
-        %>
-
-        <tr class="leave_row">
-          <td></td>
-          <% slices.each do |slice|
-              7.times do |day| 
-                date = columns[day][slice]
-            %>
-              <td><%= o(date) %></td>
-            <% end %>        
-          <% end %>
-        </tr>
-        
-        <% if requests.length > 0 %>
-        
-          <% requests.each do |request| %>
-
-            <tr class="request_row">
-              <td>
-                <%= link_to request.employee.full_name, edit_leave_request_path(request, :tenant => current_account.subdomain) %>  
-              </td>
-              
-              <% slices.each do |slice| %>
-                <% 7.times do |day| 
-                    date = columns[day][slice]
-                    if (date >= request.date_from && date <= request.date_to)
-                      style = "background-color: #{request.leave_type.hex_color};"
-                    else
-                      style = ''
-                    end
-                %>
-                  <%= content_tag(:td, nil, :style => style) %>
-                <% end %>        
-              <% end %>
-            
-            </tr>
-              
-          <% end %>
-          
-        <% end %> 
-          
-      <% end %>
-    </tbody>
-
-  </table>
-<% else %>
-  <p>Correct the enquiry criteria and try again.</p>
-<% end %>

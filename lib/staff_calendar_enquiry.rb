@@ -6,15 +6,20 @@ class StaffCalendarEnquiry
   
   attr_reader :account
   validates_presence_of :account
-  
+
   attr_reader :employee
   validates_presence_of :employee
-
+  
   attr_accessor :date_from
   validates :date_from, :timeliness => { :type => :date }
   
   attr_accessor :date_to
   validates :date_to, :timeliness => { :type => :date }
+  
+  attr_accessor :filter_by
+  validates :filter_by, :inclusion => { :in => %w{none location department employee} }
+  
+  attr_accessor :item_id
 
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from,
@@ -23,7 +28,11 @@ class StaffCalendarEnquiry
   def initialize(account, employee)
     @account = account
     @employee = employee
+    @filter_by = 'none'
   end
+
+  # TODO: implement enquiry here!!!
+  #  refactor view to use this class instead  
 
   private
   
@@ -38,8 +47,9 @@ class StaffCalendarEnquiry
   end
 
   def duration_at_least_one_month
-    errors.add(:base, "date window needs to be at least 7 days") if
+    errors.add(:base, "Date window needs to be at least 7 days") if
       (date_to - date_from) < 7
   end
   
 end
+
