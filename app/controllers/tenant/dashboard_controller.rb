@@ -43,7 +43,7 @@ module Tenant
     end
     
     # GET && POST
-    def staff_usage
+    def heatmap
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       
       heat_map_params = params[:heat_map_enquiry] || {}

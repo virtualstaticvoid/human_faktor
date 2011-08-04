@@ -51,9 +51,9 @@ module Tenant
 
     [:approver, :employee].each do |role|
 
-      test "should redirect to dashboard if #{role} requests staff usage analysis" do
+      test "should redirect to dashboard if #{role} requests heatmap analysis" do
         sign_in_as role
-        get :staff_usage, :tenant => @account.subdomain
+        get :heatmap, :tenant => @account.subdomain
         assert_redirected_to dashboard_url(:tenant => @account.subdomain)
       end
 
@@ -79,9 +79,9 @@ module Tenant
         assert_response :success
       end
 
-      test "should get staff usage for #{role}" do
+      test "should get heatmap analysis for #{role}" do
         sign_in_as role
-        get :staff_usage, :tenant => @account.subdomain
+        get :heatmap, :tenant => @account.subdomain
         assert_response :success
       end
 

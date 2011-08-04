@@ -37,8 +37,8 @@ HumanFaktor::Application.routes.draw do
     get "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
     post "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
 
-    get "staff_usage", :to => "tenant/dashboard#staff_usage", :as => :staff_usage
-    post "staff_usage", :to => "tenant/dashboard#staff_usage", :as => :staff_usage
+    get "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
+    post "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
 
     get "staff_carry_over", :to => "tenant/dashboard#staff_leave_carry_over", :as => :staff_leave_carry_over
     get "help", :to => "tenant/dashboard#help", :as => :help
