@@ -26,4 +26,11 @@
   text-align: center;
 }
 
+#staff_calendar div table tr:nth-child(even) {
+  background-color: #F0F0F0;
+}
+
+#staff_calendar div table td:nth-child(even) {
+  background-color: #F0F0F0;
+}
 
