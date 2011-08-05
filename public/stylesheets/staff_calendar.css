@@ -3,7 +3,7 @@
 #staff_calendar {
 }
 
-#staff_calendar div {
+#staff_calendar > div {
   border-right: 1px solid #C0C0C0;
   border-top: 1px solid #C0C0C0;
 }
@@ -16,14 +16,17 @@
   color: gray;
 }
 
+#staff_calendar div #staff td {
+  border-left: 1px solid #C0C0C0;
+}
+
 #staff_calendar div #staff td,
 #staff_calendar div #leave td {
-  border-left: 1px solid #C0C0C0;
   border-bottom: 1px solid #C0C0C0;
 }
 
-#staff_calendar div #leave td {
-  text-align: center;
+#staff_calendar div table td {
+  height: 22px;
 }
 
 #staff_calendar div table tr:nth-child(even) {
@@ -34,3 +37,22 @@
   background-color: #F0F0F0;
 }
 
+#staff_calendar div #leave tbody {
+  color: white;
+}
+
+#staff_calendar div #leave td {
+  text-align: center;
+}
+
+.indent {
+  padding-left: 12px;
+}
+
+.week_days {
+  display: none;
+}
+
+.days {
+  display: none;
+}

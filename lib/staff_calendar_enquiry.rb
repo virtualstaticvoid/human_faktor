@@ -29,6 +29,7 @@ class StaffCalendarEnquiry
     @account = account
     @employee = employee
     @filter_by = 'none'
+    @leave_requests_by_employee = {}
   end
 
   def date_range
@@ -38,7 +39,16 @@ class StaffCalendarEnquiry
   def employees
     self.employee.staff
   end
-
+  
+  def leave_requests_for(employee)
+    @leave_requests_by_employee[employee] ||= employee
+      .leave_requests
+      .active
+      .where(
+        ' date_from BETWEEN :date_from AND :date_to OR date_to BETWEEN :date_from AND :date_to ',
+        { :date_from => self.date_from, :date_to => self.date_to }
+      )
+  end
 
   # TODO: implement enquiry here!!!
   #  refactor view to use this class instead  

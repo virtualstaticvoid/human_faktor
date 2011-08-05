@@ -49,80 +49,93 @@
   
 </div>
 
+<div id="slider"></div>
+
+<div style="height: 20px;"></div>
+
 <div id="staff_calendar">
 
+  <!-- staff and leave requests -->
   <div style="width: 120px; float: left;">
     <table id="staff" width="100%">
       <thead>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td style="text-align: center;">Employee</td></tr>
+        <tr><td></td></tr>
+        <tr><td></td></tr>
+        <tr><td style="text-align: center;"><strong>Employee</strong></td></tr>
       </thead>
       <tbody>
       <% @staff_calendar.employees.each do |employee| %>
-        <tr><td><%= employee.full_name %></td></tr>
+        <tr><td><strong><%= employee.full_name %></strong></td></tr>
+        
+        <% @staff_calendar.leave_requests_for(employee).each do |leave_request| %>
+          <tr><td class="indent"><%= link_to leave_request.leave_type.to_s, edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %></td></tr>
+        <% end %>
+        
       <% end %>
       </tbody>
     </table>
   </div>
 
+  <!-- calendar -->
   <div style="width: 634px; float: left; overflow: auto;">
-    <table id="leave" width="<%= @staff_calendar.date_range.count * 30 %>px">
+    <table id="leave">
     
       <thead>
       <!-- months -->
         <tr>
-          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b')] = (r[d.strftime('%b')] || 0) + 1; r }.each do |month, count| %>
+          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b %y')] = (r[d.strftime('%b %y')] || 0) + 1; r }.each do |month, count| %>
             <td colspan="<%= count %>"><%= month %></td>
           <% end %>
         </tr>
         <!-- days of week -->
         <tr>
           <% @staff_calendar.date_range.each do |date| %>
-            <td width="30px"><%= case date.wday
-                when 0 then 'S'
-                when 1 then 'M'
-                when 2 then 'T'
-                when 3 then 'W'
-                when 4 then 'T'
-                when 5 then 'F'
-                when 6 then 'S'
-              end %></td>
+            <td>
+              <div class="week_days">
+              <%= case date.wday
+                  when 0 then 'S'
+                  when 1 then 'M'
+                  when 2 then 'T'
+                  when 3 then 'W'
+                  when 4 then 'T'
+                  when 5 then 'F'
+                  when 6 then 'S'
+                end %>
+              </div>
+            </td>
           <% end %>
         </tr>
         <!-- days -->
         <tr>
           <% @staff_calendar.date_range.each do |date| %>
-            <td><%= date.day %></td>
+            <td><div class="days"><%= date.day %></div></td>
           <% end %>
         </tr>
       </thead>
         
       <tbody>
       <% @staff_calendar.employees.each do |employee| %>
-      
-        <%
-          
-          leave_requests = employee.leave_requests
-            .active
-            .where(
-              ' date_from BETWEEN :date_from AND :date_to OR date_to BETWEEN :date_from AND :date_to ',
-              { :date_from => @staff_calendar.date_from, :date_to => @staff_calendar.date_to }
-            ).to_a
-        
-        %>
-      
         <tr>
-          <% @staff_calendar.date_range.each do |date| %>
-          
-            <% if leave_requests.select {|l| date >= l.date_from && date <= l.date_to }.length > 0 %>
-              <td>X</td>
-            <% else %>
-              <td>&nbsp;</td>
+          <td colspan="<%= @staff_calendar.date_range.count %>"></td>
+        </tr>
+        <% @staff_calendar.leave_requests_for(employee).each do |leave_request| %>
+          <tr>
+            <% (@staff_calendar.date_from..leave_request.date_from).each do |date| %>
+              <td></td>
             <% end %>
           
-          <% end %>
-        </tr>
+            <td colspan="<%= (leave_request.date_from..leave_request.date_to).count %>" 
+                class="leave_request_#{leave_request.status_text.underscore}"
+                style="background-color: <%= leave_request.leave_type.hex_color %>;">
+            </td>
+
+            <% (leave_request.date_to..@staff_calendar.date_to).each do |date| %>
+              <td></td>
+            <% end %>
+
+          </tr>
+        <% end %>
+      
       <% end %>
       </tbody>
       
@@ -132,4 +145,29 @@
 </div>
 
 <p style="text-align: right;"><%= link_to 'Download CSV', '/TODO' %></p>
+
+<script type="text/javascript">
+  $("#slider").slider({
+			min: 0,
+			max: 10,
+			step: 2,
+			slide: function(event, ui) {
+				$("#leave").css("width", <%= (@staff_calendar.date_range.count * 30) %> * ((ui.value * 10) / 100));
+				
+				if (ui.value > 4) {
+				  $(".week_days").css('display', 'inline');
+				  $("#leave td").css('border-left', '1px solid #C0C0C0');
+				} else {
+				  $(".week_days").css('display', 'none');
+				  $("#leave td").css('border-left', 'none');
+				}
+				
+				$(".days").css('display', (ui.value > 6 ? 'inline' : 'none'));
+				$("#leave td").css('min-width', (ui.value > 6 ? '30px' : ''));
+				$("#leave td").css('min-width', (ui.value > 4 ? '20px' : ''));
+				
+			}
+		});
+</script>
+
 
