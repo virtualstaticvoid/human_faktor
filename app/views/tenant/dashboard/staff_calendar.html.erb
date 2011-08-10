@@ -150,21 +150,69 @@
   $("#slider").slider({
 			min: 0,
 			max: 10,
-			step: 2,
+			step: 1,
 			slide: function(event, ui) {
-				$("#leave").css("width", <%= (@staff_calendar.date_range.count * 30) %> * ((ui.value * 10) / 100));
 				
-				if (ui.value > 4) {
-				  $(".week_days").css('display', 'inline');
-				  $("#leave td").css('border-left', '1px solid #C0C0C0');
-				} else {
-				  $(".week_days").css('display', 'none');
-				  $("#leave td").css('border-left', 'none');
-				}
-				
+				$(".week_days").css('display', (ui.value > 4 ? 'inline' : 'none'));
 				$(".days").css('display', (ui.value > 6 ? 'inline' : 'none'));
-				$("#leave td").css('min-width', (ui.value > 6 ? '30px' : ''));
-				$("#leave td").css('min-width', (ui.value > 4 ? '20px' : ''));
+				
+				switch(ui.value) {
+				  case 0:
+				    $("#leave td").css('min-width', '2px');
+				    $("#leave td").css('border-left', 'none');
+				    $("#leave td:nth-child(even)").css('background-color', '');
+				    break;
+				  case 1:
+				    $("#leave td").css('min-width', '8px');
+				    $("#leave td").css('border-left', 'none');
+				    $("#leave td:nth-child(even)").css('background-color', '');
+				    break;
+				  case 2:
+				    $("#leave td").css('min-width', '10px');
+				    $("#leave td").css('border-left', 'none');
+				    $("#leave td:nth-child(even)").css('background-color', '');
+				    break;
+				  case 3:
+				    $("#leave td").css('min-width', '12px');
+				    $("#leave td").css('border-left', 'none');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 4:
+				    $("#leave td").css('min-width', '14px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 5:
+				    $("#leave td").css('min-width', '18px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 6:
+				    $("#leave td").css('min-width', '22px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 7:
+				    $("#leave td").css('min-width', '28px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 8:
+				    $("#leave td").css('min-width', '32px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 9:
+				    $("#leave td").css('min-width', '38px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				  case 10:
+				    $("#leave td").css('min-width', '45px');
+				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    $("#leave td:nth-child(even)").css('background-color', '#F0F0F0');
+				    break;
+				}
 				
 			}
 		});
