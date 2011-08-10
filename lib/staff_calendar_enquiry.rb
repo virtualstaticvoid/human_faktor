@@ -48,6 +48,7 @@ class StaffCalendarEnquiry
         ' date_from BETWEEN :date_from AND :date_to OR date_to BETWEEN :date_from AND :date_to ',
         { :date_from => self.date_from, :date_to => self.date_to }
       )
+      .order(:date_from)
   end
 
   # TODO: implement enquiry here!!!
