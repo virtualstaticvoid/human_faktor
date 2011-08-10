@@ -35,8 +35,8 @@ module Tenant
       staff_calendar_params = params[:staff_calendar_enquiry] || {}
 
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 6)
-        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 6)
+        c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 3)
+        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 9)
         
         # TODO: additional criteria
         
