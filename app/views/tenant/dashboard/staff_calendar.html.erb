@@ -73,16 +73,25 @@
   </div>
 
   <!-- calendar -->
-  <div style="width: 634px; float: left; overflow: auto;">
+  <div style="width: 594px; float: left; overflow: auto;">
     <table id="leave">
     
       <thead>
-      <!-- months -->
+  
+        <!-- years -->
         <tr>
-          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b %y')] = (r[d.strftime('%b %y')] || 0) + 1; r }.each do |month, count| %>
+          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.year] = (r[d.year] || 0) + 1; r }.each do |year, count| %>
+            <td colspan="<%= count %>"><%= year %></td>
+          <% end %>
+        </tr>
+    
+        <!-- months -->
+        <tr>
+          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b')] = (r[d.strftime('%b')] || 0) + 1; r }.each do |month, count| %>
             <td colspan="<%= count %>"><%= month %></td>
           <% end %>
         </tr>
+
         <!-- days of week -->
         <tr>
           <% @staff_calendar.date_range.each do |date| %>
@@ -101,6 +110,7 @@
             </td>
           <% end %>
         </tr>
+        
         <!-- days -->
         <tr>
           <% @staff_calendar.date_range.each do |date| %>
