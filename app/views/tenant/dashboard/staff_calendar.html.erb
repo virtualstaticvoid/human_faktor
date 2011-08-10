@@ -56,12 +56,13 @@
 <div id="staff_calendar">
 
   <!-- staff and leave requests -->
-  <div style="width: 120px; float: left;">
+  <div style="width: 160px; float: left;">
     <table id="staff" width="100%">
       <thead>
-        <tr><td></td></tr>
-        <tr><td></td></tr>
-        <tr><td style="text-align: center;"><strong>Employee</strong></td></tr>
+        <tr><td>Year</td></tr>
+        <tr><td>Month</td></tr>
+        <tr><td>Weekday</td></tr>
+        <tr><td>Day</td></tr>
       </thead>
       <tbody>
       <% @staff_calendar.employees.each do |employee| %>
