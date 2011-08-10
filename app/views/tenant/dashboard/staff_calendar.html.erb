@@ -66,12 +66,7 @@
       </thead>
       <tbody>
       <% @staff_calendar.employees.each do |employee| %>
-        <tr><td><strong><%= employee.full_name %></strong></td></tr>
-        
-        <% @staff_calendar.leave_requests_for(employee).each do |leave_request| %>
-          <tr><td class="indent"><%= link_to leave_request.leave_type.to_s, edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %></td></tr>
-        <% end %>
-        
+        <tr><td><strong style="overflow: hidden;"><%= employee.full_name %></strong></td></tr>
       <% end %>
       </tbody>
     </table>
