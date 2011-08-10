@@ -160,6 +160,9 @@ class LeaveRequest < ActiveRecord::Base
     read_attribute(:duration) || 0
   end
 
+  def absolute_duration
+    (self.date_from..self.date_to).count
+  end
 
   # description for calendar tooltips
   def description
