@@ -169,6 +169,19 @@
 <p style="text-align: right;"><%= link_to 'Download CSV', '/TODO' %></p>
 
 <script type="text/javascript">
+
+  $('#staff_calendar_enquiry_location_id').change(function(){
+    $('#staff_calendar_enquiry_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#staff_calendar_enquiry_department_id').change(function(){
+    $('#staff_calendar_enquiry_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#staff_calendar_enquiry_employee_id').change(function(){
+    $('#staff_calendar_enquiry_filter_by_employee').attr('checked', 'checked');
+  });
+
   $("#slider").slider({
 			min: 0,
 			max: 10,
