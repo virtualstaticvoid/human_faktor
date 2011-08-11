@@ -136,26 +136,26 @@
         
       <tbody>
         <% @staff_calendar.employees.each do |employee| %>
-          <% date_offset = @staff_calendar.date_from %>
           <tr>
-            <% @staff_calendar.leave_requests_for(employee).each do |leave_request| %>
-              <% (date_offset..(((leave_request.date_from - 1) < date_offset) ? date_offset : (leave_request.date_from - 1))).each do |date| %>
-                <% holiday = @staff_calendar.holidays[date] %>
+            <% @staff_calendar.date_range.each do |date| %>
+              <% 
+                holiday = @staff_calendar.holidays[date] 
+                leave_request = @staff_calendar.leave_requests_for(employee)[date]
+              %>
+              
+              <% if leave_request %>
+                <td class="leave_request_#{leave_request.status_text.underscore}"
+                    style="background-color: <%= leave_request.leave_type.hex_color %>; cursor: pointer;"
+                    onclick="javascript: window.location = '<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';"
+                    title="<%= leave_request.to_s %>">
+                </td>
+              <% else %>
                 <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
-                    title="<%= holiday %>"></td>
+                    title="<%= holiday %>">
+                    
+                </td>
               <% end %>
-              <td colspan="<%= leave_request.absolute_duration %>" 
-                  class="leave_request_#{leave_request.status_text.underscore}"
-                  style="background-color: <%= leave_request.leave_type.hex_color %>; cursor: pointer;"
-                  onclick="javascript: window.location = '<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';"
-                  title="<%= leave_request.to_s %>">
-              </td>
-              <% date_offset = ((leave_request.date_to + 1) < @staff_calendar.date_to) ? (leave_request.date_to + 1) : @staff_calendar.date_to %>
-            <% end %>
-            <% (date_offset..@staff_calendar.date_to).each do |date| %>
-              <% holiday = @staff_calendar.holidays[date] %>
-              <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
-                  title="<%= holiday %>"></td>
+            
             <% end %>
           </tr>
         <% end %>

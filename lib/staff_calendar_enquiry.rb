@@ -61,14 +61,7 @@ class StaffCalendarEnquiry
   end
   
   def leave_requests_for(employee)
-    @leave_requests_by_employee[employee] ||= employee
-      .leave_requests
-      .active
-      .where(
-        ' date_from BETWEEN :date_from AND :date_to OR date_to BETWEEN :date_from AND :date_to ',
-        { :date_from => self.date_from, :date_to => self.date_to }
-      )
-      .order(:date_from)
+    @leave_requests_by_employee[employee] ||= collect_leave_requests_for(employee)
   end
 
   # TODO: implement enquiry here!!!
@@ -101,6 +94,23 @@ class StaffCalendarEnquiry
       else
         # ignore...
     end
+  end
+  
+  def collect_leave_requests_for(employee)
+    leave_requests = {}
+    requests = employee.leave_requests
+                       .active
+                       .where(
+                         ' (date_from BETWEEN :date_from AND :date_to) OR (date_to BETWEEN :date_from AND :date_to) ',
+                         { :date_from => self.date_from, :date_to => self.date_to }
+                       )
+                       .order(:date_from)
+    for request in requests
+      for date in (request.date_from..request.date_to)
+        leave_requests[date] = request
+      end
+    end
+    leave_requests
   end
   
 end
