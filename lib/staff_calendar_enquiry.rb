@@ -42,9 +42,9 @@ class StaffCalendarEnquiry
   def employees
     case self.filter_by
       when 'location' then
-        self.employee.staff.select { |employee| employee.location_id == self.location_id }
+        self.employee.staff.select { |employee| employee.location_id == self.location_id.to_i }
       when 'department' then
-        self.employee.staff.select { |employee| employee.department_id == self.department_id }
+        self.employee.staff.select { |employee| employee.department_id == self.department_id.to_i }
       when 'employee' then
         employee = self.account.employees.find_by_identifier(self.employee_id)
         employee.nil? ? [] : [employee]
