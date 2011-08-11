@@ -33,6 +33,10 @@
   padding-right: 8px;
 }
 
+#staff_calendar div #staff tbody td {
+  padding-left: 8px;
+}
+
 #staff_calendar div #staff td,
 #staff_calendar div #leave td {
   border-bottom: 1px solid #C0C0C0;
