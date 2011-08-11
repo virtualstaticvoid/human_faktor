@@ -57,6 +57,10 @@
 }
 */
 
+#leave td {
+  min-width: 2px;
+}
+
 #staff_calendar div #leave tbody {
   color: white;
 }
