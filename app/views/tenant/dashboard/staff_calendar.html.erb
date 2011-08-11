@@ -131,7 +131,8 @@
               <% end %>
               <td colspan="<%= leave_request.absolute_duration %>" 
                   class="leave_request_#{leave_request.status_text.underscore}"
-                  style="background-color: <%= leave_request.leave_type.hex_color %>;">
+                  style="background-color: <%= leave_request.leave_type.hex_color %>; cursor: pointer;"
+                  onclick="javascript: window.location = '<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';">
               </td>
               <% date_offset = ((leave_request.date_to + 1) < @staff_calendar.date_to) ? (leave_request.date_to + 1) : @staff_calendar.date_to %>
             <% end %>
