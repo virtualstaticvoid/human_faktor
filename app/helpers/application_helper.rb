@@ -6,4 +6,12 @@ module ApplicationHelper
     default
   end
 
+  def max(value1, value2)
+    value1 < value2 ? value2 : value1
+  end
+
+  def min(value1, value2)
+    value1 > value2 ? value2 : value1
+  end
+
 end
