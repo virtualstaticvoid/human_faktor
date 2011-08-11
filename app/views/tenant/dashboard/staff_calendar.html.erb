@@ -18,6 +18,15 @@
         <td class="field"><%= f.date_picker :date_to %></td>
       </tr>
       <tr>
+        <td colspan="3" style="height: 12px;">
+        </td>
+      </tr>
+      <tr>
+        <td style="height: 29px;">All staff</td>
+        <td><%= f.radio_button :filter_by, 'none' %></td>
+        <td class="field"></td>
+      </tr>
+      <tr>
         <td>Location:</td>
         <td><%= f.radio_button :filter_by, 'location' %></td>
         <td class="field">
