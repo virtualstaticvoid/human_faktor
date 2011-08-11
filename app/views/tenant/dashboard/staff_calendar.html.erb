@@ -22,29 +22,29 @@
         </td>
       </tr>
       <tr>
-        <td style="height: 29px;">All staff</td>
+        <td style="height: 29px;"></td>
         <td><%= f.radio_button :filter_by, 'none' %></td>
-        <td class="field"></td>
+        <td class="field">All staff</td>
       </tr>
       <tr>
         <td>Location:</td>
         <td><%= f.radio_button :filter_by, 'location' %></td>
         <td class="field">
-          <%= f.select :item_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
         </td>
       </tr>
       <tr>
         <td>Department:</td>
         <td><%= f.radio_button :filter_by, 'department' %></td>
         <td class="field">
-          <%= f.select :item_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
         </td>
       </tr>
       <tr>
         <td>Employee:</td>
         <td><%= f.radio_button :filter_by, 'employee' %></td>
         <td class="field">
-          <%= f.select :item_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+          <%= f.select :employee_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
         </td>
       </tr>
       <tr>
@@ -90,23 +90,25 @@
       <thead>
   
         <!-- years -->
-        <tr>
+        <tr class="year_row">
           <% @staff_calendar.date_range.inject({}) { |r, d| r[d.year] = (r[d.year] || 0) + 1; r }.each do |year, count| %>
             <td colspan="<%= count %>"><%= year %></td>
           <% end %>
         </tr>
     
         <!-- months -->
-        <tr>
-          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%b')] = (r[d.strftime('%b')] || 0) + 1; r }.each do |month, count| %>
-            <td colspan="<%= count %>"><%= month %></td>
+        <tr class="month_row">
+          <% @staff_calendar.date_range.inject({}) { |r, d| r[d.strftime('%Y-%b')] = (r[d.strftime('%Y-%b')] || 0) + 1; r }.each do |month, count| %>
+            <td colspan="<%= count %>"><%= month.split('-')[1] %></td>
           <% end %>
         </tr>
 
         <!-- days of week -->
-        <tr>
+        <tr class="weekday_row">
           <% @staff_calendar.date_range.each do |date| %>
-            <td>
+            <% holiday = @staff_calendar.holidays[date] %>
+            <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
+                title="<%= holiday %>">
               <div class="week_days">
               <%= case date.wday
                   when 0 then 'S'
@@ -123,9 +125,11 @@
         </tr>
         
         <!-- days -->
-        <tr>
+        <tr class="day_row">
           <% @staff_calendar.date_range.each do |date| %>
-            <td><div class="days"><%= date.day %></div></td>
+            <% holiday = @staff_calendar.holidays[date] %>
+            <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
+                title="<%= holiday %>"><div class="days"><%= date.day %></div></td>
           <% end %>
         </tr>
       </thead>
@@ -136,7 +140,9 @@
           <tr>
             <% @staff_calendar.leave_requests_for(employee).each do |leave_request| %>
               <% (date_offset..(((leave_request.date_from - 1) < date_offset) ? date_offset : (leave_request.date_from - 1))).each do |date| %>
-                <td></td>
+                <% holiday = @staff_calendar.holidays[date] %>
+                <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
+                    title="<%= holiday %>"></td>
               <% end %>
               <td colspan="<%= leave_request.absolute_duration %>" 
                   class="leave_request_#{leave_request.status_text.underscore}"
@@ -147,7 +153,9 @@
               <% date_offset = ((leave_request.date_to + 1) < @staff_calendar.date_to) ? (leave_request.date_to + 1) : @staff_calendar.date_to %>
             <% end %>
             <% (date_offset..@staff_calendar.date_to).each do |date| %>
-              <td></td>
+              <% holiday = @staff_calendar.holidays[date] %>
+              <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
+                  title="<%= holiday %>"></td>
             <% end %>
           </tr>
         <% end %>
@@ -170,52 +178,57 @@
 				$(".week_days").css('display', (ui.value > 4 ? 'inline' : 'none'));
 				$(".days").css('display', (ui.value > 6 ? 'inline' : 'none'));
 				
+				var width, border;
+				
 				switch(ui.value) {
 				  case 0:
-				    $("#leave td").css('min-width', '2px');
-				    $("#leave td").css('border-left', 'none');
+				    width = '2px';
+				    border = 'none';
 				    break;
 				  case 1:
-				    $("#leave td").css('min-width', '8px');
-				    $("#leave td").css('border-left', 'none');
+				    width = '8px';
+				    border = 'none';
 				    break;
 				  case 2:
-				    $("#leave td").css('min-width', '10px');
-				    $("#leave td").css('border-left', 'none');
+				    width = '10px';
+				    border = 'none';
 				    break;
 				  case 3:
-				    $("#leave td").css('min-width', '12px');
-				    $("#leave td").css('border-left', 'none');
+				    width = '12px';
+				    border = 'none';
 				    break;
 				  case 4:
-				    $("#leave td").css('min-width', '14px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '14px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 5:
-				    $("#leave td").css('min-width', '18px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '18px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 6:
-				    $("#leave td").css('min-width', '22px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '22px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 7:
-				    $("#leave td").css('min-width', '28px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '28px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 8:
-				    $("#leave td").css('min-width', '32px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '32px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 9:
-				    $("#leave td").css('min-width', '38px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '38px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				  case 10:
-				    $("#leave td").css('min-width', '45px');
-				    $("#leave td").css('border-left', '1px solid #C0C0C0');
+				    width = '45px';
+				    border = '1px solid #C0C0C0';
 				    break;
 				}
+				
+		    $("#leave td").css('min-width', width);
+		    $(".weekday_row td, .day_row td, #leave tbody td").css('border-left', border);
 				
 			}
 		});

@@ -19,7 +19,9 @@ class StaffCalendarEnquiry
   attr_accessor :filter_by
   validates :filter_by, :inclusion => { :in => %w{none location department employee} }
   
-  attr_accessor :item_id
+  attr_accessor :location_id
+  attr_accessor :department_id
+  attr_accessor :employee_id
 
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from,
@@ -39,16 +41,23 @@ class StaffCalendarEnquiry
   
   def employees
     case self.filter_by
-      when 'employee' then
-        employee = self.account.employees.find_by_identifier(self.item_id)
-        employee.nil? ? [] : [employee]
       when 'location' then
-        self.employee.staff.select { |employee| employee.location_id == self.item_id }
+        self.employee.staff.select { |employee| employee.location_id == self.location_id }
       when 'department' then
-        self.employee.staff.select { |employee| employee.department_id == self.item_id }
+        self.employee.staff.select { |employee| employee.department_id == self.department_id }
+      when 'employee' then
+        employee = self.account.employees.find_by_identifier(self.employee_id)
+        employee.nil? ? [] : [employee]
       else
         self.employee.staff
     end
+  end
+  
+  def holidays
+    @holidays ||= Hash[*self.account.country.calendar_entries.where(
+      ' entry_date BETWEEN :from_date AND :to_date ',
+      { :from_date => self.date_from, :to_date => self.date_to } 
+    ).collect { |calendar_entry| [calendar_entry.entry_date, calendar_entry.title] }.flatten]
   end
   
   def leave_requests_for(employee)
@@ -84,11 +93,11 @@ class StaffCalendarEnquiry
   def filter_by_item_id
     case self.filter_by
       when 'location' then
-        errors.add(:base) << 'Location required.' unless self.item_id.present? && self.account.locations.exists?(self.item_id)
+        errors.add(:base) << 'Location required.' unless self.location_id.present? && self.account.locations.exists?(self.location_id)
       when 'department' then
-        errors.add(:base) << 'Department required.' unless self.item_id.present? && self.account.departments.exists?(self.item_id)
+        errors.add(:base) << 'Department required.' unless self.department_id.present? && self.account.departments.exists?(self.department_id)
       when 'employee' then
-        errors.add(:base) << 'Employee required.' if !self.item_id.present? || self.account.employees.find_by_identifier(self.item_id).nil?
+        errors.add(:base) << 'Employee required.' if !self.employee_id.present? || self.account.employees.find_by_identifier(self.employee_id).nil?
       else
         # ignore...
     end
