@@ -23,7 +23,8 @@ class StaffCalendarEnquiry
 
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from,
-           :duration_at_least_one_month
+           :duration_at_least_one_month,
+           :filter_by_item_id
 
   def initialize(account, employee)
     @account = account
@@ -67,8 +68,20 @@ class StaffCalendarEnquiry
   end
 
   def duration_at_least_one_month
-    errors.add(:base, "Date window needs to be at least 7 days") if
-      (date_to - date_from) < 7
+    errors.add(:base, "Date window needs to be at least 7 days") if (date_to - date_from) < 7
+  end
+  
+  def filter_by_item_id
+    case self.filter_by
+      when 'location' then
+        errors.add(:base) << 'Location required.' unless self.item_id.present? && self.account.locations.exists?(self.item_id)
+      when 'department' then
+        errors.add(:base) << 'Department required.' unless self.item_id.present? && self.account.departments.exists?(self.item_id)
+      when 'employee' then
+        errors.add(:base) << 'Employee required.' if !self.item_id.present? || self.account.employees.find_by_identifier(self.item_id).nil?
+      else
+        # ignore...
+    end
   end
   
 end
