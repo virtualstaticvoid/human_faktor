@@ -38,7 +38,17 @@ class StaffCalendarEnquiry
   end
   
   def employees
-    self.employee.staff
+    case self.filter_by
+      when 'employee' then
+        employee = self.account.employees.find_by_identifier(self.item_id)
+        employee.nil? ? [] : [employee]
+      when 'location' then
+        self.employee.staff.select { |employee| employee.location_id == self.item_id }
+      when 'department' then
+        self.employee.staff.select { |employee| employee.department_id == self.item_id }
+      else
+        self.employee.staff
+    end
   end
   
   def leave_requests_for(employee)
