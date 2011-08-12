@@ -66,8 +66,8 @@
 }
 
 .holiday {
-  background-color: #D0D0D0;
-  color: blue;
+  color: white;
+  background-color: gray;
 }
 
 .year_row td:nth-child(event) {
