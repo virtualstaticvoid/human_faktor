@@ -53,11 +53,11 @@ class AccountProvisioner
       # leave types
       cycle_start_date = Date.new(Date.today.year, 1, 1)
       
-      create_leave_type account, :annual,         1,  21, 5, cycle_start_date, 10
-      create_leave_type account, :educational,    1,   3, 0, cycle_start_date,  0, { :employee_capture_allowed => false }
-      create_leave_type account, :medical,        3,  30, 0, cycle_start_date,  0, { :requires_documentation => true, :requires_documentation_after => 2 }
-      create_leave_type account, :maternity,      1, 120, 0, cycle_start_date,  0
-      create_leave_type account, :compassionate,  1,   3, 0, cycle_start_date,  0
+      create_leave_type account, :annual,         1, 1,  21, 5, cycle_start_date, 10
+      create_leave_type account, :educational,    2, 1,   3, 0, cycle_start_date,  0, { :employee_capture_allowed => false }
+      create_leave_type account, :medical,        3, 3,  30, 0, cycle_start_date,  0, { :requires_documentation => true, :requires_documentation_after => 2 }
+      create_leave_type account, :maternity,      4, 1, 120, 0, cycle_start_date,  0
+      create_leave_type account, :compassionate,  5, 1,   3, 0, cycle_start_date,  0
       
       # save
       account.save!
@@ -78,12 +78,13 @@ class AccountProvisioner
   
   private 
   
-  def self.create_leave_type(account, type_symbol, cycle_duration, cycle_days_allowance, cycle_days_carry_over, cycle_start_date, max_negative_balance, options = {})
+  def self.create_leave_type(account, type_symbol, display_order, cycle_duration, cycle_days_allowance, cycle_days_carry_over, cycle_start_date, max_negative_balance, options = {})
     
     leave_type_class = LeaveType.type_from(type_symbol)
     
     account.leave_types << leave_type = leave_type_class.create(
-    
+      :display_order => display_order,
+      
       :cycle_start_date => cycle_start_date,
       :cycle_duration => cycle_duration,
       :cycle_duration_unit => options[:cycle_duration_unit] || LeaveType::DURATION_UNIT_YEARS,
