@@ -3,6 +3,7 @@ module Tenant
     
     def index
       status_filter = params[:status] || LeaveRequest::STATUS_PENDING
+      status_filter = [LeaveRequest::STATUS_APPROVED, LeaveRequest::STATUS_REINSTATED] if status_filter.to_i == LeaveRequest::FILTER_STATUS_ACTIVE
 
       @date_filter = DateFilter.new()
       @date_filter.date_from = ApplicationHelper.safe_parse_date(params[:date_from])
@@ -16,14 +17,26 @@ module Tenant
       end
 
       # date filter
-      if @date_filter.valid?
+      if @date_filter.valid? && @date_filter.date_from && @date_filter.date_to
         @leave_requests = @leave_requests
             .where(
               ' (date_from BETWEEN :from_date AND :to_date ) OR ( date_to BETWEEN :from_date AND :to_date ) ',
               { :from_date => @date_filter.date_from, :to_date => @date_filter.date_to } 
             )
+      elsif @date_filter.date_from
+        @leave_requests = @leave_requests
+            .where(
+              ' (date_from >= :from_date ) ',
+              { :from_date => @date_filter.date_from } 
+            )
+      elsif @date_filter.date_to
+        @leave_requests = @leave_requests
+            .where(
+              ' (date_to <= :to_date ) ',
+              { :to_date => @date_filter.date_to } 
+            )
       end
-
+      
       @leave_requests = @leave_requests.order(:date_from)
 
     end

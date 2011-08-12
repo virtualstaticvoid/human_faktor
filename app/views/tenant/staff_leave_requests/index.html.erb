@@ -1,22 +1,40 @@
 <% title "Staff Leave Requests" %>
 <% content_title "Staff Leave Requests" %>
 
+<div id="filter" style="margin-bottom: 10px;">
+  <%= form_for @date_filter, :as => '', :url => staff_leave_requests_path(), :remote => true do |f| %>
+    <%= error_messages_for @date_filter %>
+    <table width="100%">
+      <tr>
+        <td width="120px">From:</td>
+        <td width="30px"></td>
+        <td class="field"><%= f.date_picker :date_from %></td>
+        <td rowspan="2" style="vertical-align: bottom; align: right;">
+          <div style="float: right;">
+            <%= render_buttonset(:id => 'status') do |builder| %>
+              <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => true) %>
+              <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_ACTIVE) %>
+              <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED) %>
+              <% builder.add_button("Cancelled", :value => LeaveRequest::STATUS_CANCELLED) %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>To:</td>
+        <td></td>
+        <td class="field"><%= f.date_picker :date_to %></td>
+      </tr>
+    </table>
+    <div style="display: none;"><%= f.submit %></div>  
+  <% end %>
+</div>
+
 <div id="paginator" style="float: left;">
 </div>
 
 <div style="height: 32px; margin-bottom: 10px;">
-
-  <div style="float: right;">
-    <%= render_buttonset(:id => 'leave_request_filter', :remote => true, :progress => true) do |builder| %>
-      <% builder.add_button("Pending", :url => staff_leave_requests_path(:status => LeaveRequest::STATUS_PENDING), :checked => true) %>
-      <% builder.add_button("Approved", :url => staff_leave_requests_path(:status => [LeaveRequest::STATUS_APPROVED, LeaveRequest::STATUS_REINSTATED])) %>
-      <% builder.add_button("Declined", :url => staff_leave_requests_path(:status => LeaveRequest::STATUS_DECLINED)) %>
-      <% builder.add_button("Cancelled", :url => staff_leave_requests_path(:status => LeaveRequest::STATUS_CANCELLED)) %>
-    <% end %>
-  </div>
-
   <div id="ajax_working">Loading leave requests...</div>
-
 </div>
 
 <table id="leave_requests" class="table_grid">
@@ -42,10 +60,14 @@
 <p style="text-align: right;"><%= link_to "Download CSV", staff_leave_requests_path(:format => :csv, :status => LeaveRequest::STATUS_PENDING), :id => 'download_csv' %></p>
 
 <script type="text/javascript">
+  $('#_new').submit();
+  $('#filter input').change(function(){
+    $('#ajax_working').css('display', '');
+    $('#_new').submit();
+  });
   $('#paginator a').live('ajax:before', function(e) { 
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
   });
-  $('#a_leave_request_filter_pending').click();
 </script>
 

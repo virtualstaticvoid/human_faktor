@@ -5,10 +5,10 @@ class DateFilter
   attr_accessor :date_to
 
   attr_accessor :date_from
-  validates :date_from, :timeliness => { :type => :date }
+  validates :date_from, :timeliness => { :type => :date }, :allow_nil => true
   
   attr_accessor :date_to
-  validates :date_to, :timeliness => { :type => :date }
+  validates :date_to, :timeliness => { :type => :date }, :allow_nil => true
 
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from

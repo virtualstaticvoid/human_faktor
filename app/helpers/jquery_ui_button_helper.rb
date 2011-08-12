@@ -21,6 +21,7 @@ module JqueryUiButtonHelper
       button_id = "#{options[:id]}_#{title.underscore}"
       html << "<input type=\"radio\" id=\"#{button_id}\" name=\"#{options[:id]}\""
       html << " checked=\"checked\"" if button_options[:checked] == true
+      html << " value=\"#{button_options[:value]}\"" if button_options[:value]
       if options[:remote] == true
         html << " onclick=\"javascript: $('#a_#{button_id}').click();\""  
       end
