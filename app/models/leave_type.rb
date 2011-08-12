@@ -3,6 +3,8 @@ require 'date'
 class LeaveType < ActiveRecord::Base
   include AccountScopedModel
   extend NestedClassesHelper
+  
+  default_scope order(:display_order)
 
   # units for cycle duration
   DURATION_UNIT_DAYS = 1

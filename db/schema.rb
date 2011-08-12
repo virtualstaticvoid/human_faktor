@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110722101124) do
+ActiveRecord::Schema.define(:version => 20110812120835) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(:version => 20110722101124) do
     t.string   "color",                                           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "display_order",                :default => 0,     :null => false
   end
 
   add_index "leave_types", ["account_id", "type"], :name => "index_leave_types_on_account_id_and_type", :unique => true
@@ -260,6 +261,19 @@ ActiveRecord::Schema.define(:version => 20110722101124) do
   end
 
   add_index "partners", ["title"], :name => "index_partners_on_title", :unique => true
+
+  create_table "rails_admin_histories", :force => true do |t|
+    t.string   "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "registrations", :force => true do |t|
     t.string   "identifier",                         :null => false
