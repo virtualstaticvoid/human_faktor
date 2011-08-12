@@ -40,7 +40,6 @@ HumanFaktor::Application.routes.draw do
     get "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
     post "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
 
-    get "staff_carry_over", :to => "tenant/dashboard#staff_leave_carry_over", :as => :staff_leave_carry_over
     get "help", :to => "tenant/dashboard#help", :as => :help
     
     # profile

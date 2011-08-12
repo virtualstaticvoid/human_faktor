@@ -68,10 +68,6 @@ module Tenant
       
     end
     
-    def staff_leave_carry_over
-      redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
-    end
-    
     def help
     end
 

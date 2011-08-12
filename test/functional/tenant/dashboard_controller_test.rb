@@ -57,12 +57,6 @@ module Tenant
         assert_redirected_to dashboard_url(:tenant => @account.subdomain)
       end
 
-      test "should redirect to dashboard if #{role} requests staff leave carry over" do
-        sign_in_as role
-        get :staff_leave_carry_over, :tenant => @account.subdomain
-        assert_redirected_to dashboard_url(:tenant => @account.subdomain)
-      end
-
     end
 
     test "should get staff calendar for approver" do
@@ -82,12 +76,6 @@ module Tenant
       test "should get heatmap analysis for #{role}" do
         sign_in_as role
         get :heatmap, :tenant => @account.subdomain
-        assert_response :success
-      end
-
-      test "should get staff leave carry over for #{role}" do
-        sign_in_as role
-        get :staff_leave_carry_over, :tenant => @account.subdomain
         assert_response :success
       end
 
