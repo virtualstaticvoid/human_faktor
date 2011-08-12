@@ -3,8 +3,10 @@ module Tenant
     
     def index
       status_filter = params[:status] || LeaveRequest::STATUS_PENDING
-      from_date = ApplicationHelper.safe_parse_date(params[:from])
-      to_date = ApplicationHelper.safe_parse_date(params[:to])
+      
+      @date_filter = DateFilter.new()
+      @date_filter.date_from = ApplicationHelper.safe_parse_date(params[:date_from])
+      @date_filter.date_to = ApplicationHelper.safe_parse_date(params[:date_to])
 
       # user role filter
       if current_employee.is_admin?
@@ -25,11 +27,11 @@ module Tenant
       end
       
       # date filter
-      if from_date && to_date
+      if @date_filter.valid?
         @leave_requests = @leave_requests
             .where(
               ' (date_from BETWEEN :from_date AND :to_date ) OR ( date_to BETWEEN :from_date AND :to_date ) ',
-              { :from_date => from_date, :to_date => to_date } 
+              { :from_date => @date_filter.date_from, :to_date => @date_filter.date_to } 
             )
       end
       

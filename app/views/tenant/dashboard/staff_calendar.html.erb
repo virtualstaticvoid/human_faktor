@@ -173,8 +173,8 @@
   <%= link_to "Download CSV", staff_leave_requests_path(
           :format => :csv, 
           :status => LeaveRequest::ACTIVE_STATUSES,
-          :from => @staff_calendar.date_from,
-          :to => @staff_calendar.date_to), :id => 'download_csv' %>
+          :date_from => @staff_calendar.date_from,
+          :date_to => @staff_calendar.date_to), :id => 'download_csv' %>
 </p>
 
 <script type="text/javascript">
