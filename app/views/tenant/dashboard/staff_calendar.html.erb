@@ -169,7 +169,13 @@
 
 </div>
 
-<p style="text-align: right;"><%= link_to 'Download CSV', '/TODO' %></p>
+<p style="text-align: right;">
+  <%= link_to "Download CSV", staff_leave_requests_path(
+          :format => :csv, 
+          :status => LeaveRequest::ACTIVE_STATUSES,
+          :from => @staff_calendar.date_from,
+          :to => @staff_calendar.date_to), :id => 'download_csv' %>
+</p>
 
 <script type="text/javascript">
 
