@@ -15,20 +15,18 @@
     <table width="100%">
       <tr>
         <td width="120px"><%= label_tag :enquiry %>:</td>
-        <td class="field"><%= f.select :enquiry, @heat_map.enquiry_types.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown', :style => 'width: 420px;' } %></td>
+        <td class="field" colspan="4"><%= f.select :enquiry, @heat_map.enquiry_types.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown', :style => 'width: 420px;' } %></td>
+        <td align="right">
+          <%= f.submit 'Update Heatmap' %>
+        </td>
       </tr>
       <tr>
         <td>From:</td>
         <td class="field"><%= f.date_picker :date_from %></td>
-      </tr>
-      <tr>
+        <td width="20px"></td>
         <td>To:</td>
         <td class="field"><%= f.date_picker :date_to %></td>
-      </tr>
-      <tr>
-        <td colspan="2" align="right">
-          <%= f.submit 'Update Displayed Data' %>
-        </td>
+        <td></td>
       </tr>
     </table>
     
