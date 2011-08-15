@@ -3,6 +3,9 @@ HumanFaktor::Application.routes.draw do
   ###
   # routes for base
   #
+  
+  # NNB: be sure to update the subdomain validator options for account to 
+  #      include these paths as restricted names
 
   get "about", :to => 'home#about', :as => :home_about
   get "contact", :to => 'home#contact', :as => :home_contact
