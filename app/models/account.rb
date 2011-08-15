@@ -32,7 +32,7 @@ class Account < ActiveRecord::Base
   validates :subdomain, 
             :presence => true, 
             :uniqueness => true, 
-            :subdomain => true
+            :subdomain => { :reserved => %w{about contact features subscriptions terms privacy partner sign_in sign_out registrations} }
 
   validates :title, :presence => true, :length => { :maximum => 255 }
   validates :theme, :presence => true
