@@ -21,6 +21,7 @@ class HomeController < ApplicationController
   end
 
   def subscriptions
+    @subscriptions = Subscription.active.where('price > 0')
   end
 
   def partner

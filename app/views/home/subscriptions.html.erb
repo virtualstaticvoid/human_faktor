@@ -1,1 +1,31 @@
 <% title "Subscriptions" %>
+
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th width="120px">Employees</th>
+      <th width="120px">Monthly Price</th>
+      <th width="120px">1 Year Price</th>
+      <th width="120px">3 Year Price</th>
+    </tr>  
+  </thead>
+  <tbody>
+    <% [['Small', 25], 
+        ['Small-Medium', 50], 
+        ['Medium', 100], 
+        ['Medium-Large', 150],
+        ['Large', 300],
+        ['Enterprise', 500],
+        ['Enterprise+', 1000]].each do |plan| %>  
+  
+      <tr>
+        <td><%= plan[0] %></td>
+        <td align="center"><%= plan[1] %></td>
+        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 1).first.price, :unit => 'R ') %></td>
+        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 12).first.price, :unit => 'R ') %></td>
+        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 36).first.price, :unit => 'R ') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
