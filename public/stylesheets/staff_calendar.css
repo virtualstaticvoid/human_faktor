@@ -105,3 +105,25 @@
 .days {
   display: none;
 }
+
+#zoom_out {
+  float: right; 
+  background: url('../images/zoom_out.png') no-repeat;
+  width: 38px;
+  height: 22px;
+  cursor: pointer;
+}
+
+#zoom_slider {
+  float: right; 
+  width: 200px; 
+}
+
+#zoom_in {
+  float: right; 
+  background: url('../images/zoom_in.png') no-repeat;
+  width: 28px;
+  margin-left: 20px;
+  height: 22px;
+  cursor: pointer;
+}

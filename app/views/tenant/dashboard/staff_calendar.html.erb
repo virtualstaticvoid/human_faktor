@@ -57,9 +57,9 @@
 </div>
 
 <div style="height: 40px; text-height: 20px;">
-  <div style="float: left; width: 100px; color: gray;">Zoom Out</div>
-  <div id="slider" style="float: left; width: 556px; margin-top: 4px;"></div>
-  <div style="float: right; width: 90px; text-align: right; color: gray;">Zoom In</div>
+  <div id="zoom_in" onclick="javascript: zoom(1);"></div>
+  <div id="zoom_slider"></div>
+  <div id="zoom_out" onclick="javascript: zoom(-1);"></div>
 </div>
 
 <div id="staff_calendar" style="display: inline-block;">
@@ -198,72 +198,82 @@
     $('#staff_calendar_enquiry_filter_by_employee').attr('checked', 'checked');
   });
 
-  $("#slider").slider({
+  $("#zoom_slider").slider({
 			min: 0,
 			max: 10,
 			step: 1,
 			slide: function(event, ui) {
-				
-				$(".weekday_row").css('display', (ui.value > 4 ? '' : 'none'));
-				$(".day_row").css('display', (ui.value > 6 ? '' : 'none'));
-
-				$(".week_days").css('display', (ui.value > 4 ? 'inline' : 'none'));
-				$(".days").css('display', (ui.value > 6 ? 'inline' : 'none'));
-				
-				var width, border;
-				
-				switch(ui.value) {
-				  case 0:
-				    width = '2px';
-				    border = 'none';
-				    break;
-				  case 1:
-				    width = '8px';
-				    border = 'none';
-				    break;
-				  case 2:
-				    width = '10px';
-				    border = 'none';
-				    break;
-				  case 3:
-				    width = '12px';
-				    border = 'none';
-				    break;
-				  case 4:
-				    width = '14px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 5:
-				    width = '18px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 6:
-				    width = '22px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 7:
-				    width = '28px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 8:
-				    width = '32px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 9:
-				    width = '38px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				  case 10:
-				    width = '45px';
-				    border = '1px solid #C0C0C0';
-				    break;
-				}
-				
-		    $("#leave td").css('min-width', width);
-		    $(".weekday_row td, .day_row td, #leave tbody td").css('border-left', border);
-				
+			  update_calendar_zoom(ui.value);
 			}
 		});
+		
+  function zoom(incr) {
+    var slider = $('#zoom_slider')
+    slider.slider('value', slider.slider('option', 'value') + incr);
+    update_calendar_zoom(slider.slider('option', 'value'));
+  }		
+  
+  function update_calendar_zoom(value) {
+		$(".weekday_row").css('display', (value > 4 ? '' : 'none'));
+		$(".day_row").css('display', (value > 6 ? '' : 'none'));
+
+		$(".week_days").css('display', (value > 4 ? 'inline' : 'none'));
+		$(".days").css('display', (value > 6 ? 'inline' : 'none'));
+		
+		var width, border;
+		
+		switch(value) {
+		  case 0:
+		    width = '2px';
+		    border = 'none';
+		    break;
+		  case 1:
+		    width = '8px';
+		    border = 'none';
+		    break;
+		  case 2:
+		    width = '10px';
+		    border = 'none';
+		    break;
+		  case 3:
+		    width = '12px';
+		    border = 'none';
+		    break;
+		  case 4:
+		    width = '14px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 5:
+		    width = '18px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 6:
+		    width = '22px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 7:
+		    width = '28px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 8:
+		    width = '32px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 9:
+		    width = '38px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		  case 10:
+		    width = '45px';
+		    border = '1px solid #C0C0C0';
+		    break;
+		}
+		
+    $("#leave td").css('min-width', width);
+    $(".weekday_row td, .day_row td, #leave tbody td").css('border-left', border);
+  }
+  
+		
 </script>
 
 
