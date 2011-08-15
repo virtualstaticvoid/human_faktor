@@ -9,6 +9,7 @@ HumanFaktor::Application.routes.draw do
   get "features", :to => 'home#features', :as => :home_features
   get "subscriptions", :to => 'home#subscriptions', :as => :home_subscriptions
   get "terms", :to => 'home#terms', :as => :home_terms
+  get "privacy", :to => 'home#privacy', :as => :home_privacy
   get "partner", :to => 'home#partner', :as => :home_partner
   get "sign_in", :to => 'home#sign_in', :as => :home_sign_in
 
