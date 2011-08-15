@@ -10,6 +10,10 @@ module LayoutHelper
     end
   end
   
+  def robots(value)
+    content_for(:robots) { h(value.to_s) }
+  end
+
   def content_title(title)
     content_for(:content_title) { h(title.to_s) }
   end 
