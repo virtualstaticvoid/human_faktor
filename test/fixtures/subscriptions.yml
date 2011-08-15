@@ -11,36 +11,61 @@ free:
   duration: 1
   active: true
 
-small:
-  sequence: 2
-  title: Small
-  description: Small companies (1-5 employees)
-  price: 25.99
-  max_employees: 50
-  threshold: 5
-  price_over_threshold: 15.99
-  duration: 1
-  active: true
-  
-medium:
-  sequence: 3
-  title: Medium
-  description: Medium companies (1-50 employees)
-  price: 12.99
-  max_employees: 100
-  threshold: 10
-  price_over_threshold: 25.99
-  duration: 1
-  active: true
+<%
+def add_subscription(title, description, employee_price, max_employees, threshold = 1)
 
-large:
-  sequence: 4
-  title: Large
-  description: Large companies (1-1000 employees)
-  price: 9.98
-  max_employees: 1000
-  threshold: 20
-  price_over_threshold: 25.99
-  duration: 1
-  active: false
+  monthly_price = employee_price * max_employees
+  annual_price = (monthly_price * 12) - (monthly_price * 1.20)
+  tri_annual_price = annual_price * 0.90
+
+  yml = ""
+
+  yml << "#{title.downcase}:\n"
+  yml << "  sequence: 1\n"
+  yml << "  title: #{title} Monthly (1-#{max_employees} employees)\n"
+  yml << "  description: #{description} sized businesses, 1 month contract, charged monthly in advance\n"
+  yml << "  price: #{monthly_price.round()}\n"
+  yml << "  max_employees: #{max_employees}\n"
+  yml << "  threshold: #{threshold}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "  duration: #{1 * 1}\n"
+  yml << "  active: true\n"
+  yml << "\n"
+
+  yml << "#{title.downcase}_1_year:\n"
+  yml << "  sequence: 2\n"
+  yml << "  title: #{title} 1 Year (1-#{max_employees} employees)\n"
+  yml << "  description: #{description} sized businesses, 1 year contract, charged annually in advance\n"
+  yml << "  price: #{annual_price.round()}\n"
+  yml << "  max_employees: #{max_employees}\n"
+  yml << "  threshold: #{threshold}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "  duration: #{12 * 1}\n"
+  yml << "  active: true\n"
+  yml << "\n"
+
+  yml << "#{title.downcase}_3_year:\n"
+  yml << "  sequence: 3\n"
+  yml << "  title: #{title} 3 Year (1-#{max_employees} employees)\n"
+  yml << "  description: #{description} sized businesses, 3 year contract, charged annually in advance\n"
+  yml << "  price: #{tri_annual_price.round()}\n"
+  yml << "  max_employees: #{max_employees}\n"
+  yml << "  threshold: #{threshold}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "  duration: #{12 * 3}\n"
+  yml << "  active: true\n"
+  yml << "\n"
+
+  yml
+  
+end
+%>
+
+<%= add_subscription 'Small', 'Small', 5.00, 25 %>
+<%= add_subscription 'Small-Medium', 'Small to medium', 4.75, 50 %>
+<%= add_subscription 'Medium', 'Medium', 4.50, 100 %>
+<%= add_subscription 'Medium-Large', 'Medium to large', 4.25, 150 %>
+<%= add_subscription 'Large', 'Large', 4.00, 300 %>
+<%= add_subscription 'Enterprise', 'Enterprise', 3.50, 500 %>
+<%= add_subscription 'Enterprise+', 'Large Enterprise', 3.00, 1000 %>
 
