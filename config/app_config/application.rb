@@ -1,11 +1,12 @@
 # Put your common configuration settings (for all environments) here.
 
 # application settings
+AppConfig.product_group = "Human Faktor"
 AppConfig.title = "Human Faktor Online Leave Management"
 AppConfig.meta_keywords = ""
 AppConfig.meta_description = ""
 
-AppConfig.company_name = "Faktor Works"
+AppConfig.company_name = "FaktorWorks Pty (Ltd)"
 AppConfig.company_registration_number = "XXX-XXX-XXX"
 
 AppConfig.subdomain = ENV['SUB_DOMAIN'] || "www"
