@@ -1,263 +1,243 @@
-<style type="text/css">
-#terms h2 {
-  margin-top: 20px;
-}
-
-#terms p {
-  text-align: justify;
-  margin-top: 0;
-  margin-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-#terms li {
-  text-align: justify;
-  padding-right: 20px;
-}
-</style>
-
 <h1><%= AppConfig.title %> - Terms &amp; Conditions</h1>
 <em>Last Updated on 2 June, 2011.</em>
 
-<div id="terms">
+<div id="legal">
 
-<h2>1. OBJECTIVE AND OVERVIEW OF THE AGREEMENT</h2>
-<p>The objective of this agreement is the registration for the use of the <%= AppConfig.title %> service 
-(&quot;The Service&quot;).</p>
+  <h2>1. OBJECTIVE AND OVERVIEW OF THE AGREEMENT</h2>
+  <p>The objective of this agreement is the registration for the use of the <%= AppConfig.title %> service 
+  (&quot;The Service&quot;).</p>
 
-<p>This document sets out the terms and conditions under which the service may be used.</p>
+  <p>This document sets out the terms and conditions under which the service may be used.</p>
 
-<p>A copy of the latest version of this agreement can be read by clicking on the &apos;terms&apos; 
-link in the footer of every web page on the site. The latest terms and conditions are located at 
-<%= link_to home_terms_url, home_terms_path %></p>
+  <p>A copy of the latest version of this agreement can be read by clicking on the &apos;terms&apos; 
+  link in the footer of every web page on the site. The latest terms and conditions are located at 
+  <%= link_to home_terms_url, home_terms_path %></p>
 
-<p>This agreement may be updated by us, at any time and at our sole discretion.  If they do so, they will notify you 
-at the email address you provide in your registration information. If you do not agree with the changes, you can 
-cancel your account with us without further obligation, except for the amount due for the balance of the billing 
-period in which you cancel your account. Unless otherwise specified, any changes or modifications will be effective 
-immediately upon posting of the revisions on the Site, and your continued use of the Site after such time will 
-constitute your acceptance of such changes or modifications. You should from time to time review the Terms and any 
-policies and documents incorporated in them to understand the terms and conditions that apply to your use of the Site. 
-The Terms will always show the ‘last updated’ date at the top.  If you do not agree to any amended Terms, you must 
-stop using the Site.  If you have any questions about the Terms, please email us at 
-<%= mail_to AppConfig.admin_email %>.</p>
+  <p>This agreement may be updated by us, at any time and at our sole discretion. If they do so, they will notify you 
+  at the email address you provide in your registration information. If you do not agree with the changes, you can 
+  cancel your account with us without further obligation, except for the amount due for the balance of the billing 
+  period in which you cancel your account. Unless otherwise specified, any changes or modifications will be effective 
+  immediately upon posting of the revisions on the Site, and your continued use of the Site after such time will 
+  constitute your acceptance of such changes or modifications. You should from time to time review the Terms and any 
+  policies and documents incorporated in them to understand the terms and conditions that apply to your use of the Site. 
+  The Terms will always show the ‘last updated’ date at the top.If you do not agree to any amended Terms, you must 
+  stop using the Site. If you have any questions about the Terms, please email us at 
+  <%= mail_to AppConfig.admin_email %>.</p>
 
-<p>The services we provide through the Site are for your own use only. You may not resell, lease or provide them 
-in any other way to anyone else.</p> 
+  <p>The services we provide through the Site are for your own use only. You may not resell, lease or provide them 
+  in any other way to anyone else.</p> 
 
-<h2>2. DEFINITIONS</h2>
-<ol type="a">
-  <li>&quot;The Service&quot; means the <%= AppConfig.title %> Service as detailed in 
-      section 4 of this document.</li>
-  <li>&quot;The Site&quot; means the web site from where the <%= AppConfig.title %> Service 
-      is provided.</li>
-  <li>&quot;Service Provider&quot; means <%= AppConfig.company_name %> (Pty) Ltd. Reg 
-      <%= AppConfig.company_registration_number %></li>
-  <li>&quot;We&quot; or &quot;Us&quot; or &quot;Our&quot; means the Service Provider.</li>
-  <li>&quot;Customer&quot; means the business entity buying the service.</li>
-  <li>&quot;You&quot; or &quot;Your&quot; means the customer.</li>
-  <li>&quot;User&quot; means the employees of the customer (business entity) who access the service.</li>
-  <li>&quot;Effective Date&quot; means the date you accepted this agreement.</li>
-  <li>&quot;Content&quot; means all information, data, logos, marks, designs, graphics, pictures, sound files, 
-      other files, and their selection and arrangement.</li>
-  <li>&quot;User Content&quot; means content provided by Users, whether they are Customers or other Users.</li>
-</ol>
+  <h2>2. DEFINITIONS</h2>
+  <ol type="a">
+    <li>&quot;The Service&quot; means the <%= AppConfig.title %> Service as detailed in 
+        section 4 of this document.</li>
+    <li>&quot;The Site&quot; means the web site from where the <%= AppConfig.title %> Service 
+        is provided.</li>
+    <li>&quot;Service Provider&quot; means <%= AppConfig.company_name %> Reg. <%= AppConfig.company_registration_number %></li>
+    <li>&quot;We&quot; or &quot;Us&quot; or &quot;Our&quot; means the Service Provider.</li>
+    <li>&quot;Customer&quot; means the business entity buying the service.</li>
+    <li>&quot;You&quot; or &quot;Your&quot; means the customer.</li>
+    <li>&quot;User&quot; means the employees of the customer (business entity) who access the service.</li>
+    <li>&quot;Effective Date&quot; means the date you accepted this agreement.</li>
+    <li>&quot;Content&quot; means all information, data, logos, marks, designs, graphics, pictures, sound files, 
+        other files, and their selection and arrangement.</li>
+    <li>&quot;User Content&quot; means content provided by Users, whether they are Customers or other Users.</li>
+  </ol>
 
-<h2>3. ACCEPTANCE OF THE TERMS AND CONDITIONS</h2>
-<p>You must read this agreement carefully before indicating acceptance by clicking the "accept" button at the end 
-of the agreement.  By clicking the "accept" button you also agree that any and all personal information obtained from 
-you by the service provider relating to this agreement is subject to the service provider’s privacy policy, located 
-at <%= link_to home_privacy_url, home_privacy_path %>.</p>
+  <h2>3. ACCEPTANCE OF THE TERMS AND CONDITIONS</h2>
+  <p>You must read this agreement carefully before indicating acceptance by clicking the "Register" button at the end 
+  of the registration process. By clicking the "accept" button you also agree that any and all personal information 
+  obtained from you by the service provider relating to this agreement is subject to the service provider’s privacy 
+  policy, located at <%= link_to home_privacy_url, home_privacy_path %>.</p>
 
-<p>If you do not agree to any of the terms of this agreement, including the privacy policy, click on the 
-&quot;I do not accept&quot; button at the end of this agreement and you will not be permitted to access and use 
-the <%= AppConfig.title %> service.</p>
+  <p>If you do not agree to any of the terms of this agreement, including the privacy policy, click on the 
+  &quot;I do not accept&quot; button at the end of this agreement and you will not be permitted to access and use 
+  the <%= AppConfig.title %> service.</p>
 
-<p>This agreement is a legally binding agreement between you and the service provider, effective as of the effective 
-date. By accepting the terms and conditions of this Agreement, you also represent and warrant that you are 18 years 
-of age or older and that if you have accepted the terms and conditions of this Agreement on behalf of any business 
-(such as a corporation, partnership, limited liability company or other organization) or other entity, you represent 
-and warrant that you have legal authority to do so.</p>
+  <p>This agreement is a legally binding agreement between you and the service provider, effective as of the effective 
+  date. By accepting the terms and conditions of this Agreement, you also represent and warrant that you are 18 years 
+  of age or older and that if you have accepted the terms and conditions of this Agreement on behalf of any business 
+  (such as a corporation, partnership, limited liability company or other organization) or other entity, you represent 
+  and warrant that you have legal authority to do so.</p>
 
-<p>You must provide current and accurate contact, identification, and other information that may be required as 
-part of the registration process and/or continued use of the Service. You are responsible for maintaining the 
-confidentiality of your Service password and account, and are responsible for all activities that occur thereunder. 
-The service provider reserves the right to refuse the Service without notice to anyone, at any time, for any reason.</p>
+  <p>You must provide current and accurate contact, identification, and other information that may be required as 
+  part of the registration process and/or continued use of the Service. You are responsible for maintaining the 
+  confidentiality of your Service password and account, and are responsible for all activities that occur thereunder. 
+  The service provider reserves the right to refuse the Service without notice to anyone, at any time, for any reason.</p>
 
-<h2>4. DEFINITION OF THE SERVICE</h2>
-<p>The <%= AppConfig.title %> Service is an internet based software as a service application 
-that allows customers to manage employee leave within their organisation.</p>
-<p>The full list of functions and features is available at <%= link_to home_features_url, home_features_path %>.</p>
+  <h2>4. DEFINITION OF THE SERVICE</h2>
+  <p>The <%= AppConfig.title %> Service is an internet based software as a service application 
+  that allows customers to manage employee leave within their organisation.</p>
+  <p>The full list of functions and features is available at <%= link_to home_features_url, home_features_path %>.</p>
 
-<h2>5. CUSTOMER OBLIGATIONS</h2>
-<ol type="a">
-  <li>After you register on the <%= AppConfig.title %> website, you will receive login names and passwords for your 
-      use of the service.</li>
-  <li>You are responsible for keeping your login names and passwords confidential.</li>
-  <li>You will be responsible for all uses of your password and account. You will immediately notify the service 
-      provider of any unauthorized use of your password.</li>
-  <li>Pay the charges with a nominated debit/credit card or bank payment to a nominated bank account.</li>
-  <li>The service provider cannot and will not be liable for any loss or damage arising from your failure to comply 
-      with this Section.</li>
-</ol>
+  <h2>5. CUSTOMER OBLIGATIONS</h2>
+  <ol type="a">
+    <li>After you register on the <%= AppConfig.title %> website, you will receive login names and passwords for your 
+        use of the service.</li>
+    <li>You are responsible for keeping your login names and passwords confidential.</li>
+    <li>You will be responsible for all uses of your password and account. You will immediately notify the service 
+        provider of any unauthorized use of your password.</li>
+    <li>Pay the charges with a nominated debit/credit card or bank payment to a nominated bank account.</li>
+    <li>The service provider cannot and will not be liable for any loss or damage arising from your failure to comply 
+        with this Section.</li>
+  </ol>
 
-<h2>6. USERS OBLIGATIONS</h2>
-<ol type="a">
-  <li>Only use the service for legitimate personal or business use;</li>
-  <li>Not use the service to commit or encourage a criminal offense;</li>
-  <li>Not use the service to send pro-actively, receive, upload, download, use or re-use any information or material 
-      which is offensive, abusive, indecent, defamatory, obscene or menacing, harmful to minors or in breach of 
-      confidence, copyright, privacy or any other rights;</li>
-  <li>Not use the service to do anything which is contrary to the acceptable use policies of any connected 
-      networks and Internet standards;</li>
-  <li>Not use the service to insert or knowingly or recklessly transmit or distribute a virus;</li>
-  <li>Not seek unauthorized entry into the service;</li>
-  <li>Not hack into any aspect of the service;</li>
-  <li>Not knowingly corrupt data;</li>
-  <li>Not circumvent, or attempt to seek to circumvent, any of the security safeguards of the service or any of 
-      its service partners;</li>
-  <li>Not use any domain name or mailbox name within the service so as to infringe upon the rights of any other person 
-      whether in statute or common law, in a corresponding trade mark or name;</li>
-  <li>Not use the service to send or provide any unsolicited advertising or other promotional material, commonly 
-      referred to as &quot;spam&quot; by email or by any other electronic means;</li>
-  <li>Not use the service to send email or any other type of electronic message with the intention or result of 
-      affecting the performance or functionality of any computer facilities;</li>
-  <li>Not use the service in a way that does not comply with the terms of any legislation or any license applicable 
-      to you or that is in any way unlawful;</li>
-</ol>
+  <h2>6. USERS OBLIGATIONS</h2>
+  <ol type="a">
+    <li>Only use the service for legitimate personal or business use;</li>
+    <li>Not use the service to commit or encourage a criminal offense;</li>
+    <li>Not use the service to send pro-actively, receive, upload, download, use or re-use any information or material 
+        which is offensive, abusive, indecent, defamatory, obscene or menacing, harmful to minors or in breach of 
+        confidence, copyright, privacy or any other rights;</li>
+    <li>Not use the service to do anything which is contrary to the acceptable use policies of any connected 
+        networks and Internet standards;</li>
+    <li>Not use the service to insert or knowingly or recklessly transmit or distribute a virus;</li>
+    <li>Not seek unauthorized entry into the service;</li>
+    <li>Not hack into any aspect of the service;</li>
+    <li>Not knowingly corrupt data;</li>
+    <li>Not circumvent, or attempt to seek to circumvent, any of the security safeguards of the service or any of 
+        its service partners;</li>
+    <li>Not use any domain name or mailbox name within the service so as to infringe upon the rights of any other person 
+        whether in statute or common law, in a corresponding trade mark or name;</li>
+    <li>Not use the service to send or provide any unsolicited advertising or other promotional material, commonly 
+        referred to as &quot;spam&quot; by email or by any other electronic means;</li>
+    <li>Not use the service to send email or any other type of electronic message with the intention or result of 
+        affecting the performance or functionality of any computer facilities;</li>
+    <li>Not use the service in a way that does not comply with the terms of any legislation or any license applicable 
+        to you or that is in any way unlawful;</li>
+  </ol>
 
-<h2>7. SERVICE PROVIDER’S OBLIGATIONS</h2>
-<ol type="a">
-  <li>Provide you with login details that are specific to your use of the service;</li>
-  <li>Provide you with access to the service via a website address and login details that are specific to your use 
-      of the service;</li>
-  <li>Provide a service as defined in the Service Offer, which is published separately on the <%= AppConfig.title %> 
-      website at <%= link_to root_url, root_path %></li>
-  <li>Invoice you for the Charges incurred through the use of service by your Users and collect or require payment 
-      for the charges within ten days of the invoice date;</li>
-  <li>Regularly update the Service, including, but not limited to, updating the application designs and features;</li>
-  <li>Handle any personal information you might supply to us when you use the service in accordance with the 
-      <%= AppConfig.title %> Privacy Policy, which can be found on the <%= AppConfig.title %> website.</li>
-</ol>
+  <h2>7. SERVICE PROVIDER’S OBLIGATIONS</h2>
+  <ol type="a">
+    <li>Provide you with login details that are specific to your use of the service;</li>
+    <li>Provide you with access to the service via a website address and login details that are specific to your use 
+        of the service;</li>
+    <li>Provide a service as defined in the Service Offer, which is published separately on the <%= AppConfig.title %> 
+        website at <%= link_to root_url, root_path %></li>
+    <li>Invoice you for the Charges incurred through the use of service by your Users and collect or require payment 
+        for the charges within ten days of the invoice date;</li>
+    <li>Regularly update the Service, including, but not limited to, updating the application designs and features;</li>
+    <li>Handle any personal information you might supply to us when you use the service in accordance with the 
+        <%= AppConfig.title %> Privacy Policy, which can be found on the <%= AppConfig.title %> website.</li>
+  </ol>
 
-<h2>8. FEES; CHARGES; TAXES</h2>
-<p>Fees and any other charges for the use of the Site are described on the Site. They may change from time to time. 
-If we change them, we will give you at least 30 days’ notice. If they do change, your continued use of the Site after 
-the change indicates your agreement with the new fees and charges after the effective date of the change. Any 
-change to fees and other charges will not be applicable to the billing period in which the change occurs. You 
-are responsible for all taxes applicable to the fees in any applicable jurisdiction.</p>
+  <h2>8. FEES; CHARGES; TAXES</h2>
+  <p>Fees and any other charges for the use of the Site are described on the Site. They may change from time to time. 
+  If we change them, we will give you at least 30 days’ notice. If they do change, your continued use of the Site after 
+  the change indicates your agreement with the new fees and charges after the effective date of the change. Any 
+  change to fees and other charges will not be applicable to the billing period in which the change occurs. You 
+  are responsible for all taxes applicable to the fees in any applicable jurisdiction.</p>
 
-<h2>9. SECURITY, TRANSMISSION AND STORAGE OF CONTENT</h2>
-<p>The service provider will use commercially available security software for authentication and encryption of 
-Client Data and will take such other security measures as may be required by regulatory authorities with jurisdiction 
-over the Service. You acknowledge that transmission of data over the internet may not be fully secure, even after 
-such reasonable security measures have been taken and You will hold the service provider harmless from the 
-dissemination, misappropriation, loss or corruption of the Client Data caused by third parties.</p>
+  <h2>9. SECURITY, TRANSMISSION AND STORAGE OF CONTENT</h2>
+  <p>The service provider will use commercially available security software for authentication and encryption of 
+  Client Data and will take such other security measures as may be required by regulatory authorities with jurisdiction 
+  over the Service. You acknowledge that transmission of data over the internet may not be fully secure, even after 
+  such reasonable security measures have been taken and You will hold the service provider harmless from the 
+  dissemination, misappropriation, loss or corruption of the Client Data caused by third parties.</p>
 
-<p>All information, data, text, software, graphics, messages, files, account settings, or other data materials 
-relating to your account ("Content"), are the sole responsibility of the person from whom such Content originated. 
-You warrant and represent that you, and not the service provider, are entirely responsible for all Content that you 
-upload, post, email, transmit, or otherwise receive or make available via the Service. The service provider does not 
-control the Content transmitted via the Service and, as such, does not guarantee the accuracy, integrity or quality 
-of such Content. You understand that by using the Service, you may be exposed to Content that is offensive, indecent, 
-or objectionable. Under no circumstances will the service provider be liable in any way for any Content, including, 
-but not limited to, any errors or omissions in any Content, or any loss or damage of any kind incurred as a result 
-of the use of any Content posted, emailed, transmitted, or otherwise made available via the Service.</p>
+  <p>All information, data, text, software, graphics, messages, files, account settings, or other data materials 
+  relating to your account ("Content"), are the sole responsibility of the person from whom such Content originated. 
+  You warrant and represent that you, and not the service provider, are entirely responsible for all Content that you 
+  upload, post, email, transmit, or otherwise receive or make available via the Service. The service provider does not 
+  control the Content transmitted via the Service and, as such, does not guarantee the accuracy, integrity or quality 
+  of such Content. You understand that by using the Service, you may be exposed to Content that is offensive, indecent, 
+  or objectionable. Under no circumstances will the service provider be liable in any way for any Content, including, 
+  but not limited to, any errors or omissions in any Content, or any loss or damage of any kind incurred as a result 
+  of the use of any Content posted, emailed, transmitted, or otherwise made available via the Service.</p>
 
-<h2>10. OWNERSHIP,  COPYRIGHT AND TRADEMARKS</h2>
-<p>User Content is that User’s property. For example, data about its Customers and about requests for leave entries 
-that a user provides to the Site is User Content of that user, data about its payments that a Customer provides 
-to the Site is User Content of that Customer. The service provider’s only right to that User Content is the limited 
-licenses to it granted in these Terms. Other than the User Content, the Site, all Content and all software available 
-on the Site or used to create and operate the Site is the property of the service provider or its licensors, and is
-protected by South African and international copyright laws, and all rights to the Site, such Content and such 
-software are expressly reserved. All trademarks, registered trademarks, product names and company names or logos 
-mentioned in the Site are the property of their respective owners. Reference to any products, services, processes 
-or other information, by trade name, trademark, manufacturer, supplier or otherwise does not constitute or imply 
-endorsement, sponsorship or recommendation thereof by the service provider. Your User Content is your responsibility. 
-We have no responsibility or liability for it, or for any loss or damage your User Content may cause to other people.</p>
+  <h2>10. OWNERSHIP,  COPYRIGHT AND TRADEMARKS</h2>
+  <p>User Content is that User’s property. For example, data about its Customers and about requests for leave entries 
+  that a user provides to the Site is User Content of that user, data about its payments that a Customer provides 
+  to the Site is User Content of that Customer. The service provider’s only right to that User Content is the limited 
+  licenses to it granted in these Terms. Other than the User Content, the Site, all Content and all software available 
+  on the Site or used to create and operate the Site is the property of the service provider or its licensors, and is
+  protected by South African and international copyright laws, and all rights to the Site, such Content and such 
+  software are expressly reserved. All trademarks, registered trademarks, product names and company names or logos 
+  mentioned in the Site are the property of their respective owners. Reference to any products, services, processes 
+  or other information, by trade name, trademark, manufacturer, supplier or otherwise does not constitute or imply 
+  endorsement, sponsorship or recommendation thereof by the service provider. Your User Content is your responsibility. 
+  We have no responsibility or liability for it, or for any loss or damage your User Content may cause to other people.</p>
 
-<p>The service provider, at its sole discretion, may or may not filter Content, but that the service provider 
-and its agents and affiliates reserve the right, but have no obligation, at their sole discretion to pre-screen, 
-refuse, or move any Content that is available via the Service. Without limiting the foregoing, the service provider 
-and its agents and affiliates reserve the right to remove any Content that violates the terms of service or is 
-otherwise objectionable. You agree that you must evaluate, and bear all risks associated with, the use of any Content, 
-including any reliance on the accuracy, completeness, or usefulness of such Content. In this regard, you acknowledge 
-that you may not rely on any Content posted, emailed, transmitted, or otherwise made available via the Service. 
-You are solely responsible for maintaining copies of and replacing any User Content you post or store on the Site.</p>
+  <p>The service provider, at its sole discretion, may or may not filter Content, but that the service provider 
+  and its agents and affiliates reserve the right, but have no obligation, at their sole discretion to pre-screen, 
+  refuse, or move any Content that is available via the Service. Without limiting the foregoing, the service provider 
+  and its agents and affiliates reserve the right to remove any Content that violates the terms of service or is 
+  otherwise objectionable. You agree that you must evaluate, and bear all risks associated with, the use of any Content, 
+  including any reliance on the accuracy, completeness, or usefulness of such Content. In this regard, you acknowledge 
+  that you may not rely on any Content posted, emailed, transmitted, or otherwise made available via the Service. 
+  You are solely responsible for maintaining copies of and replacing any User Content you post or store on the Site.</p>
 
-<h2>11. CONTRACT DURATION AND TERMINATION</h2>
-<p>The initial term is agreed upon during registration. This term will automatically roll over into a new term when 
-it is complete. The new term will have the same duration as the current term, unless otherwise instructed by the 
-customer within 14 days of the end of the term. The customer may elect to shorten the term, lengthen the term, or 
-terminate the contract. These instructions should either be submitted in writing or auctioned via the service website.</p>
+  <h2>11. CONTRACT DURATION AND TERMINATION</h2>
+  <p>The initial term is agreed upon during registration. This term will automatically roll over into a new term when 
+  it is complete. The new term will have the same duration as the current term, unless otherwise instructed by the 
+  customer within 14 days of the end of the term. The customer may elect to shorten the term, lengthen the term, or 
+  terminate the contract. These instructions should either be submitted in writing or auctioned via the service website.</p>
 
-<p>This Agreement will run from the effective date stated in the registration process and will continue for the 
-selected period unless terminated by either of party as set out in this Clause.</p>
+  <p>This Agreement will run from the effective date stated in the registration process and will continue for the 
+  selected period unless terminated by either of party as set out in this Clause.</p>
 
-<p>We may also terminate this Agreement or suspend the performance of the service to you, at our sole discretion, 
-immediately and without notice if:</p>
+  <p>We may also terminate this Agreement or suspend the performance of the service to you, at our sole discretion, 
+  immediately and without notice if:</p>
 
-<ol type="i" style="margin-left: 20px;">
-  <li>you breach this Agreement; or</li>
-  <li>bankruptcy or other insolvency proceedings are brought against you; or</li>
-  <li>you are no longer able lawfully to receive the Service; or</li>
-  <li>we do not receive payment of the Charges due within 30 days of the due date.</li>
-</ol>
+  <ol type="i" style="margin-left: 20px;">
+    <li>you breach this Agreement; or</li>
+    <li>bankruptcy or other insolvency proceedings are brought against you; or</li>
+    <li>you are no longer able lawfully to receive the Service; or</li>
+    <li>we do not receive payment of the Charges due within 30 days of the due date.</li>
+  </ol>
 
-<p>The customer may also terminate this Agreement upon material breach of the service provider, if such material 
-breach remains uncured for thirty (30) days following written notice to the service provider. This cure period 
-shall be extended by delay caused by events beyond the control of the service provider including, but not limited 
-to, natural disasters, governmental prohibitions or regulations, viruses that did not result from the acts or 
-omissions of the service provider, or technical faults of our service providers or vendors. After the initial term, 
-customer may terminate this Agreement upon fourteen (14) days written notice to the service provider or cancellation 
-via the service website with at least 14 days notice.</p>
+  <p>The customer may also terminate this Agreement upon material breach of the service provider, if such material 
+  breach remains uncured for thirty (30) days following written notice to the service provider. This cure period 
+  shall be extended by delay caused by events beyond the control of the service provider including, but not limited 
+  to, natural disasters, governmental prohibitions or regulations, viruses that did not result from the acts or 
+  omissions of the service provider, or technical faults of our service providers or vendors. After the initial term, 
+  customer may terminate this Agreement upon fourteen (14) days written notice to the service provider or cancellation 
+  via the service website with at least 14 days notice.</p>
 
-<h2>12. CANCELATION POLICY</h2>
-<p>If you cancel your subscriptions to the service you may not be entitled to a refund of all or part of amounts 
-already paid by you for such subscription. The cancellation policy will be posted on <%= AppConfig.title %> website 
-and may be changed from time to time by the service provider in its sole discretion. The cancellation policy posted 
-at the time you cancel your subscription shall govern the amount of the refund (if any) due to you.</p>
+  <h2>12. CANCELATION POLICY</h2>
+  <p>If you cancel your subscriptions to the service you may not be entitled to a refund of all or part of amounts 
+  already paid by you for such subscription. The cancellation policy will be posted on <%= AppConfig.title %> website 
+  and may be changed from time to time by the service provider in its sole discretion. The cancellation policy posted 
+  at the time you cancel your subscription shall govern the amount of the refund (if any) due to you.</p>
 
-<h2>13. LIMITED LICENCE OF CONTENT</h2>
-<p>The service provider grants you a limited, revocable, non-exclusive, non-sublicensable license to access the Site 
-and to view, copy and print the portions of the Content available to you on the Site. Such license is subject to these 
-Terms, and specifically conditioned upon the following: (i) you may only view, copy and print such portions of the 
-Content for your own use; (ii) you may not modify or otherwise make derivative works of the Site or the Content, or 
-reproduce, distribute or display the Site or any Content (except for page cacheing) except as expressly permitted in 
-these Terms; (iii) you may not remove or modify any copyright, trademark, or other proprietary notices that have been 
-placed in the Content; (iv) you may not use any data mining, robots or similar data gathering or extraction methods; 
-and (v) you may not use the Site or the Content other than for its intended purpose.</p>
+  <h2>13. LIMITED LICENCE OF CONTENT</h2>
+  <p>The service provider grants you a limited, revocable, non-exclusive, non-sublicensable license to access the Site 
+  and to view, copy and print the portions of the Content available to you on the Site. Such license is subject to these 
+  Terms, and specifically conditioned upon the following: (i) you may only view, copy and print such portions of the 
+  Content for your own use; (ii) you may not modify or otherwise make derivative works of the Site or the Content, or 
+  reproduce, distribute or display the Site or any Content (except for page cacheing) except as expressly permitted in 
+  these Terms; (iii) you may not remove or modify any copyright, trademark, or other proprietary notices that have been 
+  placed in the Content; (iv) you may not use any data mining, robots or similar data gathering or extraction methods; 
+  and (v) you may not use the Site or the Content other than for its intended purpose.</p>
 
-<p>Except as expressly permitted above, any use of any portion of the Content without the prior written permission 
-of its owner is strictly prohibited and will terminate the license granted in this Section, this Agreement and your
-account with us. Any such unauthorized use may also violate applicable laws, including without limitation copyright 
-and trademark laws. Unless explicitly stated herein, nothing in these Terms may be construed as conferring any license 
-to intellectual property rights, whether by estoppel, implication or otherwise. The license in this Section is 
-revocable by the service provider at any time. You represent and warrant that  your use of the Site and the Content 
-will be consistent with this license and will not infringe or violate the rights of any other party or breach any 
-contract or legal duty to any other parties, or violate any applicable law. To request permission for uses of Content 
-not included in this license, you may contact the service provider via the contact details on the website.</p>
+  <p>Except as expressly permitted above, any use of any portion of the Content without the prior written permission 
+  of its owner is strictly prohibited and will terminate the license granted in this Section, this Agreement and your
+  account with us. Any such unauthorized use may also violate applicable laws, including without limitation copyright 
+  and trademark laws. Unless explicitly stated herein, nothing in these Terms may be construed as conferring any license 
+  to intellectual property rights, whether by estoppel, implication or otherwise. The license in this Section is 
+  revocable by the service provider at any time. You represent and warrant that  your use of the Site and the Content 
+  will be consistent with this license and will not infringe or violate the rights of any other party or breach any 
+  contract or legal duty to any other parties, or violate any applicable law. To request permission for uses of Content 
+  not included in this license, you may contact the service provider via the contact details on the website.</p>
 
-<h2>14. WARRANTY DISCLAIMER</h2>
-<p>The Site, the Content and the services provided by the Site are provided to you on an &quot;as is&quot; basis without 
-warranties from the service provider  of any kind, either express or implied. The service provider expressly disclaims 
-all other warranties, express or implied, including without limitation implied warranties of merchantability, fitness 
-for a particular purpose, title and non-infringement. The service provider does not represent or warrant that Content 
-is accurate, complete, reliable, current or error-free, and expressly disclaims any warranty or representation as to 
-the accuracy or proprietary character of the Site, the Content or any portion thereof. While the service provider  
-attempts to make your access to and use of the Site safe, it does not represent or warrant that the Site or any 
-Content are free of viruses or other harmful components.</p>
+  <h2>14. WARRANTY DISCLAIMER</h2>
+  <p>The Site, the Content and the services provided by the Site are provided to you on an &quot;as is&quot; basis without 
+  warranties from the service provider  of any kind, either express or implied. The service provider expressly disclaims 
+  all other warranties, express or implied, including without limitation implied warranties of merchantability, fitness 
+  for a particular purpose, title and non-infringement. The service provider does not represent or warrant that Content 
+  is accurate, complete, reliable, current or error-free, and expressly disclaims any warranty or representation as to 
+  the accuracy or proprietary character of the Site, the Content or any portion thereof. While the service provider  
+  attempts to make your access to and use of the Site safe, it does not represent or warrant that the Site or any 
+  Content are free of viruses or other harmful components.</p>
 
-<h2>15. INDEMNITY</h2>
-<p>You agree to hold harmless and indemnify the service provider, and its subsidiaries, affiliates, officers, agents, 
-and employees from and against any third party claim arising from or in any way related to your use of the Service, 
-including any liability or expense arising from all claims, losses, damages (actual and consequential), suits, 
-judgments, litigation costs, and attorney fees, of every kind and nature.</p>
+  <h2>15. INDEMNITY</h2>
+  <p>You agree to hold harmless and indemnify the service provider, and its subsidiaries, affiliates, officers, agents, 
+  and employees from and against any third party claim arising from or in any way related to your use of the Service, 
+  including any liability or expense arising from all claims, losses, damages (actual and consequential), suits, 
+  judgments, litigation costs, and attorney fees, of every kind and nature.</p>
 
-<h2>16. GOVERNING LAW</h2>
-<p>The terms and conditions shall be governed by the laws of Republic of South Africa.</p>
+  <h2>16. GOVERNING LAW</h2>
+  <p>The terms and conditions shall be governed by the laws of Republic of South Africa.</p>
 
 </div>
 
