@@ -177,14 +177,19 @@
   var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
 
   $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
-	$(".weekday_row").css('display', 'none');
-	$(".day_row").css('display', 'none');
 
   function toggle_criteria() {
     extra_criteria = !extra_criteria;
     $('.extra').css('display', extra_criteria ? '' : 'none');
     $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
   }
+
+</script>
+
+<script type="text/javascript">
+
+	$(".weekday_row").css('display', 'none');
+	$(".day_row").css('display', 'none');
 
   $('#staff_calendar_enquiry_location_id').change(function(){
     $('#staff_calendar_enquiry_filter_by_location').attr('checked', 'checked');
