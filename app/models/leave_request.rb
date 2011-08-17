@@ -1,8 +1,10 @@
 require 'date'
 require 'paper_clip_interpolations'
+require 'action_view/helpers/text_helper'
 
 class LeaveRequest < ActiveRecord::Base
   include AccountScopedModel
+  include ActionView::Helpers::TextHelper
 
   # status values
   STATUS_NEW = 1
@@ -172,9 +174,8 @@ class LeaveRequest < ActiveRecord::Base
   end
 
   def to_s
-    "#{self.leave_type} Leave (#{self.date_from_s} to #{self.date_to_s})#{self.status_pending? ? ' - Pending' : ''}"
+    "#{pluralize(self.duration, 'day')} #{self.leave_type} Leave (#{self.date_from_s} to #{self.date_to_s})#{self.status_pending? ? ' - Pending' : ''}"
   end
-
   
   #
   # Constraints
