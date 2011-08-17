@@ -64,9 +64,6 @@ class StaffCalendarEnquiry
     @leave_requests_by_employee[employee] ||= collect_leave_requests_for(employee)
   end
 
-  # TODO: implement enquiry here!!!
-  #  refactor view to use this class instead  
-
   private
   
   def date_from_must_occur_before_date_to
