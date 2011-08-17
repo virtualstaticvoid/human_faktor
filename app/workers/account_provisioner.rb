@@ -1,7 +1,7 @@
 require 'date'
 
 class AccountProvisioner
-  @queue = :high
+  @queue = :"#{AppConfig.subdomain}_high"
   
   def self.perform(registration_id)
   

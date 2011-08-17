@@ -1,5 +1,5 @@
 class LeaveRequestMailer
-  @queue = :medium
+  @queue = :"#{AppConfig.subdomain}_medium"
   
   def self.perform(leave_request_id)
   

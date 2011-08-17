@@ -1,5 +1,5 @@
 class EmployeeMailer
-  @queue = :medium
+  @queue = :"#{AppConfig.subdomain}_medium"
   
   def self.perform(employee_id)
     # TODO  

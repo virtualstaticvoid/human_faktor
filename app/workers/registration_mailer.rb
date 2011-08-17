@@ -1,5 +1,5 @@
 class RegistrationMailer
-  @queue = :medium
+  @queue = :"#{AppConfig.subdomain}_medium"
   
   def self.perform(registration_id)
   
