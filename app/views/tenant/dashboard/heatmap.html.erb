@@ -15,18 +15,52 @@
     <table width="100%">
       <tr>
         <td width="120px"><%= label_tag :enquiry %>:</td>
-        <td class="field" colspan="4"><%= f.select :enquiry, @heat_map.enquiry_types.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown', :style => 'width: 420px;' } %></td>
-        <td align="right">
+        <td class="field" colspan="5">
+          <%= f.select :enquiry, @heat_map.enquiry_types.collect {|klass| [klass.display_name, klass.name]}, {}, { :class => 'dropdown', :style => 'width: 415px;' } %>
+        </td>
+        <td align="right" rowspan="2" width="140px">
           <%= f.submit 'Update Heatmap' %>
         </td>
       </tr>
       <tr>
         <td>From:</td>
-        <td class="field"><%= f.date_picker :date_from %></td>
-        <td width="20px"></td>
-        <td>To:</td>
-        <td class="field"><%= f.date_picker :date_to %></td>
-        <td></td>
+        <td class="field" colspan="3" width="225px"><%= f.date_picker :date_from %></td>
+        <td width="30px">To:</td>
+        <td class="field" width="225px"><%= f.date_picker :date_to %></td>
+        <!-- <td></td> -->
+      </tr>
+      <tr>
+        <td colspan="7" style="text-align: right;">
+          <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
+            <%= @filter_by == 'none' ? 'More Criteria' : 'Less Criteria' %>
+          </a>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td style="height: 29px;"></td>
+        <td width="25px"><%= f.radio_button :filter_by, 'none' %></td>
+        <td class="field" colspan="5">All staff</td>
+      </tr>
+      <tr class="extra">
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td class="field" colspan="5">
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td class="field" colspan="5">
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td class="field" colspan="5">
+          <%= f.select :employee_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
       </tr>
     </table>
     
@@ -34,8 +68,10 @@
   
 </div>
 
-<div style="height: 32px; display: none;">
-  <div id="ajax_working">Loading heat map...</div>
+<div style="height: 32px;">
+  <div style="height: 32px; display: none;">
+    <div id="ajax_working">Loading heat map...</div>
+  </div>
 </div>
 
 <div id="treemap-display" style="height: 500px; border: 1px solid #C0C0C0;">
@@ -49,16 +85,29 @@
   </tr>
 </table>
 
-<div style="margin-top: 14px;">
+<div style="margin-top: 14px; text-align: right;">
   <input id="go_to_parent" type="button" class="button" value="Back" />
 </div>
 
 <script type="text/javascript">
-  var json = {
+  var json= {
     "id": "root", 
     "name": "<%= @heat_map.enquiry_type.display_name %>",
     "children": [<%= @heat_map.json %>]
   };
+</script>
+  
+<script type="text/javascript">
+
+  var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
+  $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
+
+  function toggle_criteria() {
+    extra_criteria = !extra_criteria;
+    $('.extra').css('display', extra_criteria ? '' : 'none');
+    $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
+  }
+
 </script>
   
 <script type="text/javascript">

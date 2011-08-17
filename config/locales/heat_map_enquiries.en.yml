@@ -1,0 +1,21 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  heat_map_enquries:
+    leave_requests_by_employee: "Leave requests by employee"
+    leave_requests_by_duration: "Leave requests by duration"
+    unpaid_leave_requests: "Unpaid leave requests"
+    leave_requiring_supporting_documents_not_provided: "Leave requiring supporting documents not provided"
+    leave_exceeding_required_notice_period: "Leave exceeding required notice period"
+    leave_exceeding_min_days_per_request: "Leave exceeding minimum days per request"
+    leave_exceeding_max_days_per_request: "Leave exceeding maximum days per request"
+    leave_exceeding_cycle_allowance: "Leave exceeding cycle allowance"
+    leave_exceeding_permitted_negative_balance: "Leave exceeding permitted negative balance"
+    leave_exceeding_max_permitted_future_date: "Leave exceeding maximum permitted future date"
+    leave_exceeding_max_permitted_back_date: "Leave exceeding maximum permitted back date"
+    unscheduled_leave: "Unscheduled leave"
+    unscheduled_leave_adjacent_to_weekend: "Unscheduled leave adjacent to weekend"
+    unscheduled_leave_by_department: "Unscheduled leave by department"
+    unscheduled_leave_by_location: "Unscheduled leave by location"
+

@@ -53,18 +53,20 @@ module Tenant
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       
       heat_map_params = params[:heat_map_enquiry] || {}
+      @filter_by = heat_map_params[:filter_by] || 'none'
       
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
         c.enquiry = heat_map_params[:enquiry] if heat_map_params[:enquiry]
-        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 6)
-        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 6)
         
-        # TODO: additional criteria
+        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 3)
+        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 9)
+        c.filter_by = @filter_by
+        c.location_id = heat_map_params[:location_id]
+        c.department_id = heat_map_params[:department_id]
+        c.employee_id = heat_map_params[:employee_id]
         
         c.valid?
       end
-      
-      @leave_types = current_account.leave_types
       
     end
     
