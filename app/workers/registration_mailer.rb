@@ -7,6 +7,9 @@ class RegistrationMailer
     
     # send welcome email
     RegistrationsMailer.completed(registration).deliver
+    
+    # send email to support
+    SupportMailer.registration(registration).deliver
 
   end
   

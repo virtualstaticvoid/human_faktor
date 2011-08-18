@@ -1,0 +1,17 @@
+The following support request was captured on <%= AppConfig.title %>!
+
+Support request details:
+
+  Date: <%= Time.now %>
+  Account: <%= @account.title %>
+  Subdomain: <%= @account.subdomain %>
+  Employee: <%= @employee.full_name %>
+  Employee contact: <%= @employee.email %>
+
+The following message is included with the request: 
+  
+<%= @message %>
+
+The <%= AppConfig.title %> Team
+<%= root_url %>
+

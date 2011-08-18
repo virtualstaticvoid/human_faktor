@@ -1,0 +1,16 @@
+Yay, a new client just registered on <%= AppConfig.title %>!
+
+Registration details: 
+
+  Title: <%= @registration.title %>
+  Subdomain: <%= @registration.subdomain %>
+  Contact name: <%= @registration.full_name %>
+  Contact email: <%= @registration.email %>
+
+You can use the following URL to access the account:
+
+  <%= dashboard_url(:tenant => @registration.subdomain) %>
+
+The <%= AppConfig.title %> Team
+<%= root_url %>
+

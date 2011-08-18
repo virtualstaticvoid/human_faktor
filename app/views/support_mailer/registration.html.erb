@@ -1,0 +1,57 @@
+<%
+  dashboard_link = dashboard_url(:tenant => @registration.subdomain)
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= AppConfig.title %></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style type="text/css">
+    body {
+      font-family: Tahoma, Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+    }
+    .block {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <p>Yay, a new client just registered on <strong><%= AppConfig.title %></strong>!</p>
+
+  <p>Registration details:</p> 
+
+  <table>
+    <tr>
+      <td width="90px">Title</td>
+      <td><%= @registration.title %></td>
+    </tr>
+    <tr>
+      <td>Subdomain</td>
+      <td><%= @registration.subdomain %></td>
+    </tr>
+    <tr>
+      <td>Contact name</td>
+      <td><%= @registration.full_name %></td>
+    </tr>
+    <tr>
+      <td>Contact email</td>
+      <td><%= @registration.email %></td>
+    </tr>
+  </table>
+
+  <p>You can use the following URL to access the account:</p>
+
+  <p class="block">
+  <strong><%= link_to dashboard_link, dashboard_link %></strong>
+  </p>
+
+  <p>
+  <strong>The <%= AppConfig.title %> Team</strong><br />
+  <%= link_to root_url, root_url %>
+  </p>
+
+</body>
+</html>
+
