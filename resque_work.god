@@ -8,8 +8,8 @@ queue_name  = ENV['RESQUE_QUEUE'] || "#{prefix}high,#{prefix}medium,#{prefix}low
 num_workers.times do |num|
   God.watch do |w|
     w.dir      = "#{rails_root}"
-    w.name     = "resque-#{num}"
-    w.group    = 'resque'
+    w.name     = "#{prefix}resque-#{num}"
+    w.group    = "#{prefix}resque"
     w.interval = 30.seconds
     w.start    = "#{rake_path} -f #{rails_root}/Rakefile resque:work RAILS_ENV=#{rails_env} QUEUE='#{queue_name}'"
 
