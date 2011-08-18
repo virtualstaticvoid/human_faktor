@@ -4,7 +4,6 @@ class RegistrationsMailer < BaseMailer
     @registration = registration
     mail(
       :to => registration.email, 
-      :bcc => [AppConfig.support_email],
       :subject => "#{AppConfig.title} - Registration Completed"
     )  
   end  
