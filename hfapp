@@ -1,2 +1,2 @@
 #!/bin/bash
-ssh human-faktor.com -l root
+ssh root@human-faktor.com
