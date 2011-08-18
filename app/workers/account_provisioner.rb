@@ -53,6 +53,8 @@ class AccountProvisioner
       # leave types
       cycle_start_date = Date.new(Date.today.year, 1, 1)
       
+      # TODO: load country defaults instead...
+      
       create_leave_type account, :annual,         1, 1,  21, 5, cycle_start_date, 10
       create_leave_type account, :educational,    2, 1,   3, 0, cycle_start_date,  0, { :employee_capture_allowed => false }
       create_leave_type account, :medical,        3, 3,  30, 0, cycle_start_date,  0, { :requires_documentation => true, :requires_documentation_after => 2 }
@@ -70,7 +72,7 @@ class AccountProvisioner
     end
 
     # send welcome email
-    RegistrationsMailer.completed(registration).deliver
+    Resque.enqueue(RegistrationMailer, registration.id)
 
     new_account
 
