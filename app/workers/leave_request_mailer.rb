@@ -17,7 +17,7 @@ class LeaveRequestMailer
              Tenant::LeaveRequestsMailer.reinstated(leave_request)
            end
 
-    mail.deliver if mail        
+    mail.deliver unless mail.nil? || mail.from.nil? || mail.to.nil?        
 
   end
   
