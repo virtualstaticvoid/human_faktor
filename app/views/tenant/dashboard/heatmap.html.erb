@@ -77,14 +77,6 @@
 <div id="treemap-display" style="height: 500px; border: 1px solid #C0C0C0;">
 </div>    
 
-<table width="100%" style="margin-top: 2px; border-spacing: 0; height: 4px;">
-  <tr>
-    <% HeatMapColorSupport.color_table.each do |color| %>
-      <td style="background-color: <%= color.to_s %>"></td>
-    <% end %>
-  </tr>
-</table>
-
 <div style="margin-top: 14px; text-align: right;">
   <input id="go_to_parent" type="button" class="button" value="Back" />
 </div>
@@ -193,12 +185,17 @@
 
       domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
   
-      $(domElement).qtip({content: node.data['title'], position: { corner: { target: 'center', tooltip: 'center' } } });
+      if (node.data['title'] != null ) {
+        $(domElement).qtip(
+          {content: node.data['title'], position: { corner: { target: 'center', tooltip: 'center' } } }
+        );
+      }
 
       var style = domElement.style;
       style.display = '';
       style.border = '1px solid transparent';
-      style.color = 'white';
+      style.color = 'whitesmoke';
+      
       domElement.onmouseover = function() {
         style.border = '1px solid #9FD4FF';
       };

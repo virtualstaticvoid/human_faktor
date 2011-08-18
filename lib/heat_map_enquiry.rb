@@ -2,6 +2,7 @@ require 'date'
 require 'informal'
 require 'action_view/helpers/text_helper'
 require 'heat_map_color_support'
+require 'leave_constraints'
 
 class HeatMapEnquiry
   include Informal::Model
@@ -102,10 +103,15 @@ class HeatMapEnquiry
     
     def initialize(criteria)
       @criteria = criteria
+      set_color_map(100)
     end
     
     def json
       throw :not_implemented
+    end
+    
+    def set_color_map(max, min = 0, color_from = '#E0E0E0', color_to = 'red')
+      @color_map = HeatMapColorSupport.new(color_from, color_to, min.to_i, max.to_i)
     end
     
     protected
@@ -147,70 +153,73 @@ class HeatMapEnquiry
     end
     
     def heat_map_color(value)
-      HeatMapColorSupport.color_for(value).to_s
+      @color_map.color_for(value.to_i).to_s
     end
     
   end
   
-  # implement heat map enquiries
-  class LeaveRequestsByEmployee < Base
-    def json
-      json = ""
+  # support module for the bulk of heat map types...
+  module LeaveRequestsByEmployeeBase
+    
+    def load_json(leave_requests_func, measure_func)
+      data = []
       self.criteria.employees.each do |employee|
-        leave_requests = self.criteria.leave_requests_for(employee)
-        count = leave_requests.count()
-        json << build_employee(employee, count) do
-          build_leave_requests(leave_requests, count, employee.to_param)          
+        leave_requests = leave_requests_func.call(employee)
+        measure = measure_func.call(leave_requests)
+        data << [employee, measure, leave_requests]
+      end
+      self.set_color_map(data.inject(0) {|result, point| result += point[1] })
+      
+      json = ""
+      data.each do |employee, measure, leave_requests|
+        json << build_employee(employee, measure) do
+          build_leave_requests(leave_requests, measure, employee.to_param)          
         end
       end
       json
+    end
+    
+  end
+
+  # implement heat map enquiries
+  class LeaveRequestsByEmployee < Base
+    include LeaveRequestsByEmployeeBase
+    
+    def json
+      load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
+                lambda {|leave_requests| leave_requests.count() }
     end
   end
 
   class LeaveRequestsByDuration < Base
+    include LeaveRequestsByEmployeeBase
+    
     def json
-      json = ""
-      self.criteria.employees.each do |employee|
-        leave_requests = self.criteria.leave_requests_for(employee)
-        duration = leave_requests.sum(:duration)
-        json << build_employee(employee, duration) do
-          build_leave_requests(leave_requests, duration, employee.to_param)          
-        end
-      end
-      json
+      load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
+                lambda {|leave_requests| leave_requests.sum(:duration) }
     end
   end
 
   class UnpaidLeaveRequests < Base
+    include LeaveRequestsByEmployeeBase
+    
     def json
-      json = ""
-      self.criteria.employees.each do |employee|
-        leave_requests = self.criteria.leave_requests_for(employee).where(:unpaid => true)
-        count = leave_requests.count()
-        json << build_employee(employee, count) do
-          build_leave_requests(leave_requests, count, employee.to_param)          
-        end
-      end
-      json
+      load_json lambda {|employee| self.criteria.leave_requests_for(employee).where(:unpaid => true) },
+                lambda {|leave_requests| leave_requests.count() }
     end
   end
 
+  # support module for heat maps based on leave constraints
   module LeaveConstraints
-    require 'leave_constraints'
+    include LeaveRequestsByEmployeeBase
   
     attr_reader :constraint
 
     def json
       throw :constraint_not_set if constraint.nil?
-      json = ""
-      self.criteria.employees.each do |employee|
-        leave_requests = self.leave_requests_query(employee)
-        duration = leave_requests.sum(:duration)
-        json << build_employee(employee, duration) do
-          build_leave_requests(leave_requests, duration, employee.to_param)          
-        end
-      end
-      json
+
+      load_json lambda {|employee| self.leave_requests_query(employee) },
+                lambda {|leave_requests| leave_requests.sum(:duration) }
     end
     
     def leave_requests_query(employee)
@@ -219,14 +228,20 @@ class HeatMapEnquiry
   
   end
 
-#  class LeaveRequiringSupportingDocumentsNotProvided < Base
-#    include LeaveConstraints
-#
-#    def initialize(criteria)
-#      @constraint = 
-#      super
-#    end
-#  end
+  class LeaveRequiringSupportingDocumentsNotProvided < Base
+    include LeaveConstraints
+
+    def initialize(criteria)
+      @constraint = :requires_documentation
+      super
+    end
+    
+    def leave_requests_query(employee)
+      # TODO: ignore requests where the document has been subsequently provided
+      super
+    end
+    
+  end
 
   class LeaveExceedingRequiredNoticePeriod < Base
     include LeaveConstraints
@@ -304,22 +319,78 @@ class HeatMapEnquiry
     include LeaveConstraints
 
     def leave_requests_query(employee)
+      # add on additional constraint
       super.where(:is_adjacent.as_constraint_override => true)
     end
     
   end
 
-  class UnscheduledLeaveByDepartment < Base
-    def json
-      # TODO
-    end
-  end
+#  class UnscheduledLeaveByDepartment < Base
+#    def json
 
-  class UnscheduledLeaveByLocation < Base
-    def json
-      # TODO
-    end
-  end
+## use database query... to select leave requests that match criteria for all employees
+##   intersect with employees we're allowed to see
+
+#      employees = self.criteria.employees
+
+#      departments = self.criteria.account.departments.inject({}) {|list, department| 
+#        list[department] = employees.select {|employee| employee.department_id == department.id } 
+#        list
+#      }
+
+#      leave_requests_by_employee = employees.inject({}) {|list, employee|
+#        list[employee] = self.criteria.leave_requests_for(employee).where(:is_unscheduled.as_constraint_override => true)
+#        list
+#      }
+#      
+#      data = []
+#      departments.each do |department, employees|
+#        
+#        leave_requests = leave_requests_by_employee[employee]
+#        
+#        total_duration = 0
+#        for employee in employees
+#          total_duration += leave_requests.sum(:duration)
+#        end
+#      
+#        data << [department, total_duration, employees.length, leave_requests]
+#      
+#      end
+#      
+#      self.set_color_map(data.inject(0) {|result, point| result += (point[1] * point[2]) })
+#      
+#      json = ""
+#      data.each do |department, duration, count, leave_requests_by_employee|
+
+#        json << build_item(
+#          department.to_param, 
+#          department.title, 
+#          count, 
+#          (duration * count), 
+#          department.title
+#        ) do
+
+##          sjson = ""
+##          leave_requests_by_employee.each do |employee, leave_requests|
+##            sjson << build_employee(employee, measure) do
+##              build_leave_requests(leave_requests, measure, employee.to_param)          
+##            end
+##          end
+##          sjson
+#            ""
+#        end
+
+#      end
+#      json
+
+#    end
+#  end
+
+#  class UnscheduledLeaveByLocation < Base
+#    def json
+#      # TODO
+#    end
+#  end
 
   private
 
