@@ -51,7 +51,9 @@ class Employee < ActiveRecord::Base
                         :length => { :maximum => 20 },
                         :uniqueness => { :scope => [:account_id] }
 
-  validates :email, :email => true #, :uniqueness => { :scope => [:account_id] }
+  validates :email, :email => true, :allow_nil => lambda { self.notify != true }
+  
+   #, :uniqueness => { :scope => [:account_id] }
   
   # authentication
   validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
@@ -135,7 +137,7 @@ class Employee < ActiveRecord::Base
   validates :notify, :inclusion => { :in => [true, false] }
 
   def notify?
-    self.notify == true
+    self.email.present? && self.notify == true
   end
 
   # avatar for employee

@@ -3,7 +3,7 @@ require 'mail'
 
 class EmailValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    return unless record.respond_to?(:notify?) ? record.notify? : value.present?
+    return if options[:allow_nil] == true && value.nil?
     begin
       m = Mail::Address.new(value)
       # We must check that value contains a domain and that value is an email address
