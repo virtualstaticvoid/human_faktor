@@ -71,6 +71,9 @@ a img {
   background: #8AD9F9; 
   background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#8AD9F9));        
   background: -moz-linear-gradient(center top , #FAFAFA, #8AD9F9) repeat scroll 0 0 transparent;  
+  border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px 3px 0 0;
 }
 
 .background_2 {
@@ -183,6 +186,7 @@ pre {
 }
 
 #top_bg {
+  margin-top: 16px;
 }
 
 #top {
@@ -260,6 +264,7 @@ pre {
 }
 
 #center_bg {
+  margin-top: 8px;
 }
 
 #center {
