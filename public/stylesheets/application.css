@@ -80,6 +80,9 @@ a img {
   background: #66A0B8; 
   background: -webkit-gradient(linear, left top, left bottom, from(#8AD9F9), to(#66A0B8));        
   background: -moz-linear-gradient(center top , #8AD9F9, #66A0B8) repeat scroll 0 0 transparent;  
+  border-radius: 0 0 3px 3px; 
+  -moz-border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0 0 3px 3px;
 }
 
 .background_3 {
@@ -186,7 +189,7 @@ pre {
 }
 
 #top_bg {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 #top {
@@ -264,7 +267,7 @@ pre {
 }
 
 #center_bg {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 #center {
@@ -275,6 +278,9 @@ pre {
   border-left: 1px solid #A2A2A2;
   border-right: 1px solid #A2A2A2;
   min-height: 400px;
+  border-radius: 6px 6px 0 0;
+  -moz-border-radius: 6px 6px 0 0;
+  -webkit-border-radius: 6px 6px 0 0;
 }
 
 #center_container {
