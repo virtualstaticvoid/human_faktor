@@ -134,12 +134,12 @@
       size: 14,
       family: "Ubuntu"
     },
-    Node: {
+    /*Node: {
       CanvasStyles: {
         shadowBlur: 0,
         shadowColor: '#000'
       }
-    },
+    }, */
     Events: {
       enable: true,
       onClick: function(node) {
@@ -185,17 +185,19 @@
 
       domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
   
-      if (node.data['title'] != null ) {
+      if (node.data.title != null ) {
         $(domElement).qtip(
-          {content: node.data['title'], position: { corner: { target: 'center', tooltip: 'center' } } }
+          {content: node.data.title, position: { corner: { target: 'center', tooltip: 'center' } } }
         );
       }
 
       var style = domElement.style;
-      style.display = '';
+      //style.display = '';
       style.border = '1px solid transparent';
-      style.color = 'whitesmoke';
       
+      // adjust foreground colour so text always contrasts
+      style.color = adjustColour(node.data.$color || '#000000');
+
       domElement.onmouseover = function() {
         style.border = '1px solid #9FD4FF';
       };

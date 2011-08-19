@@ -110,8 +110,8 @@ class HeatMapEnquiry
       throw :not_implemented
     end
     
-    def set_color_map(max, min = 0, color_from = '#E0E0E0', color_to = 'red')
-      @color_map = HeatMapColorSupport.new(color_from, color_to, min.to_i, max.to_i)
+    def set_color_map(max, color_from = '#E0E0E0', color_to = '#FF0000')
+      @color_map = HeatMapColorSupport.new(color_from, color_to, max)
     end
     
     protected
