@@ -76,6 +76,26 @@ class HeatMapEnquiry
     self.enquiry_type.new(self).json
   end
   
+  def color_table
+    self.enquiry_type.new(self).color_table
+  end
+  
+  module ColorSchemes
+    module RedWhite
+      def init_colors
+        @color_from = '#E0E0E0'
+        @color_to = '#FF0000'
+      end
+    end
+    
+    module BlueGreen
+      def init_colors
+        @color_from = '#007F00'
+        @color_to = '#00007F'
+      end
+    end
+  end
+  
   class Base
     include ActionView::Helpers::TextHelper
     
@@ -103,15 +123,22 @@ class HeatMapEnquiry
     
     def initialize(criteria)
       @criteria = criteria
+      init_colors
       set_color_map(100)
     end
+    
+    include ColorSchemes::RedWhite
     
     def json
       throw :not_implemented
     end
     
-    def set_color_map(max, color_from = '#E0E0E0', color_to = '#FF0000')
-      @color_map = HeatMapColorSupport.new(color_from, color_to, max)
+    def set_color_map(max)
+      @color_map = HeatMapColorSupport.new(@color_from, @color_to, max)
+    end
+    
+    def color_table
+      @color_map.color_table
     end
     
     protected
@@ -145,7 +172,7 @@ class HeatMapEnquiry
       json = "{"
       json << "  'id': '#{id}',"
       json << "  'name': '#{name}',"
-      json << "  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title}' },"
+      json << "  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title} (#{heat})' },"
       json << "  'children': ["
       json << yield if block_given?
       json << "  ]"
@@ -153,7 +180,7 @@ class HeatMapEnquiry
     end
     
     def heat_map_color(value)
-      @color_map.color_for(value.to_i).to_s
+      @color_map.color_for(value).to_s
     end
     
   end
@@ -193,6 +220,7 @@ class HeatMapEnquiry
 
   class LeaveRequestsByDuration < Base
     include LeaveRequestsByEmployeeBase
+    include ColorSchemes::BlueGreen
     
     def json
       load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
@@ -217,13 +245,17 @@ class HeatMapEnquiry
 
     def json
       throw :constraint_not_set if constraint.nil?
-
+    
       load_json lambda {|employee| self.leave_requests_query(employee) },
-                lambda {|leave_requests| leave_requests.sum(:duration) }
+                lambda {|leave_requests| self.heat_measure(leave_requests) }
     end
     
     def leave_requests_query(employee)
       self.criteria.leave_requests_for(employee).where(self.constraint.as_constraint_override => true)
+    end
+    
+    def heat_measure(leave_requests)
+      leave_requests.sum(:duration)  
     end
   
   end
@@ -238,6 +270,7 @@ class HeatMapEnquiry
     
     def leave_requests_query(employee)
       # TODO: ignore requests where the document has been subsequently provided
+      #  see issue#2, issue#91 and issue#104
       super
     end
     
@@ -313,6 +346,11 @@ class HeatMapEnquiry
       @constraint = :is_unscheduled
       super
     end
+
+    def heat_measure(leave_requests)
+      leave_requests.count()  
+    end
+    
   end
 
   class UnscheduledLeaveAdjacentToWeekend < UnscheduledLeave
@@ -322,10 +360,11 @@ class HeatMapEnquiry
       # add on additional constraint
       super.where(:is_adjacent.as_constraint_override => true)
     end
-    
+
   end
 
 #  class UnscheduledLeaveByDepartment < Base
+#    include ColorSchemes::RedWhite
 #    def json
 
 ## use database query... to select leave requests that match criteria for all employees
@@ -387,6 +426,7 @@ class HeatMapEnquiry
 #  end
 
 #  class UnscheduledLeaveByLocation < Base
+#    include ColorSchemes::RedWhite
 #    def json
 #      # TODO
 #    end

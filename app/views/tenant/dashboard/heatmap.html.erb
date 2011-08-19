@@ -72,10 +72,19 @@
   <div style="height: 32px; display: none;">
     <div id="ajax_working">Loading heat map...</div>
   </div>
+  <div class="field_info">Left-click to drill down, Right-click to go back.</div>
 </div>
 
 <div id="treemap-display" style="height: 500px; border: 1px solid #C0C0C0;">
 </div>    
+
+<table width="100%" style="margin-top: 2px; border-spacing: 0; height: 4px;">
+  <tr>
+    <% @heat_map.color_table.each do |color| %>
+      <td style="background-color: <%= color.to_s %>"></td>
+    <% end %>
+  </tr>
+</table>
 
 <div style="margin-top: 14px; text-align: right;">
   <input id="go_to_parent" type="button" class="button" value="Back" />
