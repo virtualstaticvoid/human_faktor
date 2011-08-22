@@ -220,6 +220,13 @@ class Employee < ActiveRecord::Base
   
   # REFACTOR: to reduce number of database round trips
   def staff
+  
+    #
+    # TODO: need to have a flag for managers to allow them to see all staff
+    #  even if they are not in the approver structure
+    # e.g. applicable for the CEO, FD etc.
+    #
+  
     staff = []
     is_admin_or_manager = self.is_admin? || self.is_manager?
     self.account.employees.where(:approver_id => self.id).each do |employee|
