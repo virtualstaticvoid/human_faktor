@@ -151,9 +151,9 @@ class HeatMapEnquiry
       build_titled_item(department, area, heat, &block)
     end
     
-    def build_employee(employee, heat, &block)
+    def build_employee(employee, heat, parent_id = '', &block)
       build_item(
-        "_#{employee.to_param}",
+        "_#{parent_id}_#{employee.to_param}",
         employee.full_name,
         1,
         heat,
@@ -209,7 +209,7 @@ class HeatMapEnquiry
   # support module for the bulk of heat map types...
   module LeaveRequestsByEmployeeBase
     
-    def load_json(employees, leave_requests_func, measure_func)
+    def load_json(employees, leave_requests_func, measure_func, parent_id = '')
     
       data = build_employees_data(employees, leave_requests_func, measure_func)
       
@@ -220,8 +220,8 @@ class HeatMapEnquiry
       
       json = ""
       data.each do |employee, measure, leave_requests|
-        json << build_employee(employee, measure) do
-          build_leave_requests(leave_requests, measure, employee.to_param)          
+        json << build_employee(employee, measure, parent_id) do
+          build_leave_requests(leave_requests, measure, "_#{parent_id}_#{employee.to_param}")          
         end
       end
       json
@@ -472,7 +472,8 @@ class HeatMapEnquiry
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) }
+                    lambda {|leave_requests| leave_requests.sum(:duration) },
+                    department.to_param
 
         end
       
@@ -530,11 +531,13 @@ class HeatMapEnquiry
         
         area, heat = location_meta[location]
         
-        json << build_location(location, area <= 0 ? 1 : (1 + area), heat) do
+        json << 
+        build_location(location, area <= 0 ? 1 : (1 + area), heat) do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) }
+                    lambda {|leave_requests| leave_requests.sum(:duration) },
+                    location.to_param
 
         end
       
