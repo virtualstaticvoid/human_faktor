@@ -19,7 +19,7 @@ class HeatMapColorSupport
   def color_for(value)
     # convert to a percentage
     index = ((value.to_f - @min.to_f) / (@max.to_f - @min.to_f)) * 100.0
-    index = 0 if index.nan?
+    index = 0 if index.nan? || index.infinity?
     #puts ">>> min => #{@min}, max => #{@max}, value => #{value}, index => #{index}"
     @color_table[index.to_i] || @failsafe_color
   end
