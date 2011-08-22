@@ -246,6 +246,7 @@ class HeatMapEnquiry
   end
 
   # support module for heat maps based on leave constraints
+  #  default measure by count!
   module LeaveConstraints
     include LeaveRequestsByEmployeeBase
   
@@ -263,7 +264,7 @@ class HeatMapEnquiry
     end
     
     def heat_measure(leave_requests)
-      leave_requests.sum(:duration)  
+      leave_requests.count()
     end
   
   end
@@ -318,6 +319,12 @@ class HeatMapEnquiry
       @constraint = :exceeds_leave_cycle_allowance
       super
     end
+
+    # override to use duration as measure    
+    def heat_measure(leave_requests)
+      leave_requests.sum(:duration)
+    end
+    
   end
 
   class LeaveExceedingPermittedNegativeBalance < Base
@@ -357,6 +364,11 @@ class HeatMapEnquiry
       super
     end
 
+    # override to use duration as measure    
+    def heat_measure(leave_requests)
+      leave_requests.sum(:duration)
+    end
+    
   end
 
   class UnscheduledLeaveAdjacentToWeekend < UnscheduledLeave
@@ -367,6 +379,7 @@ class HeatMapEnquiry
       super.where(:is_adjacent.as_constraint_override => true)
     end
 
+    # override to apply additional filtering logic
     def heat_measure(leave_requests)
       
       # 
@@ -374,7 +387,7 @@ class HeatMapEnquiry
       #  i.e. If next to a mon and thur (holiday) and sat, then = 3
       #
     
-      leave_requests.count()  
+      super
     end
 
   end
