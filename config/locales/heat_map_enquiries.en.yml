@@ -15,7 +15,7 @@ en:
     leave_exceeding_max_permitted_future_date: "Leave exceeding maximum permitted future date"
     leave_exceeding_max_permitted_back_date: "Leave exceeding maximum permitted back date"
     unscheduled_leave: "Unscheduled leave"
-    unscheduled_leave_adjacent_to_weekend: "Unscheduled leave adjacent to weekend"
+    unscheduled_leave_adjacent_to_weekend: "Unscheduled leave adjacent to weekends and holidays"
     unscheduled_leave_by_department: "Unscheduled leave by department"
     unscheduled_leave_by_location: "Unscheduled leave by location"
 
