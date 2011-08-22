@@ -124,17 +124,17 @@ class HeatMapEnquiry
     def initialize(criteria)
       @criteria = criteria
       init_colors
-      set_color_map(100)
+      set_color_map(0, 100)
     end
     
-    include ColorSchemes::RedWhite
+    include ColorSchemes::RedWhite  # default colors
     
     def json
       throw :not_implemented
     end
     
-    def set_color_map(max)
-      @color_map = HeatMapColorSupport.new(@color_from, @color_to, max)
+    def set_color_map(min, max)
+      @color_map = HeatMapColorSupport.new(@color_from, @color_to, min, max)
     end
     
     def color_table
@@ -189,13 +189,19 @@ class HeatMapEnquiry
   module LeaveRequestsByEmployeeBase
     
     def load_json(leave_requests_func, measure_func)
+    
       data = []
+    
       self.criteria.employees.each do |employee|
         leave_requests = leave_requests_func.call(employee)
         measure = measure_func.call(leave_requests)
         data << [employee, measure, leave_requests]
       end
-      self.set_color_map(data.inject(0) {|result, point| result += point[1] })
+      
+      self.set_color_map(
+        data.inject(0) {|result, point| result > point[1] ? point[1] : result  } || 0,
+        data.inject(0) {|result, point| result < point[1] ? point[1] : result  } || 100
+      )
       
       json = ""
       data.each do |employee, measure, leave_requests|
@@ -204,6 +210,7 @@ class HeatMapEnquiry
         end
       end
       json
+    
     end
     
   end
@@ -211,6 +218,7 @@ class HeatMapEnquiry
   # implement heat map enquiries
   class LeaveRequestsByEmployee < Base
     include LeaveRequestsByEmployeeBase
+    include ColorSchemes::BlueGreen
     
     def json
       load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
@@ -364,7 +372,6 @@ class HeatMapEnquiry
   end
 
 #  class UnscheduledLeaveByDepartment < Base
-#    include ColorSchemes::RedWhite
 #    def json
 
 ## use database query... to select leave requests that match criteria for all employees
@@ -426,7 +433,6 @@ class HeatMapEnquiry
 #  end
 
 #  class UnscheduledLeaveByLocation < Base
-#    include ColorSchemes::RedWhite
 #    def json
 #      # TODO
 #    end
