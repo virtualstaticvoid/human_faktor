@@ -42,6 +42,18 @@
   background-color: #F4F4F4;
 }
 
+.nav_bar ul li:first-child {
+  border-radius: 3px 0 0 0;
+  -moz-border-radius: 3px 0 0 0;
+  -webkit-border-radius: 3px 0 0 0;
+}
+
+.nav_bar ul li:last-child {
+  border-radius: 0 0 0 3px;
+  -moz-border-radius: 0 0 0 3px;
+  -webkit-border-radius: 0 0 0 3px;
+}
+
 .nav_bar ul li a {
 }
 
