@@ -141,7 +141,7 @@
                 leave_request = @staff_calendar.leave_requests_for(employee)[date]
               %>
               
-              <% if leave_request %>
+              <% if leave_request && !(date.wday == 0 || date.wday == 6 || holiday.present?) %>
                 <td class="leave_request_#{leave_request.status_text.underscore}"
                     style="background-color: <%= leave_request.leave_type.hex_color %>; cursor: pointer;"
                     onclick="javascript: window.location = '<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';"
@@ -150,7 +150,6 @@
               <% else %>
                 <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
                     title="<%= holiday %>">
-                    
                 </td>
               <% end %>
             
