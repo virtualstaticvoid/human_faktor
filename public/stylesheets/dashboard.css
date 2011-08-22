@@ -61,8 +61,24 @@
   border-bottom: 1px solid #A2A2A2;
 }
 
+.nav_bar .employee {
+  background-color: #d2eefa;
+}
+
+.nav_bar .approver {
+  background-color: #b2e5f9;
+}
+
+.nav_bar .manager {
+  background-color: #9adef9;
+}
+
+.nav_bar .admin {
+  background-color: #7fc8e6;
+}
+
 .content_box {
-  border: 1px solid #C0C0C0;
+  border: 1px solid gray;
   margin: 0 0 10px 0;
   padding: 0;
   min-height: 560px;
