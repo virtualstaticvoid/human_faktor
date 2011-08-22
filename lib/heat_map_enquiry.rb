@@ -142,14 +142,22 @@ class HeatMapEnquiry
     end
     
     protected
+
+    def build_location(location, area, heat, &block)
+      build_titled_item(location, area, heat, &block)
+    end
+
+    def build_department(department, area, heat, &block)
+      build_titled_item(department, area, heat, &block)
+    end
     
-    def build_employee(employee, heat, parent_id = '', &block)
+    def build_employee(employee, heat, &block)
       build_item(
-        "_#{parent_id}#{employee.to_param}",
+        "_#{employee.to_param}",
         employee.full_name,
         1,
         heat,
-        employee.full_name, 
+        "#{employee.to_s} (#{heat.round(2)})", 
         &block
       )
     end
@@ -172,7 +180,7 @@ class HeatMapEnquiry
       json = "{"
       json << "  'id': '#{id}',"
       json << "  'name': '#{name}',"
-      json << "  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title} (#{heat})' },"
+      json << "  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title}' },"
       json << "  'children': ["
       json << yield if block_given?
       json << "  ]"
@@ -183,20 +191,27 @@ class HeatMapEnquiry
       @color_map.color_for(value).to_s
     end
     
+    private 
+    
+    def build_titled_item(item, area, heat, &block)
+      build_item(
+        "_#{item.to_param}",
+        item.title,
+        area,
+        heat,
+        "#{item.to_s} (#{heat.round(2)})", 
+        &block
+      )
+    end
+
   end
   
   # support module for the bulk of heat map types...
   module LeaveRequestsByEmployeeBase
     
-    def load_json(leave_requests_func, measure_func)
+    def load_json(employees, leave_requests_func, measure_func)
     
-      data = []
-    
-      self.criteria.employees.each do |employee|
-        leave_requests = leave_requests_func.call(employee)
-        measure = measure_func.call(leave_requests)
-        data << [employee, measure, leave_requests]
-      end
+      data = build_employees_data(employees, leave_requests_func, measure_func)
       
       self.set_color_map(
         data.inject(0) {|result, point| result > point[1] ? point[1] : result  } || 0,
@@ -213,6 +228,16 @@ class HeatMapEnquiry
     
     end
     
+    def build_employees_data(employees, leave_requests_func, measure_func)
+      data = []
+      employees.each do |employee|
+        leave_requests = leave_requests_func.call(employee)
+        measure = measure_func.call(leave_requests)
+        data << [employee, measure, leave_requests]
+      end
+      data
+    end
+    
   end
 
   # implement heat map enquiries
@@ -221,7 +246,8 @@ class HeatMapEnquiry
     include ColorSchemes::BlueGreen
     
     def json
-      load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
+      load_json self.criteria.employees,
+                lambda {|employee| self.criteria.leave_requests_for(employee) },
                 lambda {|leave_requests| leave_requests.count() }
     end
   end
@@ -231,7 +257,8 @@ class HeatMapEnquiry
     include ColorSchemes::BlueGreen
     
     def json
-      load_json lambda {|employee| self.criteria.leave_requests_for(employee) },
+      load_json self.criteria.employees,
+                lambda {|employee| self.criteria.leave_requests_for(employee) },
                 lambda {|leave_requests| leave_requests.sum(:duration) }
     end
   end
@@ -240,7 +267,8 @@ class HeatMapEnquiry
     include LeaveRequestsByEmployeeBase
     
     def json
-      load_json lambda {|employee| self.criteria.leave_requests_for(employee).where(:unpaid => true) },
+      load_json self.criteria.employees,
+                lambda {|employee| self.criteria.leave_requests_for(employee).where(:unpaid => true) },
                 lambda {|leave_requests| leave_requests.count() }
     end
   end
@@ -255,7 +283,8 @@ class HeatMapEnquiry
     def json
       throw :constraint_not_set if constraint.nil?
     
-      load_json lambda {|employee| self.leave_requests_query(employee) },
+      load_json self.criteria.employees,
+                lambda {|employee| self.leave_requests_query(employee) },
                 lambda {|leave_requests| self.heat_measure(leave_requests) }
     end
     
@@ -391,73 +420,130 @@ class HeatMapEnquiry
     end
 
   end
+  
+  class UnscheduledLeaveByDepartment < Base
+    include LeaveRequestsByEmployeeBase
+  
+    def json
+      
+      employees = self.criteria.employees
+      
+      # group employees by department
+      departments = self.criteria.account.departments.inject({}) {|list, department| 
+        list[department] = employees.select {|employee| employee.department_id == department.id } 
+        list
+      }
+      
+      # calculate leave durations per employee
+      leave_requests = {}
+      leave_request_durations = {}
 
-#  class UnscheduledLeaveByDepartment < Base
-#    def json
+      employees.each do |employee|
+        leave_requests[employee] = self.criteria
+                                    .leave_requests_for(employee)
+                                    .where(:is_unscheduled.as_constraint_override => true)
+        leave_request_durations[employee] = leave_requests[employee].sum(:duration)
+      end
+      
+      # calculate weighted duration per department
+      department_meta = {}
 
-## use database query... to select leave requests that match criteria for all employees
-##   intersect with employees we're allowed to see
+      departments.each do |department, employees|
+        duration = employees.inject(0) {|result, employee| result += leave_request_durations[employee] }
+        department_meta[department] = [
+          employees.length, 
+          employees.length > 0 ? (duration.to_f / employees.length.to_f) : 0    # weighted duration
+        ]
+      end
 
-#      employees = self.criteria.employees
+      # calculate min & max values for department color table
+      min_heat = department_meta.inject(0) {|result, entry| result > entry[1][1] ? entry[1][1] : result  } || 0
+      max_heat = department_meta.inject(0) {|result, entry| result < entry[1][1] ? entry[1][1] : result  } || 100
+      
+      json = ""
+      departments.each do |department, employees|
+        
+        # reset color map (TODO: refactor!)
+        self.set_color_map(min_heat, max_heat)
+        
+        area, heat = department_meta[department]
+        
+        json << build_department(department, area <= 0 ? 1 : (1 + area), heat) do
 
-#      departments = self.criteria.account.departments.inject({}) {|list, department| 
-#        list[department] = employees.select {|employee| employee.department_id == department.id } 
-#        list
-#      }
+          load_json employees,
+                    lambda {|employee| leave_requests[employee] },
+                    lambda {|leave_requests| leave_requests.sum(:duration) }
 
-#      leave_requests_by_employee = employees.inject({}) {|list, employee|
-#        list[employee] = self.criteria.leave_requests_for(employee).where(:is_unscheduled.as_constraint_override => true)
-#        list
-#      }
-#      
-#      data = []
-#      departments.each do |department, employees|
-#        
-#        leave_requests = leave_requests_by_employee[employee]
-#        
-#        total_duration = 0
-#        for employee in employees
-#          total_duration += leave_requests.sum(:duration)
-#        end
-#      
-#        data << [department, total_duration, employees.length, leave_requests]
-#      
-#      end
-#      
-#      self.set_color_map(data.inject(0) {|result, point| result += (point[1] * point[2]) })
-#      
-#      json = ""
-#      data.each do |department, duration, count, leave_requests_by_employee|
+        end
+      
+      end
+      json
+      
+    end
+    
+  end
 
-#        json << build_item(
-#          department.to_param, 
-#          department.title, 
-#          count, 
-#          (duration * count), 
-#          department.title
-#        ) do
+  class UnscheduledLeaveByLocation < Base
+    include LeaveRequestsByEmployeeBase
+  
+    def json
+      
+      employees = self.criteria.employees
+      
+      # group employees by location
+      locations = self.criteria.account.locations.inject({}) {|list, location| 
+        list[location] = employees.select {|employee| employee.location_id == location.id } 
+        list
+      }
+      
+      # calculate leave durations per employee
+      leave_requests = {}
+      leave_request_durations = {}
 
-##          sjson = ""
-##          leave_requests_by_employee.each do |employee, leave_requests|
-##            sjson << build_employee(employee, measure) do
-##              build_leave_requests(leave_requests, measure, employee.to_param)          
-##            end
-##          end
-##          sjson
-#            ""
-#        end
+      employees.each do |employee|
+        leave_requests[employee] = self.criteria
+                                    .leave_requests_for(employee)
+                                    .where(:is_unscheduled.as_constraint_override => true)
+        leave_request_durations[employee] = leave_requests[employee].sum(:duration)
+      end
+      
+      # calculate weighted duration per location
+      location_meta = {}
 
-#      end
-#      json
+      locations.each do |location, employees|
+        duration = employees.inject(0) {|result, employee| result += leave_request_durations[employee] }
+        location_meta[location] = [
+          employees.length, 
+          employees.length > 0 ? (duration.to_f / employees.length.to_f) : 0    # weighted duration
+        ]
+      end
 
-#    end
-#  end
+      # calculate min & max values for location color table
+      min_heat = location_meta.inject(0) {|result, entry| result > entry[1][1] ? entry[1][1] : result  } || 0
+      max_heat = location_meta.inject(0) {|result, entry| result < entry[1][1] ? entry[1][1] : result  } || 100
+      
+      json = ""
+      locations.each do |location, employees|
+        
+        # reset color map (TODO: refactor!)
+        self.set_color_map(min_heat, max_heat)
+        
+        area, heat = location_meta[location]
+        
+        json << build_location(location, area <= 0 ? 1 : (1 + area), heat) do
 
-#  class UnscheduledLeaveByLocation < Base
-#    def json
-#      # TODO
-#    end
-#  end
+          load_json employees,
+                    lambda {|employee| leave_requests[employee] },
+                    lambda {|leave_requests| leave_requests.sum(:duration) }
+
+        end
+      
+      end
+      json
+      
+    end
+    
+  end
 
   private
 
