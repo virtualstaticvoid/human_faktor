@@ -349,6 +349,8 @@ class HeatMapEnquiry
 
   class UnscheduledLeave < Base
     include LeaveConstraints
+    
+    # TODO: muliplier logic
 
     def initialize(criteria)
       @constraint = :is_unscheduled
@@ -366,6 +368,12 @@ class HeatMapEnquiry
     end
 
     def heat_measure(leave_requests)
+      
+      # 
+      # needs to be count of days within request that are adjacent to w/end or holiday
+      #  i.e. If next to a mon and thur (holiday) and sat, then = 3
+      #
+    
       leave_requests.count()  
     end
 
