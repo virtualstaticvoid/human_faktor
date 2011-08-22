@@ -1,7 +1,6 @@
 <% head do %>
   <%= javascript_include_tag 'jit' %>
   <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
-  <%= javascript_include_tag 'jquery.qtip' %>
 <% end %>
 
 <% content_title "Heatmap Analysis" %>
@@ -135,16 +134,10 @@
     cushion: useGradients,
     duration: 500,
     Label: {
-      type: "HTML", // "HTML", "Native" labelType,
+      type: "HTML",
       size: 14,
       family: "Ubuntu"
     },
-    /*Node: {
-      CanvasStyles: {
-        shadowBlur: 0,
-        shadowColor: '#000'
-      }
-    }, */
     Events: {
       enable: true,
       onClick: function(node) {
@@ -153,36 +146,14 @@
           node.eachSubnode(function(){
             count++;
           });
-          
-          // hide any tips if displayed.
-          $('.qtip').css('display', 'none');
-          
           if (count > 0) {
             treeMap.enter(node);
           }       
         }
       },
       onRightClick: function() {
-        // hide any tips if displayed.
-        $('.qtip').css('display', 'none');
         treeMap.out();
-      } /*,
-       
-      // only applicable for `Native` label type 
-      onMouseEnter: function(node, eventInfo) {
-        if (node) {
-          node.setCanvasStyle('shadowBlur', 7);
-          treeMap.fx.plotNode(node, treeMap.canvas);
-          treeMap.labels.plotLabel(treeMap.canvas, node);
-        }
-      },
-      onMouseLeave: function(node) {
-        if (node) {
-          node.removeCanvasStyle('shadowBlur');
-          treeMap.plot();
-        }
-      } */
-      
+      }
     },
     
     // only applicable for `HTML` label type
@@ -191,13 +162,10 @@
       domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
   
       if (node.data.title != null ) {
-        $(domElement).qtip(
-          {content: node.data.title, position: { corner: { target: 'center', tooltip: 'center' } } }
-        );
+        $(domElement).attr('title', node.data.title);
       }
 
       var style = domElement.style;
-      //style.display = '';
       style.border = '1px solid transparent';
       
       // adjust foreground colour so text always contrasts
@@ -220,5 +188,4 @@
   });
   
 </script>
-
 
