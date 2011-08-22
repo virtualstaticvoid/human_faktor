@@ -355,10 +355,6 @@ class HeatMapEnquiry
       super
     end
 
-    def heat_measure(leave_requests)
-      leave_requests.count()  
-    end
-    
   end
 
   class UnscheduledLeaveAdjacentToWeekend < UnscheduledLeave
@@ -367,6 +363,10 @@ class HeatMapEnquiry
     def leave_requests_query(employee)
       # add on additional constraint
       super.where(:is_adjacent.as_constraint_override => true)
+    end
+
+    def heat_measure(leave_requests)
+      leave_requests.count()  
     end
 
   end
