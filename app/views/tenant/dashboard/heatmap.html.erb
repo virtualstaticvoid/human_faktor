@@ -68,7 +68,9 @@
 </div>
 
 <div style="height: 42px; border-top: 1px solid #C0C0C0; padding-top: 8px;">
-  <div class="field_info" style="float: left; line-height: 32px;">Left-click to drill down, Right-click to go up a level.</div>
+  <div class="field_info" style="float: left; line-height: 32px;">
+    Left-click to go down, right-click to go up, click on a leave request to view detail.
+  </div>
   <div style="float: right;">
     <input id="go_to_parent" type="button" class="button" value="Up" />
   </div>
@@ -132,7 +134,7 @@
     animate: animate,
     offset: 0,
     cushion: useGradients,
-    duration: 500,
+    duration: 250,
     Label: {
       type: "HTML",
       size: 14,
@@ -142,13 +144,12 @@
       enable: true,
       onClick: function(node) {
         if (node) {
-          var count = 0;
-          node.eachSubnode(function(){
-            count++;
-          });
-          if (count > 0) {
+          if (node.data.url != null ) {
+            // navigate to the leave request
+            window.location = '<%= edit_leave_request_path(LeaveRequest, :tenant => current_account.subdomain).gsub(/LeaveRequest/, '') %>' + node.data.url;
+          } else {
             treeMap.enter(node);
-          }       
+          }         
         }
       },
       onRightClick: function() {

@@ -151,9 +151,8 @@ class HeatMapEnquiry
       build_titled_item(department, area, heat, &block)
     end
     
-    def build_employee(employee, heat, parent_id = '', &block)
+    def build_employee(employee, heat, &block)
       build_item(
-        "_#{parent_id}_#{employee.to_param}",
         employee.full_name,
         1,
         heat,
@@ -162,25 +161,29 @@ class HeatMapEnquiry
       )
     end
 
-    def build_leave_requests(query, count, parent_id)
+    def build_leave_requests(query, count)
       json = ""
       query.each do |leave_request|
         json << build_item(
-          "_#{parent_id}_#{leave_request.to_param}",
           leave_request.to_s,
           leave_request.duration,
           count,
-          leave_request.to_s
+          leave_request.to_s,
+          leave_request.to_param
         )
       end
       json
     end
     
-    def build_item(id, name, area, heat, title)
+    def build_item(name, area, heat, title, url = nil)
       json = "{"
-      json << "  'id': '#{id}',"
+      json << "  'id': '#{ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')}',"
       json << "  'name': '#{name}',"
-      json << "  'data': { '$area': #{area}, '$color': '#{heat_map_color(heat)}', 'title': '#{title}' },"
+      json << "  'data': { '$area': #{area}, "
+                  json << "'$color': '#{heat_map_color(heat)}', "
+                  json << "'title': '#{title}'"
+                  json << ", 'url': '#{url}'" unless url.nil?
+                  json << " },"
       json << "  'children': ["
       json << yield if block_given?
       json << "  ]"
@@ -195,7 +198,6 @@ class HeatMapEnquiry
     
     def build_titled_item(item, area, heat, &block)
       build_item(
-        "_#{item.to_param}",
         item.title,
         area,
         heat,
@@ -209,7 +211,7 @@ class HeatMapEnquiry
   # support module for the bulk of heat map types...
   module LeaveRequestsByEmployeeBase
     
-    def load_json(employees, leave_requests_func, measure_func, parent_id = '')
+    def load_json(employees, leave_requests_func, measure_func)
     
       data = build_employees_data(employees, leave_requests_func, measure_func)
       
@@ -220,8 +222,8 @@ class HeatMapEnquiry
       
       json = ""
       data.each do |employee, measure, leave_requests|
-        json << build_employee(employee, measure, parent_id) do
-          build_leave_requests(leave_requests, measure, "_#{parent_id}_#{employee.to_param}")          
+        json << build_employee(employee, measure) do
+          build_leave_requests(leave_requests, measure)
         end
       end
       json
@@ -472,8 +474,7 @@ class HeatMapEnquiry
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) },
-                    department.to_param
+                    lambda {|leave_requests| leave_requests.sum(:duration) }
 
         end
       
@@ -536,8 +537,7 @@ class HeatMapEnquiry
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) },
-                    location.to_param
+                    lambda {|leave_requests| leave_requests.sum(:duration) }
 
         end
       
