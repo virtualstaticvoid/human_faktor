@@ -125,6 +125,7 @@
 
   // init TreeMap
   var treeMap = new $jit.TM.Squarified({
+  
     injectInto: 'treemap-display',
     levelsToShow: 1,
     titleHeight: 32,
@@ -159,16 +160,12 @@
     // only applicable for `HTML` label type
     onCreateLabel: function(domElement, node) {
 
-      domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
+      domElement.innerHTML = '<div class="node_label" title="' + node.data.title + '">' + node.name + '</div>';
   
-      if (node.data.title != null ) {
-        $(domElement).attr('title', node.data.title);
-      }
-
       var style = domElement.style;
+
+      // set border and adjust foreground color so text always contrasts properly
       style.border = '1px solid transparent';
-      
-      // adjust foreground colour so text always contrasts
       style.color = adjustColour(node.data.$color || '#000000');
 
       domElement.onmouseover = function() {
