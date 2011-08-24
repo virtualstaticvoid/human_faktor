@@ -99,6 +99,16 @@
   }
 
 </script>
+
+<script type="text/javascript">
+
+  var json = {
+    "id": "root", 
+    "name": "<%= @heat_map.enquiry_type.display_name %>",
+    "children": [<%= @heat_map.json %>]
+  };
+
+</script>
   
 <script type="text/javascript">
 
@@ -113,12 +123,6 @@
     animate = !(iStuff || !nativeCanvasSupport);
   })();
 
-  var json = {
-    "id": "root", 
-    "name": "<%= @heat_map.enquiry_type.display_name %>",
-    "children": [<%= @heat_map.json %>]
-  };
-  
   // init TreeMap
   var treeMap = new $jit.TM.Squarified({
     injectInto: 'treemap-display',
@@ -128,18 +132,20 @@
     offset: 0,
     cushion: useGradients,
     duration: 250,
+
     Label: {
       type: "HTML",
       size: 14,
       family: "Ubuntu"
     },
+
     Events: {
       enable: true,
       onClick: function(node) {
         if (node) {
           if (node.data.url != null ) {
             // navigate to the leave request
-            window.location = '<%= edit_leave_request_path(LeaveRequest, :tenant => current_account.subdomain).gsub(/LeaveRequest/, '') %>' + node.data.url;
+            window.location = "<%= edit_leave_request_path(LeaveRequest, :tenant => current_account.subdomain).gsub(/LeaveRequest/, '') %>" + node.data.url;
           } else {
             treeMap.enter(node);
           }         
@@ -148,7 +154,6 @@
       onRightClick: function() {
         treeMap.out();
       }
-      
     },
     
     // only applicable for `HTML` label type
@@ -169,9 +174,11 @@
       domElement.onmouseover = function() {
         style.border = '1px solid #9FD4FF';
       };
+
       domElement.onmouseout = function() {
         style.border = '1px solid transparent';
       };
+
     }
   });
 
