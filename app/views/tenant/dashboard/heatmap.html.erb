@@ -88,14 +88,6 @@
 </table>
 
 <script type="text/javascript">
-  var json= {
-    "id": "root", 
-    "name": "<%= @heat_map.enquiry_type.display_name %>",
-    "children": [<%= @heat_map.json %>]
-  };
-</script>
-  
-<script type="text/javascript">
 
   var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
   $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
@@ -121,6 +113,12 @@
     animate = !(iStuff || !nativeCanvasSupport);
   })();
 
+  var json = {
+    "id": "root", 
+    "name": "<%= @heat_map.enquiry_type.display_name %>",
+    "children": [<%= @heat_map.json %>]
+  };
+  
   // init TreeMap
   var treeMap = new $jit.TM.Squarified({
     injectInto: 'treemap-display',
@@ -183,6 +181,6 @@
   $jit.util.addEvent($jit.id('go_to_parent'), 'click', function() {
     treeMap.out();
   });
-  
+
 </script>
 
