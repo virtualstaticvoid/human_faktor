@@ -105,7 +105,7 @@
   var json = {
     "id": "root", 
     "name": "<%= @heat_map.enquiry_type.display_name %>",
-    "children": [<%= @heat_map.json %>]
+    "children": [<%= @heat_map.json.html_safe %>]
   };
 
 </script>

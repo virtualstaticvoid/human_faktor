@@ -162,7 +162,7 @@ class HeatMapEnquiry
     end
 
     def build_leave_requests(query, count)
-      json = ""
+      json = []
       query.each do |leave_request|
         json << build_item(
           leave_request.to_s,
@@ -172,22 +172,22 @@ class HeatMapEnquiry
           leave_request.to_param
         )
       end
-      json
+      json.join(',')
     end
     
     def build_item(name, area, heat, title, url = nil)
       json = "{"
-      json << "  'id': '#{make_id()}',"
-      json << "  'name': '#{name}',"
-      json << "  'data': { '$area': #{area}, "
-                  json << "'$color': '#{heat_map_color(heat)}', "
-                  json << "'title': '#{title}'"
-                  json << ", 'url': '#{url}'" unless url.nil?
-                  json << " },"
-      json << "  'children': ["
+      json << "  \"id\": \"#{make_id()}\","
+      json << "  \"name\": \"#{name}\","
+      json << "  \"data\": { \"$area\": #{area}"
+                  json << ", \"$color\": \"#{heat_map_color(heat)}\""
+                  json << ", \"title\": \"#{title}\""
+                  json << ", \"url\": \"#{url}\"" unless url.nil?
+                  json << "},"
+      json << "  \"children\": ["
       json << yield if block_given?
       json << "  ]"
-      json << "},"
+      json << "}"
     end
     
     def heat_map_color(value)
@@ -223,14 +223,14 @@ class HeatMapEnquiry
         data.inject(0) {|result, point| result > point[1] ? point[1] : result  } || 0,
         data.inject(0) {|result, point| result < point[1] ? point[1] : result  } || 100
       )
-      
-      json = ""
+
+      json = []      
       data.each do |employee, measure, leave_requests|
         json << build_employee(employee, measure) do
           build_leave_requests(leave_requests, measure)
         end
       end
-      json
+      json.join(',')
     
     end
     
@@ -466,7 +466,7 @@ class HeatMapEnquiry
       min_heat = department_meta.inject(0) {|result, entry| result > entry[1][1] ? entry[1][1] : result  } || 0
       max_heat = department_meta.inject(0) {|result, entry| result < entry[1][1] ? entry[1][1] : result  } || 100
       
-      json = ""
+      json = []
       departments.each do |department, employees|
         
         # reset color map (TODO: refactor!)
@@ -483,7 +483,7 @@ class HeatMapEnquiry
         end
       
       end
-      json
+      json.join(',')
       
     end
     
@@ -528,7 +528,7 @@ class HeatMapEnquiry
       min_heat = location_meta.inject(0) {|result, entry| result > entry[1][1] ? entry[1][1] : result  } || 0
       max_heat = location_meta.inject(0) {|result, entry| result < entry[1][1] ? entry[1][1] : result  } || 100
       
-      json = ""
+      json = []
       locations.each do |location, employees|
         
         # reset color map (TODO: refactor!)
@@ -536,8 +536,7 @@ class HeatMapEnquiry
         
         area, heat = location_meta[location]
         
-        json << 
-        build_location(location, area <= 0 ? 1 : (1 + area), heat) do
+        json << build_location(location, area <= 0 ? 1 : (1 + area), heat) do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
@@ -546,7 +545,7 @@ class HeatMapEnquiry
         end
       
       end
-      json
+      json.join(',')
       
     end
     
