@@ -177,7 +177,7 @@ class HeatMapEnquiry
     
     def build_item(name, area, heat, title, url = nil)
       json = "{"
-      json << "  'id': '#{ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')}',"
+      json << "  'id': '#{make_id()}',"
       json << "  'name': '#{name}',"
       json << "  'data': { '$area': #{area}, "
                   json << "'$color': '#{heat_map_color(heat)}', "
@@ -195,6 +195,10 @@ class HeatMapEnquiry
     end
     
     private 
+    
+    def make_id
+      '_' + ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz').gsub(/[0-9]/, 'a')
+    end
     
     def build_titled_item(item, area, heat, &block)
       build_item(
