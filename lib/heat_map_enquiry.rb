@@ -172,7 +172,7 @@ class HeatMapEnquiry
           leave_request.to_param
         )
       end
-      json.join(',')
+      json.join(',') 
     end
     
     def build_item(name, area, heat, title, url = nil)
@@ -183,10 +183,16 @@ class HeatMapEnquiry
                   json << ", \"$color\": \"#{heat_map_color(heat)}\""
                   json << ", \"title\": \"#{title}\""
                   json << ", \"url\": \"#{url}\"" unless url.nil?
-                  json << "},"
-      json << "  \"children\": ["
-      json << yield if block_given?
-      json << "  ]"
+                  json << "}"
+                  
+      children = yield if block_given?
+      
+      unless children.nil? || children.blank?
+        json << ", \"children\": ["
+        json << children
+        json << "]"
+      end      
+
       json << "}"
     end
     
@@ -197,7 +203,7 @@ class HeatMapEnquiry
     private 
     
     def make_id
-      '_' + ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz').gsub(/[0-9]/, 'a')
+      'id_' + ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
     end
     
     def build_titled_item(item, area, heat, &block)
