@@ -472,10 +472,13 @@ class HeatMapEnquiry
       department_meta = {}
 
       departments.each do |department, employees|
+        # don't show empty departments
+        next if employees.length == 0
+
         duration = employees.inject(0) {|result, employee| result += leave_request_durations[employee] }
         department_meta[department] = [
           employees.length, 
-          employees.length > 0 ? (duration.to_f / employees.length.to_f) : 0    # weighted duration
+          (duration.to_f / employees.length.to_f)    # weighted duration
         ]
       end
 
@@ -485,13 +488,16 @@ class HeatMapEnquiry
       
       json = []
       departments.each do |department, employees|
+
+        # don't show empty departments
+        next if employees.length == 0
         
         # reset color map (TODO: refactor!)
         self.set_color_map(min_heat, max_heat)
         
         area, heat = department_meta[department]
         
-        json << build_department(department, area <= 0 ? 1 : (1 + area), heat) do
+        json << build_department(department, area, heat) do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
@@ -534,10 +540,13 @@ class HeatMapEnquiry
       location_meta = {}
 
       locations.each do |location, employees|
+        # don't show empty departments
+        next if employees.length == 0
+
         duration = employees.inject(0) {|result, employee| result += leave_request_durations[employee] }
         location_meta[location] = [
           employees.length, 
-          employees.length > 0 ? (duration.to_f / employees.length.to_f) : 0    # weighted duration
+          (duration.to_f / employees.length.to_f)    # weighted duration
         ]
       end
 
@@ -548,12 +557,15 @@ class HeatMapEnquiry
       json = []
       locations.each do |location, employees|
         
+        # don't show empty departments
+        next if employees.length == 0
+
         # reset color map (TODO: refactor!)
         self.set_color_map(min_heat, max_heat)
         
         area, heat = location_meta[location]
         
-        json << build_location(location, area <= 0 ? 1 : (1 + area), heat) do
+        json << build_location(location, area, heat) do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
