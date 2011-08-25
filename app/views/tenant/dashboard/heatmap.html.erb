@@ -127,10 +127,13 @@
   var treeMap = new $jit.TM.Squarified({
   
     injectInto: 'treemap-display',
+    
+    constrained: true,
     levelsToShow: 1,
+    
     titleHeight: 32,
-    animate: animate,
-    offset: 0,
+    animate: false,
+    offset: 1,
     cushion: useGradients,
     duration: 250,
 
