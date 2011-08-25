@@ -1,0 +1,33 @@
+<%
+  dashboard_link = dashboard_url(:tenant => @account.subdomain)
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= AppConfig.title %></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <style type="text/css">
+    body {
+      font-family: Tahoma, Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+    }
+    .block {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <p>Hello <%= @employee.full_name %>,</p>
+
+  <p>TODO</p>
+  
+  <p>Thank You.</p>
+  <p>
+    <strong><%= @account.title %></strong><br />
+    <%= link_to dashboard_link, dashboard_link %>
+  </p>
+
+</body>
+</html>
+

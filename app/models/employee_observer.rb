@@ -1,7 +1,7 @@
 class EmployeeObserver < ActiveRecord::Observer
 
   def after_create(employee)
-    # TODO
+    Resque.enqueue(EmployeeMailer, employee.id)
   end
 
   def after_update(employee)
