@@ -58,6 +58,10 @@ class Employee < ActiveRecord::Base
   # authentication
   validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
 
+  def has_password?
+    self.password.present?
+  end
+  
   # personal information
   validates :title, :allow_blank => true, :length => { :maximum => 20 }
   validates :first_name, :presence => true, :length => { :maximum => 100 }
