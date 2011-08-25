@@ -1,7 +1,16 @@
 Hello <%= @employee.full_name %>,
 
-TODO
-  
+Welcome to <%= AppConfig.title %>. You have been added as an employee on the <%= @account.title %> account!
+
+You can use the following URL to access your leave dashboard:
+
+  <%= dashboard_url(:auth_token => @employee.authentication_token, :tenant => @account.subdomain) %>
+
+Next steps:
+
+* Setup a password for accessing your dashboard,
+* Create a leave request.
+
 Thank You.
 
 <%= @account.title %>

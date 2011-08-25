@@ -1,5 +1,5 @@
 <%
-  dashboard_link = dashboard_url(:tenant => @account.subdomain)
+  dashboard_link = dashboard_url(:auth_token => @employee.authentication_token, :tenant => @account.subdomain)
 %>
 <!DOCTYPE html>
 <html>
@@ -20,8 +20,20 @@
 
   <p>Hello <%= @employee.full_name %>,</p>
 
-  <p>TODO</p>
-  
+  <p>Welcome to <strong><%= AppConfig.title %></strong>. You have been added as an employee on the <strong><%= @account.title %></strong> account!</p>
+
+  <p>You can use the following URL to access your leave dashboard:</p>
+
+  <p class="block">
+  <strong><%= link_to dashboard_link, dashboard_link %></strong>
+  </p>
+
+  <p>Next steps:</p>
+  <ul>
+    <li>Setup a password for accessing your dashboard,</li>
+    <li>Create a leave request.</li>
+  </ul>
+
   <p>Thank You.</p>
   <p>
     <strong><%= @account.title %></strong><br />
