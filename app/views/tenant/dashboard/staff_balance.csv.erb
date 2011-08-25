@@ -1,0 +1,27 @@
+employee,take_on,allowance,taken,available,outstanding,balance,unpaid
+<% for employee in @staff_balance.employees %><%
+
+  data = [] << '"' + "#{employee.full_name}" + '"'
+
+  if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at
+    leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at)
+
+    data << leave_balance.take_on.round(1)
+    data << leave_balance.allowance.round(1)
+    data << leave_balance.leave_taken.round(1)
+    data << leave_balance.available.round(1)
+    data << leave_balance.outstanding.round(1)
+    data << leave_balance.projected.round(1)
+    data << leave_balance.unpaid_leave_taken.round(1)
+
+  else
+    data << 0
+    data << 0
+    data << 0
+    data << 0
+    data << 0
+    data << 0
+    data << 0
+  end
+%><%= data.join(',').html_safe %>
+<% end %>

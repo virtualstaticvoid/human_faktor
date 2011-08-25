@@ -1,0 +1,139 @@
+<% content_title "Staff Balances" %>
+
+<div style="margin-bottom: 14px; z-order: 0;">
+
+  <%= form_for @staff_balance, :url => '' do |f| %>
+
+    <%= error_messages_for @staff_balance %>
+
+    <table width="100%">
+      <tr>
+        <td width="150px">Leave balances as at:</td>
+        <td class="field" colspan="6"><%= f.date_picker :date_as_at %></td>
+        <td align="right" rowspan="2"><%= f.submit 'Show Balances' %></td>
+      </tr>
+      <tr>
+        <td>Leave type:</td>
+        <td class="field" colspan="6">
+          <%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 160px;' } %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="8" style="text-align: right;">
+          <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
+            <%= @filter_by == 'none' ? 'More Criteria' : 'Less Criteria' %>
+          </a>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td style="height: 29px;"></td>
+        <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
+        <td class="field" colspan="6">All staff</td>
+      </tr>
+      <tr class="extra">
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td class="field" colspan="6">
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td class="field" colspan="6">
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr class="extra">
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td class="field" colspan="6">
+          <%= f.select :employee_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+    </table>
+    
+  <% end %>
+  
+</div>
+
+<table id="leave_balances" class="table_grid">
+  <thead>
+    <tr>
+      <th colspan="8"><%= @staff_balance.leave_type.to_s %></th>
+    </tr>
+    <tr>
+      <th>Employee</th>
+      <th width="80px"><abbr title="Take on leave balance allowance">Take on</abbr></th>
+      <th width="80px"><abbr title="Allowance for the current leave cycle">Allowance</abbr></th>
+      <th width="80px"><abbr title="Leave taken to date">Taken</abbr></th>
+      <th width="80px"><abbr title="Available leave balance to date">Available</abbr></th>
+      <th width="80px"><abbr title="Pending and approved leave, not yet taken">Outstanding</abbr></th>
+      <th width="80px"><abbr title="Leave balance to date">Balance</abbr></th>
+      <th width="80px"><abbr title="Number of days of unpaid leave taken or outstanding">Unpaid</abbr></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for employee in @staff_balance.employees %>
+      <tr onclick="window.location = '<%=	balance_path(:employee => employee, :as_at => @staff_balance.date_as_at, :tenant => current_account.subdomain) %>';">
+        <td><%= employee.full_name %></td>
+
+        <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at
+            leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
+
+          <td><%= number_with_precision(leave_balance.take_on, :precision => 1) %></td>
+          <td><%= number_with_precision(leave_balance.allowance, :precision => 1) %></td>
+          <td><%= number_with_precision(leave_balance.leave_taken, :precision => 1) %></td>
+          <td><%= number_with_precision(leave_balance.available, :precision => 1) %></td>
+          <td><%= number_with_precision(leave_balance.outstanding, :precision => 1) %></td>
+          <td><strong><%= number_with_precision(leave_balance.projected, :precision => 1) %></strong></td>
+          <td><%= number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1) %></td>
+
+        <% else %>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+        <% end %>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p style="text-align: right;">
+  <%= link_to "Download CSV", staff_balance_path(
+          :format => :csv, 
+          :staff_balance_enquiry => @staff_balance.attributes
+        ), :id => 'download_csv' %>
+</p>
+
+<script type="text/javascript">
+
+  var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
+
+  $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
+
+  function toggle_criteria() {
+    extra_criteria = !extra_criteria;
+    $('.extra').css('display', extra_criteria ? '' : 'none');
+    $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
+  }
+
+  $('#staff_balance_enquiry_location_id').change(function(){
+    $('#staff_balance_enquiry_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#staff_balance_enquiry_department_id').change(function(){
+    $('#staff_balance_enquiry_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#staff_balance_enquiry_employee_id').change(function(){
+    $('#staff_balance_enquiry_filter_by_employee').attr('checked', 'checked');
+  });
+
+</script>
+

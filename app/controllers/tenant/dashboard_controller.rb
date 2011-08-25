@@ -25,10 +25,31 @@ module Tenant
       
     end
 
+    # GET & POST
+    def staff_balance
+      redirect_to balance_url if current_employee.is_employee?
+
+      staff_balance_params = params[:staff_balance_enquiry] || {}
+      @leave_types = current_account.leave_types
+      @filter_by = staff_balance_params[:filter_by] || 'none'
+
+      @staff_balance = StaffBalanceEnquiry.new(current_account, current_employee).tap do |c|
+        c.date_as_at = ApplicationHelper.safe_parse_date(staff_balance_params[:date_as_at], Date.today)
+        c.leave_type_id = staff_balance_params[:leave_type_id] if staff_balance_params[:leave_type_id]
+        c.filter_by = @filter_by
+        c.location_id = staff_balance_params[:location_id]
+        c.department_id = staff_balance_params[:department_id]
+        c.employee_id = staff_balance_params[:employee_id]
+        
+        c.valid?
+      end
+      
+    end
+
     def calendar
     end
 
-    # GET && POST
+    # GET & POST
     def staff_calendar
       redirect_to calendar_url if current_employee.is_employee?
 
@@ -48,7 +69,7 @@ module Tenant
 
     end
     
-    # GET && POST
+    # GET & POST
     def heatmap
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       

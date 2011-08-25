@@ -89,3 +89,18 @@
   padding: 0;
 }
 
+#leave_balances thead th abbr {
+  font-size: 10pt;
+  font-weight: normal;
+}
+
+#leave_balances tbody td {
+  text-align: right;
+  border-left: 1px solid #C0C0C0;
+}
+
+#leave_balances tbody td:first-child {
+  text-align: left;
+  border-left: none;
+}
+

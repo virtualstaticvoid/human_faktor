@@ -98,6 +98,18 @@
     $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
   }
 
+  $('#heat_map_enquiry_location_id').change(function(){
+    $('#heat_map_enquiry_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#heat_map_enquiry_department_id').change(function(){
+    $('#heat_map_enquiry_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#heat_map_enquiry_employee_id').change(function(){
+    $('#heat_map_enquiry_filter_by_employee').attr('checked', 'checked');
+  });
+
 </script>
 
 <script type="text/javascript">

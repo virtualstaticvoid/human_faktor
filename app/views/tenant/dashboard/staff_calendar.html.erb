@@ -183,13 +183,6 @@
     $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
   }
 
-</script>
-
-<script type="text/javascript">
-
-	$(".weekday_row").css('display', 'none');
-	$(".day_row").css('display', 'none');
-
   $('#staff_calendar_enquiry_location_id').change(function(){
     $('#staff_calendar_enquiry_filter_by_location').attr('checked', 'checked');
   });
@@ -201,6 +194,9 @@
   $('#staff_calendar_enquiry_employee_id').change(function(){
     $('#staff_calendar_enquiry_filter_by_employee').attr('checked', 'checked');
   });
+
+	$(".weekday_row").css('display', 'none');
+	$(".day_row").css('display', 'none');
 
   $("#zoom_slider").slider({
 			min: 0,
@@ -276,8 +272,6 @@
     $("#leave td").css('min-width', width);
     $(".weekday_row td, .day_row td, #leave tbody td").css('border-left', border);
   }
-  
 		
 </script>
-
 

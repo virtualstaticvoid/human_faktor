@@ -34,6 +34,17 @@ class HeatMapEnquiry
            :duration_at_least_one_month,
            :filter_by_item_id
   
+  def attributes
+    {
+      :date_from => self.date_from,
+      :date_to => self.date_to,
+      :filter_by => self.filter_by,
+      :location_id => self.location_id,
+      :department_id => self.department_id,
+      :employee_id => self.employee_id
+    }
+  end
+
   def initialize(account, employee)
     @account = account
     @employee = employee

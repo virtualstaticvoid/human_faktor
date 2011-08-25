@@ -43,6 +43,12 @@ module Tenant
 
     end
 
+    test "should redirect to balance if employee requests staff balance" do
+      sign_in_as :employee
+      get :staff_balance, :tenant => @account.subdomain
+      assert_redirected_to balance_url(:tenant => @account.subdomain)
+    end
+
     test "should redirect to calendar if employee requests staff calendar" do
       sign_in_as :employee
       get :staff_calendar, :tenant => @account.subdomain
@@ -59,6 +65,12 @@ module Tenant
 
     end
 
+    test "should get staff balance for approver" do
+      sign_in_as :approver
+      get :staff_balance, :tenant => @account.subdomain
+      assert_response :success
+    end
+
     test "should get staff calendar for approver" do
       sign_in_as :approver
       get :staff_calendar, :tenant => @account.subdomain
@@ -66,6 +78,12 @@ module Tenant
     end
   
     [:manager, :admin].each do |role|
+
+      test "should get staff balance for #{role}" do
+        sign_in_as role
+        get :staff_balance, :tenant => @account.subdomain
+        assert_response :success
+      end
 
       test "should get staff calendar for #{role}" do
         sign_in_as role

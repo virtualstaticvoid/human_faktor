@@ -35,13 +35,17 @@ HumanFaktor::Application.routes.draw do
 
     # dashboard
     get "balance", :to => "tenant/dashboard#balance", :as => :balance
+
+    get "staff_balance", :to => "tenant/dashboard#staff_balance", :as => :staff_balance
+    post "staff_balance", :to => "tenant/dashboard#staff_balance"
+
     get "calendar", :to => "tenant/dashboard#calendar", :as => :calendar
 
     get "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
-    post "staff_calendar", :to => "tenant/dashboard#staff_calendar", :as => :staff_calendar
+    post "staff_calendar", :to => "tenant/dashboard#staff_calendar"
 
     get "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
-    post "heatmap", :to => "tenant/dashboard#heatmap", :as => :heatmap
+    post "heatmap", :to => "tenant/dashboard#heatmap"
 
     get "help", :to => "tenant/dashboard#help", :as => :help
     

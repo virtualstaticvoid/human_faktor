@@ -57,7 +57,9 @@
   </tbody>
 </table>
 
-<p style="text-align: right;"><%= link_to "Download CSV", staff_leave_requests_path(:format => :csv, :status => LeaveRequest::STATUS_PENDING), :id => 'download_csv' %></p>
+<p style="text-align: right;">
+  <%= link_to "Download CSV", staff_leave_requests_path(:format => :csv, :status => LeaveRequest::STATUS_PENDING), :id => 'download_csv' %>
+</p>
 
 <script type="text/javascript">
   $('#_new').submit();
