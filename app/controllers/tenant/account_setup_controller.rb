@@ -3,7 +3,7 @@ require 'date'
 module Tenant
   class AccountSetupController < TenantController
 
-    skip_before_filter :check_account_active, :authenticate_employee!
+    skip_before_filter :check_account_active, :authenticate_employee!, :check_employee
 
     def initialize
       self.partials_path = 'admin'
