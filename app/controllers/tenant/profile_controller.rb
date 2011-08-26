@@ -1,7 +1,8 @@
 module Tenant
   class ProfileController < DashboardController
+    layout "basic", :only => [:activate, :setactive]
 
-    skip_before_filter :check_employee, :only => [:activate, :update]
+    skip_before_filter :check_employee, :only => [:activate, :setactive]
 
     # NNB: can only edit personal information, so remove any other params!
     PARAMS_ALLOWED = [
@@ -25,11 +26,6 @@ module Tenant
       load_leave_types
     end
 
-    def activate
-      @employee = current_employee
-      redirect_to dashboard_url if @employee.has_password?
-    end
-    
     def update
       @employee = current_employee
       load_leave_types
@@ -53,6 +49,27 @@ module Tenant
       end
     end
     
+    def activate
+      @employee = current_employee
+      redirect_to dashboard_url if @employee.has_password?
+    end
+    
+    def setactive
+      @employee = current_employee
+      
+      # filter out any params not allowed!
+      employee_params = params[:employee].keep_if {|key, value| [:password, :password_confirmation].include?(key.to_sym) }
+
+      respond_to do |format|
+        if @employee.update_attributes(employee_params)
+          sign_in(@employee, :bypass => true)
+          format.html { redirect_to(dashboard_url, :notice => 'Profile was successfully activated.') }
+        else
+          format.html { render :action => "activate" }
+        end
+      end
+    end
+
     private 
     
     def load_leave_types

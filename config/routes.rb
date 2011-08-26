@@ -51,6 +51,8 @@ HumanFaktor::Application.routes.draw do
     
     # profile
     get "activate", :to => "tenant/profile#activate", :as => :activate
+    put "activate", :to => "tenant/profile#setactive", :as => :activate
+    
     get "profile", :to => "tenant/profile#edit", :as => :profile
     put "profile", :to => "tenant/profile#update", :as => :update_profile
 

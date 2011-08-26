@@ -1,33 +1,60 @@
-<% content_title "Activate" %>
+<% title "#{current_account} - Employee Activation" %>
 
-<p>Activate access to <%= current_account.title %> by providing a password.</p>
+<div style="height: 100px;">
+</div>
 
-<%= form_for(@employee, :url => update_profile_path(:tenant => current_account.subdomain)) do |f| %>
+<div class="row">
 
-  <%= error_messages_for @employee %>
-
-  <div class="field">
-    <div><%= f.label :user_name %></div>
-    <span><%= f.text_field :user_name, { :disabled => true } %></span>
-    <span class="field_info"></span>
+  <div class="column grid_3">
   </div>
 
-  <div class="field">
-    <div><%= f.label :password %></div>
-    <span><%= f.password_field :password %></span>
-    <span class="field_info"></span>
-  </div>
-
-  <div class="field">
-    <div><%= f.label :password_confirmation %></div>
-    <span><%= f.password_field :password_confirmation %></span>
-    <span class="field_info"></span>
-  </div>
-
-  <div style="height: 16px;"></div>
-
-  <div class="actions">
-    <%= f.submit 'Activate!' %>
-  </div>
+  <div class="column grid_6">
   
-<% end %>
+    <div class="panel_box box_radius">
+      
+      <div class="panel_box_title box_radius_top background_4">
+        <h2><%= current_account.title %> - Employee Activation</h2>
+      </div>
+      
+      <div class="panel_box_content">
+
+        <div>
+          <%= render :partial => "shared/flash", :locals => { :flash => flash } %>
+        </div>
+
+        <%= form_for(@employee, :url => activate_path(:tenant => current_account.subdomain)) do |f| %>
+        
+          <%= error_messages_for @employee %>
+
+          <div class="field">
+            <div><%= f.label :user_name %></div>
+            <span><%= f.text_field :user_name, :disabled => true %></span>
+          </div>
+          <div class="field">
+            <div><%= f.label :password %></div>
+            <span><%= f.password_field :password, :autofocus => 'autofocus' %></span>
+          </div>
+          <div class="field">
+            <div><%= f.label :password_confirmation %></div>
+            <span><%= f.password_field :password_confirmation %></span>
+          </div>
+          
+          <div style="height: 52px;">
+            <span style="float: left; padding-top: 8px;">
+            </span>
+            <span style="float: right; margin-top: 11px;">
+              <%= f.submit "Activate!" %> or <%= link_to 'cancel', root_path %>
+            </span>
+          </div>
+
+        <% end %>      
+      
+      </div>
+    </div>
+  </div>
+
+  <div class="column grid_3">
+  </div>
+
+</div>
+

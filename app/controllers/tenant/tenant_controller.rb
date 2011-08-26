@@ -17,7 +17,7 @@ module Tenant
     
     def check_employee
       unless current_employee && current_employee.has_password?
-        redirect_to activate_url and return false
+        redirect_to activate_url(:auth_token => params[:auth_token]) and return false
       end
       true
     end
