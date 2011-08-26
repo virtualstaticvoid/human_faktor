@@ -1,5 +1,5 @@
 module Tenant
-  class EmployeeMailer < BaseMailer
+  class EmployeesMailer < BaseMailer
 
     def activate(employee)
       @account = employee.account
