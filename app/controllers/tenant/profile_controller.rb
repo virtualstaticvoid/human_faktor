@@ -1,6 +1,8 @@
 module Tenant
   class ProfileController < DashboardController
 
+    skip_before_filter :check_employee, :only => [:activate, :update]
+
     # NNB: can only edit personal information, so remove any other params!
     PARAMS_ALLOWED = [
       :avatar,
@@ -21,6 +23,11 @@ module Tenant
     def edit
       @employee = current_employee
       load_leave_types
+    end
+
+    def activate
+      @employee = current_employee
+      redirect_to dashboard_url if @employee.has_password?
     end
     
     def update

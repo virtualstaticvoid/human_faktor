@@ -16,8 +16,10 @@ module Tenant
     end
     
     def check_employee
-      # TODO: perform checks for the current employee
-      # has an email?
+      unless current_employee && current_employee.has_password?
+        redirect_to activate_url and return false
+      end
+      true
     end
 
   end

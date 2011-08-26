@@ -8,13 +8,24 @@ module Tenant
     end
 
     test "should get edit" do
-      get :edit, :tenant => @account.subdomain, :id => @employee.to_param
+      get :edit, :tenant => @account.subdomain
       assert_response :success
+    end
+
+    test "should activate" do
+      get :activate, :tenant => @account.subdomain
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
     end
 
     test "should update employee" do
       put :update, :tenant => @account.subdomain, :id => @employee.to_param, :employee => @employee.attributes
-      assert_redirected_to profile_path(:tenant => @account.subdomain)
+      assert_redirected_to profile_url(:tenant => @account.subdomain)
+    end
+
+    test "activate should redirect to dashboard if employee has a password" do
+      @employee.update_attributes!(:password => 'test123', :password_confirmation => 'test123')
+      get :activate, :tenant => @account.subdomain
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
     end
 
   end

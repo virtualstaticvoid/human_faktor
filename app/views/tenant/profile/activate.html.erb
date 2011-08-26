@@ -1,0 +1,33 @@
+<% content_title "Activate" %>
+
+<p>Activate access to <%= current_account.title %> by providing a password.</p>
+
+<%= form_for(@employee, :url => update_profile_path(:tenant => current_account.subdomain)) do |f| %>
+
+  <%= error_messages_for @employee %>
+
+  <div class="field">
+    <div><%= f.label :user_name %></div>
+    <span><%= f.text_field :user_name, { :disabled => true } %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :password %></div>
+    <span><%= f.password_field :password %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div class="field">
+    <div><%= f.label :password_confirmation %></div>
+    <span><%= f.password_field :password_confirmation %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <div style="height: 16px;"></div>
+
+  <div class="actions">
+    <%= f.submit 'Activate!' %>
+  </div>
+  
+<% end %>
