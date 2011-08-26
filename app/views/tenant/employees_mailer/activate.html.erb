@@ -64,7 +64,7 @@
   <p>Thank You.</p>
   <p>
     <strong><%= @account.title %></strong><br />
-    <%= link_to dashboard_link, dashboard_link %>
+    <%= link_to dashboard_url(:tenant => @account.subdomain), dashboard_url(:tenant => @account.subdomain) %>
   </p>
 
 </body>
