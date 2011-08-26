@@ -11,6 +11,7 @@ module Tenant
       EmployeeMailer.perform(employee.id)
       
       # TODO: assert that an email was sent
+      assert !ActionMailer::Base.deliveries.empty?
       
     end
 

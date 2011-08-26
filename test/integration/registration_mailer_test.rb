@@ -8,7 +8,8 @@ class RegistrationMailerTest < ActionDispatch::IntegrationTest
     
     RegistrationMailer.perform(registration.id)
 
-    # assert that 2 emails were sent
+    # TODO: assert that an email was sent
+    assert !ActionMailer::Base.deliveries.empty?
 
   end
 

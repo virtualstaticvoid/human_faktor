@@ -11,6 +11,7 @@ module Tenant
       LeaveRequestMailer.perform(leave_request.id)
 
       # TODO: assert that an email was sent
+      assert !ActionMailer::Base.deliveries.empty?
 
     end
 
