@@ -22,7 +22,34 @@
 
   <p>Welcome to <strong><%= AppConfig.title %></strong>. You have been added as an employee on the <strong><%= @account.title %></strong> account!</p>
 
-  <p>You can use the following URL to access your leave dashboard:</p>
+  <p>Your details have been captured as follows:</p>
+
+  <table>
+    <tr>
+      <td>First Name:</td>
+      <td><%= @employee.first_name %></td>
+    </tr>
+    <tr>
+      <td>Last Name:</td>
+      <td><%= @employee.last_name %></td>
+    </tr>
+    <tr>
+      <td>System Role:</td>
+      <td><%= @employee.role %></td>
+    </tr>
+    <% if @employee.approver %>
+    <tr>
+      <td>Leave Approver:</td>
+      <td><%= @employee.approver %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td>User Name:</td>
+      <td><%= @employee.user_name %></td>
+    </tr>
+  </table>
+
+  <p>You can use the following URL to access your dashboard:</p>
 
   <p class="block">
   <strong><%= link_to dashboard_link, dashboard_link %></strong>
@@ -30,8 +57,8 @@
 
   <p>Next steps:</p>
   <ul>
-    <li>Setup a password for accessing your dashboard,</li>
-    <li>Create a leave request.</li>
+    <li>Activate access to your dashboard by providing a password,</li>
+    <li>Create leave requests.</li>
   </ul>
 
   <p>Thank You.</p>

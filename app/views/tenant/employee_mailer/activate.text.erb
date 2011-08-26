@@ -2,14 +2,24 @@ Hello <%= @employee.full_name %>,
 
 Welcome to <%= AppConfig.title %>. You have been added as an employee on the <%= @account.title %> account!
 
-You can use the following URL to access your leave dashboard:
+Your details have been captured as follows:
+
+  First Name:       <%= @employee.first_name %>
+  Last Name:        <%= @employee.last_name %>
+<% if @employee.approver %>
+  Leave Approver:   <%= @employee.approver %>
+<% end %>
+  System Role:      <%= @employee.role %>
+  Username:         <%= @employee.user_name %>
+
+You can use the following URL to access your dashboard:
 
   <%= dashboard_url(:auth_token => @employee.authentication_token, :tenant => @account.subdomain) %>
 
 Next steps:
 
-* Setup a password for accessing your dashboard,
-* Create a leave request.
+* Activate access to your dashboard by providing a password,
+* Create leave requests.
 
 Thank You.
 
