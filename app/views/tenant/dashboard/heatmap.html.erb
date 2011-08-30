@@ -175,7 +175,8 @@
     // only applicable for `HTML` label type
     onCreateLabel: function(domElement, node) {
 
-      domElement.innerHTML = '<div class="node_label" title="' + node.data.title + '">' + node.name + '</div>';
+      if (node.data.title) domElement.title = node.data.title;
+      domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
   
       var style = domElement.style;
 
