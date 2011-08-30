@@ -41,5 +41,6 @@ gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.gi
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'rails_code_qa'
+  gem 'test-unit'
 end
 
