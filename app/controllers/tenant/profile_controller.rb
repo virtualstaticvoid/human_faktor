@@ -1,6 +1,5 @@
 module Tenant
   class ProfileController < DashboardController
-    layout "basic", :only => [:activate, :setactive]
 
     skip_before_filter :check_employee, :only => [:activate, :setactive]
 
@@ -51,7 +50,8 @@ module Tenant
     
     def activate
       @employee = current_employee
-      redirect_to dashboard_url if @employee.has_password?
+      redirect_to dashboard_url and return if @employee.has_password?
+      render :action => :activate, :layout => "basic"
     end
     
     def setactive
@@ -65,7 +65,7 @@ module Tenant
           sign_in(@employee, :bypass => true)
           format.html { redirect_to(dashboard_url, :notice => 'Profile was successfully activated.') }
         else
-          format.html { render :action => "activate" }
+          format.html { render :action => :activate, :layout => "basic" }
         end
       end
     end
