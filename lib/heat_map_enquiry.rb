@@ -422,8 +422,6 @@ class HeatMapEnquiry
   class UnscheduledLeave < Base
     include LeaveConstraints
     
-    # TODO: muliplier logic
-
     def initialize(criteria)
       @constraint = :is_unscheduled
       super
