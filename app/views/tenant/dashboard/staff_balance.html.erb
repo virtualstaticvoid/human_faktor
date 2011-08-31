@@ -75,10 +75,13 @@
   </thead>
   <tbody>
     <% for employee in @staff_balance.employees %>
-      <tr onclick="window.location = '<%=	balance_path(:employee => employee, :as_at => @staff_balance.date_as_at, :tenant => current_account.subdomain) %>';">
+      <tr onclick="window.location = '<%=	balance_path(:employee => employee, 
+                                                       :as_at => @staff_balance.date_as_at, 
+                                                       :tenant => current_account.subdomain) %>';">
         <td><%= employee.full_name %></td>
 
-        <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at
+        <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
+                employee.effective_start_date <= @staff_balance.date_as_at
             leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
 
           <td><%= number_with_precision(leave_balance.take_on, :precision => 1) %></td>

@@ -1,4 +1,4 @@
-<% if leave_type.cycle_start_date <= date_as_at
+<% if leave_type.cycle_start_date <= date_as_at && employee.effective_start_date <= date_as_at
      leave_balance = employee.leave_balance(leave_type, date_as_at)
 %>
 
@@ -55,8 +55,13 @@
 
 </div>
 
+<% elsif employee.effective_start_date > leave_type.cycle_start_date %>
+
+  <p>No leave balance available prior to employee&apos;s start date (<%= employee.effective_start_date.strftime('%e %B %Y') %>).</p>
+
 <% else %>
 
-  <p>No leave balance available prior to <%= leave_type.cycle_start_date.strftime('%e %B %Y') %>.</p>
+  <p>No leave balance available prior to <%= leave_type.leave_type_name %> leave cycle start date (<%= leave_type.cycle_start_date.strftime('%e %B %Y') %>).</p>
 
 <% end %>
+
