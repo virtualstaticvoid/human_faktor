@@ -467,7 +467,7 @@ class HeatMapEnquiry
         #        or the from date and holiday is on a Sat or Sun
         count += calendar_entries.where(:entry_date => [from, to]).count()
       
-      next
+      end
     
       count
     end
