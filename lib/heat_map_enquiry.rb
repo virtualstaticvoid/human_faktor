@@ -121,8 +121,6 @@ class HeatMapEnquiry
     end
     
     def self.default_enquiry
-      # assumes the first registered enquiry is the default
-      #@@enquiry_types[0].name
       UnscheduledLeave.name
     end
 
