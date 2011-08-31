@@ -155,20 +155,20 @@ class HeatMapEnquiry
     
     protected
 
-    def build_location(location, area, heat, &block)
-      build_titled_item(location, area, heat, &block)
+    def build_location(location, area, heat, measure_unit, &block)
+      build_titled_item(location, area, heat, measure_unit, &block)
     end
 
-    def build_department(department, area, heat, &block)
-      build_titled_item(department, area, heat, &block)
+    def build_department(department, area, heat, measure_unit, &block)
+      build_titled_item(department, area, heat, measure_unit, &block)
     end
     
-    def build_employee(employee, heat, &block)
+    def build_employee(employee, heat, measure_unit, &block)
       build_item(
         employee.full_name,
         1,
         heat,
-        "#{employee.to_s} (#{heat.round(2)})", 
+        "#{employee.to_s} (#{pluralize(heat.round(2), measure_unit)})", 
         &block
       )
     end
@@ -218,12 +218,12 @@ class HeatMapEnquiry
       'id_' + ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
     end
     
-    def build_titled_item(item, area, heat, &block)
+    def build_titled_item(item, area, heat, measure_unit, &block)
       build_item(
         item.title,
         area,
         heat,
-        "#{item.to_s} (#{heat.round(2)})", 
+        "#{item.to_s} (#{pluralize(heat.round(2), measure_unit)})", 
         &block
       )
     end
@@ -233,7 +233,7 @@ class HeatMapEnquiry
   # support module for the bulk of heat map types...
   module LeaveRequestsByEmployeeBase
     
-    def load_json(employees, leave_requests_func, measure_func)
+    def load_json(employees, leave_requests_func, measure_func, measure_unit)
     
       data = build_employees_data(employees, leave_requests_func, measure_func)
       
@@ -244,7 +244,7 @@ class HeatMapEnquiry
 
       json = []      
       data.each do |employee, measure, leave_requests|
-        json << build_employee(employee, measure) do
+        json << build_employee(employee, measure, measure_unit) do
           build_leave_requests(leave_requests, measure)
         end
       end
@@ -272,7 +272,8 @@ class HeatMapEnquiry
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee) },
-                lambda {|leave_requests| leave_requests.count() }
+                lambda {|leave_requests| leave_requests.count() },
+                'request'
     end
   end
 
@@ -283,7 +284,8 @@ class HeatMapEnquiry
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee) },
-                lambda {|leave_requests| leave_requests.sum(:duration) }
+                lambda {|leave_requests| leave_requests.sum(:duration) },
+                'day'
     end
   end
 
@@ -293,7 +295,8 @@ class HeatMapEnquiry
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee).where(:unpaid => true) },
-                lambda {|leave_requests| leave_requests.count() }
+                lambda {|leave_requests| leave_requests.count() },
+                'request'
     end
   end
 
@@ -309,7 +312,8 @@ class HeatMapEnquiry
     
       load_json self.criteria.employees,
                 lambda {|employee| self.leave_requests_query(employee) },
-                lambda {|leave_requests| self.heat_measure(leave_requests) }
+                lambda {|leave_requests| self.heat_measure(leave_requests) },
+                self.measure_unit
     end
     
     def leave_requests_query(employee)
@@ -318,6 +322,10 @@ class HeatMapEnquiry
     
     def heat_measure(leave_requests)
       leave_requests.count()
+    end
+    
+    def measure_unit
+      'request'
     end
   
   end
@@ -378,6 +386,10 @@ class HeatMapEnquiry
       leave_requests.sum(:duration)
     end
     
+    def measure_unit
+      'day'
+    end
+    
   end
 
   class LeaveExceedingPermittedNegativeBalance < Base
@@ -422,6 +434,10 @@ class HeatMapEnquiry
       leave_requests.sum(:duration)
     end
     
+    def measure_unit
+      'day'
+    end
+
   end
 
   class UnscheduledLeaveAdjacentToWeekend < UnscheduledLeave
@@ -439,6 +455,13 @@ class HeatMapEnquiry
       # needs to be count of days within request that are adjacent to w/end or holiday
       #  i.e. If next to a mon and thur (holiday) and sat, then = 3
       #
+    
+      super
+    end
+
+    def measure_unit
+      
+      # TODO
     
       super
     end
@@ -498,11 +521,12 @@ class HeatMapEnquiry
         
         area, heat = department_meta[department]
         
-        json << build_department(department, area, heat) do
+        json << build_department(department, area, heat, 'weighted duration') do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) }
+                    lambda {|leave_requests| leave_requests.sum(:duration) },
+                    'day'
 
         end
       
@@ -566,11 +590,12 @@ class HeatMapEnquiry
         
         area, heat = location_meta[location]
         
-        json << build_location(location, area, heat) do
+        json << build_location(location, area, heat, 'weighted duration') do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
-                    lambda {|leave_requests| leave_requests.sum(:duration) }
+                    lambda {|leave_requests| leave_requests.sum(:duration) },
+                    'day'
 
         end
       
