@@ -2,10 +2,7 @@
 /* Navigation bar items */
 
 .nav_bar ul li {
-  padding-left: 38px;
-  background-position: 8px;
-  background-size: 22px;
-  font-size: 8pt;
+  background-position: 4px 4px;
 }
 
 .nav_summary {

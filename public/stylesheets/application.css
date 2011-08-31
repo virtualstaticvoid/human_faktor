@@ -4,9 +4,9 @@
 }
 
 body {
-  background: url(../images/background.jpg) no-repeat;
+  background-color: #8AC33E;
+  background: url(../images/background.jpg);
   background-size: 100%;
-  
   color: darkslategray;
   padding: 0;
   margin: 0;
