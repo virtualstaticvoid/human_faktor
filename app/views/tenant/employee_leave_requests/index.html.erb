@@ -2,14 +2,14 @@
 <% content_title "Leave Requests" %>
 
 <div id="filter" style="margin-bottom: 10px;">
-  <%= form_for @date_filter, :as => '', :url => employee_leave_requests_path(), :remote => true do |f| %>
-    <%= error_messages_for @date_filter %>
+  <%= form_for @filter, :as => '', :url => employee_leave_requests_path(), :remote => true do |f| %>
+    <%= error_messages_for @filter %>
     <table width="100%">
       <tr>
         <td width="120px">From:</td>
         <td width="30px"></td>
         <td class="field"><%= f.date_picker :date_from %></td>
-        <td rowspan="2" style="vertical-align: bottom; align: right;">
+        <td rowspan="3" style="vertical-align: bottom; align: right;">
           <div style="float: right;">
             <%= render_buttonset(:id => 'status') do |builder| %>
               <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => true) %>
@@ -24,6 +24,14 @@
         <td>To:</td>
         <td></td>
         <td class="field"><%= f.date_picker :date_to %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td class="field">
+          <%= f.check_box :requires_documentation_only %>
+          <%= f.label :requires_documentation_only, 'Requires documentation?' %>
+        </td>
       </tr>
     </table>
     <div style="display: none;"><%= f.submit %></div>  
