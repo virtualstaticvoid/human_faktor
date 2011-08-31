@@ -1,9 +1,9 @@
 <ul>
-  <li class="employee"><%= link_to "Summary", dashboard_path %></li>
-  <li class="employee"><%= link_to "My Profile", profile_path %></li>
-  <li class="employee"><%= link_to "My Calendar", calendar_path %></li>
-  <li class="employee"><%= link_to "My Leave", employee_leave_requests_path %></li>
-  <li class="employee"><%= link_to "My Balance", balance_path %></li>
+  <li class="employee nav_summary"><%= link_to "Summary", dashboard_path %></li>
+  <li class="employee nav_profile"><%= link_to "My Profile", profile_path %></li>
+  <li class="employee nav_calendar"><%= link_to "My Calendar", calendar_path %></li>
+  <li class="employee nav_leave"><%= link_to "My Leave", employee_leave_requests_path %></li>
+  <li class="employee nav_balance"><%= link_to "My Balance", balance_path %></li>
 <%= render :partial => "tenant/dashboard/#{current_employee.role}/nav_bar" %>
 </ul>
 

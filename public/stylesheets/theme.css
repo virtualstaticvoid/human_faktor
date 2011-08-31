@@ -1,0 +1,50 @@
+
+/* Navigation bar items */
+
+.nav_bar ul li {
+  padding-left: 38px;
+  background-position: 8px;
+  background-size: 22px;
+  font-size: 8pt;
+}
+
+.nav_summary {
+  background: url(../images/icons/home.png) no-repeat;
+}
+
+.nav_profile {
+  background: url(../images/icons/info.png) no-repeat;
+}
+
+.nav_calendar {
+  background: url(../images/icons/calendar.png) no-repeat;
+}
+
+.nav_leave {
+  background: url(../images/icons/leave.png) no-repeat;
+}
+
+.nav_balance {
+  background: url(../images/icons/balance.png) no-repeat;
+}
+
+.nav_admin {
+  background: url(../images/icons/tools.png) no-repeat;
+}
+
+.nav_staff_balance {
+  background: url(../images/icons/staff_balance.png) no-repeat;
+}
+
+.nav_staff_calendar {
+  background: url(../images/icons/staff_calendar.png) no-repeat;
+}
+
+.nav_staff_leave {
+  background: url(../images/icons/staff_leave.png) no-repeat;
+}
+
+.nav_heatmap {
+  background: url(../images/icons/piechart.png) no-repeat;
+}
+
