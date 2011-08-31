@@ -191,6 +191,7 @@
 
       <% LeaveType.for_each_leave_type_name do |leave_type_name| 
            leave_type = current_account.send(:"leave_type_#{leave_type_name}")
+           next unless leave_type.can_take_on?
            unless (leave_type.gender_filter & @employee.gender_filter).empty? 
       %>
           <div class="field">

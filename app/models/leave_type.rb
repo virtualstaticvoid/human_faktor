@@ -42,6 +42,10 @@ class LeaveType < ActiveRecord::Base
     false
   end
   
+  def can_take_on?
+    true
+  end
+  
   def gender_filter
     Employee::GENDERS
   end
@@ -143,9 +147,10 @@ class LeaveType < ActiveRecord::Base
     leave_take_on = 0
 
     # include take on balance if within the given leave cycle
-    if !employee.take_on_balance_as_at.nil? && 
-          employee.take_on_balance_as_at >= cycle_start_date && 
-              employee.take_on_balance_as_at <= cycle_end_date
+    if self.can_take_on? &&
+         !employee.take_on_balance_as_at.nil? && 
+            employee.take_on_balance_as_at >= cycle_start_date && 
+                employee.take_on_balance_as_at <= cycle_end_date
 
       leave_take_on += employee.take_on_balance_for(self)
     end
@@ -205,7 +210,7 @@ class LeaveType < ActiveRecord::Base
       #   * employee start date
       #   * leave type cycle start date
       #
-      employee_start_date = if employee.take_on_balance_as_at.present?
+      employee_start_date = if self.can_take_on? && employee.take_on_balance_as_at.present?
                               employee.take_on_balance_as_at
                             elsif employee.start_date.present?
                               employee.start_date
@@ -264,6 +269,10 @@ class LeaveType < ActiveRecord::Base
   class Medical < LeaveType
 
     default_values :color => '8B7300'
+    
+    def can_take_on?
+      false
+    end
     
     # TODO: rolling window support
 
