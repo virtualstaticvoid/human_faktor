@@ -338,12 +338,6 @@ class HeatMapEnquiry
       super
     end
     
-    def leave_requests_query(employee)
-      # TODO: ignore requests where the document has been subsequently provided
-      #  see issue#2, issue#91 and issue#104
-      super
-    end
-    
   end
 
   class LeaveExceedingRequiredNoticePeriod < Base
