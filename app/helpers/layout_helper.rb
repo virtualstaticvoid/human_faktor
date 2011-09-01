@@ -14,8 +14,9 @@ module LayoutHelper
     content_for(:robots) { h(value.to_s) }
   end
 
-  def content_title(title)
+  def content_title(title, title_class = nil)
     content_for(:content_title) { h(title.to_s) }
+    content_for(:content_title_class) { title_class } if title_class
   end 
   
   def content_header(&block)

@@ -1,14 +1,6 @@
 
 /* Navigation bar items */
 
-.nav_bar ul li {
-  background-position: 4px 4px;
-}
-
-.nav_bar ul li a {
-  font-size: 10pt;
-}
-
 .nav_summary {
   background: url(../images/icons/home.png) no-repeat;
 }
@@ -46,6 +38,55 @@
 }
 
 .nav_heatmap {
+  background: url(../images/icons/piechart.png) no-repeat;
+}
+
+/* titles on dashboard */
+.content_title_dashboard {
+  background: url(../images/icons/home.png) no-repeat;
+}
+
+.content_title_profile {
+  background: url(../images/icons/info.png) no-repeat;
+}
+
+.content_title_calendar {
+  background: url(../images/icons/calendar.png) no-repeat;
+}
+
+.content_title_leave {
+  background: url(../images/icons/leave.png) no-repeat;
+}
+
+.content_title_new_leave {
+  background: url(../images/icons/new_leave.png) no-repeat;
+}
+
+.content_title_balance {
+  background: url(../images/icons/balance.png) no-repeat;
+}
+
+.content_title_admin {
+  background: url(../images/icons/tools.png) no-repeat;
+}
+
+.content_title_staff_balance {
+  background: url(../images/icons/staff_balance.png) no-repeat;
+}
+
+.content_title_staff_calendar {
+  background: url(../images/icons/staff_calendar.png) no-repeat;
+}
+
+.content_title_staff_leave {
+  background: url(../images/icons/staff_leave.png) no-repeat;
+}
+
+.content_title_new_staff_leave {
+  background: url(../images/icons/new_staff_leave.png) no-repeat;
+}
+
+.content_title_heatmap {
   background: url(../images/icons/piechart.png) no-repeat;
 }
 

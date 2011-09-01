@@ -43,7 +43,9 @@
                 <div class="content_box box_radius">
 
                   <div id="content_title" class="box_radius_top background_4">
-                    <h2><%= yield(:content_title) %></h2>
+                    <div id="content_title_image" class=" <%= content_for?(:content_title_class) ? yield(:content_title_class) : '' %>">
+                      <h2><%= yield(:content_title) %></h2>
+                    </div>
                   </div>
                 
                   <div id="content_body">

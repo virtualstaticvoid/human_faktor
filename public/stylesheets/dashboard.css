@@ -36,13 +36,13 @@
 }
 
 .nav_bar ul li {
-  padding: 8px 10px;
+  background-position: 4px 4px;
+  padding: 8px 10px 8px 52px;
   border-left: 1px solid #A2A2A2;
   border-top: 1px solid #A2A2A2;
   background-color: #F4F4F4;
   height: 34px;
   line-height: 34px;
-  text-align: right;
 }
 
 .nav_bar ul li:first-child {
@@ -58,6 +58,12 @@
 }
 
 .nav_bar ul li a {
+  font-size: 10pt;
+  text-decoration: none;
+}
+
+.nav_bar ul li a:hover {
+  text-decoration: underline;
 }
 
 .nav_bar ul li:last-child {
@@ -89,7 +95,14 @@
 
 #content_title h2 {
   margin: 0;
-  padding: 0;
+}
+
+#content_title_image {
+  margin: -6px; 
+  padding-left: 48px;
+  height: 45px; 
+  line-height: 45px;
+  background-position: 2px 2px;
 }
 
 #leave_balances thead th abbr {
