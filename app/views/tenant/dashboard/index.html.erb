@@ -1,8 +1,5 @@
 <% title "Dashboard" %>
-
-<% content_for :content_header do %>
-Welcome <strong><%= current_employee %></strong>!
-<% end %>
+<% content_title "#{current_employee.role.titleize} Dashboard", "content_title_dashboard" %>
 
 <%= render :partial => "tenant/dashboard/#{current_employee.role}/dashboard" %>
 

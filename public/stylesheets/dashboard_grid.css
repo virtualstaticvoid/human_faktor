@@ -1,0 +1,26 @@
+/* modified version of The 1Kb Grid */
+ 
+.dashboard_grid_1 { width: 75px; }
+.dashboard_grid_2 { width: 170px; }
+.dashboard_grid_3 { width: 265px; }
+.dashboard_grid_4 { width: 360px; }
+.dashboard_grid_5 { width: 455px; }
+.dashboard_grid_6 { width: 550px; }
+.dashboard_grid_7 { width: 645px; }
+.dashboard_grid_8 { width: 740px; }
+
+.dashboard_column {
+	margin: 0 10px;
+	overflow: hidden;
+	float: left;
+	display: inline;
+  padding: 0;
+  min-height: 1px;
+}
+
+.dashboard_row {
+	width: 760px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
