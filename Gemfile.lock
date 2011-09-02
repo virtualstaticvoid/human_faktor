@@ -96,6 +96,7 @@ GEM
       daemons
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    eventmachine (0.12.10)
     flay (1.4.2)
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
@@ -166,6 +167,10 @@ GEM
     slop (1.9.1)
     term-ansicolor (1.0.6)
     test-unit (2.3.2)
+    thin (1.2.11)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.14.6)
     timeliness (0.3.4)
     treetop (1.4.10)
@@ -201,4 +206,5 @@ DEPENDENCIES
   rails (= 3.0.9)
   rails_code_qa
   test-unit
+  thin
   validates_timeliness (~> 3.0.2)
