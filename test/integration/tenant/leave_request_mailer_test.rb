@@ -8,7 +8,7 @@ module Tenant
     test "should perform work" do
       leave_request = leave_requests(:one)
 
-      LeaveRequestMailer.perform(leave_request.id)
+      LeaveRequestMailer.new(leave_request.id).perform()
 
       # TODO: assert that an email was sent
       assert !ActionMailer::Base.deliveries.empty?

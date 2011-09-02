@@ -6,7 +6,7 @@ class AccountProvisionerTest < ActionDispatch::IntegrationTest
   test "should perform work" do
     registration = registrations(:one)
     
-    account = AccountProvisioner.perform(registration.id)
+    account = AccountProvisioner.new(registration.id).perform()
 
     registration.reload
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110812120835) do
+ActiveRecord::Schema.define(:version => 20110902101715) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -67,6 +67,21 @@ ActiveRecord::Schema.define(:version => 20110812120835) do
 
   add_index "countries", ["iso_code"], :name => "index_countries_on_iso_code", :unique => true
   add_index "countries", ["title"], :name => "index_countries_on_title", :unique => true
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "departments", :force => true do |t|
     t.integer  "account_id", :null => false
@@ -261,6 +276,19 @@ ActiveRecord::Schema.define(:version => 20110812120835) do
   end
 
   add_index "partners", ["title"], :name => "index_partners_on_title", :unique => true
+
+  create_table "rails_admin_histories", :force => true do |t|
+    t.string   "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "registrations", :force => true do |t|
     t.string   "identifier",                         :null => false

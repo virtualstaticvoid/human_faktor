@@ -1,9 +1,8 @@
 require 'date'
 
-class AccountProvisioner
-  @queue = :"#{AppConfig.subdomain}_high"
+class AccountProvisioner < Struct.new(:registration_id)
   
-  def self.perform(registration_id)
+  def perform()
   
     registration = Registration.find(registration_id)
     
@@ -72,7 +71,7 @@ class AccountProvisioner
     end
 
     # send welcome email
-    Resque.enqueue(RegistrationMailer, registration.id)
+    WorkQueue.enqueue(RegistrationMailer, registration.id)
 
     new_account
 
@@ -80,7 +79,7 @@ class AccountProvisioner
   
   private 
   
-  def self.create_leave_type(account, type_symbol, display_order, cycle_duration, cycle_days_allowance, cycle_days_carry_over, cycle_start_date, max_negative_balance, options = {})
+  def create_leave_type(account, type_symbol, display_order, cycle_duration, cycle_days_allowance, cycle_days_carry_over, cycle_start_date, max_negative_balance, options = {})
     
     leave_type_class = LeaveType.type_from(type_symbol)
     

@@ -8,7 +8,7 @@ module Tenant
     test "should perform work" do
       employee = employees(:employee)
       
-      EmployeeMailer.perform(employee.id)
+      EmployeeMailer.new(employee.id).perform()
       
       # TODO: assert that an email was sent
       assert !ActionMailer::Base.deliveries.empty?

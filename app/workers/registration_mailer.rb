@@ -1,7 +1,6 @@
-class RegistrationMailer
-  @queue = :"#{AppConfig.subdomain}_medium"
+class RegistrationMailer < Struct.new(:registration_id)
   
-  def self.perform(registration_id)
+  def perform()
   
     registration = Registration.find(registration_id)
     

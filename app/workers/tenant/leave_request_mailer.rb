@@ -1,8 +1,7 @@
 module Tenant
-  class LeaveRequestMailer
-    @queue = :"#{AppConfig.subdomain}_medium"
+  class LeaveRequestMailer < Struct.new(:leave_request_id)
     
-    def self.perform(leave_request_id)
+    def perform()
     
       leave_request = LeaveRequest.find(leave_request_id)
       

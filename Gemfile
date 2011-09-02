@@ -26,13 +26,14 @@ gem 'app_config', :git => 'git://github.com/virtualstaticvoid/app_config.git', :
 gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-ses', '~> 0.4.3', :require => 'aws/ses'
 gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_value_for.git', :branch => 'master'
+gem 'delayed_job'
 gem 'devise', :git => 'git://github.com/virtualstaticvoid/devise.git', :branch => 'find_for_authentication'
+gem 'foreman'
 gem 'informal', :git => 'git://github.com/virtualstaticvoid/informal.git', :branch => 'rails_3_0_model_name_back_port'
 gem 'jquery-rails', '~> 1.0.3'
 gem 'kaminari', '~> 0.12.4'
 gem 'paperclip', '~> 2.3'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
-gem 'resque', :require => "resque/server"
 gem 'validates_timeliness', '~> 3.0.2'
 gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
 
@@ -42,5 +43,7 @@ gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.gi
 group :development, :test do
   gem 'rails_code_qa'
   gem 'test-unit'
+  gem 'pry'
+  gem 'log_buddy'
 end
 
