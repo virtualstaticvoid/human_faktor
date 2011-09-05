@@ -18,25 +18,25 @@
 
       <div class="field">
         <div><%= f.label :title %></div>
-        <span><%= f.text_field :title %></span>
+        <span><%= f.text_field :title, :maxlength => 20 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :first_name %></div>
-        <span><%= f.text_field :first_name %></span>
+        <span><%= f.text_field :first_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :middle_name %></div>
-        <span><%= f.text_field :middle_name %></span>
+        <span><%= f.text_field :middle_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :last_name %></div>
-        <span><%= f.text_field :last_name %></span>
+        <span><%= f.text_field :last_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -51,7 +51,7 @@
 
       <div class="field">
         <div><%= f.label :email %></div>
-        <span><%= f.text_field :email %></span>
+        <span><%= f.text_field :email, :maxlength => 255 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -63,13 +63,13 @@
     
       <div class="field">
         <div><%= f.label :telephone %></div>
-        <span><%= f.text_field :telephone %> Ext: <%= f.text_field :telephone_extension, { :style => 'width: 80px;' } %></span>
+        <span><%= f.text_field :telephone, :maxlength => 20 %> Ext: <%= f.text_field :telephone_extension, :maxlength => 10, :style => 'width: 80px;' %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :cellphone %></div>
-        <span><%= f.text_field :cellphone %></span>
+        <span><%= f.text_field :cellphone, :maxlength => 20 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -78,7 +78,7 @@
     <% b.add_tab('User Details') do %>
       <div class="field">
         <div><%= f.label :user_name %></div>
-        <span><%= f.text_field :user_name %></span>
+        <span><%= f.text_field :user_name, :maxlength => 50 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -98,13 +98,13 @@
     <% b.add_tab('Employment') do %>
       <div class="field">
         <div><%= f.label :internal_reference %></div>
-        <span><%= f.text_field :internal_reference %></span>
+        <span><%= f.text_field :internal_reference, :maxlength => 255 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :designation %></div>
-        <span><%= f.text_field :designation %></span>
+        <span><%= f.text_field :designation, :maxlength => 255 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -134,7 +134,7 @@
       
       <div class="field">
         <div><%= f.label :fixed_daily_hours %></div>
-        <span><%= f.text_field :fixed_daily_hours %></span>
+        <span><%= f.number_field :fixed_daily_hours, :in => 1...24 %></span>
         <span class="field_info"></span>
       </div>
     <% end %>
@@ -163,15 +163,15 @@
               <div style="float: left; width: 425px;">
                 <div class="field">
                   <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation", 'Allowance' %></div>
-                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :placeholder => "#{leave_type.cycle_days_allowance}", :style => 'width: 158px;' %></span>
-                  <span class="field_info">days</span>
+                  <span><%= f.number_field :"#{leave_type_name}_leave_cycle_allocation", :min => 0, :placeholder => "#{leave_type.cycle_days_allowance}", :style => 'width: 158px;' %></span>
+                  <span class="field_info">days (default <%= leave_type.cycle_days_allowance %>)</span>
                 </div>
               </div>
               <div style="float: left; width: 425px;">
                 <div class="field">
                   <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over", 'Carry over allowance' %></div>
-                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :placeholder => "#{leave_type.cycle_days_carry_over}", :style => 'width: 158px;' %></span>
-                  <span class="field_info">days</span>
+                  <span><%= f.number_field :"#{leave_type_name}_leave_cycle_carry_over", :min => 0, :placeholder => "#{leave_type.cycle_days_carry_over}", :style => 'width: 158px;' %></span>
+                  <span class="field_info">days (default <%= leave_type.cycle_days_carry_over %>)</span>
                 </div>
               </div>
             </div>
@@ -196,7 +196,7 @@
       %>
           <div class="field">
             <div><%= f.label :"#{leave_type_name}_leave_take_on_balance", "#{leave_type_name.capitalize} leave" %></div>
-            <span><%= f.text_field :"#{leave_type_name}_leave_take_on_balance", :style => 'width: 158px;' %></span>
+            <span><%= f.number_field :"#{leave_type_name}_leave_take_on_balance", :min => 0, :style => 'width: 158px;' %></span>
             <span class="field_info">days</span>
           </div>
         <% end %>

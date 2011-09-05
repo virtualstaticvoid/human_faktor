@@ -22,25 +22,25 @@
 
       <div class="field">
         <div><%= f.label :title %></div>
-        <span><%= f.text_field :title %></span>
+        <span><%= f.text_field :title, :maxlength => 20 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :first_name %></div>
-        <span><%= f.text_field :first_name %></span>
+        <span><%= f.text_field :first_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :middle_name %></div>
-        <span><%= f.text_field :middle_name %></span>
+        <span><%= f.text_field :middle_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :last_name %></div>
-        <span><%= f.text_field :last_name %></span>
+        <span><%= f.text_field :last_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -56,7 +56,7 @@
 
       <div class="field">
         <div><%= f.label :email %></div>
-        <span><%= f.text_field :email %></span>
+        <span><%= f.text_field :email, :maxlength => 255 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -68,13 +68,13 @@
 
       <div class="field">
         <div><%= f.label :telephone %></div>
-        <span><%= f.text_field :telephone %> Ext: <%= f.text_field :telephone_extension, { :style => 'width: 80px;' } %></span>
+        <span><%= f.text_field :telephone, :maxlength => 20 %> Ext: <%= f.text_field :telephone_extension, :maxlength => 10, :style => 'width: 80px;' %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :cellphone %></div>
-        <span><%= f.text_field :cellphone %></span>
+        <span><%= f.text_field :cellphone, :maxlength => 20 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -84,25 +84,25 @@
     
       <div class="field">
         <div><%= f.label :designation %></div>
-        <span><%= f.text_field :designation, { :disabled => true } %></span>
+        <span><%= f.text_field :designation, :disabled => true %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :start_date %></div>
-        <span><%= f.text_field :start_date, { :style => 'width: 158px;', :disabled => true } %></span>
+        <span><%= f.text_field :start_date, :style => 'width: 158px;', :disabled => true %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :location %></div>
-        <span><%= f.text_field :location, { :disabled => true } %></span>
+        <span><%= f.text_field :location, :disabled => true %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :department %></div>
-        <span><%= f.text_field :department, { :disabled => true } %></span>
+        <span><%= f.text_field :department, :disabled => true %></span>
         <span class="field_info"></span>
       </div>
       
@@ -112,19 +112,19 @@
 
       <div class="field">
         <div><%= f.label :user_name %></div>
-        <span><%= f.text_field :user_name, { :disabled => true } %></span>
+        <span><%= f.text_field :user_name, :disabled => true %></span>
         <span class="field_info"></span>
       </div>
 
       <div class="field">
         <div><%= f.label :password %></div>
-        <span><%= f.password_field :password %></span>
+        <span><%= f.password_field :password, :maxlength => 128 %></span>
         <span class="field_info">Leave blank if not updating</span>
       </div>
 
       <div class="field">
         <div><%= f.label :password_confirmation %></div>
-        <span><%= f.password_field :password_confirmation %></span>
+        <span><%= f.password_field :password_confirmation, :maxlength => 128 %></span>
         <span class="field_info"></span>
       </div>
 
@@ -134,7 +134,7 @@
 
       <div class="field">
         <div><%= f.label :approver, 'Assigned Approver' %></div>
-        <span><%= f.text_field :approver, { :disabled => true } %>
+        <span><%= f.text_field :approver, :disabled => true %>
         <span class="field_info"></span>
       </div>
 
@@ -150,14 +150,14 @@
             <div style="float: left; width: 280px;">
               <div class="field">
                 <div><%= f.label :"#{leave_type}_leave_cycle_allocation", 'Allowance' %></div>
-                <span><%= text_field_tag :"#{leave_type}_leave_cycle_allocation", allocation, { :style => 'width: 158px;', :disabled => true } %></span>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_allocation", allocation, :style => 'width: 158px;', :disabled => true %></span>
                 <span class="field_info">days</span>
               </div>
             </div>
             <div style="float: left; width: 280px;">
               <div class="field">
                 <div><%= f.label :"#{leave_type}_leave_cycle_carry_over", 'Carry Over Allowance' %></div>
-                <span><%= text_field_tag :"#{leave_type}_leave_cycle_carry_over", carry_over, { :style => 'width: 158px;', :disabled => true } %></span>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_carry_over", carry_over, :style => 'width: 158px;', :disabled => true %></span>
                 <span class="field_info">days</span>
               </div>
             </div>
