@@ -44,7 +44,7 @@
 
     <tr>
       <td>Date From/To:</td>
-      <td><%= leave_request.date_from_s %> to <%= leave_request.date_to_s %></td>
+      <td><strong><%= leave_request.date_from_s %> to <%= leave_request.date_to_s %></strong></td>
       <td></td>
     </tr>
 
@@ -77,6 +77,26 @@
       <td>Assigned Approver:</td>
       <td><%= leave_request.approver %></td>
     </tr>
+
+
+    <% unless current_employee.is_employee? %>
+      
+    <tr>
+      <td colspan="2"><br /></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2">
+        View the <%= link_to "staff calendar", staff_calendar_path(:staff_calendar_enquiry => { 
+            :filter_by => 'department', 
+            :department_id => @leave_request.employee.department_id,
+            :date_from => @leave_request.date_from << 1,
+            :date_to => @leave_request.date_to >> 2
+          }), :target => '_blank' %> for the <%= @leave_request.employee.department.title.downcase %> department.
+      </td>
+    </tr>
+
+    <% end %>
 
   </table>
 
