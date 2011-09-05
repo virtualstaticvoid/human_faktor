@@ -121,7 +121,7 @@
       </div>
       
       <div class="field">
-        <div><%= f.label :location_id %></div>
+        <div><%= f.label :location_id, 'Office location' %></div>
         <span><%= f.select :location_id, current_account.locations.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
