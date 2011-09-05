@@ -249,6 +249,7 @@
   var first_name = $("#employee_first_name");
   var last_name = $("#employee_last_name");
   var user_name = $("#employee_user_name");
+  var email = $("#employee_email");
   var update_leave_balance_link = $("#update_leave_balance");
   
   first_name.change(function() {
@@ -257,6 +258,14 @@
   
   last_name.change(function() {
     update_user_name();
+  });
+
+  email.change(function() {
+    if(email.val()) {
+      $("#employee_notify").attr('checked', 'checked');
+    } else {
+      $("#employee_notify").removeAttr('checked');
+    }
   });
   
   function update_user_name() {
