@@ -217,11 +217,16 @@ class HeatMapEnquiry
     end
     
     def build_titled_item(item, area, heat, measure_unit, &block)
+    
+      measure = measure_unit.include?(' ') ?
+        "#{heat.round(2)} #{measure_unit}" :
+        pluralize(heat.round(2), measure_unit)
+    
       build_item(
         item.title,
         area,
         heat,
-        "#{item.to_s} (#{pluralize(heat.round(2), measure_unit)})", 
+        "#{item.to_s} (#{measure})", 
         &block
       )
     end
@@ -529,7 +534,7 @@ class HeatMapEnquiry
         
         area, heat = department_meta[department]
         
-        json << build_department(department, area, heat, 'weighted duration') do
+        json << build_department(department, area, heat, 'days average') do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
@@ -598,7 +603,7 @@ class HeatMapEnquiry
         
         area, heat = location_meta[location]
         
-        json << build_location(location, area, heat, 'weighted duration') do
+        json << build_location(location, area, heat, 'days average') do
 
           load_json employees,
                     lambda {|employee| leave_requests[employee] },
