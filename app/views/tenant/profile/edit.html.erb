@@ -145,19 +145,26 @@
           carry_over = @employee.leave_cycle_carry_over_for(leave_type)
        %>
         <div style="margin-left: 8px;">
-          <h4><%= leave_type.to_s %> Leave</h4>
+          <h4 style="border-bottom: 1px solid #D0D0D0; padding-bottom: 4px;"><%= leave_type.to_s %> Leave</h4>
           <div style="height: 60px; margin-left: 16px;">
-            <div style="float: left; width: 280px;">
+            <div style="float: left; width: 230px;">
+              <div class="field">
+                <div><%= f.label :"#{leave_type}_leave_cycle_duration", 'Cycle Duration' %></div>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_duration", leave_type.duration_display, :style => 'width: 108px;', :disabled => true %></span>
+                <span class="field_info"></span>
+              </div>
+            </div>
+            <div style="float: left; width: 230px;">
               <div class="field">
                 <div><%= f.label :"#{leave_type}_leave_cycle_allocation", 'Allowance' %></div>
-                <span><%= text_field_tag :"#{leave_type}_leave_cycle_allocation", allocation, :style => 'width: 158px;', :disabled => true %></span>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_allocation", allocation, :style => 'width: 108px;', :disabled => true %></span>
                 <span class="field_info">days</span>
               </div>
             </div>
-            <div style="float: left; width: 280px;">
+            <div style="float: left; width: 230px;">
               <div class="field">
                 <div><%= f.label :"#{leave_type}_leave_cycle_carry_over", 'Carry Over Allowance' %></div>
-                <span><%= text_field_tag :"#{leave_type}_leave_cycle_carry_over", carry_over, :style => 'width: 158px;', :disabled => true %></span>
+                <span><%= text_field_tag :"#{leave_type}_leave_cycle_carry_over", carry_over, :style => 'width: 108px;', :disabled => true %></span>
                 <span class="field_info">days</span>
               </div>
             </div>
