@@ -1,3 +1,8 @@
+.grouped {
+  border-bottom: 1px solid #D0D0D0; 
+  padding-bottom: 4px;
+}
+
 .leave_type_config {
   margin: 0;
   padding: 0;
