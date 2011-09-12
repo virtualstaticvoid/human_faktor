@@ -3,16 +3,16 @@
 <table class="table_grid">
   <thead>
     <tr>
-      <th rowspan="2">Plan</th>
-      <th rowspan="2" width="120px">Employees</th>
+      <th rowspan="2">Subscription Plan</th>
+      <th rowspan="2" width="120px">Max Employees</th>
       <th width="120px">Monthly Price</th>
       <th width="120px">1 Year Price</th>
       <th width="120px">3 Year Price</th>
     </tr>  
     <tr>
-      <th>Paid Monthly</th>
-      <th>Paid Annually</th>
-      <th>Paid Annually</th>
+      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Monthly</td>
+      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Annually</td>
+      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Annually</td>
     </tr>
   </thead>
   <tbody>
@@ -26,10 +26,10 @@
   
       <tr>
         <td><%= plan[0] %></td>
-        <td align="center"><%= plan[1] %></td>
-        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 1).first.price, :unit => 'R ') %></td>
-        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 12).first.price, :unit => 'R ') %></td>
-        <td align="center"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 36).first.price, :unit => 'R ') %></td>
+        <td align="right" style="text-align: right;"><%= plan[1] %></td>
+        <td align="right" style="text-align: right;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 1).first.price, :unit => 'R ') %></td>
+        <td align="right" style="text-align: right;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 12).first.price, :unit => 'R ') %></td>
+        <td align="right" style="text-align: right !important;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 36).first.price, :unit => 'R ') %></td>
       </tr>
     <% end %>
   </tbody>
