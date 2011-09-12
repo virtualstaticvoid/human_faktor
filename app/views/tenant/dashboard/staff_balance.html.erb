@@ -60,7 +60,7 @@
 <table id="leave_balances" class="table_grid">
   <thead>
     <tr>
-      <th colspan="8"><%= @staff_balance.leave_type.to_s %></th>
+      <th colspan="8"><%= @staff_balance.leave_type.to_s %> Leave</th>
     </tr>
     <tr>
       <th>Employee</th>
@@ -75,6 +75,8 @@
   </thead>
   <tbody>
     <% for employee in @staff_balance.employees %>
+      <% next if (@staff_balance.leave_type.gender_filter & employee.gender_filter).empty? %>
+      
       <tr onclick="window.location = '<%=	balance_path(:employee => employee, 
                                                        :as_at => @staff_balance.date_as_at, 
                                                        :tenant => current_account.subdomain) %>';">
@@ -82,6 +84,7 @@
 
         <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
                 employee.effective_start_date <= @staff_balance.date_as_at
+      
             leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
 
           <td><%= number_with_precision(leave_balance.take_on, :precision => 1) %></td>
