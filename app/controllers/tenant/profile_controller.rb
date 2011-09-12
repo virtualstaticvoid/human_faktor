@@ -74,8 +74,8 @@ module Tenant
     
     def load_leave_types
 
-      # filter by employee capture permissions and the gender of the employee
-      @leave_types = current_account.leave_types_for_employee.select {|leave_type| 
+      # filter by employee's gender
+      @leave_types = current_account.leave_types.select {|leave_type| 
         !(leave_type.gender_filter & current_employee.gender_filter).empty?
       }
 
