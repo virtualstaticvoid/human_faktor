@@ -139,10 +139,6 @@ class LeaveType < ActiveRecord::Base
     # for non-accruing leave types, this is simply the configured
     # allowance irrespect of the leave cycle of the given `date_as_at`
     
-    #
-    # TODO: implement rolling window functionality
-    #
-    
     employee.leave_cycle_allocation_for(self)
 
   end
@@ -280,12 +276,6 @@ class LeaveType < ActiveRecord::Base
 
     default_values :color => '8B7300'
     
-    def can_take_on?
-      false
-    end
-    
-    # TODO: rolling window support
-
   end
 
   class Maternity < LeaveType
