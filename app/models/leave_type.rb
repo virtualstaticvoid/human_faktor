@@ -40,14 +40,17 @@ class LeaveType < ActiveRecord::Base
   validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
   validates :cycle_days_carry_over, :numericality => { :greater_than_or_equal_to => 0 }
   
+  # default to false for all leave types (except Annual - below)
   def can_carry_over?
     false
   end
   
+  # default to true for all leave types
   def can_take_on?
     true
   end
   
+  # default to any gender all all leave types (except Maternity - below)
   def gender_filter
     Employee::GENDERS
   end
@@ -122,6 +125,7 @@ class LeaveType < ActiveRecord::Base
     start_date
   end
 
+  # given an arbitrary date, get the end date of the cycle in which it falls within
   def cycle_end_date_of(date)
     # REFACTOR: better way using a formula?
     leave_cycle_index = self.cycle_index_of(date) + 1
@@ -139,6 +143,7 @@ class LeaveType < ActiveRecord::Base
     # for non-accruing leave types, this is simply the configured
     # allowance irrespect of the leave cycle of the given `date_as_at`
     
+    # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
     employee.leave_cycle_allocation_for(self)
 
   end
