@@ -97,7 +97,13 @@ class LeaveType < ActiveRecord::Base
     self.class.name.gsub(/LeaveType::/, '').downcase
   end
   
+  # determines the cycle index for the given date
+  #  i.e. for each successive cycle, the index increments
+  #   so a date which falls in the second cycle will yield an index of 1 (NOTE: zero based!)
+  # returns nil if the date is prior to the absolute cycle start date!!!
   def cycle_index_of(date)
+    return nil if date < self.cycle_start_date
+    
     # REFACTOR: better way using a formula?
     index, start_date = -1, self.cycle_start_date
     while start_date <= date
@@ -107,17 +113,26 @@ class LeaveType < ActiveRecord::Base
     index
   end
   
+  # determines the start date for the given cycle index
   def cycle_start_date_for(index)
-    self.cycle_start_date + cycle_duration_in_units(index)  
+    index < 0 ? 
+      nil :
+      self.cycle_start_date + cycle_duration_in_units(index)
   end
 
+  # determines the end date for the given cycle index
   def cycle_end_date_for(index)
-    self.cycle_start_date + cycle_duration_in_units(index + 1) - 1.day
+    index < 0 ?
+      nil :
+      self.cycle_start_date + cycle_duration_in_units(index + 1) - 1.day
   end
   
+  # given an arbitrary date, get the start date of the cycle in which it falls within
   def cycle_start_date_of(date)
     # REFACTOR: better way using a formula?
     leave_cycle_index = self.cycle_index_of(date)
+    return nil unless leave_cycle_index
+    
     start_date = self.cycle_start_date
     leave_cycle_index.times do |i|
       start_date += cycle_duration_in_units
@@ -129,6 +144,8 @@ class LeaveType < ActiveRecord::Base
   def cycle_end_date_of(date)
     # REFACTOR: better way using a formula?
     leave_cycle_index = self.cycle_index_of(date) + 1
+    return nil unless leave_cycle_index
+
     start_date = self.cycle_start_date
     leave_cycle_index.times do |i|
       start_date += cycle_duration_in_units
