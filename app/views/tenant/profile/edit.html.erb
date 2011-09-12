@@ -141,11 +141,16 @@
       <h3>Leave Policies</h3>
 
       <% @leave_types.each do |leave_type| 
+      
+          # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
           allocation = @employee.leave_cycle_allocation_for(leave_type)
+          
+          # NOTE: Employee#leave_cycle_carry_over_for reverts to leave_type.cycle_days_carry_over
           carry_over = @employee.leave_cycle_carry_over_for(leave_type)
+          
        %>
         <div style="margin-left: 8px;">
-          <h4 style="border-bottom: 1px solid #D0D0D0; padding-bottom: 4px;"><%= leave_type.to_s %> Leave</h4>
+          <h4 class="grouped"><%= leave_type.to_s %> Leave</h4>
           <div style="height: 60px; margin-left: 16px;">
             <div style="float: left; width: 230px;">
               <div class="field">
