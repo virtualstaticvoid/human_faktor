@@ -1,3 +1,4 @@
+require 'date'
 require 'paper_clip_interpolations'
 
 class Employee < ActiveRecord::Base
@@ -37,7 +38,8 @@ class Employee < ActiveRecord::Base
                  :role => ROLE_EMPLOYEE.to_s,
                  :fixed_daily_hours => 8,
                  :active => false,
-                 :notify => false
+                 :notify => false,
+                 :take_on_balance_as_at => lambda { Date.today }
 
   belongs_to :location
   belongs_to :department
@@ -174,7 +176,7 @@ class Employee < ActiveRecord::Base
   end
 
   # take on balances
-  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
+  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => false
   validates_presence_of :take_on_balance_as_at, :if => lambda { self.has_take_on_balance }
   
   def effective_start_date

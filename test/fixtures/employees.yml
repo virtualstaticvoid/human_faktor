@@ -13,6 +13,7 @@ admin:
   department: one
   designation: Administrator
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: admin
   fixed_daily_hours: 8
@@ -34,6 +35,7 @@ manager:
   department: one
   designation: Manager
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: manager
   fixed_daily_hours: 8
@@ -55,6 +57,7 @@ approver:
   department: one
   designation: Approver
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: approver
   fixed_daily_hours: 8
@@ -76,6 +79,7 @@ employee:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: employee
   fixed_daily_hours: 8
@@ -100,6 +104,7 @@ test:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: employee
   fixed_daily_hours: 8
@@ -124,6 +129,7 @@ takeon:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: employee
   fixed_daily_hours: 8
@@ -168,6 +174,7 @@ admin1:
   department: one
   designation: Admin
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin
   role: admin1
   fixed_daily_hours: 8
@@ -187,6 +194,7 @@ manager1:
   department: one
   designation: Manager
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin1
   role: manager
   fixed_daily_hours: 8
@@ -206,6 +214,7 @@ approver1:
   department: one
   designation: Approver
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: manager1
   role: approver
   fixed_daily_hours: 8
@@ -225,6 +234,7 @@ approver2:
   department: one
   designation: Approver
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: approver1
   role: approver
   fixed_daily_hours: 8
@@ -244,6 +254,7 @@ employee1:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: approver2
   role: employee
   fixed_daily_hours: 8
@@ -264,6 +275,7 @@ employee2:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: approver2
   role: employee
   fixed_daily_hours: 8
@@ -284,6 +296,7 @@ employee3:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: approver1
   role: employee
   fixed_daily_hours: 8
@@ -304,6 +317,7 @@ manager2:
   department: one
   designation: Manager
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: manager1
   role: manager
   fixed_daily_hours: 8
@@ -323,6 +337,7 @@ employee4:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: manager2
   role: employee
   fixed_daily_hours: 8
@@ -343,6 +358,7 @@ manager3:
   department: one
   designation: Manager
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: admin1
   role: manager
   fixed_daily_hours: 8
@@ -362,6 +378,7 @@ employee5:
   department: one
   designation: Employee
   start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
   approver: manager3
   role: employee
   fixed_daily_hours: 8
