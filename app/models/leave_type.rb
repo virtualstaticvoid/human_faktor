@@ -1,8 +1,10 @@
 require 'date'
+require 'action_view/helpers/text_helper'
 
 class LeaveType < ActiveRecord::Base
   include AccountScopedModel
   extend NestedClassesHelper
+  include ActionView::Helpers::TextHelper
   
   default_scope order(:display_order)
 
@@ -78,6 +80,14 @@ class LeaveType < ActiveRecord::Base
 
   def to_s
     self.class.name.gsub(/LeaveType::/, '')
+  end
+  
+  def duration_display
+    case self.cycle_duration_unit
+      when DURATION_UNIT_DAYS then pluralize(self.cycle_duration, 'day')
+      when DURATION_UNIT_MONTHS then pluralize(self.cycle_duration, 'month')
+      when DURATION_UNIT_YEARS then pluralize(self.cycle_duration, 'year')
+    end
   end
   
   def leave_type_name
