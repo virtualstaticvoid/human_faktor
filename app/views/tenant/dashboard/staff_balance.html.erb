@@ -8,15 +8,15 @@
 
     <table width="100%">
       <tr>
-        <td width="150px">Leave balances as at:</td>
-        <td class="field" colspan="6"><%= f.date_picker :date_as_at %></td>
-        <td align="right" rowspan="2"><%= f.submit 'Show Balances' %></td>
-      </tr>
-      <tr>
         <td>Leave type:</td>
         <td class="field" colspan="6">
           <%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 160px;' } %>
         </td>
+        <td align="right" rowspan="2"><%= f.submit 'Show Balances' %></td>
+      </tr>
+      <tr>
+        <td width="150px">Leave balances as at:</td>
+        <td class="field" colspan="6"><%= f.date_picker :date_as_at %></td>
       </tr>
       <tr>
         <td colspan="8" style="text-align: right;">
