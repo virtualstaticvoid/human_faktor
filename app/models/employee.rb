@@ -151,7 +151,9 @@ class Employee < ActiveRecord::Base
   # TODO: add validations for mime-type and file size
   has_attached_file :avatar, 
                     :styles => { :avatar => "48x48>" },
-                    :path => "accounts/:account/employees/:identifier/avatar/:hash.:extension",
+                    :path => Rails.env.production? ? 
+                              "accounts/:account/employees/:identifier/avatar/:hash.:extension" :
+                              ":rails_root/accounts/:account/employees/:identifier/avatar/:hash.:extension",
                     :storage => Rails.env.production? ? :s3 : :filesystem,
                     :bucket => AppConfig.s3_bucket,
                     :s3_credentials => {
