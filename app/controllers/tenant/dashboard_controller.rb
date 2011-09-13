@@ -58,7 +58,7 @@ module Tenant
 
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
         c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 3)
-        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 9)
+        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 6)
         c.filter_by = @filter_by
         c.location_id = staff_calendar_params[:location_id]
         c.department_id = staff_calendar_params[:department_id]
@@ -79,8 +79,8 @@ module Tenant
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
         c.enquiry = heat_map_params[:enquiry] if heat_map_params[:enquiry]
         
-        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 3)
-        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 9)
+        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 9)
+        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 3)
         c.filter_by = @filter_by
         c.location_id = heat_map_params[:location_id]
         c.department_id = heat_map_params[:department_id]

@@ -1,3 +1,7 @@
+<% head do %>
+  <%= javascript_include_tag 'jquery.scrollto', 'jquery.localscroll' %>
+<% end %>
+
 <% content_title "Staff Leave Calendar", "content_title_staff_calendar" %>
 
 <div style="margin-bottom: 14px; z-order: 0;">
@@ -82,7 +86,7 @@
   </div>
 
   <!-- calendar -->
-  <div style="width: 594px; float: left; overflow: auto;">
+  <div id="staff_calendar_scroll" style="width: 594px; float: left; overflow: auto;">
     <table id="leave">
     
       <thead>
@@ -127,7 +131,7 @@
           <% @staff_calendar.date_range.each do |date| %>
             <% holiday = @staff_calendar.holidays[date] %>
             <td class="<%= date.wday == 6 || date.wday == 0 ? 'weekend' : '' %><%= holiday.present? ? ' holiday' : '' %>"
-                title="<%= holiday %>"><div class="days"><%= date.day %></div></td>
+                title="<%= holiday %>" data="<%= date.strftime('%Y-%m-%d') %>"><div class="days"><%= date.day %></div></td>
           <% end %>
         </tr>
       </thead>
@@ -272,6 +276,17 @@
     $("#leave td").css('min-width', width);
     $(".weekday_row td, .day_row td, #leave tbody td").css('border-left', border);
   }
-		
+  
+  // set default zoom and scroll to today
+  $('#zoom_slider').slider('option', 'value', '7');
+  update_calendar_zoom(7);
+	
+  var todayCol = $('td[data="<%= Date.today.strftime('%Y-%m-%d') %>"]');
+  var scrollArea = $('#staff_calendar_scroll');
+  if (todayCol) {
+    todayCol.css('background-color', 'yellow');
+    scrollArea.scrollLeft(todayCol.offset().left - scrollArea.offset().left);
+  }
+
 </script>
 
