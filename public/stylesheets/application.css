@@ -111,6 +111,12 @@ div.actions {
   border: 1px solid lightgray;
 }
 
+.required label {
+  background: url(../images/required.gif) no-repeat;
+  background-position:right top;
+  padding-right: 18px;
+}
+
 .field input[type=checkbox] {
   width: 20px;
   padding: 0;

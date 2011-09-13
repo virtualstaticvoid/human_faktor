@@ -28,11 +28,11 @@
 
           <%= f.hidden_field :reset_password_token %>
 
-          <div class="field">
+          <div class="field required">
             <div><%= f.label :password, 'New password' %></div>
             <span><%= f.password_field :password, :autofocus => 'autofocus' %></span>
           </div>
-          <div class="field">
+          <div class="field required">
             <div><%= f.label :password_confirmation, 'Confirm new password' %></div>
             <span><%= f.password_field :password_confirmation %></span>
           </div>

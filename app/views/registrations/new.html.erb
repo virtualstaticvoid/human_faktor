@@ -6,19 +6,19 @@
 
   <h2>Company Details</h2>
 
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :title %></div>
     <div><%= f.text_field :title, :placeholder => 'Company Name' %></div>
     <div class="field_info">Supply the name of your company.</div>
   </div>
   
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :subdomain %></div>
     <div><%= f.text_field :subdomain, :placeholder => 'companyname' %></div>
     <div class="field_info">This will be used in the URL to access <%= AppConfig.title %>.</div>
   </div>
   
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :country %></div>
     <div><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></div>
     <div class="field_info"></div>
@@ -26,25 +26,25 @@
 
   <h2>Contact Information</h2>
 
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :first_name %></div>
     <span><%= f.text_field :first_name %></span>
     <span class="field_info"></span>
   </div>
   
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :last_name %></div>
     <span><%= f.text_field :last_name %></span>
     <span class="field_info"></span>
   </div>
   
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :email %></div>
     <span><%= f.text_field :email %></span>
     <span class="field_info"></span>
   </div>
   
-  <div class="field">
+  <div class="field required">
     <div><%= f.label :email_confirmation %></div>
     <span><%= f.text_field :email_confirmation %></span>
     <span class="field_info"></span>

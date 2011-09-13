@@ -9,20 +9,20 @@
   
     <div class="leave_request_left">
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :employee_id %></div>
       <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name, or * for all') {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
       <span class="field_info"></span>
     </div>
 
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :leave_type_id %></div>
       <span><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
       <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
       <span class="field_info"></span>
     </div>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :date_from %></div>
       <span><%= f.date_picker :date_from %></span>
       <span><%= f.check_box :half_day_from %></span>
@@ -30,7 +30,7 @@
       <span class="field_info"></span>
     </div>
 
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :date_to %></div>
       <span><%= f.date_picker :date_to %></span>
       <span><%= f.check_box :half_day_to %></span>
@@ -51,7 +51,7 @@
     </div>
 
     <% if current_employee.can_choose_own_approver? %>
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :approver_id %></div>
         <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>

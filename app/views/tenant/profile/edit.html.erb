@@ -26,7 +26,7 @@
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :first_name %></div>
         <span><%= f.text_field :first_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
@@ -38,13 +38,13 @@
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :last_name %></div>
         <span><%= f.text_field :last_name, :maxlength => 100 %></span>
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :gender %></div>
         <span><%= f.select :gender, [['Male', 1], ['Female', 2]], { :include_blank => true }, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
@@ -94,13 +94,13 @@
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :location, 'Office Location' %></div>
         <span><%= f.text_field :location, :disabled => true %></span>
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :department %></div>
         <span><%= f.text_field :department, :disabled => true %></span>
         <span class="field_info"></span>
@@ -110,7 +110,7 @@
 
     <% b.add_tab('Authentication') do %>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :user_name %></div>
         <span><%= f.text_field :user_name, :disabled => true %></span>
         <span class="field_info"></span>

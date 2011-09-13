@@ -11,13 +11,13 @@
   <div style="margin-left: 10px;">
     <h3>Personal Details</h3>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_first_name, 'First name' %></div>
       <span><%= f.text_field :admin_first_name %></span>
       <span class="field_info"></span>
     </div>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_last_name, 'Last name' %></div>
       <span><%= f.text_field :admin_last_name %></span>
       <span class="field_info"></span>
@@ -25,19 +25,19 @@
     
     <h3>Authentication</h3>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_user_name, 'User name' %></div>
       <span><%= f.text_field :admin_user_name %></span>
       <span class="field_info"></span>
     </div>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_password, 'Password' %></div>
       <span><%= f.password_field :admin_password %></span>
       <span class="field_info"></span>
     </div>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_password_confirmation, 'Password confirmation' %></div>
       <span><%= f.password_field :admin_password_confirmation %></span>
       <span class="field_info"></span>
@@ -45,7 +45,7 @@
     
     <h3>Contact Information</h3>
     
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :admin_email, 'Email' %></div>
       <span><%= f.text_field :admin_email %></span>
       <span class="field_info"></span>
@@ -58,7 +58,7 @@
   <div style="margin-left: 10px;">
     <h3>Defaults</h3>
 
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :fixed_daily_hours %></div>
       <span><%= f.text_field :fixed_daily_hours, :style => 'width: 158px;' %></span>
       <span class="field_info"></span>
@@ -66,7 +66,7 @@
     
     <h3>Leave Policy Settings</h3>
 
-    <div class="field">
+    <div class="field required">
       <div><%= f.label :leave_cycle_start_date %></div>
       <span><%= f.date_picker :leave_cycle_start_date %></span>
       <span class="field_info"></span>
@@ -74,7 +74,7 @@
 
     <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
     
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :"#{leave_type_name}_leave_allowance" %></div>
         <span><%= f.text_field :"#{leave_type_name}_leave_allowance", :style => 'width: 158px;' %></span>
         <span class="field_info">days</span>
@@ -93,7 +93,7 @@
     <h2>Setup Verification</h2>
     
     <div style="margin-left: 10px;">
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :auth_token_confirmation, 'Token' %></div>
         <span><%= f.text_field :auth_token_confirmation %></span>
         <span class="field_info">The token was sent via email at registration.</span>

@@ -8,7 +8,7 @@
 
     <% tab_builder.add_tab('General') do %>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :title %></div>
         <span><%= f.text_field :title %></span>
         <span class="field_info">Company name for the account.</span>
@@ -44,25 +44,25 @@
 
     <% tab_builder.add_tab('Defaults') do %>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :country_id %></div>
         <span><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :location_id %></div>
         <span><%= f.select :location_id, @account.locations.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :department_id %></div>
         <span><%= f.select :department_id, @account.departments.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
 
-      <div class="field">
+      <div class="field required">
         <div><%= f.label :fixed_daily_hours %></div>
         <span><%= f.text_field :fixed_daily_hours %></span>
         <span class="field_info"></span>
