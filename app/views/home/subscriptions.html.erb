@@ -1,36 +1,135 @@
 <% title "Subscriptions" %>
 
+<%
+
+  # HACK!!! Assumes that the subscriptions stored in the database "align" via the max employees and duration
+
+  subscriptions = [
+    ['Small', 25], 
+    ['Small-Medium', 50], 
+    ['Medium', 100], 
+    ['Medium-Large', 150],
+    ['Large', 300],
+    ['Enterprise', 500],
+    ['Enterprise+', 1000]
+  ]
+
+%>
+
 <table class="table_grid">
-  <thead>
-    <tr>
-      <th rowspan="2" style="text-align: left; padding-left: 8px;"><span>Subscription Plan</span></th>
-      <th rowspan="2" width="150px">Max Employees</th>
-      <th width="150px">Monthly Price</th>
-      <th width="150px">1 Year Price</th>
-      <th width="150px">3 Year Price</th>
-    </tr>  
-    <tr>
-      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Monthly</td>
-      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Annually</td>
-      <td align="center" style="border: none; background: #F0F0F0; font-size: 10pt;">Paid Annually</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% [['Small', 25], 
-        ['Small-Medium', 50], 
-        ['Medium', 100], 
-        ['Medium-Large', 150],
-        ['Large', 300],
-        ['Enterprise', 500],
-        ['Enterprise+', 1000]].each do |plan| %>  
-  
-      <tr>
-        <td style="padding-left: 12px;"><%= plan[0] %></td>
-        <td align="center" style="text-align: center;"><%= plan[1] %></td>
-        <td align="right" style="text-align: right;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 1).first.price, :unit => 'R ') %></td>
-        <td align="right" style="text-align: right;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 12).first.price, :unit => 'R ') %></td>
-        <td align="right" style="text-align: right !important;"><%= number_to_currency(@subscriptions.where(:max_employees => plan[1], :duration => 36).first.price, :unit => 'R ') %></td>
-      </tr>
+  <tr class="no_hover">
+    <th>Subscription Plan</th>
+    
+    <% for subscription in subscriptions %>
+      <th><%= subscription[0] %></th>
     <% end %>
-  </tbody>
+    
+  </tr>
+  <tr class="no_hover">
+    <td>Max Employees</td>
+    
+    <% for subscription in subscriptions %>
+      <td width="90px">
+        <%= subscription[1] %>
+      </td>
+    <% end %>
+    
+  </tr>
+  <tr class="no_hover">
+    <td>
+      <div>Monthly Price*</div>
+      <small>Paid Monthly</small>
+    </td>
+
+    <% for subscription in subscriptions %>
+      <td>
+        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 1).first.price.to_i) %>
+      </td>
+    <% end %>
+  
+  </tr>
+
+  <tr class="no_hover">
+    <td>
+      <div>1 Year Price*</div>
+      <small>Paid Annually</small>
+    </td>
+
+    <% for subscription in subscriptions %>
+      <td>
+        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 12).first.price.to_i) %>
+      </td>
+    <% end %>
+  
+  </tr>
+
+  <tr class="no_hover">
+    <td>
+      <div>3 Year Price*</div>
+      <small>Paid Annually</small>
+    </td>
+
+    <% for subscription in subscriptions %>
+      <td>
+        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 36).first.price.to_i) %>
+      </td>
+    <% end %>
+  
+  </tr>
+
 </table>
+
+<div style="margin-top: 8px; text-align: right;">
+  <i>* All prices given in ZAR currency.</i>
+</div>
+
+<style type="text/css">
+
+  tr {
+    height: 60px;
+  }
+
+  th {
+    text-align: center; 
+    border-right: 1px solid #C0C0C0;
+  }
+
+  td {
+    text-align: center; 
+    border-right: 1px solid #C0C0C0;
+  }
+
+  td small {
+    font-size: 8pt;
+  }
+  
+  th:nth-child(even) {
+    background-color: #E0E0E0;
+  }
+
+  td:nth-child(even) {
+    background-color: #E0E0E0;
+  }
+  
+  th:first-child {
+    text-align: left;
+    border-right: 1px solid #C0C0C0;
+    padding-left: 8px;
+  }
+  
+  td:first-child {
+    text-align: left;
+    border-right: 1px solid #C0C0C0;
+    padding-left: 14px;
+  }
+
+  th:last-child {
+    border-right: none !important;
+  }
+
+  td:last-child {
+    border-right: none !important;
+  }
+
+</style>
+
