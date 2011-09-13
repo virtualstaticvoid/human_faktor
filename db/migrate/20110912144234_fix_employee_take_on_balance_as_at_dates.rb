@@ -6,6 +6,19 @@ class FixEmployeeTakeOnBalanceAsAtDates < ActiveRecord::Migration
     # take_on_balance_as_at is now a required field, so update
     # nil values to either the employment start date, or the record creation date
     
+#    ActiveRecord::Base.connection.execute <<-SQL
+#    
+#      UPDATE employees
+#      SET take_on_balance_as_at = start_date
+#      WHERE take_on_balance_as_at IS NULL
+#        AND NOT start_date IS NULL;
+#        
+#      UPDATE employees
+#      SET take_on_balance_as_at = created_at
+#      WHERE take_on_balance_as_at IS NULL;
+#    
+#    SQL
+    
     ActiveRecord::Base.transaction do
     
       # try using the employment start date
