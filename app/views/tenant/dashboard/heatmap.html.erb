@@ -1,5 +1,5 @@
 <% head do %>
-  <%= javascript_include_tag 'jit' %>
+  <%= javascript_include_tag 'jit', 'jquery.tipsy' %>
   <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
 <% end %>
 
@@ -175,9 +175,9 @@
     // only applicable for `HTML` label type
     onCreateLabel: function(domElement, node) {
 
-      if (node.data.title) domElement.title = node.data.title;
       domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
   
+      var label = domElement.firstChild;
       var style = domElement.style;
 
       // set border and adjust foreground color so text always contrasts properly
@@ -191,6 +191,8 @@
       domElement.onmouseout = function() {
         style.border = '1px solid transparent';
       };
+
+      if (node.data.title) $(label).tipsy({ fallback: node.data.title, gravity: 'n' });
 
     }
   });
