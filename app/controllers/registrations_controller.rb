@@ -10,6 +10,7 @@ class RegistrationsController < ApplicationController
 
   def create
     @registration = Registration.new(params[:registration])
+    @registration.source_url = request.url
     
     if validate_recapture_and_save(@registration)
       redirect_to account_registration_path(@registration)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110912144234) do
+ActiveRecord::Schema.define(:version => 20110913130918) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -304,6 +304,7 @@ ActiveRecord::Schema.define(:version => 20110912144234) do
     t.string   "auth_token",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "source_url"
   end
 
   add_index "registrations", ["auth_token"], :name => "index_registrations_on_auth_token", :unique => true
