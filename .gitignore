@@ -1,9 +1,9 @@
 .bundle
+config/environments/*.yml
+coverage/
+coverage.data
 db/*.sqlite3
 log/*.log
-tmp/
 public/system/*
-coverage/*/*
 .rvmrc
-config/environments/*.yml
-
+tmp/

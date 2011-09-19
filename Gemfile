@@ -42,9 +42,16 @@ gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.gi
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'rails_code_qa'
-  gem 'test-unit'
-  gem 'pry'
+  gem 'cover_me'
+  gem 'guard'
+  gem 'guard-livereload'
+  gem 'guard-test'
+  gem 'libnotify'
   gem 'log_buddy'
+  gem 'pry'
+  gem 'rb-inotify'
+  gem 'rcov'
+  gem 'ruby-prof'
+  gem 'test-unit'
 end
 
