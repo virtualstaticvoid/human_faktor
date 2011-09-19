@@ -291,7 +291,7 @@ ActiveRecord::Schema.define(:version => 20110913130918) do
     t.string   "auth_token",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "source_url"
+    t.text     "source_url"
   end
 
   add_index "registrations", ["auth_token"], :name => "index_registrations_on_auth_token", :unique => true
