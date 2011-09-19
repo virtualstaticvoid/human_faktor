@@ -2,10 +2,9 @@ module Tenant
   class StaffLeaveRequestsController < DashboardController
     
     def index
-      @status_filter = params[:status].to_i || LeaveRequest::STATUS_PENDING
-      @status_filter = [LeaveRequest::STATUS_APPROVED, LeaveRequest::STATUS_REINSTATED] if @status_filter == LeaveRequest::FILTER_STATUS_ACTIVE
       
       @filter = LeaveRequestFilter.new()
+      @filter.status = params[:status] || LeaveRequest::STATUS_PENDING
       @filter.date_from = ApplicationHelper.safe_parse_date(params[:date_from])
       @filter.date_to = ApplicationHelper.safe_parse_date(params[:date_to])
       @filter.requires_documentation_only = params[:requires_documentation_only] == '1'
@@ -22,10 +21,10 @@ module Tenant
       end
       
       # status filter
-      if @status_filter == LeaveRequest::STATUS_PENDING
+      if @filter.status == LeaveRequest::STATUS_PENDING
         @leave_requests = @leave_requests.pending.page(params[:page])
       else
-        @leave_requests = @leave_requests.where(:status => @status_filter).page(params[:page])
+        @leave_requests = @leave_requests.where(:status => @filter.leave_request_status).page(params[:page])
       end
       
       # date filter

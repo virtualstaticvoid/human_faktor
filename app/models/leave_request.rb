@@ -14,9 +14,12 @@ class LeaveRequest < ActiveRecord::Base
   STATUS_CANCELLED = 5
   STATUS_REINSTATED = 6
   STATUSES = [STATUS_NEW, STATUS_PENDING, STATUS_APPROVED, STATUS_DECLINED, STATUS_CANCELLED, STATUS_REINSTATED]
+
+  FILTER_STATUS_ACTIVE = 90
   ACTIVE_STATUSES = [STATUS_PENDING, STATUS_APPROVED, STATUS_REINSTATED]
 
-  FILTER_STATUS_ACTIVE = 100
+  FILTER_STATUS_APPROVED = 100
+  APPROVED_STATUSES = [STATUS_APPROVED, STATUS_REINSTATED]
 
   @@statuses = []
   @@status_names = {}
@@ -36,6 +39,7 @@ class LeaveRequest < ActiveRecord::Base
   
   scope :pending, where(:status => STATUS_PENDING)
   scope :active, where(:status => ACTIVE_STATUSES)
+  scope :approved, where(:status => APPROVED_STATUSES)
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :status => STATUS_NEW,
