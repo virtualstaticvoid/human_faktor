@@ -130,13 +130,44 @@
 
 }
 
-.dashboard_panel div:first-child {
+.dashboard_panel_header {
   height: 30px;
   line-height: 30px;
   padding: 0 10px 0 10px;
 }
 
-.dashboard_panel div {
-  padding: 10px;
+.dashboard_panel_content {
+  height: 228px;
+  overflow: auto;
+  padding: 4px;
+}
+
+.dashboard_panel_content a {
+  font-size: 10pt !important;
+  text-decoration: none;
+}
+
+.dashboard_panel_content a:hover {
+  text-decoration: underline;
+}
+
+.dashboard_panel_footer {
+  border-top: 1px solid #E0E0E0;
+  padding: 0 10px 4px 10px;
+  height: 30px;
+  line-height: 30px;
+  text-align: right;
+}
+
+.dashboard_panel_content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard_panel_content ul li {
+  margin-bottom: 4px;
+  padding: 0 4px 4px 4px;
+  border-bottom: 1px dashed #E0E0E0;
 }
 
