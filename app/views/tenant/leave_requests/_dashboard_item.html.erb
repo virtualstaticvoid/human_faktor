@@ -1,0 +1,9 @@
+<li>
+  <div>
+    <%= link_to "#{leave_request.leave_type}: #{leave_request.date_from_s} to #{leave_request.date_to_s}", 
+                  edit_leave_request_path(leave_request, :tenant => current_account.subdomain),
+                  :title => h(leave_request.comment) %>
+  </div>
+  <div><%= time_ago_in_words(leave_request.created_at) %> ago</div>
+</li>
+

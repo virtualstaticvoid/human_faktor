@@ -1,20 +1,19 @@
 <div class="dashboard_panel">
   <div class="box_radius_top background_4">
     My Pending Leave Requests
+  </div>
+  <div>
+    <% if @dashboard.pending_leave_requests.count() > 0 %>
+      <ul>
+        <% for leave_request in @dashboard.pending_leave_requests %>
+          <%= render 'tenant/leave_requests/dashboard_item', :leave_request => leave_request %>
+        <% end %>    
+      </ul>
+    <% else %>
+      <em>None found.</em>    
+    <% end %>
     <div style="display: inline; float: right;">
       <%= link_to 'More', employee_leave_requests_path(:status => LeaveRequest::STATUS_PENDING) %>
     </div>
-  </div>
-  <div>
-  
-    <ul>
-      <% for leave_request in @dashboard.pending_leave_requests %>
-      <li>
-        <div><%= leave_request.leave_type %>: <%= leave_request.date_from_s %> - <%= leave_request.date_to_s %></div>
-        <div><%= time_ago_in_words(leave_request.created_at) %> ago</div>
-      </li>
-      <% end %>    
-    </ul>
-
   </div>
 </div>

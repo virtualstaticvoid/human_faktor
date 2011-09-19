@@ -1,11 +1,11 @@
 <div class="dashboard_panel">
   <div class="box_radius_top background_5">
-    Pending Staff Leave Requests
+    Staff Leave Requests Requiring Documentation
   </div>
   <div>
-    <% if @dashboard.pending_staff_leave_requests.count() > 0 %>
+    <% if @dashboard.staff_leave_requests_requiring_documentation.count() > 0 %>
       <ul>
-        <% for leave_request in @dashboard.pending_staff_leave_requests %>
+        <% for leave_request in @dashboard.staff_leave_requests_requiring_documentation %>
           <%= render 'tenant/leave_requests/dashboard_item', :leave_request => leave_request %>
         <% end %>    
       </ul>
@@ -13,7 +13,7 @@
       <em>None found.</em>    
     <% end %>
     <div style="display: inline; float: right;">
-      <%= link_to 'More', staff_leave_requests_path(:status => LeaveRequest::STATUS_PENDING) %>
+      <%= link_to 'More', staff_leave_requests_path(:status => LeaveRequest::FILTER_STATUS_APPROVED, :requires_documentation_only => '1') %>
     </div>
   </div>
 </div>
