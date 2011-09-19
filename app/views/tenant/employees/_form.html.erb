@@ -49,7 +49,7 @@
 
     <% b.add_tab('Contact') do %>
 
-      <div class="field">
+      <div id="email_div" class="field">
         <div><%= f.label :email %></div>
         <span><%= f.text_field :email, :maxlength => 255 %></span>
         <span class="field_info"></span>
@@ -250,6 +250,7 @@
   var last_name = $("#employee_last_name");
   var user_name = $("#employee_user_name");
   var email = $("#employee_email");
+  var notify = $('#employee_notify');
   var update_leave_balance_link = $("#update_leave_balance");
   
   first_name.change(function() {
@@ -268,6 +269,10 @@
     }
   });
   
+  notify.change(function() {
+    update_email_required();
+  });
+  
   function update_user_name() {
     if (first_name.val() && last_name.val() && user_name.val() == "") {
       user_name.val(to_name(first_name.val()) + "." + to_name(last_name.val()));  
@@ -279,7 +284,16 @@
     update_leave_balance_link.attr('href', '<%= employee_balance_path(:tenant => current_account.subdomain, :id => @employee.to_param) %>&as_at=' + date);
     update_leave_balance_link.click();
   }
+  
+  function update_email_required() {
+    if (notify.is(':checked'))
+      $('#email_div').addClass('required');
+    else
+      $('#email_div').removeClass('required');
+  }
 
-  update_leave_balance_link.click();  
+  update_leave_balance_link.click();
+  update_email_required();
+  
 </script>
 
