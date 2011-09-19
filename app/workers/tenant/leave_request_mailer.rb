@@ -17,8 +17,11 @@ module Tenant
                Tenant::LeaveRequestsMailer.reinstated(leave_request)
              end
 
-      mail.deliver unless mail.nil? || mail.from.nil? || mail.to.nil?        
-
+      unless mail.nil? || mail.from.nil? || mail.to.nil?
+        mail.deliver         
+      else
+        false
+      end
     end
     
   end
