@@ -12,10 +12,10 @@
         <td rowspan="3" style="vertical-align: bottom; align: right;">
           <div style="float: right;">
             <%= render_buttonset(:id => 'status') do |builder| %>
-              <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => true) %>
-              <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_ACTIVE) %>
-              <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED) %>
-              <% builder.add_button("Cancelled", :value => LeaveRequest::STATUS_CANCELLED) %>
+              <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => @status_filter == LeaveRequest::STATUS_PENDING) %>
+              <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_ACTIVE, :checked => @status_filter == LeaveRequest::FILTER_STATUS_ACTIVE) %>
+              <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED, :checked => @status_filter == LeaveRequest::STATUS_DECLINED) %>
+              <% builder.add_button("Cancelled", :value => LeaveRequest::STATUS_CANCELLED, :checked => @status_filter == LeaveRequest::STATUS_CANCELLED) %>
             <% end %>
           </div>
         </td>
