@@ -120,3 +120,18 @@
   border-left: none;
 }
 
+.dashboard_panel {
+  border: 1px solid #D0D0D0;
+  width: 358px;
+  height: 300px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+
+}
+
+.dashboard_panel div:first-child {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px 0 10px;
+}

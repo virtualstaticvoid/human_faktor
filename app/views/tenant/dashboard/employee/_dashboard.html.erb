@@ -1,1 +1,25 @@
-<div>TODO: Summary content for employee</div>
+<!-- EMPLOYEE -->
+<div class="dashboard_row">
+
+  <div class="dashboard_column dashboard_grid_4">
+    <%= render :partial => "tenant/dashboard_parts/calendar_employee" %>  
+  </div>
+  
+  <div class="dashboard_column dashboard_grid_4">
+    <%= render :partial => "tenant/dashboard_parts/leave_requests_pending" %>  
+  </div>
+
+</div>
+
+<div class="dashboard_row">
+
+  <div class="dashboard_column dashboard_grid_4">
+    <%= render :partial => "tenant/dashboard_parts/leave_requests_recent" %>  
+  </div>
+  
+  <div class="dashboard_column dashboard_grid_4">
+    <%= render :partial => "tenant/dashboard_parts/leave_balance" %>  
+  </div>
+
+</div>
+

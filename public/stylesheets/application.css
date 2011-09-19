@@ -94,6 +94,12 @@ a img {
   background: -moz-linear-gradient(center top , #FAFAFA, #D0D0D0) repeat scroll 0 0 transparent;
 }
 
+.background_5 {
+  background: #66A0B8; 
+  background: -webkit-gradient(linear, left top, left bottom, from(#8AD9F9), to(#66A0B8));        
+  background: -moz-linear-gradient(center top , #8AD9F9, #66A0B8) repeat scroll 0 0 transparent;  
+}
+
 .field, .actions {
   margin-bottom: 10px;
 }
