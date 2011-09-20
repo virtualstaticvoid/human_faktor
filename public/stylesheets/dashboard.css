@@ -120,6 +120,10 @@
   border-left: none;
 }
 
+.leave_balance_detail input[type=text] {
+  width: 158px;
+}
+
 .dashboard_panel {
   border: 1px solid #D0D0D0;
   width: 358px;
