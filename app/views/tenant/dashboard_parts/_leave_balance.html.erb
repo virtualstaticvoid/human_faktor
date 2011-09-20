@@ -2,6 +2,14 @@
   <div class="dashboard_panel_header box_radius_top background_4">
     My Annual Leave Balance
   </div>
-
-
+  <div class="dashboard_panel_content">
+    <div style="padding: 8px;">
+      <%= render 'tenant/dashboard/leave_balance', { :employee => @dashboard.employee, 
+                                                     :leave_type => @dashboard.annual_leave_type,
+                                                     :date_as_at => Date.today } %>
+    </div> 
+  </div>
+  <div class="dashboard_panel_footer">
+    <%= link_to 'More', balance_path %>
+  </div>
 </div>

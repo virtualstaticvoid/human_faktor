@@ -25,5 +25,9 @@ class DashboardDataTest < ActiveSupport::TestCase
   test "should get staff leave requests requiring documentation" do
     assert @dashboard.staff_leave_requests_requiring_documentation
   end
+  
+  test "should provide annual leave type" do
+    assert @dashboard.annual_leave_type
+  end
 
 end

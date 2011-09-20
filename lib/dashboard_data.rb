@@ -58,5 +58,9 @@ class DashboardData
      .where(:requires_documentation.as_constraint_override => true)
      .limit(10)
   end
+  
+  def annual_leave_type
+    @account.leave_types.annual
+  end
 
 end
