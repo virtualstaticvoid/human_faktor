@@ -127,7 +127,7 @@
 .dashboard_panel {
   border: 1px solid #D0D0D0;
   width: 358px;
-  height: 300px;
+  height: 370px;
   border-radius: 6px;
   -moz-border-radius: 6px;
   -webkit-border-radius: 6px;
@@ -141,7 +141,7 @@
 }
 
 .dashboard_panel_content {
-  height: 228px;
+  height: 298px;
   overflow: auto;
   padding: 4px;
   font-size: 9pt !important;

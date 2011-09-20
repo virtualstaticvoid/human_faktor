@@ -1,7 +1,57 @@
+<% head do %>
+  <%= javascript_include_tag 'fullcalendar' %>
+  <%= javascript_include_tag 'jquery.qtip' %>
+<% end %>
+
 <div class="dashboard_panel">
   <div class="dashboard_panel_header box_radius_top background_4">
-    My Leave Calendar
+    My Leave Calendar - <%= Date.today.strftime('%B') %>
   </div>
+  <div class="dashboard_panel_content">
+    <div style="padding: 8px;">
 
+      <div id="calendar" style="font-size: 0.8em;">
+      </div>
 
+    </div> 
+  </div>
+  <div class="dashboard_panel_footer">
+    <%= link_to 'More', calendar_path %>
+  </div>
 </div>
+
+<script type='text/javascript'>
+
+	$(document).ready(function() {
+
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: '',
+				center: '',
+				right: ''
+			},
+			selectable: false,
+			editable: false,
+		  eventSources: [
+			  { url: '<%= calendar_entries_feed_path(:format => 'json') %>', color: 'gray' },
+        { url: '<%= leave_requests_feed_path(:format => 'json') %>' }
+		  ],
+		  eventRender: function(event, element) {
+        element.qtip({ 
+          content: (event.description ? event.description : element.text()),
+          position: {
+            corner: {
+              target: 'bottomMiddle',
+              tooltip: 'topMiddle'
+            }
+          }
+        });
+		    // remove the title to make it smaller
+		    element.find('.fc-event-title').text('');
+      }
+		});
+		
+	});
+
+</script>
+
