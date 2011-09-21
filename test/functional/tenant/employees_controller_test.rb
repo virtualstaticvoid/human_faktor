@@ -39,6 +39,11 @@ module Tenant
       put :update, :tenant => @account.subdomain, :id => @employee.to_param, :employee => @employee.attributes
       assert_redirected_to employees_path(:tenant => @account.subdomain)
     end
+    
+    test "should deactivate employee" do
+      put :deactivate, :tenant => @account.subdomain, :id => @employee.to_param
+      assert_redirected_to employees_path(:tenant => @account.subdomain)
+    end
 
     test "should destroy employee" do
       assert_difference('Employee.count', -1) do

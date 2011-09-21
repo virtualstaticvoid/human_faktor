@@ -234,7 +234,18 @@
   <div style="height: 16px;"></div>
 
   <div class="actions">
-    <%= f.submit %> or <%= link_to 'cancel', employees_path %>
+    <%= f.submit %> 
+    <% if @employee.persisted? %>
+      <%= link_to 'deactivate', deactivate_employee_path(@employee, :tenant => current_account.subdomain),
+                   :method => :put, :confirm => 'Deactivate this employee?' %>
+      or <%= link_to 'delete', employee_path(@employee, :tenant => current_account.subdomain),
+                   :method => :delete, 
+                   :confirm => "Are you sure you want to delete the employee?\n\nPlease consider deactivating the employee instead so that the employee's history is preserved." %>
+    <% end %> 
+  </div>
+  
+  <div>
+    <%= link_to 'Back', employees_path %>
   </div>
   
 <% end %>

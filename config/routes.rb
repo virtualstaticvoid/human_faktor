@@ -95,7 +95,12 @@ HumanFaktor::Application.routes.draw do
 
       resources :locations, :module => 'tenant'
       resources :departments, :module => 'tenant'
-      resources :employees, :module => 'tenant'
+      
+      resources :employees, :module => 'tenant' do
+        member do
+          put 'deactivate'
+        end
+      end
 
       get "employee_balance(.:format)", :to => "tenant/employees#balance", :as => :employee_balance
 
