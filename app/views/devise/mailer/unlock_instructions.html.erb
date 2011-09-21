@@ -22,6 +22,8 @@
 
   <p>Your account has been locked due to an excessive amount of unsuccessful sign in attempts.</p>
 
+  <p>Your user name is: <strong><%= @resource.user_name %></strong></p>
+
   <p>Click the link below to unlock your account:</p>
 
   <p class="block"><%= link_to 'Unlock my account', unlock_url(@resource, :tenant => @resource.account.subdomain, :unlock_token => @resource.unlock_token) %></p>
