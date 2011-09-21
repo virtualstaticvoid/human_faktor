@@ -1,6 +1,6 @@
 <% title "Account Setup" %>
 
-<p>Supply the following information to setup you <strong><%= @account.title %></strong> account.</p>
+<p>Supply the following information to setup your <strong><%= @account.title %></strong> account.</p>
 
 <%= form_for(@account_setup, :url => update_account_setup_path(:token => params[:token])) do |f| %>
 
