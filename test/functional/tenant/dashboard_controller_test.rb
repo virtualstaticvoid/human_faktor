@@ -21,6 +21,12 @@ module Tenant
         assert_response :success
       end
 
+      test "should get welcome as #{role}" do
+        sign_in_as role
+        get :welcome, :tenant => @account.subdomain
+        assert_response :success
+      end
+
       test "should get balance as #{role}" do
         sign_in_as role
         get :balance, :tenant => @account.subdomain

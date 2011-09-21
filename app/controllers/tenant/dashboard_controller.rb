@@ -6,6 +6,9 @@ module Tenant
       # create a holder for all the data instead of separate variables here
       @dashboard = DashboardData.new(current_account, current_employee)
     end
+    
+    def welcome
+    end
 
     def balance
       @employee = params[:employee].present? ?

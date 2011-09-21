@@ -1,0 +1,7 @@
+<% title "Dashboard" %>
+<% content_title "Welcome", "content_title_dashboard" %>
+
+<p>Welcome to <strong><%= AppConfig.title %></strong>.</p>
+
+<%= render :partial => "tenant/dashboard/#{current_employee.role}/welcome" %>
+

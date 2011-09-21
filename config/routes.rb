@@ -33,6 +33,8 @@ HumanFaktor::Application.routes.draw do
       # TODO: additional configuration for devise
     end
 
+    get "welcome", :to => "tenant/dashboard#welcome", :as => :welcome
+
     # dashboard
     get "balance", :to => "tenant/dashboard#balance", :as => :balance
 
