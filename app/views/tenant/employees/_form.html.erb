@@ -242,7 +242,7 @@
 <script type="text/javascript">
 
   function to_name(src) {
-    return src.replace(/[^A-Z|^a-z|^0-9]/ig, '').toLowerCase();
+    return src.replace(/[^\-|^\s|^A-Z|^a-z|^0-9]/ig, '').toLowerCase();
   }
 
   // set user name based on the first and last names
