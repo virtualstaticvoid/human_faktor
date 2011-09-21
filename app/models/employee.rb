@@ -192,7 +192,7 @@ class Employee < ActiveRecord::Base
 
   LeaveType.for_each_leave_type_name do |leave_type_name|
     default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
-    validates :"#{leave_type_name}_leave_take_on_balance", :numericality => { :greater_than_or_equal_to => 0 }  
+    validates :"#{leave_type_name}_leave_take_on_balance", :numericality => true  
   end
   
   def has_take_on_balance
