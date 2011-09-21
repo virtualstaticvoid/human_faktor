@@ -29,5 +29,9 @@ class DashboardDataTest < ActiveSupport::TestCase
   test "should provide annual leave type" do
     assert @dashboard.annual_leave_type
   end
-
+  
+  test "should provide unscheduled leave heatmap" do
+    assert @dashboard.unscheduled_leave_heatmap
+  end
+  
 end

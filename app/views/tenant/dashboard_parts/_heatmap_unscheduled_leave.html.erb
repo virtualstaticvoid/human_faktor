@@ -1,7 +1,97 @@
+<% head do %>
+  <%= javascript_include_tag 'jit', 'jquery.tipsy' %>
+  <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
+<% end %>
+
 <div class="dashboard_panel">
   <div class="dashboard_panel_header box_radius_top background_5">
     Staff Unscheduled Leave
   </div>
-
-
+  <div class="dashboard_panel_content">
+    <div style="padding: 8px;">
+      <div id="treemap-display" style="height: 280px; border: 1px solid #C0C0C0;">
+      </div>    
+    </div> 
+  </div>
+  <div class="dashboard_panel_footer">
+    <%= link_to 'More', heatmap_path %>
+  </div>
 </div>
+
+<script type="text/javascript">
+
+  var json = {
+    "id": "root", 
+    "name": "Unscheduled Leave",
+    "children": [<%= @dashboard.unscheduled_leave_heatmap.json.html_safe %>]
+  };
+
+</script>
+
+<script type="text/javascript">
+
+  var labelType, useGradients, animate;
+
+  (function() {
+    var ua = navigator.userAgent,
+             iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
+             typeOfCanvas = typeof HTMLCanvasElement,
+             nativeCanvasSupport = (typeOfCanvas == 'object' || typeOfCanvas == 'function');
+    useGradients = nativeCanvasSupport;
+    animate = !(iStuff || !nativeCanvasSupport);
+  })();
+
+  // init TreeMap
+  var treeMap = new $jit.TM.Squarified({
+  
+    injectInto: 'treemap-display',
+    
+    constrained: true,
+    levelsToShow: 1,
+    
+    titleHeight: 32,
+    animate: false,
+    offset: 1,
+    cushion: useGradients,
+    duration: 250,
+
+    Label: {
+      type: "HTML",
+      size: 14,
+      family: "Ubuntu"
+    },
+
+    Events: {
+      enable: false
+    },
+    
+    // only applicable for `HTML` label type
+    onCreateLabel: function(domElement, node) {
+
+      domElement.innerHTML = '<div class="node_label">' + node.name + '</div>';
+  
+      var label = domElement.firstChild;
+      var style = domElement.style;
+
+      // set border and adjust foreground color so text always contrasts properly
+      style.border = '1px solid transparent';
+      style.color = adjustColour(node.data.$color || '#000000');
+
+      domElement.onmouseover = function() {
+        style.border = '1px solid #9FD4FF';
+      };
+
+      domElement.onmouseout = function() {
+        style.border = '1px solid transparent';
+      };
+
+      if (node.data.title) $(label).tipsy({ fallback: node.data.title, gravity: 'n' });
+
+    }
+  });
+
+  treeMap.loadJSON(json);
+  treeMap.refresh();
+
+</script>
+
