@@ -273,13 +273,15 @@
   });
 
   email.change(function() {
-    if(email.val()) {
-      $("#employee_notify").attr('checked', 'checked');
-    } else {
-      $("#employee_notify").removeAttr('checked');
-    }
+    update_notify_checkbox();
+    update_email_required();
   });
   
+  email.keypress(function() {
+    update_notify_checkbox();
+    update_email_required();
+  });
+
   notify.change(function() {
     update_email_required();
   });
@@ -301,6 +303,14 @@
       $('#email_div').addClass('required');
     else
       $('#email_div').removeClass('required');
+  }
+  
+  function update_notify_checkbox() {
+    if(email.val() != "") {
+      $("#employee_notify").attr('checked', 'checked');
+    } else {
+      $("#employee_notify").removeAttr('checked');
+    }
   }
 
   update_leave_balance_link.click();
