@@ -26,6 +26,10 @@
 
   <table>
     <tr>
+      <td>User Name:</td>
+      <td><strong><%= @employee.user_name %></strong></td>
+    </tr>
+    <tr>
       <td>First Name:</td>
       <td><%= @employee.first_name %></td>
     </tr>
@@ -43,10 +47,6 @@
       <td><%= @employee.approver %></td>
     </tr>
     <% end %>
-    <tr>
-      <td>User Name:</td>
-      <td><%= @employee.user_name %></td>
-    </tr>
   </table>
 
   <p>You can use the following URL to access your dashboard:</p>

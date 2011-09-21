@@ -4,13 +4,14 @@ Welcome to <%= AppConfig.title %>. You have been added as an employee on the <%=
 
 Your details have been captured as follows:
 
+  Username:         <%= @employee.user_name %>
+
   First Name:       <%= @employee.first_name %>
   Last Name:        <%= @employee.last_name %>
 <% if @employee.approver %>
   Leave Approver:   <%= @employee.approver %>
 <% end %>
   System Role:      <%= @employee.role %>
-  Username:         <%= @employee.user_name %>
 
 You can use the following URL to access your dashboard:
 
