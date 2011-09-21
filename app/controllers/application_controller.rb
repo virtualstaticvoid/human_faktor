@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_account
   
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || dashboard_path
+    stored_location_for(resource) || (resource.leave_requests.count() == 0 ? welcome_path : dashboard_path)
   end
 
   def after_sign_out_path_for(resource)

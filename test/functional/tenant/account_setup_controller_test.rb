@@ -50,7 +50,7 @@ module Tenant
       end
     
       put :update, :tenant => @account.subdomain, :account_setup => account_setup.attributes
-      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+      assert_redirected_to welcome_url(:tenant => @account.subdomain)
     end
   
   end

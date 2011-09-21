@@ -43,7 +43,7 @@ module Tenant
       respond_to do |format|
         if @account_setup.save(@account) 
           sign_in(:employee, @account.employees.first)
-          format.html { redirect_to(dashboard_url, :notice => 'Account successfully setup.') }
+          format.html { redirect_to(welcome_url, :notice => 'Account successfully setup.') }
         else
           format.html { render :action => "edit" }
         end
