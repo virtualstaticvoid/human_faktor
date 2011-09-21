@@ -17,6 +17,8 @@ To complete your account setup, please follow this link:
 
   <%= account_setup_url(:tenant => @registration.subdomain, :token => @registration.auth_token) %>
 
+Your authentication token is: <%= @registration.auth_token %>
+
 The <%= AppConfig.title %> Team
 <%= root_url %>
 

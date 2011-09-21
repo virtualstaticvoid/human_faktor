@@ -41,6 +41,8 @@
   <p class="block">
   <%= link_to 'Account Setup', account_setup_url(:tenant => @registration.subdomain, :token => @registration.auth_token) %>
   </p>
+  
+  <p>Your authentication token is: <strong><%= @registration.auth_token %></strong></p>
 
   <p>
   <strong>The <%= AppConfig.title %> Team</strong><br />
