@@ -1,11 +1,11 @@
 class AccountObserver < ActiveRecord::Observer
 
   def after_create(account)
-    # TODO
+    # TODO: implement after account creation logic
   end
 
   def after_update(account)
-    # TODO
+    # TODO: implement after account update logic
   end
 
 end
