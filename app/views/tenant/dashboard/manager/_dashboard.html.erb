@@ -1,3 +1,5 @@
+<%= render :partial => "tenant/dashboard/employee/dashboard" %>
+
 <!-- MANAGER -->
 <div class="dashboard_row">
 
@@ -6,21 +8,8 @@
   </div>
 
   <div class="dashboard_column dashboard_grid_4">
-    <%= render :partial => "tenant/dashboard_parts/calendar_staff" %>  
-  </div>
-  
-</div>
-
-<div class="dashboard_row">
-
-  <div class="dashboard_column dashboard_grid_4">
-    <%= render :partial => "tenant/dashboard_parts/leave_requests_documents_staff" %>  
-  </div>
-
-  <div class="dashboard_column dashboard_grid_4">
     <%= render :partial => "tenant/dashboard_parts/heatmap_unscheduled_leave" %>  
   </div>
   
 </div>
 
-<%= render :partial => "tenant/dashboard/employee/dashboard" %>
