@@ -117,7 +117,7 @@ div.actions {
   border: 1px solid lightgray;
 }
 
-.required label {
+.required div label {
   background: url(../images/required.gif) no-repeat;
   background-position:right top;
   padding-right: 18px;
