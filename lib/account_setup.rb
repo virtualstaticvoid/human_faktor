@@ -69,6 +69,10 @@ class AccountSetup
       valid &= administrator.save
       valid &= account.save
       
+      # make admin own approver
+      administrator.update_attributes(:approver => administrator)
+      valid &= administrator.save
+      
     end if valid
   
     valid
