@@ -176,7 +176,7 @@ admin1:
   start_date: 2011-02-01
   take_on_balance_as_at: 2011-02-01
   approver: admin
-  role: admin1
+  role: admin
   fixed_daily_hours: 8
   active: true
   notify: true
