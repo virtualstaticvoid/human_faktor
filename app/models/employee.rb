@@ -237,20 +237,23 @@ class Employee < ActiveRecord::Base
   
   # REFACTOR: to reduce number of database round trips
   def staff
-  
-    #
-    # TODO: need to have a flag for managers to allow them to see all staff
-    #  even if they are not in the approver structure
-    # e.g. applicable for the CEO, FD etc.
-    #
-  
-    staff = []
-    is_admin_or_manager = self.is_admin? || self.is_manager?
-    self.account.employees.where(:approver_id => self.id).each do |employee|
-      staff << employee
-      staff << employee.staff unless self == employee if is_admin_or_manager
+    if self.is_admin?
+      # admins, just return all employees
+      self.account.employees 
+
+    elsif self.is_manager?
+      # manager, so build the hierarchy
+      build_staff_list( self.account.employees.where(:approver_id => self.id) )
+    
+    elsif self.is_approver?
+      # approver, so only direct staff
+      self.account.employees.where(:approver_id => self.id).to_a
+
+    else
+      # ASSERT: self.employee? == true
+      # employee, so no staff
+      []
     end
-    staff.flatten.sort!{|a,b| a.full_name <=> b.full_name }
   end
   
   def is_manager_of?(employee)
@@ -263,6 +266,34 @@ class Employee < ActiveRecord::Base
       :subject => self.account.title + " " + I18n.t(:subject, :scope => [:devise, :mailer, action], :default => [:subject, action.to_s.humanize]),
       :reply_to => AppConfig.support_email
     }
+  end
+
+  # only applicable for managers
+  def build_staff_list(direct_staff)
+    # ASSERT: self.is_manager? == true
+    
+    staff = []
+    direct_staff.each do |employee|
+      
+      staff << employee
+      
+      # skip if own approver
+      next if self == employee
+      
+      # follow down for admins, managers and approvers
+      unless employee.is_employee?
+      
+        # recurse to get staff of this employee  
+        build_staff_list( self.account.employees.where(:approver_id => employee.id) ).each do |e| 
+          staff << e unless staff.include?(e) 
+        end
+        
+      end
+    
+    end
+    
+    staff.sort!{|a,b| a.full_name <=> b.full_name }
+    
   end
 
   private
