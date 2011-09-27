@@ -117,6 +117,12 @@ class Account < ActiveRecord::Base
   def leave_types_for_admin
     self.leave_types.where(:admin_capture_allowed => true).order(:type)
   end
+  
+  def reset_employee_passwords
+    self.employees.each do |employee|
+      employee.update_attributes!(:password => 'test123', :password_confirmation => 'test123')
+    end
+  end
 
 end
 
