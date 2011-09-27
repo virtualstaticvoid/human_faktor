@@ -1,0 +1,5 @@
+#!/bin/bash
+tar cvzf log_$(date +%Y%m%d)_$(date +%H%M).tgz log/access.log log/production.log
+bundle exec rake log:clear
+echo > log/access.log
+
