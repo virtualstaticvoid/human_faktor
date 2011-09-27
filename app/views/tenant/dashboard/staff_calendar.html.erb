@@ -79,7 +79,11 @@
       </thead>
       <tbody>
       <% @staff_calendar.employees.each do |employee| %>
-        <tr><td><strong style="overflow: hidden;"><%= employee.full_name %></strong></td></tr>
+        <tr>
+          <td>
+            <%= truncate(employee.full_name, :length => 20) %>
+          </td>
+        </tr>
       <% end %>
       </tbody>
     </table>
