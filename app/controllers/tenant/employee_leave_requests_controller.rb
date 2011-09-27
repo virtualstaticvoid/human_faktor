@@ -1,6 +1,7 @@
 module Tenant
-  class EmployeeLeaveRequestsController < DashboardController
-    
+  class EmployeeLeaveRequestsController < TenantController
+    layout 'dashboard'
+
     def index
 
       @filter = LeaveRequestFilter.new()

@@ -1,5 +1,6 @@
 module Tenant
-  class LeaveRequestsController < DashboardController
+  class LeaveRequestsController < TenantController
+    layout 'dashboard'
 
     def edit
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])

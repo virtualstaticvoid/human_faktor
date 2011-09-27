@@ -1,5 +1,6 @@
 module Tenant
-  class ProfileController < DashboardController
+  class ProfileController < TenantController
+    layout 'dashboard'
 
     skip_before_filter :check_employee, :only => [:activate, :setactive]
 
