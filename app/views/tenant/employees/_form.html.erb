@@ -134,7 +134,7 @@
       
       <div class="field">
         <div><%= f.label :fixed_daily_hours %></div>
-        <span><%= f.number_field :fixed_daily_hours, :in => 1...24 %></span>
+        <span><%= f.text_field :fixed_daily_hours %></span>
         <span class="field_info"></span>
       </div>
     <% end %>
@@ -163,14 +163,14 @@
               <div style="float: left; width: 425px;">
                 <div class="field">
                   <div><%= f.label :"#{leave_type_name}_leave_cycle_allocation", 'Allowance' %></div>
-                  <span><%= f.number_field :"#{leave_type_name}_leave_cycle_allocation", :min => 0, :placeholder => "#{leave_type.cycle_days_allowance}", :style => 'width: 158px;' %></span>
+                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_allocation", :placeholder => "#{leave_type.cycle_days_allowance}", :style => 'width: 158px;' %></span>
                   <span class="field_info">days (default <%= leave_type.cycle_days_allowance %>)</span>
                 </div>
               </div>
               <div style="float: left; width: 425px;">
                 <div class="field">
                   <div><%= f.label :"#{leave_type_name}_leave_cycle_carry_over", 'Carry over allowance' %></div>
-                  <span><%= f.number_field :"#{leave_type_name}_leave_cycle_carry_over", :min => 0, :placeholder => "#{leave_type.cycle_days_carry_over}", :style => 'width: 158px;' %></span>
+                  <span><%= f.text_field :"#{leave_type_name}_leave_cycle_carry_over", :placeholder => "#{leave_type.cycle_days_carry_over}", :style => 'width: 158px;' %></span>
                   <span class="field_info">days (default <%= leave_type.cycle_days_carry_over %>)</span>
                 </div>
               </div>
@@ -196,7 +196,7 @@
       %>
           <div class="field">
             <div><%= f.label :"#{leave_type_name}_leave_take_on_balance", "#{leave_type_name.capitalize} leave" %></div>
-            <span><%= f.number_field :"#{leave_type_name}_leave_take_on_balance", :min => 0, :style => 'width: 158px;' %></span>
+            <span><%= f.text_field :"#{leave_type_name}_leave_take_on_balance", :style => 'width: 158px;' %></span>
             <span class="field_info">days</span>
           </div>
         <% end %>
