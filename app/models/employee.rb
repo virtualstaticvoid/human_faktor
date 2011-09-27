@@ -105,7 +105,7 @@ class Employee < ActiveRecord::Base
     self.role.to_sym
   end
 
-  validates :role_sym, :presence => true, :inclusion => ROLES
+  validates :role, :presence => true, :inclusion => ROLES.collect {|role| role.to_s }
 
   def is_admin?
     self.role_sym == ROLE_ADMIN
