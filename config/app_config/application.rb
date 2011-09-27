@@ -7,7 +7,7 @@ AppConfig.meta_keywords = ""
 AppConfig.meta_description = ""
 
 AppConfig.company_name = "FaktorWorks Pty (Ltd)"
-AppConfig.company_registration_number = "XXX-XXX-XXX"
+AppConfig.company_registration_number = "M2011/007679/07"
 
 AppConfig.subdomain = ENV['SUB_DOMAIN'] || "www"
 AppConfig.domain = "human-faktor.com"
