@@ -3,7 +3,7 @@ require 'test_helper'
 class AccountTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    accounts.each {|record| assert_valid record }
+    for_each_fixture ('accounts') {|key| assert_valid accounts(key) }
   end
   
   # NB: internet connection to S3 required 

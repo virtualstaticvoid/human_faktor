@@ -16,6 +16,19 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   
+  def for_each_fixture(name, &block)
+    Fixtures.all_loaded_fixtures[name].keys.each {|key| block.call key } 
+  end
+  
+  def assert_valid(model)
+    assert !model.nil?
+    
+    unless model.valid?
+      puts "INVALID MODEL: #{model.class} => #{model.errors.full_messages}"
+      assert false
+    end
+    
+  end
   
 end
 

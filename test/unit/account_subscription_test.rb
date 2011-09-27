@@ -3,7 +3,7 @@ require 'test_helper'
 class AccountSubscriptionTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    account_subscriptions.each {|record| assert_valid record }
+    for_each_fixture ('account_subscriptions') {|key| assert_valid account_subscriptions(key) }
   end
 
 end

@@ -3,7 +3,7 @@ require 'test_helper'
 class EmployeeTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    employees.each {|record| assert_valid record }
+    for_each_fixture ('employees') {|key| assert_valid(employees(key)) }
   end
   
   # NB: internet connection to S3 required 
@@ -78,7 +78,8 @@ class EmployeeTest < ActiveSupport::TestCase
   end
 
   test "check staff" do
-    employees.each do |employee|
+    for_each_fixture 'employees' do |key| 
+      employee = employees(key)
       assert_not_nil employee.staff
     end
   end
@@ -122,6 +123,58 @@ class EmployeeTest < ActiveSupport::TestCase
     employee = employees(:takeon)
     employee.account.leave_types.each do |leave_type|
       assert_equal 10.5, employee.take_on_balance_for(leave_type)
+    end
+  end
+  
+  test "should return all staff for admin" do
+    list = []
+    for_each_fixture 'employees' do |key| 
+      employee = employees(key)
+      list << employee if employee.is_admin?
+    end
+    
+    assert list.length > 0
+    list.each do |employee|
+      assert_equal employee.account.employees.count(), employee.staff.count()
+    end
+  end
+
+  test "should return staff hierarchy for manager" do
+    list = []
+    for_each_fixture 'employees' do |key| 
+      employee = employees(key)
+      list << employee if employee.is_manager?
+    end
+    
+    assert list.length > 0
+    list.each do |employee|
+      pending
+    end
+  end
+
+  test "should return staff for approver" do
+    list = []
+    for_each_fixture 'employees' do |key| 
+      employee = employees(key)
+      list << employee if employee.is_approver?
+    end
+    
+    assert list.length > 0
+    list.each do |employee|
+      assert_equal employee.account.employees.where(:approver_id => employee.id).count(), employee.staff.count()
+    end
+  end
+
+  test "should return empty staff list for employee" do
+    list = []
+    for_each_fixture 'employees' do |key| 
+      employee = employees(key)
+      list << employee if employee.is_employee?
+    end
+    
+    assert list.length > 0
+    list.each do |employee|
+      assert_equal 0, employee.staff.count()
     end
   end
 

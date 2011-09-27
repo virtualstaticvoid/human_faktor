@@ -3,7 +3,7 @@ require 'test_helper'
 class CountryTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    countries.each {|record| assert_valid record }
+    for_each_fixture ('countries') {|key| assert_valid countries(key) }
   end
 
 end

@@ -3,7 +3,7 @@ require 'test_helper'
 class LeaveTypeTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    leave_types.each {|record| assert_valid record }
+    for_each_fixture ('leave_types') {|key| assert_valid leave_types(key) }
   end
 
   test "different leave types can be accessed via class methods" do

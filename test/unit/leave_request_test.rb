@@ -3,7 +3,7 @@ require 'test_helper'
 class LeaveRequestTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    leave_requests.each {|record| assert_valid record }
+    for_each_fixture ('leave_requests') {|key| assert_valid leave_requests(key) }
   end
 
   # NB: internet connection to S3 required 

@@ -3,7 +3,7 @@ require 'test_helper'
 class RegistrationTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    registrations.each {|record| assert_valid record }
+    for_each_fixture ('registrations') {|key| assert_valid registrations(key) }
   end
 
 end

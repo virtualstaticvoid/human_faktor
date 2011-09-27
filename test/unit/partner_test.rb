@@ -3,7 +3,7 @@ require 'test_helper'
 class PartnerTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    partners.each {|record| assert_valid record }
+    for_each_fixture ('partners') {|key| assert_valid partners(key) }
   end
 
 end
