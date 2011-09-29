@@ -13,6 +13,12 @@ class LeaveRequestTest < ActiveSupport::TestCase
     assert leave_request.save
   end
   
+  test "should supply authenticated url for attached document" do
+    leave_request = leave_requests(:annual)
+    leave_request.document = File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
+    assert !leave_request.document_authenticated_url.blank?
+  end
+  
   test "should automatically approve if no approval required" do
     leave_type = leave_types(:annual)
     leave_type.approval_required = false

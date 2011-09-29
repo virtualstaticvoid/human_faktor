@@ -128,12 +128,24 @@ class LeaveRequest < ActiveRecord::Base
                       :access_key_id => AppConfig.s3_key,
                       :secret_access_key => AppConfig.s3_secret
                     },
+                    :s3_permissions => :private,    # NB!
                     :hash_secret => AppConfig.hash_secret
                     
   def document_attached?
     # correct method for determining whether there is an attached file?
     self.document.file?
   end                    
+
+  def document_authenticated_url(expires_in = 90.minutes)
+    Rails.env.production? ?
+      AWS::S3::S3Object.url_for(
+        self.document.path, 
+        self.document.bucket_name, 
+        :expires_in => expires_in, 
+        :use_ssl => self.document.s3_protocol == 'https'
+      ) :
+      self.document.path
+  end
 
   validates :captured_by, :existence => true, :allow_nil => true
   validates :captured, :inclusion => { :in => [true, false] }
