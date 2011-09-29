@@ -24,10 +24,10 @@ class LeaveRequest < ActiveRecord::Base
   @@statuses = []
   @@status_names = {}
 
-  LeaveRequest.constants.each do |constant|
+  self.constants.each do |constant|
     next unless constant =~ /^STATUS_/
     
-    constant_value = LeaveRequest.const_get(constant)
+    constant_value = self.const_get(constant)
     @@statuses << constant_value
     @@status_names[constant_value] = constant.to_s.gsub(/STATUS_/, '').capitalize
     
