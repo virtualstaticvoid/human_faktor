@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module Tenant
-  class EmployeeUploadControllerTest < ActionController::TestCase
+  class BulkUploadsControllerTest < ActionController::TestCase
 
     test "should redirect to home_sign_in" do
       get :index, :tenant => 'non-existent'

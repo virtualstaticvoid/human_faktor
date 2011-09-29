@@ -1,5 +1,5 @@
 module Tenant
-  class EmployeeUploadController < AdminController
+  class BulkUploadsController < AdminController
     
     def index
     end
