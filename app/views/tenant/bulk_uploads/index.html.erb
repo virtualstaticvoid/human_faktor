@@ -1,24 +1,27 @@
-<% title "Office Locations" %>
+<% title "Employee Bulk Uploads" %>
 
 <div id="paginator">
-  <%= paginate @locations, :remote => true %>
+  <%= paginate @bulk_uploads, :remote => true %>
 </div>
 
 <table class="table_grid">
   <thead>
     <tr>
-      <th>Title</th>
+      <th width="160px">Created</th>
+      <th>Comment</th>
+      <th width="190px">File Name</th>
+      <th width="120px">Status</th>
       <th width="60px"></th>
     </tr>
   </thead>
   <tbody id="data-rows">
-<%= render @locations %>
+<%= render @bulk_uploads %>
   </tbody>
 </table>
 
 <br />
 
-<%= link_to 'New Location', new_location_path %>
+<%= link_to 'New Employee Bulk Upload', new_bulk_upload_path %>
 
 <script type="text/javascript">
 $(".table_grid tbody").delegate('tr', 'click', function(e) {

@@ -28,8 +28,9 @@
 
 <script type="text/javascript">
 $(".table_grid tbody").delegate('tr', 'click', function(e) {
-  if (e.currentTarget == this)
+  if (e.target.parentElement == this) {
     window.location = e.currentTarget.getAttribute('data-url');
+  }
 });
 </script>
 

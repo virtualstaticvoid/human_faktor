@@ -10,12 +10,12 @@ module Tenant
     end
 
     test "should redirect to home_sign_in" do
-      get :new, :tenant => 'non-existent'
+      get :index, :tenant => 'non-existent'
       assert_redirected_to home_sign_in_url
     end
 
     test "should redirect to employee_sign_in" do
-      get :new, :tenant => @account.subdomain
+      get :index, :tenant => @account.subdomain
       assert_redirected_to new_employee_session_url(:tenant => @account.subdomain)
     end
 
@@ -23,10 +23,16 @@ module Tenant
     
       test "should redirect to dashboard if #{role}" do
         sign_in_as role
-        get :new, :tenant => @account.subdomain
+        get :index, :tenant => @account.subdomain
         assert_redirected_to dashboard_url(:tenant => @account.subdomain)
       end
     
+    end
+    
+    test "should get index for admin" do
+      sign_in_as :admin
+      get :index, :tenant => @account.subdomain
+      assert_response :success
     end
 
     test "should get new for admin" do

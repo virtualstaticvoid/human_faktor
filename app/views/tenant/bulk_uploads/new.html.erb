@@ -1,21 +1,23 @@
 <% title "Employee Bulk Upload" %>
 
-<p>Supply a comment and CSV file for the bulk upload of employee data. See the specification for CSV file below.</p>
+<p>Supply the following to upload employee data..</p>
 
 <%= form_for @bulk_upload, :html => { :multipart => true } do |f| %>
   
   <%= error_messages_for @bulk_upload %>
 
-  <div class="field">
-    <%= f.label :comment %><br />
-    <%= f.text_field :comment %>
+  <div class="field required">
+    <div><%= f.label :csv_file %></div>
+    <span><%= f.file_field :csv_file %></span>
+    <span class="field_info">Please see the file specification below.</span>
   </div>
 
   <div class="field">
-    <%= f.label :csv_file %><br />
-    <%= f.file_field :csv_file %>
+    <div><%= f.label :comment %></div>
+    <span><%= f.text_area :comment %></span>
+    <span class="field_info"></span>
   </div>
-  
+
   <div class="actions">
     <%= f.submit 'Upload', :disable_with => 'Uploading...', :style => 'width: 120px;' %> or <%= link_to 'cancel', account_path %>
   </div>
@@ -24,7 +26,7 @@
 
 <div id="bulk_upload_info">
 
-  <h3>CSV File Specification</h3>
+  <h3>Employee Bulk Upload CSV File Specification</h3>
 
   <p>The file must contain the following columns:</p>
 
@@ -59,19 +61,19 @@
       <tr>
         <td>first_name</td>
         <td>Yes</td>
-        <td>The employee&apos; first name.</td>
+        <td>The employee&apos;s first name.</td>
       </tr>
     
       <tr>
         <td>middle_name</td>
         <td></td>
-        <td><em>Optionally</em>, The employee&apos; middle or second name.</td>
+        <td><em>Optionally</em>, The employee&apos;s middle or second name.</td>
       </tr>
     
       <tr>
         <td>last_name</td>
         <td>Yes</td>
-        <td>The employee&apos; last name or surname.</td>
+        <td>The employee&apos;s last name or surname.</td>
       </tr>
     
       <tr>
@@ -79,7 +81,13 @@
         <td>Yes</td>
         <td>
           The gender of the employee. <br />  
-          Valid values include an upper case <strong>M</strong> for male and upper case <strong>F</strong> for female.
+          Valid values are upper case or lower case letters, and include:
+          
+          <ul>
+            <li><strong>M</strong> for male,</li>
+            <li><strong>F</strong> for female.</li>
+          </ul>
+          
         </td>
       </tr>
     
@@ -106,73 +114,115 @@
       <tr>
         <td>designation</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, a designation for the employee. <br />
+          E.g. Manager, Clerk, Salesperson etc.
+        </td>
       </tr>
     
       <tr>
         <td>start_date</td>
         <td></td>
-        <td></td>
+          <em>Optionally</em>, the employment start date of the employee. <br />
+          If given, needs to be in <strong>YYYY/MM/DD</strong> format, where <em>YYYY</em> is the year including the century,
+          <em>MM</em> is the month number (1 to 12) and <em>DD</em> is the day number for the respective month.
       </tr>
     
       <tr>
         <td>location_name</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the office location where the employee is based. <br />
+          <strong>NB:</strong> the corresponding <%= link_to 'office location', locations_path %> must exist.
+        </td>
       </tr>
     
       <tr>
         <td>department_name</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the employee&apos;s department. <br />
+          <strong>NB:</strong> the corresponding <%= link_to 'department', departments_path %> must exist.
+        </td>
       </tr>
     
       <tr>
         <td>approver_name</td>
-        <td></td>
-        <td></td>
+        <td>Yes</td>
+        <td>
+        
+        </td>
       </tr>
     
       <tr>
         <td>role</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the employee&apos;s role in the system. Defaults to <em>Employee</em>.<br />
+          <strong>NB:</strong> must be one of the following: <br />
+          <ul>
+            <li><cite>Employee</cite> - The default for employees.</li>
+            <li><cite>Approver</cite> - Can approve leave of directly linked staff.</li>
+            <li><cite>Manager</cite> - Can approve leave of all linked staff in hierarchy.</li>
+            <li><cite>Admin</cite> - Can administer the system, and approve leave of any staff member.</li>
+          </ul>
+
+        </td>
       </tr>
     
       <tr>
         <td>take_on_balance_as_at</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the date for the employee&apos;s take on balances. <br />
+          If given, needs to be in <strong>YYYY/MM/DD</strong> format, where <em>YYYY</em> is the year including the century,
+          <em>MM</em> is the month number (1 to 12) and <em>DD</em> is the day number for the respective month.
+        </td>
       </tr>
     
       <tr>
         <td>annual_leave_take_on</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the take on balance for annual leave.<br />
+          Defaults to zero if not given or ignored if the <em>take_on_balance_as_at</em> is blank.
+        </td>
       </tr>
     
       <tr>
         <td>educational_leave_take_on</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the take on balance for educational leave.<br />
+          Defaults to zero if not given or ignored if the <em>take_on_balance_as_at</em> is blank.
+        </td>
       </tr>
     
       <tr>
         <td>medical_leave_take_on</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the take on balance for medical leave.<br />
+          Defaults to zero if not given or ignored if the <em>take_on_balance_as_at</em> is blank.
+        </td>
       </tr>
     
       <tr>
         <td>compassionate_leave_take_on</td>
         <td></td>
-        <td></td>
+        <td>
+          <em>Optionally</em>, the take on balance for compassionate leave.<br />
+          Defaults to zero if not given or ignored if the <em>take_on_balance_as_at</em> is blank.
+        </td>
       </tr>
     
       <tr>
         <td>maternity_leave_take_on</td>
-        <td>Optional</td>
         <td></td>
+        <td>
+          <em>Optionally</em>, the take on balance for maternity leave.<br />
+          Defaults to zero if not given or ignored if the <em>take_on_balance_as_at</em> is blank.
+        </td>
       </tr>
     
     </tbody>
