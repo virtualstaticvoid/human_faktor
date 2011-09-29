@@ -211,7 +211,7 @@ class Employee < ActiveRecord::Base
   end
 
   def to_s
-    "#{self.first_name} #{self.last_name}"
+    [self.first_name, self.middle_name, self.last_name].reject {|n| n.blank? }.join(' ')
   end
   alias :full_name :to_s
 
