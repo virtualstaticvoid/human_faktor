@@ -12,5 +12,12 @@ class BulkUploadTest < ActiveSupport::TestCase
     bulk_upload.csv_file = File.new(File.join(FIXTURES_DIR, 'bulk_upload.data'), 'r')
     assert bulk_upload.save
   end
+  
+  test "to_s should return the date and file name of the upload" do
+    bulk_upload = bulk_uploads(:one)
+    bulk_upload.csv_file = File.new(File.join(FIXTURES_DIR, 'bulk_upload.data'), 'r')
+    assert bulk_upload.save
+    assert_equal "#{bulk_upload.created_at.strftime('%Y-%m-%d %H:%M')} - #{bulk_upload.csv_file.original_filename}", bulk_upload.to_s
+  end
 
 end

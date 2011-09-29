@@ -1,3 +1,4 @@
+require 'aws/s3'
 require 'paper_clip_interpolations'
 
 class BulkUpload < ActiveRecord::Base
@@ -59,10 +60,43 @@ class BulkUpload < ActiveRecord::Base
                       :access_key_id => AppConfig.s3_key,
                       :secret_access_key => AppConfig.s3_secret
                     },
+                    :s3_permissions => :private,    # NB!
                     :hash_secret => AppConfig.hash_secret
 
+  validates_attachment_content_type :csv_file,
+    :content_type => [
+      'text/csv',
+      'text/comma-separated-values',
+      'text/csv',
+      'application/csv',
+      'application/excel',
+      'application/vnd.ms-excel',
+      'application/vnd.msexcel',
+      'text/anytext',
+      'text/plain'
+    ]
+
+  def authenticated_url(expires_in = 90.minutes)
+    Rails.env.production? ?
+      AWS::S3::S3Object.url_for(
+        self.csv_file.path, 
+        self.csv_file.bucket_name, 
+        :expires_in => expires_in, 
+        :use_ssl => self.csv_file.s3_protocol == 'https'
+      ) :
+      self.csv_file.path
+  end
+
   def to_s
-    "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv_file_file_name}"
+    "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv_file.original_filename}"
+  end
+  
+  def set_as_processed()
+    self.update_attributes(:status => STATUS_PROCESSED, :error_message => nil)
+  end
+
+  def set_as_failed(error_message)
+    self.update_attributes(:status => STATUS_FAILED, :error_message => error_message)
   end
 
 end

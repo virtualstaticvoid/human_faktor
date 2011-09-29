@@ -9,7 +9,7 @@ class BulkUploadStage < ActiveRecord::Base
   # NB: no other fields need to be validated
   #
   
-  #  validates :internal_reference
+  #  validates :reference
   #  validates :title
   #  validates :first_name
   #  validates :middle_name
