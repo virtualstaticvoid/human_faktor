@@ -6,8 +6,8 @@
 
     <% b.add_tab('Personal') do %>
 
-      <div>
-        <%= image_tag(@employee.avatar.url(:avatar), :width => 48, :height => 48, :class => 'avatar boxradius box_shadow') %>
+      <div style="width: 48px; height: 48px; border: 1px solid #D0D0D0;" class="avatar boxradius box_shadow">
+        <%= image_tag @employee.avatar.url(:avatar) %>
       </div>
 
       <div class="field">

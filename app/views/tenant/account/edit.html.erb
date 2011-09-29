@@ -24,8 +24,8 @@
 
     <% tab_builder.add_tab('Theme') do %>
 
-      <div>
-        <%= image_tag(@account.logo.url(:logo), :width => 140, :height => 60, :class => 'logo boxradius box_shadow') %>
+      <div style="width: 140px; height: 60px; border: 1px solid #D0D0D0;" class="logo boxradius box_shadow">
+        <%= image_tag @account.logo.url(:logo) %>
       </div>
 
       <div class="field">

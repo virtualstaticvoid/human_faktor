@@ -350,7 +350,7 @@ pre {
 }
 
 .avatar, .logo {
-  border: 1px solid lightgray;
+  overflow: hidden;
 }
 
 .clearfix:after {
