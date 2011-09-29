@@ -13,7 +13,7 @@ class AccountSetup
   validates :admin_user_name, :presence => true, :length => { :maximum => 20 }
 
   attr_accessor :admin_password
-  validates :admin_password, :presence => true, :confirmation => true
+  validates :admin_password, :presence => true, :confirmation => true, :length => { :in => 5..20 }
 
   attr_accessor :admin_email
   validates :admin_email, :presence => true, :email => true
