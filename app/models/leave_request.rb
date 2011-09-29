@@ -116,6 +116,9 @@ class LeaveRequest < ActiveRecord::Base
   # excuse document
   # NOTE: uses the ":account" and ":employee" interpolations
   has_attached_file :document, 
+                    :url => Rails.env.production? ? 
+                              "accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension" :
+                              "/system/accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension",
                     :path => Rails.env.production? ? 
                               "accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension" :
                               ":rails_root/accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension",

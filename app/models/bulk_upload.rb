@@ -45,6 +45,9 @@ class BulkUpload < ActiveRecord::Base
   # NOTE: uses the ":account" interpolation
   # TODO: add validations for mime-type and file size
   has_attached_file :csv_file, 
+                    :url => Rails.env.production? ? 
+                              "accounts/:account/bulk_uploads/:hash.:extension" :
+                              "/system/accounts/:account/bulk_uploads/:hash.:extension",
                     :path => Rails.env.production? ? 
                               "accounts/:account/bulk_uploads/:hash.:extension" :
                               ":rails_root/accounts/:account/bulk_uploads/:hash.:extension",
