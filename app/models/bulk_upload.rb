@@ -92,11 +92,11 @@ class BulkUpload < ActiveRecord::Base
   end
   
   def set_as_processed()
-    self.update_attributes(:status => STATUS_PROCESSED, :error_message => nil)
+    self.update_attributes(:status => STATUS_PROCESSED, :error_messages => nil)
   end
 
   def set_as_failed(error_message)
-    self.update_attributes(:status => STATUS_FAILED, :error_message => error_message)
+    self.update_attributes(:status => STATUS_FAILED, :error_messages => error_message)
   end
 
 end
