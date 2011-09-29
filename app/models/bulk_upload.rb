@@ -30,6 +30,8 @@ class BulkUpload < ActiveRecord::Base
   scope :failed, where(:status => STATUS_FAILED)
 
   default_values :status => STATUS_PENDING
+  
+  has_many :records, :class_name => 'BulkUploadStage', :dependent => :destroy
 
   validates :status, 
             :presence => true, 

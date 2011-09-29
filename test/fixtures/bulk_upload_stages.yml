@@ -1,0 +1,52 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account: one
+  bulk_upload: one 
+  reference: emp001122A
+  title: Mr
+  first_name: Joe
+  middle_name: John
+  last_name: Soap
+  gender: M
+  email: joe@host.com
+  telephone: +27215555555
+  mobile: +27215555555
+  designation: Worker
+  start_date: 2011/01/01
+  location_name: Location 1
+  department_name: Development
+  approver_user_name: admin
+  role: employee
+  take_on_balance_as_at: 2011/01/01
+  annual_leave_take_on: 0.0
+  educational_leave_take_on: 0.0
+  medical_leave_take_on: 0.0
+  compassionate_leave_take_on: 0.0
+  maternity_leave_take_on: 0.0
+
+two:
+  account: one
+  bulk_upload: one 
+  reference: emp008271C
+  title: Mr
+  first_name: Jack
+  middle_name: Harry
+  last_name: Sixpack
+  gender: M
+  email: jack@host.com
+  telephone: +27215555555
+  mobile: +27215555555
+  designation: Worker
+  start_date: 2011/01/01
+  location_name: Location 1
+  department_name: Development
+  approver_user_name: admin
+  role: employee
+  take_on_balance_as_at: 2011/01/01
+  annual_leave_take_on: 0.0
+  educational_leave_take_on: 0.0
+  medical_leave_take_on: 0.0
+  compassionate_leave_take_on: 0.0
+  maternity_leave_take_on: 0.0
+

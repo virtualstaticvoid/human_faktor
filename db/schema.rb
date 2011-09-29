@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110929092112) do
+ActiveRecord::Schema.define(:version => 20110929120539) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -47,6 +47,34 @@ ActiveRecord::Schema.define(:version => 20110929092112) do
   end
 
   add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
+
+  create_table "bulk_upload_stages", :force => true do |t|
+    t.integer "account_id",                  :null => false
+    t.integer "bulk_upload_id",              :null => false
+    t.string  "reference"
+    t.string  "title"
+    t.string  "first_name"
+    t.string  "middle_name"
+    t.string  "last_name"
+    t.string  "gender"
+    t.string  "email"
+    t.string  "telephone"
+    t.string  "mobile"
+    t.string  "designation"
+    t.string  "start_date"
+    t.string  "location_name"
+    t.string  "department_name"
+    t.string  "approver_user_name"
+    t.string  "role"
+    t.string  "take_on_balance_as_at"
+    t.string  "annual_leave_take_on"
+    t.string  "educational_leave_take_on"
+    t.string  "medical_leave_take_on"
+    t.string  "compassionate_leave_take_on"
+    t.string  "maternity_leave_take_on"
+  end
+
+  add_index "bulk_upload_stages", ["account_id", "bulk_upload_id"], :name => "index_bulk_upload_stages_on_account_id_and_bulk_upload_id"
 
   create_table "bulk_uploads", :force => true do |t|
     t.integer  "account_id",                           :null => false
