@@ -1,0 +1,183 @@
+<% title "Employee Bulk Upload" %>
+
+<p>Supply a comment and CSV file for the bulk upload of employee data. See the specification for CSV file below.</p>
+
+<%= form_for @bulk_upload, :html => { :multipart => true } do |f| %>
+  
+  <%= error_messages_for @bulk_upload %>
+
+  <div class="field">
+    <%= f.label :comment %><br />
+    <%= f.text_field :comment %>
+  </div>
+
+  <div class="field">
+    <%= f.label :csv_file %><br />
+    <%= f.file_field :csv_file %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit 'Upload', :disable_with => 'Uploading...', :style => 'width: 120px;' %> or <%= link_to 'cancel', account_path %>
+  </div>
+
+<% end %>
+
+<div id="bulk_upload_info">
+
+  <h3>CSV File Specification</h3>
+
+  <p>The file must contain the following columns:</p>
+
+  <table class="table_grid">
+    <thead>
+      <tr>
+        <th width="300px">Column</th>
+        <th width="60px">Required?</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td>reference</td>
+        <td>Yes</td>
+        <td>
+          A <strong>unique</strong> reference for the employee. <br /> 
+          It can be in any form, such as an identity number or social security number, provided it uniquely identifies the employee.
+        </td>
+      </tr>
+    
+      <tr>
+        <td>title</td>
+        <td></td>
+        <td>
+          <em>Optionally</em>, the title of the employee. <br />
+          E.g. Dr, Prof, Mr, Mrs, Miss etc.
+        </td>
+      </tr>
+    
+      <tr>
+        <td>first_name</td>
+        <td>Yes</td>
+        <td>The employee&apos; first name.</td>
+      </tr>
+    
+      <tr>
+        <td>middle_name</td>
+        <td></td>
+        <td><em>Optionally</em>, The employee&apos; middle or second name.</td>
+      </tr>
+    
+      <tr>
+        <td>last_name</td>
+        <td>Yes</td>
+        <td>The employee&apos; last name or surname.</td>
+      </tr>
+    
+      <tr>
+        <td>gender</td>
+        <td>Yes</td>
+        <td>
+          The gender of the employee. <br />  
+          Valid values include an upper case <strong>M</strong> for male and upper case <strong>F</strong> for female.
+        </td>
+      </tr>
+    
+      <tr>
+        <td>email</td>
+        <td>Yes</td>
+        <td>
+          Must be a valid email address, in the form 
+        </td>
+      </tr>
+    
+      <tr>
+        <td>telephone</td>
+        <td></td>
+        <td><em>Optionally</em>, a telephone number. Any format is acceptable.</td>
+      </tr>
+    
+      <tr>
+        <td>mobile</td>
+        <td></td>
+        <td><em>Optionally</em>, a cellular or mobile telephone number. Any format is acceptable.</td>
+      </tr>
+    
+      <tr>
+        <td>designation</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>start_date</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>location_name</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>department_name</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>approver_name</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>role</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>take_on_balance_as_at</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>annual_leave_take_on</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>educational_leave_take_on</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>medical_leave_take_on</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>compassionate_leave_take_on</td>
+        <td></td>
+        <td></td>
+      </tr>
+    
+      <tr>
+        <td>maternity_leave_take_on</td>
+        <td>Optional</td>
+        <td></td>
+      </tr>
+    
+    </tbody>
+
+  </table>
+
+</div>
+

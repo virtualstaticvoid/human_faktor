@@ -51,10 +51,6 @@
   cursor: pointer;
 }
 
-.table_grid tbody tr td:last-child {
-  text-align: center;
-}
-
 .grid_button {
   padding: 4px;
 }
