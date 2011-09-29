@@ -1,0 +1,14 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account: one
+  status: <%= BulkUpload::STATUS_PENDING %>
+  comment: Bulk Upload
+  error_messages: No error messages  
+  
+two:
+  account: one
+  status: <%= BulkUpload::STATUS_PENDING %>
+  comment: Bulk Upload
+  error_messages: No error messages  
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110913130918) do
+ActiveRecord::Schema.define(:version => 20110929092112) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -47,6 +47,21 @@ ActiveRecord::Schema.define(:version => 20110913130918) do
   end
 
   add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
+
+  create_table "bulk_uploads", :force => true do |t|
+    t.integer  "account_id",                           :null => false
+    t.integer  "status",                :default => 0, :null => false
+    t.string   "comment"
+    t.text     "error_messages"
+    t.string   "csv_file_file_name"
+    t.string   "csv_file_content_type"
+    t.integer  "csv_file_file_size"
+    t.datetime "csv_file_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "bulk_uploads", ["account_id"], :name => "index_bulk_uploads_on_account_id"
 
   create_table "calendar_entries", :force => true do |t|
     t.integer  "country_id", :null => false
