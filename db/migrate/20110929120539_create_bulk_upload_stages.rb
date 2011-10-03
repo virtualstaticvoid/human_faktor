@@ -1,7 +1,6 @@
 class CreateBulkUploadStages < ActiveRecord::Migration
   def self.up
     create_table :bulk_upload_stages do |t|
-      t.references :account, :null => false
       t.references :bulk_upload, :null => false
       
       #
@@ -35,7 +34,7 @@ class CreateBulkUploadStages < ActiveRecord::Migration
       t.string :maternity_leave_take_on
 
     end
-    add_index :bulk_upload_stages, [:account_id, :bulk_upload_id]
+    add_index :bulk_upload_stages, :bulk_upload_id
   end
 
   def self.down

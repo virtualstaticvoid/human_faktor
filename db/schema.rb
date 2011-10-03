@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
   add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
 
   create_table "bulk_upload_stages", :force => true do |t|
-    t.integer "account_id",                  :null => false
     t.integer "bulk_upload_id",              :null => false
     t.string  "reference"
     t.string  "title"
@@ -74,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
     t.string  "maternity_leave_take_on"
   end
 
-  add_index "bulk_upload_stages", ["account_id", "bulk_upload_id"], :name => "index_bulk_upload_stages_on_account_id_and_bulk_upload_id"
+  add_index "bulk_upload_stages", ["bulk_upload_id"], :name => "index_bulk_upload_stages_on_bulk_upload_id"
 
   create_table "bulk_uploads", :force => true do |t|
     t.integer  "account_id",                           :null => false
