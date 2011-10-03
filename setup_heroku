@@ -15,3 +15,12 @@ heroku addons:add custom_domains:basic
 heroku domains:add human-faktor.com
 heroku domains:add www.human-faktor.com
 
+heroku config:add S3_KEY=XXXXXXXXXXXXXXXXXXXX \
+                  S3_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+                  RECAPTCHA_PUBLIC_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+                  RECAPTCHA_PRIVATE_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+                  NEW_RELIC_APP_NAME=humanfaktor \
+                  NEW_RELIC_ID=XXXXX \
+                  NEW_RELIC_LICENSE_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+                  NEW_RELIC_LOG=stdout
+
