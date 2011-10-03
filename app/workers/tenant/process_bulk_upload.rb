@@ -47,7 +47,11 @@ module Tenant
       Rails.logger.error error.backtrace.join("\n")
 
       # store the failure message
-      fail_upload(error.message)
+      if Rails.env.production?
+        fail_upload(error.message)
+      else
+        fail_upload("#{error.message}\n#{error.backtrace.join("\n")}")
+      end
       
       false
     end
