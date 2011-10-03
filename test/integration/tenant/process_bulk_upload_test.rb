@@ -11,7 +11,13 @@ module Tenant
       bulk_upload.csv_file = File.new(File.join(FIXTURES_DIR, 'bulk_upload.data'), 'r')
       assert bulk_upload.save
     
-      assert ProcessBulkUpload.new(bulk_upload.id).perform()
+      result = ProcessBulkUpload.new(bulk_upload.id).perform()
+      
+      bulk_upload.reload
+      puts bulk_upload.error_messages
+      
+      assert result
+      
     end
 
   end
