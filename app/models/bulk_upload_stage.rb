@@ -22,7 +22,7 @@ class BulkUploadStage < ActiveRecord::Base
   #  validates :start_date
   #  validates :location_name
   #  validates :department_name
-  #  validates :approver_name
+  #  validates :approver_first_and_last_name
   #  validates :role
   #  validates :take_on_balance_as_at
   #  validates :annual_leave_take_on

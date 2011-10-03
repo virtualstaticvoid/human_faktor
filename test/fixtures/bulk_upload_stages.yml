@@ -1,7 +1,6 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  account: one
   bulk_upload: one 
   reference: emp001122A
   title: Mr
@@ -16,7 +15,7 @@ one:
   start_date: 2011/01/01
   location_name: Location 1
   department_name: Development
-  approver_user_name: admin
+  approver_first_and_last_name: Johnny Rotten
   role: employee
   take_on_balance_as_at: 2011/01/01
   annual_leave_take_on: 0.0
@@ -26,7 +25,6 @@ one:
   maternity_leave_take_on: 0.0
 
 two:
-  account: one
   bulk_upload: one 
   reference: emp008271C
   title: Mr
@@ -41,8 +39,32 @@ two:
   start_date: 2011/01/01
   location_name: Location 1
   department_name: Development
-  approver_user_name: admin
+  approver_first_and_last_name: Johnny Rotten
   role: employee
+  take_on_balance_as_at: 2011/01/01
+  annual_leave_take_on: 0.0
+  educational_leave_take_on: 0.0
+  medical_leave_take_on: 0.0
+  compassionate_leave_take_on: 0.0
+  maternity_leave_take_on: 0.0
+
+three:
+  bulk_upload: one 
+  reference: emp00897C
+  title: Mr
+  first_name: Johnny
+  middle_name: 
+  last_name: Rotten
+  gender: M
+  email: johnny@host.com
+  telephone: +27215555555
+  mobile: +27215555555
+  designation: Worker
+  start_date: 2011/01/01
+  location_name: Location 1
+  department_name: Testing
+  approver_first_and_last_name: admin
+  role: approver
   take_on_balance_as_at: 2011/01/01
   annual_leave_take_on: 0.0
   educational_leave_take_on: 0.0

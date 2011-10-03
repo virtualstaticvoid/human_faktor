@@ -1,4 +1,4 @@
-"reference","title","first_name","middle_name","last_name","gender","email","telephone","mobile","designation","start_date","location_name","department_name","approver_name","role","take_on_balance_as_at","annual_leave_take_on","educational_leave_take_on","medical_leave_take_on","compassionate_leave_take_on","maternity_leave_take_on"
+"reference","title","first_name","middle_name","last_name","gender","email","telephone","mobile","designation","start_date","location_name","department_name","approver_first_and_last_name","role","take_on_balance_as_at","annual_leave_take_on","educational_leave_take_on","medical_leave_take_on","compassionate_leave_take_on","maternity_leave_take_on"
 "refABC1","Mr","First1","Middle1","Last1","M","First1.Last1@host.com","+27215555555","+27215555555","Worker",11/01/01,"Location1","Department1",,"employee",0,0,0,0,0,0
 
 "refABC2","Mr","First2","Middle2","Last2","M","First2.Last2@host.com","+1445751780","+1445751780","Worker",11/01/02,"Location1","Department1",,"employee",0,0,0,0,0,0

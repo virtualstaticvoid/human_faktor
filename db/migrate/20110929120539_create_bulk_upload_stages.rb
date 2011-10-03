@@ -23,7 +23,7 @@ class CreateBulkUploadStages < ActiveRecord::Migration
       t.string :start_date
       t.string :location_name
       t.string :department_name
-      t.string :approver_user_name
+      t.string :approver_first_and_last_name
       t.string :role
       
       t.string :take_on_balance_as_at
