@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# use cedar stack, since Procfile used
+heroku create humanfaktor -s cedar
+
+# logging
+heroku addons:add logging:basic
+heroku addons:upgrade logging:expanded
+
+# monitoring
+heroku addons:add newrelic:standard
+
+# custom domain
+heroku addons:add custom_domains:basic
+heroku domains:add human-faktor.com
+heroku domains:add www.human-faktor.com
+
