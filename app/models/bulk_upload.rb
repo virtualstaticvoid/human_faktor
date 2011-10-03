@@ -93,7 +93,7 @@ class BulkUpload < ActiveRecord::Base
   end
 
   def to_s
-    "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv_file.original_filename}"
+    "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv.original_filename}"
   end
   
   def set_as_processing()
