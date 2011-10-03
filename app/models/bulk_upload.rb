@@ -4,11 +4,14 @@ require 'paper_clip_interpolations'
 class BulkUpload < ActiveRecord::Base
   include AccountScopedModel
 
+  after_create :process_upload
+
   # status values
   STATUS_PENDING = 0
-  STATUS_PROCESSED = 10
-  STATUS_FAILED = 20
-  STATUSES = [STATUS_PENDING, STATUS_PROCESSED, STATUS_FAILED]
+  STATUS_PROCESSING = 20
+  STATUS_PROCESSED = 20
+  STATUS_FAILED = 30
+  STATUSES = [STATUS_PENDING, STATUS_PROCESSING, STATUS_PROCESSED, STATUS_FAILED]
 
   @@statuses = []
   @@status_names = {}
@@ -91,12 +94,22 @@ class BulkUpload < ActiveRecord::Base
     "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv_file.original_filename}"
   end
   
+  def set_as_processing()
+    self.update_attributes(:status => STATUS_PROCESSING, :error_messages => nil)
+  end
+
   def set_as_processed()
     self.update_attributes(:status => STATUS_PROCESSED, :error_messages => nil)
   end
 
   def set_as_failed(error_message)
     self.update_attributes(:status => STATUS_FAILED, :error_messages => error_message)
+  end
+  
+  private
+  
+  def process_upload
+    WorkQueue.enqueue(Tenant::ProcessBulkUpload, self.id)
   end
 
 end
