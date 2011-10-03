@@ -1,5 +1,4 @@
 class BulkUploadStage < ActiveRecord::Base
-  include AccountScopedModel
 
   belongs_to :bulk_upload
 
