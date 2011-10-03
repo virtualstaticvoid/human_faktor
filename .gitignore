@@ -7,3 +7,5 @@ log/*.log
 public/system/*
 .rvmrc
 tmp/
+setup_heroku.sh
+
