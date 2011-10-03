@@ -3,6 +3,30 @@ require 'csv'
 
 module Tenant
   class ProcessBulkUpload < Struct.new(:upload_id)
+  
+    VALID_FIELDS = [      
+      :reference,
+      :title,
+      :first_name,
+      :middle_name,
+      :last_name,
+      :gender,
+      :email,
+      :telephone,
+      :mobile,
+      :designation,
+      :start_date,
+      :location_name,
+      :department_name,
+      :approver_first_and_last_name,
+      :role,
+      :take_on_balance_as_at,
+      :annual_leave_take_on,
+      :educational_leave_take_on,
+      :medical_leave_take_on,
+      :compassionate_leave_take_on,
+      :maternity_leave_take_on
+    ].freeze
     
     def perform()
       @bulk_upload = BulkUpload.find(self.upload_id)
