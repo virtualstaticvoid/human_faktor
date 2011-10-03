@@ -7,7 +7,11 @@ module Tenant
     def perform()
       @bulk_upload = BulkUpload.find(self.upload_id)
 
-      stage_upload() && validate_upload() && apply_upload() && complete_upload()
+      start_upload() && 
+        stage_upload() && 
+          validate_upload() && 
+            apply_upload() && 
+              complete_upload()
         
     rescue Exception => error
     
@@ -26,26 +30,35 @@ module Tenant
     
     private
     
+    def start_upload()
+      @bulk_upload.set_as_processing
+    end
+    
     def stage_upload()
     
       # import the file as is into the bulk upload stage model
-      
-      #binding.pry
-      
+
       options = { 
         :header => :first_row, 
         :return_headers => false,
         :skip_blanks => true
       }
+
+puts @bulk_upload.authenticated_url      
+binding.pry if Rails.env.development?
       
-      CSV.foreach(@bulk_upload.authenticated_url, 'r', *options) do |row|
+      CSV.foreach(@bulk_upload.authenticated_url, *options) do |row|
         # use row here...
         
         puts row.inspect
         
-      end    
+      end
+
+binding.pry if Rails.env.development?
+      
+      #raise Exception.new("Failed to upload")    
     
-      false
+      true #false
     end
 
     def validate_upload()
@@ -54,7 +67,7 @@ module Tenant
       # and raise an exception at the end to indicate failure
       # fault tolerant? skip problem rows?
     
-      false
+      true #false
     end
 
     def apply_upload()
@@ -62,7 +75,7 @@ module Tenant
       # since approvers referenced may not exist, or are staged, 
       # need to make a number of passes to solve any dependencies
       
-      false
+      true #false
     end
 
     def complete_upload()
