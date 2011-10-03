@@ -67,8 +67,8 @@ module Tenant
       # import the file as is into the bulk upload stage model
 
       options = { 
-        :header => :first_row, 
-        :return_headers => false,
+        :headers => :first_row, 
+        :return_headers => true,
         :skip_blanks => true
       }
 
