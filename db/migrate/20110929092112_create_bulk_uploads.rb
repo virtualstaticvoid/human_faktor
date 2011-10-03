@@ -5,13 +5,14 @@ class CreateBulkUploads < ActiveRecord::Migration
 
       t.integer :status, :null => false, :default => 0  # STATUS_PENDING
       t.string :comment, :length => 255
-      t.text :error_messages
+      
+      t.text :messages
 
-      # csv_file for bulk upload
-      t.string :csv_file_file_name
-      t.string :csv_file_content_type
-      t.integer :csv_file_file_size
-      t.datetime :csv_file_updated_at
+      # csv for bulk upload
+      t.string :csv_file_name
+      t.string :csv_content_type
+      t.integer :csv_file_size
+      t.datetime :csv_updated_at
       
       t.timestamps
     end

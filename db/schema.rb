@@ -76,14 +76,14 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
   add_index "bulk_upload_stages", ["bulk_upload_id"], :name => "index_bulk_upload_stages_on_bulk_upload_id"
 
   create_table "bulk_uploads", :force => true do |t|
-    t.integer  "account_id",                           :null => false
-    t.integer  "status",                :default => 0, :null => false
+    t.integer  "account_id",                      :null => false
+    t.integer  "status",           :default => 0, :null => false
     t.string   "comment"
-    t.text     "error_messages"
-    t.string   "csv_file_file_name"
-    t.string   "csv_file_content_type"
-    t.integer  "csv_file_file_size"
-    t.datetime "csv_file_updated_at"
+    t.text     "messages"
+    t.string   "csv_file_name"
+    t.string   "csv_content_type"
+    t.integer  "csv_file_size"
+    t.datetime "csv_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

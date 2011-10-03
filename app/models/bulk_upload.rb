@@ -50,7 +50,7 @@ class BulkUpload < ActiveRecord::Base
   # avatar for employee
   # NOTE: uses the ":account" interpolation
   # TODO: add validations for mime-type and file size
-  has_attached_file :csv_file, 
+  has_attached_file :csv, 
                     :url => Rails.env.production? ? 
                               "accounts/:account/bulk_uploads/:hash.:extension" :
                               "/system/accounts/:account/bulk_uploads/:hash.:extension",
@@ -66,15 +66,17 @@ class BulkUpload < ActiveRecord::Base
                     :s3_permissions => :private,    # NB!
                     :hash_secret => AppConfig.hash_secret
 
-  validates_attachment_content_type :csv_file,
+  validates_attachment_presence :csv
+  
+  validates_attachment_content_type :csv,
     :content_type => [
       'text/csv',
       'text/comma-separated-values',
       'text/csv',
       'application/csv',
-      'application/excel',
-      'application/vnd.ms-excel',
-      'application/vnd.msexcel',
+      #'application/excel',
+      #'application/vnd.ms-excel',
+      #'application/vnd.msexcel',
       'text/anytext',
       'text/plain'
     ]

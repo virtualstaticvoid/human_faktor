@@ -4,29 +4,29 @@ require 'csv'
 module Tenant
   class ProcessBulkUpload < Struct.new(:upload_id)
   
-    VALID_FIELDS = [      
-      :reference,
-      :title,
-      :first_name,
-      :middle_name,
-      :last_name,
-      :gender,
-      :email,
-      :telephone,
-      :mobile,
-      :designation,
-      :start_date,
-      :location_name,
-      :department_name,
-      :approver_first_and_last_name,
-      :role,
-      :take_on_balance_as_at,
-      :annual_leave_take_on,
-      :educational_leave_take_on,
-      :medical_leave_take_on,
-      :compassionate_leave_take_on,
-      :maternity_leave_take_on
-    ].freeze
+    VALID_FIELDS = %w{      
+      reference
+      title
+      first_name
+      middle_name
+      last_name
+      gender
+      email
+      telephone
+      mobile
+      designation
+      start_date
+      location_name
+      department_name
+      approver_first_and_last_name
+      role
+      take_on_balance_as_at
+      annual_leave_take_on
+      educational_leave_take_on
+      medical_leave_take_on
+      compassionate_leave_take_on
+      maternity_leave_take_on
+    }.freeze
     
     def perform()
       @bulk_upload = BulkUpload.find(self.upload_id)
@@ -66,27 +66,41 @@ module Tenant
     
       # import the file as is into the bulk upload stage model
 
+      line_number = 1
       options = { 
         :headers => :first_row, 
         :return_headers => true,
         :skip_blanks => true
       }
-
-puts @bulk_upload.authenticated_url      
-binding.pry if Rails.env.development?
       
-      CSV.foreach(@bulk_upload.authenticated_url, *options) do |row|
-        # use row here...
-        
-        puts row.inspect
-        
+      ActiveRecord::Base.transaction do
+
+        CSV.foreach(@bulk_upload.authenticated_url, options) do |row|
+          next unless row
+                  
+          if row.header_row?
+
+            # verify header
+            unless (row.fields - VALID_FIELDS) == []
+              raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - VALID_FIELDS)}.\nAborting bulk upload!")
+            end
+          
+          else
+          
+            bulk_upload_row = @bulk_upload.records.build(row.to_hash)
+            
+            unless bulk_upload_row.save
+              raise Exception.new("Error on line #{line_number}: #{bulk_upload_row.errors.full_messages}")
+            end
+          
+          end
+          
+          line_number += 1
+                  
+        end
+  
+        true
       end
-
-binding.pry if Rails.env.development?
-      
-      #raise Exception.new("Failed to upload")    
-    
-      true #false
     end
 
     def validate_upload()

@@ -4,11 +4,15 @@ one:
   account: one
   status: <%= BulkUpload::STATUS_PENDING %>
   comment: Bulk Upload
-  error_messages: No error messages  
+  error_messages: No error messages
+  csv_file_name: bulk_upload.csv
+  csv_content_type: text/csv
   
 two:
   account: one
   status: <%= BulkUpload::STATUS_PENDING %>
   comment: Bulk Upload
   error_messages: No error messages  
+  csv_file_name: bulk_upload.csv
+  csv_content_type: text/csv
 

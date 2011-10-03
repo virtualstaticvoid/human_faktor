@@ -7,9 +7,9 @@
   <%= error_messages_for @bulk_upload %>
 
   <div class="field required">
-    <div><%= f.label :csv_file %></div>
-    <span><%= f.file_field :csv_file %></span>
-    <span class="field_info">Please see the file specification below.</span>
+    <div><%= f.label :csv, 'CSV file name' %></div>
+    <span><%= f.file_field :csv %></span>
+    <span class="field_info">Comma separated values file. Please see the file specification below.</span>
   </div>
 
   <div class="field">
@@ -152,7 +152,8 @@
         <td>approver_first_and_last_name</td>
         <td>Yes</td>
         <td>
-          The first and last name of the approver for this employee <br />
+          The first and last name of the approver for this employee.<br />
+          E.g. John Doe<br />
           <strong>NB:</strong> the corresponding <%= link_to 'approver', employees_path %> must exist, or be contained
           in the file being uploaded.
         </td>
