@@ -103,8 +103,18 @@ module Tenant
       # validate each row, save the error message per row?
       # and raise an exception at the end to indicate failure
       # fault tolerant? skip problem rows?
-    
-      true #false
+
+      ActiveRecord::Base.transaction do
+        for record in @bulk_upload.records
+          selected, messages = record.validate_for_import
+          record.update_attributes(
+            :selected => selected,
+            :messages => messages
+          ) 
+        end
+        true
+      end
+
     end
 
     def complete_staging()

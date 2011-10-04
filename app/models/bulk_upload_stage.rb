@@ -30,7 +30,7 @@ class BulkUploadStage < ActiveRecord::Base
   #
   
   def validate_for_import()
-    BulkUploadValidationModel.new().tap do |r|
+    model = BulkUploadValidationModel.new().tap do |r|
       r.reference = self.reference
       r.title = self.title
       r.first_name = self.first_name
@@ -53,7 +53,8 @@ class BulkUploadStage < ActiveRecord::Base
       r.medical_leave_take_on = self.medical_leave_take_on || 0
       r.compassionate_leave_take_on = self.compassionate_leave_take_on || 0
       r.maternity_leave_take_on = self.maternity_leave_take_on || 0
-    end.valid?
+    end
+    [model.valid?, model.errors.full_messages]
   end
   
   def build_employee()
