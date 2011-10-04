@@ -79,12 +79,12 @@ class BulkUpload < ActiveRecord::Base
   def authenticated_url(expires_in = 90.minutes)
     Rails.env.production? ?
       AWS::S3::S3Object.url_for(
-        self.csv_file.path, 
-        self.csv_file.bucket_name, 
+        self.csv.path, 
+        self.csv.bucket_name, 
         :expires_in => expires_in, 
-        :use_ssl => self.csv_file.s3_protocol == 'https'
+        :use_ssl => self.csv.s3_protocol == 'https'
       ) :
-      self.csv_file.path
+      self.csv.path
   end
 
   def to_s
