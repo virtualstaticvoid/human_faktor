@@ -3,6 +3,7 @@ module Tenant
   
     def perform()
       @bulk_upload = BulkUpload.find(self.upload_id)
+      @account = @bulk_upload.account
 
       # TODO: apply changes to employee table
 
