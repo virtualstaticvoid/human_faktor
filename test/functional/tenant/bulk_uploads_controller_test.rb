@@ -50,8 +50,16 @@ module Tenant
       assert_response :success
     end
     
+    test "should redirect to edit when checked" do
+      sign_in_as :admin
+      @bulk_upload.set_as_checked
+      get :show, :id => @bulk_upload.to_param, :tenant => @account.subdomain
+      assert_redirected_to edit_bulk_upload_url(@bulk_upload, :tenant => @account.subdomain)
+    end
+
     test "should edit bulk upload" do
       sign_in_as :admin
+      @bulk_upload.set_as_checked
       get :edit, :id => @bulk_upload.to_param, :tenant => @account.subdomain
       assert_response :success
     end
