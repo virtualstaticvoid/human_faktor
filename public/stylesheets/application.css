@@ -336,7 +336,7 @@ pre {
   margin: 22px;
 }
 
-#ajax_working {
+#ajax_working, .ajax_working {
   background: url('../images/ajax-loader.gif') no-repeat left center;
   height: 32px;
   line-height: 32px;
