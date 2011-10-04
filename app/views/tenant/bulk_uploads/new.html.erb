@@ -136,7 +136,7 @@
         <td>
           <em>Optionally</em>, the office location where the employee is based. <br />
           <strong>NB:</strong> the corresponding <%= link_to 'office location', locations_path %> must exist. <br />
-          If blank, will default to <strong><%= current_account.locations.default %></strong>.
+          If blank, will default to <strong><%= current_account.location %></strong>.
         </td>
       </tr>
     
@@ -146,7 +146,7 @@
         <td>
           <em>Optionally</em>, the employee&apos;s department. <br />
           <strong>NB:</strong> the corresponding <%= link_to 'department', departments_path %> must exist. <br />
-          If blank, will default to <strong><%= current_account.departments.default %></strong>.
+          If blank, will default to <strong><%= current_account.department %></strong>.
         </td>
       </tr>
     

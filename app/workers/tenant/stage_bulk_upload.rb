@@ -82,10 +82,10 @@ module Tenant
       # and raise an exception at the end to indicate failure
       # fault tolerant? skip problem rows?
       
-      default_location = @account.locations.default
+      default_location = @account.location
       locations = @account.locations.inject({}) {|list, location| list[location.name.downcase] = location }
       
-      default_department = @account.departments.default
+      default_department = @account.department
       departments = @account.departments.inject({}) {|list, department| list[department.name.downcase] = department }
 
       default_approver = @bulk_upload.uploaded_by 
@@ -99,14 +99,17 @@ module Tenant
           # resolve location, department and approver
           # check for duplicate employees
           # work out the load sequencing
+          
+          duplicate_employee = employees[record.employee_name]
         
           selected, messages = record.validate_for_import
-          record.update_attributes(
+          
+          record.update_attributes!(
             :location => locations[record.location_name] || default_location,
             :department => locations[record.department_name] || default_department,
-            :employee => employees[record.employee_name],            
+            :employee => duplicate_employee,            
             :approver => employees[record.approver_first_and_last_name] || default_approver,
-            :selected => selected,
+            :selected => selected & duplicate_employee.nil?,
             :messages => messages
           ) 
           
