@@ -11,6 +11,7 @@ module Tenant
     
     def create
       @bulk_upload = current_account.bulk_uploads.build(params[:bulk_upload])
+      @bulk_upload.uploaded_by = current_employee  # will always be an admin
     
       respond_to do |format|
         if @bulk_upload.save

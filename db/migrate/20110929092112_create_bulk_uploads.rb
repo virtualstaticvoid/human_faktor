@@ -2,6 +2,7 @@ class CreateBulkUploads < ActiveRecord::Migration
   def self.up
     create_table :bulk_uploads do |t|
       t.references :account, :null => false
+      t.integer :uploaded_by_id, :null => false
 
       t.integer :status, :null => false, :default => 0  # STATUS_PENDING
       t.string :comment, :length => 255
@@ -17,6 +18,7 @@ class CreateBulkUploads < ActiveRecord::Migration
       t.timestamps
     end
     add_index :bulk_uploads, :account_id
+    add_index :bulk_uploads, :uploaded_by_id
   end
 
   def self.down

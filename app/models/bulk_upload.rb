@@ -28,12 +28,15 @@ class BulkUpload < ActiveRecord::Base
     end
     
   end
+
+  belongs_to :uploaded_by, :class_name => 'Employee'
+  has_many :records, :class_name => 'BulkUploadStage', :dependent => :destroy
     
   default_values :status => STATUS_PENDING
   
-  has_many :records, :class_name => 'BulkUploadStage', :dependent => :destroy
-  
   accepts_nested_attributes_for :records
+
+  validates :uploaded_by, :existence => true
 
   validates :status, 
             :presence => true, 

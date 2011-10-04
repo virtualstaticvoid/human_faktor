@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
 
   create_table "bulk_uploads", :force => true do |t|
     t.integer  "account_id",                      :null => false
+    t.integer  "uploaded_by_id",                  :null => false
     t.integer  "status",           :default => 0, :null => false
     t.string   "comment"
     t.text     "messages"
@@ -97,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
   end
 
   add_index "bulk_uploads", ["account_id"], :name => "index_bulk_uploads_on_account_id"
+  add_index "bulk_uploads", ["uploaded_by_id"], :name => "index_bulk_uploads_on_uploaded_by_id"
 
   create_table "calendar_entries", :force => true do |t|
     t.integer  "country_id", :null => false
