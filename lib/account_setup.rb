@@ -46,7 +46,11 @@ class AccountSetup
         :last_name => self.admin_last_name,
         :email => self.admin_email,
         :notify => true,
-        :active => true
+        :active => true,
+
+        # NB: ensure belongs to default location and department
+        :location => account.location,
+        :department => account.department
       )
       
       # defaults
