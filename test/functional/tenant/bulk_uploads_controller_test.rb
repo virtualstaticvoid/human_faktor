@@ -59,6 +59,7 @@ module Tenant
     # TODO: simulate state changes
 
     test "should update bulk upload" do
+      sign_in_as :admin
       put :update, :tenant => @account.subdomain, :id => @bulk_upload.to_param, :bulk_upload => @bulk_upload.attributes
       assert_redirected_to bulk_upload_url(assigns(:bulk_upload), :tenant => @account.subdomain)
     end
