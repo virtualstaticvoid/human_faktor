@@ -105,7 +105,8 @@ HumanFaktor::Application.routes.draw do
       get "employee_balance(.:format)", :to => "tenant/employees#balance", :as => :employee_balance
 
       resources :bulk_uploads, :module => 'tenant', :except => [:index] do
-        post 'records', :to => 'bulk_upload_stages#index', :as => :records
+        get 'records', :to => 'bulk_upload_stages#index', :as => :records
+        put 'records', :to => 'bulk_upload_stages#index'
       end
       
       get "/", :to => "tenant/account#index", :as => :account

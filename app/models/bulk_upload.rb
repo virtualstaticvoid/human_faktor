@@ -112,7 +112,7 @@ class BulkUpload < ActiveRecord::Base
     self.update_attributes(:status => STATUS_STAGING, :messages => "Staging uploaded file.")
   end
   
-  def set_as_checked()
+  def set_as_staged()
     self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged file.")
   end
 
