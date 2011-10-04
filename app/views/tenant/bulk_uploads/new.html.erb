@@ -135,7 +135,8 @@
         <td></td>
         <td>
           <em>Optionally</em>, the office location where the employee is based. <br />
-          <strong>NB:</strong> the corresponding <%= link_to 'office location', locations_path %> must exist.
+          <strong>NB:</strong> the corresponding <%= link_to 'office location', locations_path %> must exist. <br />
+          If blank, will default to <strong><%= current_account.locations.default %></strong>.
         </td>
       </tr>
     
@@ -144,7 +145,8 @@
         <td></td>
         <td>
           <em>Optionally</em>, the employee&apos;s department. <br />
-          <strong>NB:</strong> the corresponding <%= link_to 'department', departments_path %> must exist.
+          <strong>NB:</strong> the corresponding <%= link_to 'department', departments_path %> must exist. <br />
+          If blank, will default to <strong><%= current_account.departments.default %></strong>.
         </td>
       </tr>
     
@@ -155,7 +157,8 @@
           The first and last name of the approver for this employee.<br />
           E.g. John Doe<br />
           <strong>NB:</strong> the corresponding <%= link_to 'approver', employees_path %> must exist, or be contained
-          in the file being uploaded.
+          in the file being uploaded. <br />
+          If blank, then will default to <strong><%= current_employee %></strong>.
         </td>
       </tr>
     

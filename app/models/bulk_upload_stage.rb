@@ -1,5 +1,29 @@
 class BulkUploadStage < ActiveRecord::Base
 
+  VALID_FIELDS = %w{      
+    reference
+    title
+    first_name
+    middle_name
+    last_name
+    gender
+    email
+    telephone
+    mobile
+    designation
+    start_date
+    location_name
+    department_name
+    approver_first_and_last_name
+    role
+    take_on_balance_as_at
+    annual_leave_take_on
+    educational_leave_take_on
+    medical_leave_take_on
+    compassionate_leave_take_on
+    maternity_leave_take_on
+  }.freeze
+    
   belongs_to :bulk_upload
   
   belongs_to :employee
@@ -23,6 +47,10 @@ class BulkUploadStage < ActiveRecord::Base
   validates :load_sequence, 
             :presence => true, 
             :numericality => { :only_integer => true }
+  
+  def employee_name
+    [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
+  end
   
   #
   # NB: no other fields need to be validated so that the row will *always save!

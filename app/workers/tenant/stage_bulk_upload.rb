@@ -6,6 +6,7 @@ module Tenant
   
     def perform()
       @bulk_upload = BulkUpload.find(self.upload_id)
+      @account = @bulk_upload.account
 
       start_upload() && 
         stage_upload() && 
@@ -14,7 +15,7 @@ module Tenant
         
     rescue Exception => error
     
-      # any errors will be raised to here which fail the bulk upload
+      # any errors will be raised here which fail the bulk upload
     
       # log out the full error message
       Rails.logger.error error.message
@@ -31,30 +32,6 @@ module Tenant
     def start_upload()
       @bulk_upload.set_as_processing
     end
-    
-    VALID_FIELDS = %w{      
-      reference
-      title
-      first_name
-      middle_name
-      last_name
-      gender
-      email
-      telephone
-      mobile
-      designation
-      start_date
-      location_name
-      department_name
-      approver_first_and_last_name
-      role
-      take_on_balance_as_at
-      annual_leave_take_on
-      educational_leave_take_on
-      medical_leave_take_on
-      compassionate_leave_take_on
-      maternity_leave_take_on
-    }.freeze
 
     def stage_upload()
     
@@ -75,8 +52,8 @@ module Tenant
           if row.header_row?
 
             # verify header
-            unless (row.fields - VALID_FIELDS) == []
-              raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - VALID_FIELDS)}.\nAborting bulk upload!")
+            unless (row.fields - BulkUploadStage::VALID_FIELDS) == []
+              raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - BulkUploadStage::VALID_FIELDS)}.\nAborting bulk upload!")
             end
           
           else
@@ -84,6 +61,7 @@ module Tenant
             bulk_upload_row = @bulk_upload.records.build(row.to_hash)
             bulk_upload_row.line_number = line_number
             
+            # unlikely that this will fail
             unless bulk_upload_row.save
               raise Exception.new("Error on line #{line_number}: #{bulk_upload_row.errors.full_messages}")
             end
@@ -103,19 +81,35 @@ module Tenant
       # validate each row, save the error message per row?
       # and raise an exception at the end to indicate failure
       # fault tolerant? skip problem rows?
+      
+      default_location = @account.locations.default
+      locations = @account.locations.inject({}) {|list, location| list[location.name.downcase] = location }
+      
+      default_department = @account.departments.default
+      departments = @account.departments.inject({}) {|list, department| list[department.name.downcase] = department }
+
+      default_approver = @bulk_upload.uploaded_by 
+      employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee }
+      
+      @bulk_upload.reload
 
       ActiveRecord::Base.transaction do
         for record in @bulk_upload.records
         
-          # TODO: resolve location, department and approver
-          #       check for duplicate employees
-          #       work out the load sequencing
+          # resolve location, department and approver
+          # check for duplicate employees
+          # work out the load sequencing
         
           selected, messages = record.validate_for_import
           record.update_attributes(
+            :location => locations[record.location_name] || default_location,
+            :department => locations[record.department_name] || default_department,
+            :employee => employees[record.employee_name],            
+            :approver => employees[record.approver_first_and_last_name] || default_approver,
             :selected => selected,
             :messages => messages
           ) 
+          
         end
         true
       end
