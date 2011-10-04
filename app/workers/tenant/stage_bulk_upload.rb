@@ -30,10 +30,12 @@ module Tenant
     private
     
     def start_upload()
+      Rails.logger.info("#{@bulk_upload.id}: Started staging bulk upload")
       @bulk_upload.set_as_processing
     end
 
     def stage_upload()
+      Rails.logger.info("#{@bulk_upload.id}: Staging bulk upload")
     
       # import the file as is into the bulk upload stage model
 
@@ -77,21 +79,20 @@ module Tenant
     end
 
     def validate_upload()
+      Rails.logger.info("#{@bulk_upload.id}: Validating bulk upload")
     
       # validate each row, save the error message per row?
       # and raise an exception at the end to indicate failure
       # fault tolerant? skip problem rows?
       
       default_location = @account.location
-      locations = @account.locations.inject({}) {|list, location| list[location.name.downcase] = location }
+      locations = @account.locations.inject({}) {|list, location| list[location.title.downcase] = location }
       
       default_department = @account.department
-      departments = @account.departments.inject({}) {|list, department| list[department.name.downcase] = department }
+      departments = @account.departments.inject({}) {|list, department| list[department.title.downcase] = department }
 
       default_approver = @bulk_upload.uploaded_by 
       employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee }
-      
-      @bulk_upload.reload
 
       ActiveRecord::Base.transaction do
         for record in @bulk_upload.records
@@ -120,10 +121,12 @@ module Tenant
     end
 
     def complete_staging()
+      Rails.logger.info("#{@bulk_upload.id}: Completed staging bulk upload")
       @bulk_upload.set_as_checked()
     end
 
     def fail_upload(error)
+      Rails.logger.info("#{@bulk_upload.id}: Failed to stage bulk upload")
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
