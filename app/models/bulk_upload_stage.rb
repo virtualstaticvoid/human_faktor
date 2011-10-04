@@ -43,7 +43,6 @@ class BulkUploadStage < ActiveRecord::Base
             :numericality => { :only_integer => true }
 
   validates :selected, :inclusion => { :in => [true, false] }
-  validates :messages, :presence => true
 
   validates :load_sequence, 
             :presence => true, 
