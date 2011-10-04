@@ -106,6 +106,11 @@ module Tenant
 
       ActiveRecord::Base.transaction do
         for record in @bulk_upload.records
+        
+          # TODO: resolve location, department and approver
+          #       check for duplicate employees
+          #       work out the load sequencing
+        
           selected, messages = record.validate_for_import
           record.update_attributes(
             :selected => selected,
