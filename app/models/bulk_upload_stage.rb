@@ -78,8 +78,8 @@ class BulkUploadStage < ActiveRecord::Base
       r.location_name = self.location_name
       r.department_name = self.department_name
       r.approver_first_and_last_name = self.approver_first_and_last_name
-      r.role = self.role.blank? ? 'Employee' : self.role
-      r.take_on_balance_as_at = self.take_on_balance_as_at
+      r.role = self.role.blank? ? 'employee' : self.role.downcase
+      r.take_on_balance_as_at = ApplicationHelper.safe_parse_date(self.take_on_balance_as_at)
       r.annual_leave_take_on = self.annual_leave_take_on || 0
       r.educational_leave_take_on = self.educational_leave_take_on || 0
       r.medical_leave_take_on = self.medical_leave_take_on || 0
@@ -147,7 +147,7 @@ class BulkUploadStage < ActiveRecord::Base
     validates :approver_first_and_last_name, :allow_blank => true, :length => { :maximum => 220 }
     
     attr_accessor :role
-    validates :role, :presence => true, :inclusion => { :in => %w{Employee Approver Manager Admin} }
+    validates :role, :presence => true, :inclusion => { :in => %w{employee approver manager admin} }
 
     attr_accessor :take_on_balance_as_at
     validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true

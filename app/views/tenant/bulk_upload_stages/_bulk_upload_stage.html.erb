@@ -1,5 +1,5 @@
 <tr>
-  <td><%= bulk_upload_stage.selected %></td>
+  <td><%= image_tag '../images/warning.png' unless bulk_upload_stage.selected %></td>
   <td><%= bulk_upload_stage.user_name %></td>
   <td><%= bulk_upload_stage.first_name %></td>
   <td><%= bulk_upload_stage.last_name %></td>
@@ -7,3 +7,7 @@
   <td><%= bulk_upload_stage.approver %></td>
   <td></td>
 </tr>
+<tr>
+  <td colspan="7"><em><%= bulk_upload_stage.messages %></em></td>
+</tr>
+

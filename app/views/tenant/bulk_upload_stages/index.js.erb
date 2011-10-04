@@ -1,6 +1,6 @@
 $('#paginator').html('<%= escape_javascript(paginate(@records, :remote => true).to_s) %>');
 <% if @records.count == 0 %>
-$('#data-rows').html('<tr class="no_hover"><td colspan="7"><p>No employee data found for the given criteria.</p></td></tr>');
+$('#data-rows').html('<tr class="no_hover"><td colspan="7"><p>No employee data found.</p></td></tr>');
 <% else %>
 $('#data-rows').html('<%= escape_javascript(render(@records)) %>');
 <% end %>
