@@ -9,6 +9,7 @@ class BulkUploadStage < ActiveRecord::Base
     gender
     email
     telephone
+    telephone_extension
     mobile
     designation
     start_date
