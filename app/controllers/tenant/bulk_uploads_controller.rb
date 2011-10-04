@@ -25,6 +25,7 @@ module Tenant
     
     def show
       @bulk_upload = current_account.bulk_uploads.find(params[:id])
+      redirect_to edit_bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain) if @bulk_upload.status_checked?
     end
     
     def edit

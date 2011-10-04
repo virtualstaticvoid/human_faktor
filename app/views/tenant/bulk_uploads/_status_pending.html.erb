@@ -1,0 +1,14 @@
+<p class="ajax_working">The bulk upload file is being staged and checked, please wait.</p>
+
+<p>Filename: <%= @bulk_upload.csv.original_file_name %></p>
+<p>Comment: <%= @bulk_upload.comment %></p>
+
+<p>The progress will be checked automatically. <%= link_to 'Click here', bulk_upload_path(@bulk_upload, :tenant => current_account.subdomain) %> to check manually.</p>
+
+<script type="text/javascript">
+  function check_status() {
+    window.location = '<%= bulk_upload_path(@bulk_upload, :tenant => current_account.subdomain) %>'  
+  }
+  window.setTimeout(check_status, 10000);
+</script>  
+

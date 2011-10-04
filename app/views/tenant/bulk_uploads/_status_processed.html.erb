@@ -1,0 +1,20 @@
+<p>SUCCESS! The bulk upload file has been applied successfully.</p>
+
+<p>Details:</p>
+
+<div>
+  Date Created: <%= @bulk_upload.created_at.strftime('%d %b %Y %H:%M') %>
+</div>
+
+<div>
+  File name: <%= @bulk_upload.csv.original_file_name %>
+</div>
+
+<div>
+  Comment: <%= @bulk_upload.comment %>
+</div>
+
+<div>
+  Messages: <%= @bulk_upload.messages %>
+</div>
+
