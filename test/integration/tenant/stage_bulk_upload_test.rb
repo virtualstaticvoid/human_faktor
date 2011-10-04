@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Tenant
 
-  class ProcessBulkUploadTest < ActionDispatch::IntegrationTest
+  class StageBulkUploadTest < ActionDispatch::IntegrationTest
     fixtures :all
 
     test "should perform work" do
@@ -11,9 +11,7 @@ module Tenant
       bulk_upload.csv = File.new(File.join(FIXTURES_DIR, 'bulk_upload.data'), 'r')
       assert bulk_upload.save
     
-      result = if StageBulkUpload.new(bulk_upload.id).perform()
-        ProcessBulkUpload.new(bulk_upload.id).perform()
-      end
+      result = StageBulkUpload.new(bulk_upload.id).perform()
       
       bulk_upload.reload
       puts bulk_upload.messages

@@ -4,14 +4,14 @@ require 'paper_clip_interpolations'
 class BulkUpload < ActiveRecord::Base
   include AccountScopedModel
 
-  after_create :process_upload
-
   # status values
   STATUS_PENDING = 0
-  STATUS_PROCESSING = 20
-  STATUS_PROCESSED = 20
-  STATUS_FAILED = 30
-  STATUSES = [STATUS_PENDING, STATUS_PROCESSING, STATUS_PROCESSED, STATUS_FAILED]
+  STATUS_CHECKED = 10
+  STATUS_ACCEPTED = 20
+  STATUS_PROCESSING = 30
+  STATUS_PROCESSED = 40
+  STATUS_FAILED = 50
+  STATUSES = [STATUS_PENDING, STATUS_CHECKED, STATUS_ACCEPTED, STATUS_PROCESSING, STATUS_PROCESSED, STATUS_FAILED]
 
   @@statuses = []
   @@status_names = {}
@@ -29,13 +29,11 @@ class BulkUpload < ActiveRecord::Base
     
   end
     
-  scope :pending, where(:status => STATUS_PENDING)
-  scope :processed, where(:status => STATUS_PROCESSED)
-  scope :failed, where(:status => STATUS_FAILED)
-
   default_values :status => STATUS_PENDING
   
   has_many :records, :class_name => 'BulkUploadStage', :dependent => :destroy
+  
+  accepts_nested_attributes_for :records
 
   validates :status, 
             :presence => true, 
@@ -74,9 +72,6 @@ class BulkUpload < ActiveRecord::Base
       'text/comma-separated-values',
       'text/csv',
       'application/csv',
-      #'application/excel',
-      #'application/vnd.ms-excel',
-      #'application/vnd.msexcel',
       'text/anytext',
       'text/plain'
     ]
@@ -96,6 +91,19 @@ class BulkUpload < ActiveRecord::Base
     "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv.original_filename}"
   end
   
+  def set_as_checked()
+    self.update_attributes(:status => STATUS_CHECKED, :messages => 'Successfully staged bulk upload.')
+  end
+
+  def set_as_accepted(attributes)
+    self.update_attributes(
+      attributes.merge({
+        'status' => STATUS_CHECKED, 
+        'messages' => 'Ready for import.'
+      })
+    )
+  end
+
   def set_as_processing()
     self.update_attributes(:status => STATUS_PROCESSING, :messages => nil)
   end
@@ -106,12 +114,6 @@ class BulkUpload < ActiveRecord::Base
 
   def set_as_failed(messages)
     self.update_attributes(:status => STATUS_FAILED, :messages => messages)
-  end
-  
-  private
-  
-  def process_upload
-    WorkQueue.enqueue(Tenant::ProcessBulkUpload, self.id)
   end
 
 end

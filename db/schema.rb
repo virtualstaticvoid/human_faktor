@@ -53,6 +53,11 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
     t.integer "line_number",                  :default => 0,     :null => false
     t.boolean "selected",                     :default => false, :null => false
     t.text    "messages"
+    t.integer "load_sequence",                :default => 0,     :null => false
+    t.integer "employee_id"
+    t.integer "location_id"
+    t.integer "department_id"
+    t.integer "approver_id"
     t.string  "reference"
     t.string  "title"
     t.string  "first_name"

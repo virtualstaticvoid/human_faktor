@@ -1,8 +1,0 @@
-<tr id="_bulk_upload_<%= bulk_upload.to_param %>" data-url="<%= bulk_upload_path(bulk_upload, :tenant => current_account.subdomain) %>">
-  <td><%= time_ago_in_words(bulk_upload.created_at) %></td>
-  <td><%= truncate(bulk_upload.comment, :length => 50) %></td>
-  <td><%= truncate(bulk_upload.csv_file_file_name, :length => 25) %></td>
-  <td><%= bulk_upload.status_text %></td>
-  <td><%= link_to image_tag('delete.png'), bulk_upload_path(bulk_upload, :tenant => current_account.subdomain), :method => :delete, :remote => true, :confirm => 'Are you sure?', :class => "grid_button" %></td>
-</tr>
-

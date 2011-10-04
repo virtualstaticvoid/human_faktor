@@ -3,9 +3,19 @@ class CreateBulkUploadStages < ActiveRecord::Migration
     create_table :bulk_upload_stages do |t|
       t.references :bulk_upload, :null => false
 
+      # control fields
       t.integer :line_number, :null => false, :default => 0
       t.boolean :selected, :null => false, :default => false
       t.text :messages
+
+      t.integer :load_sequence, :null => false, :default => 0
+      
+      t.references :employee
+      t.references :location
+      t.references :department
+      t.integer :approver_id        # if the approver is contained in this bulk upload, will be null
+      
+      # raw data fields
       
       #
       # NB: no constraints or validations for the following fields

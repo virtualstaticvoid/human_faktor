@@ -1,10 +1,6 @@
 module Tenant
   class BulkUploadsController < AdminController
     
-    def index
-      @bulk_uploads = current_account.bulk_uploads.page(params[:page])
-    end
-    
     def new
       @bulk_upload = current_account.bulk_uploads.build()
 
@@ -18,7 +14,8 @@ module Tenant
     
       respond_to do |format|
         if @bulk_upload.save
-          format.html { redirect_to account_url, :notice => 'Successfully created bulk upload. Processing will begin shortly. You will receive an email when the data has been imported.' }
+          format.html { redirect_to bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain), 
+                          :notice => 'Successfully created bulk upload. Please wait while the file is processed.' }
         else
           format.html { render :new }
         end
@@ -29,14 +26,28 @@ module Tenant
       @bulk_upload = current_account.bulk_uploads.find(params[:id])
     end
     
+    def edit
+      @bulk_upload = current_account.bulk_uploads.find(params[:id])
+    end
+    
+    def update
+      @bulk_upload = current_account.bulk_uploads.find(params[:id])
+
+      respond_to do |format|
+        if @bulk_upload.set_as_accepted(params[:bulk_upload])
+          format.html { redirect_to bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain), 
+                          :notice => 'Successfully queued bulk upload for import. Please wait while the data is imported.' }
+        else
+          format.html { render :edit }
+        end
+      end
+    end
+    
     def destroy
       @bulk_upload = current_account.bulk_uploads.find(params[:id])
       @bulk_upload.destroy
       
-      respond_to do |format|
-        format.html { redirect_to account_url, :notice => 'Successfully deleted bulk upload.' }
-        format.js   {}
-      end
+      redirect_to account_url, :notice => 'Successfully deleted bulk upload.'
     end
     
   end
