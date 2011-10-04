@@ -31,6 +31,7 @@ class CreateBulkUploadStages < ActiveRecord::Migration
       
       t.string :email
       t.string :telephone
+      t.string :telephone_extension
       t.string :mobile
       
       t.string :designation

@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
     t.string  "gender"
     t.string  "email"
     t.string  "telephone"
+    t.string  "telephone_extension"
     t.string  "mobile"
     t.string  "designation"
     t.string  "start_date"
