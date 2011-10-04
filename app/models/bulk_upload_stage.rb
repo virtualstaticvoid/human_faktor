@@ -1,5 +1,7 @@
 class BulkUploadStage < ActiveRecord::Base
 
+  default_scope order(:bulk_upload_id, :line_number)
+
   VALID_FIELDS = %w{      
     reference
     title
@@ -86,7 +88,8 @@ class BulkUploadStage < ActiveRecord::Base
       r.compassionate_leave_take_on = self.compassionate_leave_take_on || 0
       r.maternity_leave_take_on = self.maternity_leave_take_on || 0
     end
-    [model.valid?, model.errors.full_messages]
+    valid = model.valid?
+    [valid, valid ? '' : model.errors.full_messages]
   end
   
   def build_employee()
@@ -150,22 +153,22 @@ class BulkUploadStage < ActiveRecord::Base
     validates :role, :presence => true, :inclusion => { :in => %w{employee approver manager admin} }
 
     attr_accessor :take_on_balance_as_at
-    validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
+    validates :take_on_balance_as_at, :allow_blank => true, :timeliness => { :type => :date }
     
     attr_accessor :annual_leave_take_on
-    validates :annual_leave_take_on, :numericality => true, :allow_nil => true
+    validates :annual_leave_take_on, :allow_blank => true, :numericality => true
     
     attr_accessor :educational_leave_take_on
-    validates :educational_leave_take_on, :numericality => true, :allow_nil => true
+    validates :educational_leave_take_on, :allow_blank => true, :numericality => true
     
     attr_accessor :medical_leave_take_on
-    validates :medical_leave_take_on, :numericality => true, :allow_nil => true
+    validates :medical_leave_take_on, :allow_blank => true, :numericality => true
     
     attr_accessor :compassionate_leave_take_on
-    validates :compassionate_leave_take_on, :numericality => true, :allow_nil => true
+    validates :compassionate_leave_take_on, :allow_blank => true, :numericality => true
     
     attr_accessor :maternity_leave_take_on
-    validates :maternity_leave_take_on, :numericality => true, :allow_nil => true
+    validates :maternity_leave_take_on, :allow_blank => true, :numericality => true
   
   end
 

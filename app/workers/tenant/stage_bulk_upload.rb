@@ -49,7 +49,7 @@ module Tenant
       ActiveRecord::Base.transaction do
 
         CSV.foreach(@bulk_upload.authenticated_url, options) do |row|
-          next unless row
+          next unless row && row.blank?
                   
           if row.header_row?
 
@@ -104,6 +104,8 @@ module Tenant
           duplicate_employee = employees[record.employee_name]
         
           selected, messages = record.validate_for_import
+          
+          messages += " - Employee already exists" if duplicate_employee
           
           record.update_attributes!(
             :location => locations[record.location_name] || default_location,
