@@ -88,6 +88,7 @@ module Tenant
           else
           
             bulk_upload_row = @bulk_upload.records.build(row.to_hash)
+            bulk_upload_row.line_number = line_number
             
             unless bulk_upload_row.save
               raise Exception.new("Error on line #{line_number}: #{bulk_upload_row.errors.full_messages}")

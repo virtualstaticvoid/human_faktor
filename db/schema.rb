@@ -49,7 +49,10 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
   add_index "accounts", ["subdomain"], :name => "index_accounts_on_subdomain", :unique => true
 
   create_table "bulk_upload_stages", :force => true do |t|
-    t.integer "bulk_upload_id",               :null => false
+    t.integer "bulk_upload_id",                                  :null => false
+    t.integer "line_number",                  :default => 0,     :null => false
+    t.boolean "selected",                     :default => false, :null => false
+    t.text    "messages"
     t.string  "reference"
     t.string  "title"
     t.string  "first_name"

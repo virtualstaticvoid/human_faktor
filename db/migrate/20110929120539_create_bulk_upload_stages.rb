@@ -2,6 +2,10 @@ class CreateBulkUploadStages < ActiveRecord::Migration
   def self.up
     create_table :bulk_upload_stages do |t|
       t.references :bulk_upload, :null => false
+
+      t.integer :line_number, :null => false, :default => 0
+      t.boolean :selected, :null => false, :default => false
+      t.text :messages
       
       #
       # NB: no constraints or validations for the following fields

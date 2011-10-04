@@ -1,8 +1,18 @@
 class BulkUploadStage < ActiveRecord::Base
 
   belongs_to :bulk_upload
+  
+  default_values :line_number => 0,
+                 :selected => false
 
   validates :bulk_upload, :existence => true
+  
+  validates :line_number, 
+            :presence => true, 
+            :numericality => { :only_integer => true }
+
+  validates :selected, :inclusion => { :in => [true, false] }
+  validates :messages, :presence => true
   
   #
   # NB: no other fields need to be validated
@@ -29,5 +39,10 @@ class BulkUploadStage < ActiveRecord::Base
   #  validates :medical_leave_take_on
   #  validates :compassionate_leave_take_on
   #  validates :maternity_leave_take_on
+  
+  def validated?
+    # TODO: validate the row
+    true
+  end
 
 end

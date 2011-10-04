@@ -2,6 +2,9 @@
 
 one:
   bulk_upload: one 
+  line_number: 1
+  selected: true
+  messages: Fine
   reference: emp001122A
   title: Mr
   first_name: Joe
@@ -26,6 +29,9 @@ one:
 
 two:
   bulk_upload: one 
+  line_number: 2
+  selected: true
+  messages: Fine
   reference: emp008271C
   title: Mr
   first_name: Jack
@@ -50,6 +56,9 @@ two:
 
 three:
   bulk_upload: one 
+  line_number: 3
+  selected: true
+  messages: Fine
   reference: emp00897C
   title: Mr
   first_name: Johnny
