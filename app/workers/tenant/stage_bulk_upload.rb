@@ -8,9 +8,9 @@ module Tenant
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
 
-      start_upload() && 
-        stage_upload() && 
-          validate_upload() && 
+      start_staging() && 
+          stage_upload() && 
+            validate_upload() && 
               complete_staging()
         
     rescue Exception => error
@@ -29,13 +29,13 @@ module Tenant
     
     private
     
-    def start_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Started staging bulk upload")
-      @bulk_upload.set_as_processing
+    def start_staging()
+      Rails.logger.info("#{@bulk_upload.id}: Started staging bulk upload.")
+      @bulk_upload.set_as_staging
     end
 
     def stage_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Staging bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Staging bulk upload.")
     
       # import the file as is into the bulk upload stage model
 
@@ -74,12 +74,12 @@ module Tenant
                   
         end
   
-        true
+        line_number
       end
     end
 
     def validate_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Validating bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Validating bulk upload.")
     
       # validate each row, save the error message per row?
       # and raise an exception at the end to indicate failure
@@ -121,12 +121,12 @@ module Tenant
     end
 
     def complete_staging()
-      Rails.logger.info("#{@bulk_upload.id}: Completed staging bulk upload")
-      @bulk_upload.set_as_checked()
+      Rails.logger.info("#{@bulk_upload.id}: Completed staging bulk upload.")
+      @bulk_upload.set_as_staged()
     end
 
     def fail_upload(error)
-      Rails.logger.info("#{@bulk_upload.id}: Failed to stage bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Failed to stage bulk upload.")
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :

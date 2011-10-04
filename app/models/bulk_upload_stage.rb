@@ -48,6 +48,10 @@ class BulkUploadStage < ActiveRecord::Base
             :presence => true, 
             :numericality => { :only_integer => true }
   
+  def user_name
+    [self.first_name, self.last_name].reject {|n| n.blank? }.join('.').downcase
+  end
+  
   def employee_name
     [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
   end

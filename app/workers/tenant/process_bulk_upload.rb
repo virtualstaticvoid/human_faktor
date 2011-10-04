@@ -5,9 +5,9 @@ module Tenant
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
 
-      start_upload() && 
+      start_processing() && 
         apply_upload() && 
-          complete_upload()
+          complete_processing()
 
     rescue Exception => error
     
@@ -25,13 +25,13 @@ module Tenant
 
     private
 
-    def start_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Started processing bulk upload")
+    def start_processing()
+      Rails.logger.info("#{@bulk_upload.id}: Started processing bulk upload.")
       @bulk_upload.set_as_processing
     end
     
     def apply_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Processing bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Processing bulk upload.")
 
       # TODO: load according to load sequence...
       
@@ -39,12 +39,12 @@ module Tenant
     end
   
     def complete_upload()
-      Rails.logger.info("#{@bulk_upload.id}: Completed processing bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Completed processing bulk upload.")
       @bulk_upload.set_as_processed()
     end
 
     def fail_upload(error)
-      Rails.logger.info("#{@bulk_upload.id}: Failed to process bulk upload")
+      Rails.logger.info("#{@bulk_upload.id}: Failed to process bulk upload.")
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :

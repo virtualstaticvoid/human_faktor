@@ -73,6 +73,7 @@
   $('#_new').submit();
   $('#filter input').change(function(){
     $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
     $('#_new').submit();
   });
   $('#paginator a').live('ajax:before', function(e) { 

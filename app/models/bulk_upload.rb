@@ -6,12 +6,26 @@ class BulkUpload < ActiveRecord::Base
 
   # status values
   STATUS_PENDING = 0
-  STATUS_CHECKED = 10
-  STATUS_ACCEPTED = 20
-  STATUS_PROCESSING = 30
-  STATUS_PROCESSED = 40
-  STATUS_FAILED = 50
-  STATUSES = [STATUS_PENDING, STATUS_CHECKED, STATUS_ACCEPTED, STATUS_PROCESSING, STATUS_PROCESSED, STATUS_FAILED]
+  
+  STATUS_STAGING = 10
+  STATUS_STAGED = 20
+  
+  STATUS_ACCEPTED = 30
+  
+  STATUS_PROCESSING = 40
+  STATUS_PROCESSED = 50
+  
+  STATUS_FAILED = 60
+  
+  STATUSES = [
+    STATUS_PENDING, 
+    STATUS_STAGING, 
+    STATUS_STAGED, 
+    STATUS_ACCEPTED, 
+    STATUS_PROCESSING, 
+    STATUS_PROCESSED, 
+    STATUS_FAILED
+  ]
 
   @@statuses = []
   @@status_names = {}
@@ -94,25 +108,29 @@ class BulkUpload < ActiveRecord::Base
     "#{self.created_at.strftime('%Y-%m-%d %H:%M')} - #{self.csv.original_filename}"
   end
   
+  def set_as_staging
+    self.update_attributes(:status => STATUS_STAGING, :messages => "Staging uploaded file.")
+  end
+  
   def set_as_checked()
-    self.update_attributes(:status => STATUS_CHECKED, :messages => 'Successfully staged bulk upload.')
+    self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged file.")
   end
 
   def set_as_accepted(attributes)
     self.update_attributes(
       attributes.merge({
-        'status' => STATUS_CHECKED, 
+        'status' => STATUS_ACCEPTED, 
         'messages' => 'Ready for import.'
       })
     )
   end
 
   def set_as_processing()
-    self.update_attributes(:status => STATUS_PROCESSING, :messages => 'Processing bulk upload')
+    self.update_attributes(:status => STATUS_PROCESSING, :messages => 'Processing employee data.')
   end
 
   def set_as_processed()
-    self.update_attributes(:status => STATUS_PROCESSED, :messages => 'Successfully completed bulk upload')
+    self.update_attributes(:status => STATUS_PROCESSED, :messages => "Successfully imported employee data.")
   end
 
   def set_as_failed(messages)
