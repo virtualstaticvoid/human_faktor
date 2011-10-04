@@ -1,20 +1,21 @@
-<p>ERROR! There was a problem applying the bulk upload file.</p>
+<p>FAILURE: The bulk upload file failed to be applied.</p>
 
 <p>Details:</p>
 
-<div>
-  Date Created: <%= @bulk_upload.created_at.strftime('%d %b %Y %H:%M') %>
+<div style="padding-left: 12px;">
+  <div><span>Created:</span> <%= @bulk_upload.created_at.strftime('%d %b %Y %H:%M') %></div>
+  <div><span>Filename:</span> <%= @bulk_upload.csv.original_filename %></div>
+  <% unless @bulk_upload.comment.blank? %>
+    <div><span>Comment:</span> <%= @bulk_upload.comment %></div>
+  <% end %>
 </div>
 
-<div>
-  File name: <%= @bulk_upload.csv.original_file_name %>
-</div>
+<p>Messages:</p>
+<pre style="min-height: 200px; max-height: 300px; overflow: auto;">
+<%= @bulk_upload.messages %>
+</pre>
 
-<div>
-  Comment: <%= @bulk_upload.comment %>
-</div>
-
-<div>
-  Messages: <%= @bulk_upload.messages %>
-</div>
+<p>
+  <%= link_to 'Done', account_path %>
+</p>
 
