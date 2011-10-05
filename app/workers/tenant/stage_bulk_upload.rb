@@ -21,6 +21,9 @@ module Tenant
       Rails.logger.error error.message
       Rails.logger.error error.backtrace.join("\n")
 
+      puts error.message
+      puts error.backtrace.join("\n")
+
       # store the failure message
       fail_upload(error)
 
