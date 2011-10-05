@@ -97,6 +97,8 @@ module Tenant
 
       default_approver = @bulk_upload.uploaded_by 
       employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee }
+      
+      new_employees = @bulk_upload.records.inject({}) {|list, employee| list[employee.employee_name] = employee }
 
       ActiveRecord::Base.transaction do
         for record in @bulk_upload.records
@@ -106,16 +108,24 @@ module Tenant
           # work out the load sequencing
           
           duplicate_employee = employees[record.employee_name]
+          approver = employees[record.approver_first_and_last_name] || default_approver
+          
+          new_employee = nil
+          if approver.nil?
+            new_employee = new_employees[record.approver_first_and_last_name]
+            new_employee.increment_load_sequence unless new_employee.nil?
+          end
         
           selected, messages = record.validate_for_import
           
+          messages += " - Approver not found" if approver.nil? && new_employee.nil?
           messages += " - Employee already exists" if duplicate_employee
           
           record.update_attributes!(
             :location => locations[record.location_name] || default_location,
             :department => locations[record.department_name] || default_department,
             :employee => duplicate_employee,            
-            :approver => employees[record.approver_first_and_last_name] || default_approver,
+            :approver => approver,
             :selected => selected & duplicate_employee.nil?,
             :messages => messages
           ) 
