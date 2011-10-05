@@ -98,10 +98,7 @@ class BulkUpload < ActiveRecord::Base
       AWS::S3::S3Object.url_for(
         self.csv.path, 
         self.csv.bucket_name, 
-        {
-          :expires_in => expires_in, 
-          :use_ssl => (self.csv.s3_protocol == 'https')
-        }
+        :expires_in => expires_in
       ) :
       self.csv.path
   end
