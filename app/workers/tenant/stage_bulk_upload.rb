@@ -52,7 +52,7 @@ module Tenant
       
       ActiveRecord::Base.transaction do
 
-        CSV.foreach(@bulk_upload.authenticated_url, options) do |row|
+        CSV.foreach(open(@bulk_upload.authenticated_url), options) do |row|
           next unless row
                   
           if row.header_row?
