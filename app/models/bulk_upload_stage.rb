@@ -58,6 +58,10 @@ class BulkUploadStage < ActiveRecord::Base
     [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
   end
   
+  def increment_load_sequence
+    self.update_attributes(:load_sequence => self.load_sequence + 1)
+  end
+  
   #
   # NB: no other fields need to be validated so that the row will *always save!
   #     * well almost always
