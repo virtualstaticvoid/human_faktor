@@ -85,14 +85,16 @@ class BulkUpload < ActiveRecord::Base
   
   validates_attachment_content_type :csv,
     :content_type => [
-      'text/csv',
+      'application/csv',
+      'application/excel',
+      'application/vnd.ms-excel',
+      'application/vnd.msexcel',
+      'text/anytext',
       'text/comma-separated-values',
       'text/csv',
-      'application/csv',
-      'text/anytext',
       'text/plain'
     ]
-
+    
   def authenticated_url(expires_in = 90.minutes)
     Rails.env.production? ?
       AWS::S3::S3Object.url_for(
