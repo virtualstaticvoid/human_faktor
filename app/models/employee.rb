@@ -148,7 +148,6 @@ class Employee < ActiveRecord::Base
 
   # avatar for employee
   # NOTE: uses the ":account" interpolation
-  # TODO: add validations for mime-type and file size
   has_attached_file :avatar, 
                     :styles => { :avatar => "48x48>" },
                     :url => Rails.env.production? ? 
@@ -164,6 +163,15 @@ class Employee < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     },
                     :hash_secret => AppConfig.hash_secret
+
+  validates_attachment_content_type :avatar,
+    :content_type => [
+      'image/gif',
+      'image/png',
+      'image/jpeg'
+    ]
+
+  validates_attachment_size :avatar, :less_than => 1.megabytes
 
   # leave policy overrides
   LeaveType.for_each_leave_type_name do |leave_type_name|

@@ -38,7 +38,6 @@ class Account < ActiveRecord::Base
   validates :title, :presence => true, :length => { :maximum => 255 }
   validates :theme, :presence => true
   
-  # TODO: add validations for mime-type and file size
   has_attached_file :logo, 
                     :styles => { :logo => "140x60>" },
                     :url => Rails.env.production? ? 
@@ -54,6 +53,15 @@ class Account < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     },
                     :hash_secret => AppConfig.hash_secret
+
+  validates_attachment_content_type :logo,
+    :content_type => [
+      'image/gif',
+      'image/png',
+      'image/jpeg'
+    ]
+
+  validates_attachment_size :logo, :less_than => 1.megabytes
 
   # access token for initial setup
   validates :auth_token, :presence => true

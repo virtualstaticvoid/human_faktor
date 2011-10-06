@@ -115,6 +115,7 @@ class LeaveRequest < ActiveRecord::Base
   
   # excuse document
   # NOTE: uses the ":account" and ":employee" interpolations
+  # TODO: validation on file type... documents, images, tiff etc...
   has_attached_file :document, 
                     :url => Rails.env.production? ? 
                               "accounts/:account/employees/:employee/leave_requests/:identifier/:hash.:extension" :
@@ -130,6 +131,8 @@ class LeaveRequest < ActiveRecord::Base
                     },
                     :s3_permissions => :private,    # NB!
                     :hash_secret => AppConfig.hash_secret
+
+  validates_attachment_size :document, :less_than => 5.megabytes
                     
   def document_attached?
     # correct method for determining whether there is an attached file?
