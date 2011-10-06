@@ -80,6 +80,12 @@ module Tenant
 
       assert_redirected_to account_url(:tenant => @account.subdomain)
     end
-
+    
+    test "should get template CSV" do
+      sign_in_as :admin
+      get :template, :tenant => @account.subdomain, :format => :csv
+      assert_response :success      
+    end
+      
   end
 end

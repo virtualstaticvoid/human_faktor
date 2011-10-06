@@ -24,6 +24,9 @@ HumanFaktor::Application.routes.draw do
   # routes for tenant
   #
 
+  # NOTE: this part of the route is "globbed" and there are some issues 
+  #       in Rails when there are nested routes, so a `:tenant => current_account.subdomain` option 
+  #       is required for url helpers when constructing paths
   scope "*tenant" do
 
     get "setup", :to => "tenant/account_setup#edit", :as => :account_setup
@@ -105,6 +108,7 @@ HumanFaktor::Application.routes.draw do
       get "employee_balance(.:format)", :to => "tenant/employees#balance", :as => :employee_balance
 
       resources :bulk_uploads, :module => 'tenant', :except => [:index] do
+        get 'template', :to => 'bulk_uploads#template', :as => :template, :on => :collection
         get 'records', :to => 'bulk_upload_stages#index', :as => :records
         put 'records', :to => 'bulk_upload_stages#index'
       end

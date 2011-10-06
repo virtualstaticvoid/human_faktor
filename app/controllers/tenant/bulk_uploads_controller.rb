@@ -52,5 +52,8 @@ module Tenant
       redirect_to account_url, :notice => 'Successfully deleted bulk upload.'
     end
     
+    def template
+    end
+    
   end
 end

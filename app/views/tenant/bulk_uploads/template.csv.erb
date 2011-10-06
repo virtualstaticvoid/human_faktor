@@ -1,0 +1,3 @@
+<%= BulkUploadStage::VALID_FIELDS.collect { |field|
+  "\"#{field}\"" }.join(',').html_safe %>
+

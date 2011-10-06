@@ -1,6 +1,8 @@
 <% title "Employee Bulk Upload" %>
 
-<p>Supply the following to upload employee data..</p>
+<p>Supply the following to upload employee data.</p>
+
+<p>Download a <%= link_to 'template file', template_bulk_uploads_path(:format => :csv) %> to help get started.</p>
 
 <%= form_for @bulk_upload, :html => { :multipart => true } do |f| %>
   
@@ -243,6 +245,8 @@
     </tbody>
 
   </table>
+
+  <p>Download a <%= link_to 'template file', template_bulk_uploads_path(:format => :csv) %> to help get started.</p>
 
 </div>
 
