@@ -86,8 +86,8 @@ module Tenant
           line_number += 1
                   
         end
-  
-        line_number
+        
+        @bulk_upload.save
       end
     end
 
