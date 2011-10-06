@@ -60,7 +60,7 @@ module Tenant
         CSV.foreach(open(@bulk_upload.authenticated_url), options) do |row|
         
           # skip if the row is empty or nil
-          next unless row || row.fields.reject {|v| v.nil? }.empty?
+          next unless row || row.fields.reject {|v| v.nil? || v.blank? }.empty?
                   
           if row.header_row?
 
@@ -99,15 +99,33 @@ module Tenant
       # fault tolerant? skip problem rows?
       
       default_location = @account.location
-      locations = @account.locations.inject({}) {|list, location| list[location.title.downcase] = location; list }
+      locations = @account.locations.inject({}) {|list, location| 
+        list[location.title.downcase] = location
+        list 
+      }
       
       default_department = @account.department
-      departments = @account.departments.inject({}) {|list, department| list[department.title.downcase] = department; list }
+      departments = @account.departments.inject({}) {|list, department| 
+        list[department.title.downcase] = department
+        list 
+      }
 
       default_approver = @bulk_upload.uploaded_by 
-      employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee; list }
+      employee_emails = @account.employees.collect {|employee| employee.email }
+      employees = @account.employees.inject({}) {|list, employee| 
+        list[employee.full_name.downcase] = employee
+        list 
+      }
+
+      duplicate_employee_emails = @bulk_upload.records.inject({}) {|list, employee| 
+        list[employee.email] = (list[employee.email] || []) << employee 
+        list
+      }.delete_if {|key, items| items.length == 1 }
       
-      new_employees = @bulk_upload.records.inject({}) {|list, employee| list[employee.employee_name] = employee; list }
+      new_employees = @bulk_upload.records.inject({}) {|list, employee| 
+        list[employee.employee_name] = employee
+        list 
+      }
 
       ActiveRecord::Base.transaction do
       
@@ -116,6 +134,9 @@ module Tenant
           # resolve location, department and approver
           # check for duplicate employees
           # work out the load sequencing
+          # check for duplicate email address
+
+          # TODO: check for duplicate user name
           
           duplicate_employee = employees[record.employee_name]
           approver = employees[record.approver_first_and_last_name] || default_approver
@@ -130,6 +151,11 @@ module Tenant
           
           messages += " - Approver not found" if approver.nil? && new_employee.nil?
           messages += " - Employee already exists" if duplicate_employee
+          
+          if !record.email.blank? && ( employee_emails.include?(record.email) || 
+                                       duplicate_employee_emails.include?(record.email) )
+            messages += " - Email address must be unique" 
+          end
           
           record.update_attributes(
             :location => locations[record.location_name] || default_location,

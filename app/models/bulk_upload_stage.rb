@@ -190,7 +190,9 @@ class BulkUploadStage < ActiveRecord::Base
         :medical_leave_take_on, 
         :compassionate_leave_take_on, 
         :maternity_leave_take_on
-      ].reject {|take_on_for| self.send(take_on_for).nil? || self.send(take_on_for) == 0 }.length > 0
+      ].reject {|take_on_for|
+        self.send(take_on_for).nil? || self.send(take_on_for).to_i == 0
+      }.length > 0
     end
   
   end
