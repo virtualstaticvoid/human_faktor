@@ -95,6 +95,8 @@ class BulkUpload < ActiveRecord::Base
       'text/plain'
     ]
     
+  validates_attachment_size(:csv).less_than(3.megabytes)
+    
   def authenticated_url(expires_in = 90.minutes)
     Rails.env.production? ?
       AWS::S3::S3Object.url_for(
