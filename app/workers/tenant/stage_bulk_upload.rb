@@ -99,17 +99,18 @@ module Tenant
       # fault tolerant? skip problem rows?
       
       default_location = @account.location
-      locations = @account.locations.inject({}) {|list, location| list[location.title.downcase] = location }
+      locations = @account.locations.inject({}) {|list, location| list[location.title.downcase] = location; list }
       
       default_department = @account.department
-      departments = @account.departments.inject({}) {|list, department| list[department.title.downcase] = department }
+      departments = @account.departments.inject({}) {|list, department| list[department.title.downcase] = department; list }
 
       default_approver = @bulk_upload.uploaded_by 
-      employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee }
+      employees = @account.employees.inject({}) {|list, employee| list[employee.full_name.downcase] = employee; list }
       
-      new_employees = @bulk_upload.records.inject({}) {|list, employee| list[employee.employee_name] = employee }
+      new_employees = @bulk_upload.records.inject({}) {|list, employee| list[employee.employee_name] = employee; list }
 
       ActiveRecord::Base.transaction do
+      
         for record in @bulk_upload.records
         
           # resolve location, department and approver
@@ -130,7 +131,7 @@ module Tenant
           messages += " - Approver not found" if approver.nil? && new_employee.nil?
           messages += " - Employee already exists" if duplicate_employee
           
-          record.update_attributes!(
+          record.update_attributes(
             :location => locations[record.location_name] || default_location,
             :department => locations[record.department_name] || default_department,
             :employee => duplicate_employee,            
@@ -140,7 +141,8 @@ module Tenant
           ) 
           
         end
-        true
+        
+        @bulk_upload.save
       end
 
     end
