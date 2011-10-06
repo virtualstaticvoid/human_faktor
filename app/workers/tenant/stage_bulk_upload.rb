@@ -93,6 +93,8 @@ module Tenant
           line_number += 1
                   
         end
+
+        temp_file.close!
         
         @bulk_upload.save
       end
