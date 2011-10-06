@@ -1,6 +1,8 @@
 class BulkUploadStage < ActiveRecord::Base
 
   default_scope order(:bulk_upload_id, :line_number)
+  
+  scope :selected, where(:selected => true)
 
   VALID_FIELDS = %w{      
     reference
