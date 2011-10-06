@@ -33,9 +33,68 @@ module Tenant
     def apply_upload()
       logger.info("#{@bulk_upload.id}: Processing bulk upload.")
 
-      # TODO: load according to load sequence...
-      
-      true
+      ActiveRecord::Base.transaction do
+        
+        employees = @account.employees
+        new_employees = {}
+        
+        # load new employees in sequence
+        for record in @bulk_upload.records.selected.order('load_sequence DESC')
+        
+          employee = employees.build(
+          
+            :user_name => record.user_name,
+            :email => record.email,
+
+            :title => record.title,
+            :first_name => record.first_name,
+            :middle_name => record.middle_name,
+            :last_name => record.last_name,
+            
+            :gender => ( case record.gender.downcase
+                           when 'm' then Employee::GENDER_MALE
+                           when 'f' then Employee::GENDER_FEMALE 
+                         end),
+
+            :internal_reference => record.reference,
+            :telephone => record.telephone,
+            :telephone_extension => record.telephone_extension,
+            :cellphone => record.mobile,
+            
+            :designation => record.designation,
+            :start_date => record.start_date,
+
+            :location_id => record.location_id,
+            :department_id => record.department_id,
+            
+            :approver_id => (record.approver_id.nil? ? 
+                              new_employees[record.approver_first_and_last_name] : 
+                              record.approver_id),
+            
+            :role => ( case record.role.downcase
+                         when 'admin' then Employee::ROLE_ADMIN
+                         when 'manager' then Employee::ROLE_MANAGER
+                         when 'approver' then Employee::ROLE_APPROVER
+                         when 'employee' then Employee::ROLE_EMPLOYEE
+                       end ),
+            
+            :active => true,
+            :notify => !record.email.blank?,
+
+            :take_on_balance_as_at => record.take_on_balance_as_at,
+            :annual_leave_take_on_balance => record.annual_leave_take_on,
+            :educational_leave_take_on_balance => record.educational_leave_take_on,
+            :medical_leave_take_on_balance => record.medical_leave_take_on,
+            :maternity_leave_take_on_balance => record.maternity_leave_take_on,
+            :compassionate_leave_take_on_balance => record.compassionate_leave_take_on
+          )
+          
+          new_employees[employee.full_name] = employee
+          
+        end
+        
+        @account.save
+      end      
     end
   
     def complete_processing()
