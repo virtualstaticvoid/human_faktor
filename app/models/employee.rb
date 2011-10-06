@@ -181,7 +181,7 @@ class Employee < ActiveRecord::Base
   end
 
   # take on balances
-  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => false
+  validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
   validates_presence_of :take_on_balance_as_at, :if => lambda { self.has_take_on_balance }
   
   def effective_start_date
