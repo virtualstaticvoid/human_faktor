@@ -127,7 +127,7 @@ class BulkUploadStage < ActiveRecord::Base
     validates :gender, :presence => true, :inclusion => { :in => ['M', 'F', 'm', 'f'] }
     
     attr_accessor :email
-    validates :email, :email => true
+    validates :email, :allow_blank => true, :email => true
     
     attr_accessor :telephone
     validates :telephone, :length => { :maximum => 20 }, :allow_nil => true
@@ -173,6 +173,25 @@ class BulkUploadStage < ActiveRecord::Base
     
     attr_accessor :maternity_leave_take_on
     validates :maternity_leave_take_on, :allow_blank => true, :numericality => true
+    
+    validate :take_on_balances
+    
+    private 
+    
+    def take_on_balances
+      # take_on_balance_as_at is required if there are take on balance amounts
+      self.errors[:take_on_balance_as_at] << 'is required' if take_on_balances?
+    end 
+    
+    def take_on_balances?
+      [
+        :annual_leave_take_on, 
+        :educational_leave_take_on, 
+        :medical_leave_take_on, 
+        :compassionate_leave_take_on, 
+        :maternity_leave_take_on
+      ].reject {|take_on_for| self.send(take_on_for).nil? }.length > 0
+    end
   
   end
 
