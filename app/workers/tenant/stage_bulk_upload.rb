@@ -17,6 +17,8 @@ module Tenant
     rescue Exception => error
     
       # any errors will be raised here which fail the bulk upload
+      # reload to clear any validation errors
+      @bulk_upload.reload
     
       # log out the full error message
       logger.error error.message
@@ -51,20 +53,27 @@ module Tenant
       }
       
       ActiveRecord::Base.transaction do
+      
+        # ensure initial state (when retrying)
+        @bulk_upload.records.clear
 
         CSV.foreach(open(@bulk_upload.authenticated_url), options) do |row|
-          next unless row
+        
+          # skip if the row is empty or nil
+          next unless row || row.fields.reject {|v| v.nil? }.empty?
                   
           if row.header_row?
 
             # verify header
-            unless (row.fields - BulkUploadStage::VALID_FIELDS) == []
+            unless (row.fields - BulkUploadStage::VALID_FIELDS).empty?
               raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - BulkUploadStage::VALID_FIELDS)}.\nAborting bulk upload!")
             end
           
           else
           
-            bulk_upload_row = @bulk_upload.records.build(row.to_hash)
+            bulk_upload_row = @bulk_upload.records.build(
+              row.to_hash
+            )
             bulk_upload_row.line_number = line_number
             
             # unlikely that this will fail
