@@ -57,9 +57,14 @@ module Tenant
         # ensure initial state (when retrying)
         @bulk_upload.records.clear
 
-        file = open(@bulk_upload.authenticated_url, 'r')
+        # copy the file locally
+        temp_file = Tempfile.new('bulk_upload.csv').tap {|file| file.binmode }
+        open(@bulk_upload.authenticated_url, 'r') {|data| 
+          temp_file.write(data.read) 
+        }
         
-        CSV.foreach(file, options) do |row|
+        # open as CSV and process each row
+        CSV.foreach(temp_file.path, options) do |row|
         
           # skip if the row is empty or nil
           next unless row || row.fields.reject {|v| v.nil? || v.blank? }.empty?
@@ -88,8 +93,6 @@ module Tenant
           line_number += 1
                   
         end
-        
-        file.close
         
         @bulk_upload.save
       end
