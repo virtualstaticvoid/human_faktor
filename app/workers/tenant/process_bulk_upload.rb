@@ -17,6 +17,9 @@ module Tenant
       logger.error error.message
       logger.error error.backtrace.join("\n")
 
+      puts error.message
+      puts error.backtrace.join("\n")
+
       # store the failure message
       fail_upload(error)
 
@@ -75,8 +78,8 @@ module Tenant
                          when 'admin' then Employee::ROLE_ADMIN
                          when 'manager' then Employee::ROLE_MANAGER
                          when 'approver' then Employee::ROLE_APPROVER
-                         when 'employee' then Employee::ROLE_EMPLOYEE
-                       end ),
+                         else Employee::ROLE_EMPLOYEE
+                       end ).to_s,
             
             :active => true,
             :notify => !record.email.blank?,
@@ -89,11 +92,13 @@ module Tenant
             :compassionate_leave_take_on_balance => record.compassionate_leave_take_on
           )
           
+          employee.save!
+
           new_employees[employee.full_name] = employee
           
         end
         
-        @account.save
+        @account.save!
       end      
     end
   
