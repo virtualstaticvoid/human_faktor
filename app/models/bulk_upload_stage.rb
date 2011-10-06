@@ -174,13 +174,13 @@ class BulkUploadStage < ActiveRecord::Base
     attr_accessor :maternity_leave_take_on
     validates :maternity_leave_take_on, :allow_blank => true, :numericality => true
     
-    validate :take_on_balances
+    validate :validate_take_on_balance_as_at
     
     private 
     
-    def take_on_balances
+    def validate_take_on_balance_as_at
       # take_on_balance_as_at is required if there are take on balance amounts
-      self.errors[:take_on_balance_as_at] << 'is required' if take_on_balances?
+      self.errors[:take_on_balance_as_at] << 'is required' if take_on_balances? && self.take_on_balance_as_at.nil?
     end 
     
     def take_on_balances?
@@ -190,7 +190,7 @@ class BulkUploadStage < ActiveRecord::Base
         :medical_leave_take_on, 
         :compassionate_leave_take_on, 
         :maternity_leave_take_on
-      ].reject {|take_on_for| self.send(take_on_for).nil? }.length > 0
+      ].reject {|take_on_for| self.send(take_on_for).nil? || self.send(take_on_for) == 0 }.length > 0
     end
   
   end
