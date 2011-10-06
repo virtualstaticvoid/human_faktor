@@ -119,12 +119,10 @@ class BulkUpload < ActiveRecord::Base
     self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged file.")
   end
 
-  def set_as_accepted(attributes)
+  def set_as_accepted()
     self.update_attributes(
-      attributes.merge({
-        'status' => STATUS_ACCEPTED, 
-        'messages' => 'Ready for import.'
-      })
+      :status => STATUS_ACCEPTED, 
+      :messages => 'Ready for import.'
     )
   end
 

@@ -36,7 +36,7 @@ module Tenant
       @bulk_upload = current_account.bulk_uploads.find(params[:id])
 
       respond_to do |format|
-        if @bulk_upload.set_as_accepted(params[:bulk_upload])
+        if @bulk_upload.set_as_accepted()
           format.html { redirect_to bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain), 
                           :notice => 'Successfully queued bulk upload for import. Please wait while the data is imported.' }
         else
