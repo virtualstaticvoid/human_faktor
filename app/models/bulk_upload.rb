@@ -127,15 +127,24 @@ class BulkUpload < ActiveRecord::Base
   end
 
   def set_as_processing()
-    self.update_attributes(:status => STATUS_PROCESSING, :messages => 'Processing employee data.')
+    self.update_attributes(
+      :status => STATUS_PROCESSING, 
+      :messages => 'Processing employee data.'
+    )
   end
 
   def set_as_processed()
-    self.update_attributes(:status => STATUS_PROCESSED, :messages => "Successfully imported employee data.")
+    self.update_attributes(
+      :status => STATUS_PROCESSED, 
+      :messages => "Successfully imported #{self.records.selected.count()} employees."
+    )
   end
 
   def set_as_failed(messages)
-    self.update_attributes(:status => STATUS_FAILED, :messages => messages)
+    self.update_attributes(
+      :status => STATUS_FAILED, 
+      :messages => messages
+    )
   end
 
 end
