@@ -37,7 +37,6 @@ gem 'paperclip', '~> 2.3'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
 gem 'validates_timeliness', '~> 3.0.2'
 gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
-gem 'newrelic_rpm'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -55,4 +54,7 @@ group :development, :test do
   gem 'ruby-prof'
   gem 'test-unit'
 end
+
+# instrumentation
+gem 'newrelic_rpm', :group => :production
 
