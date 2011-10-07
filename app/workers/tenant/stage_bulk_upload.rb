@@ -58,14 +58,15 @@ module Tenant
         @bulk_upload.records.clear
 
         # copy the file locally
-        temp_file = Tempfile.new('bulk_upload.csv').tap {|file| file.binmode }
-        open(@bulk_upload.authenticated_url) {|data| 
-          puts "Reading data from file storage"
-          bytes = temp_file.write(data.read)
-          puts "Done reading file (#{bytes} bytes)"
-        }
-        temp_file.flush
+        temp_file = Tempfile.new('bulk_upload.csv')
         
+        File.open(temp_file.path, 'w') do |file|        
+          open(@bulk_upload.authenticated_url) {|data| 
+            puts "Reading data from file storage"
+            bytes = file.write(data.read)
+            puts "Done reading file (#{bytes} bytes)"
+          }
+        end
         
         # open as CSV and process each row
         CSV.foreach(temp_file.path, options) do |row|
