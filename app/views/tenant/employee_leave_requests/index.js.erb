@@ -1,2 +1,8 @@
 <%= render :partial => 'tenant/leave_requests/leave_requests', :locals => { :leave_requests => @leave_requests } %>
-$('#download_csv').attr('href', '<%= employee_leave_requests_path(:format => :csv, :status => params[:status]) %>');
+$('#download_csv').attr('href', '<%= employee_leave_requests_path(
+  :format => :csv, 
+  :status => params[:status],
+  :date_from => params[:date_from],
+  :date_to => params[:date_to],
+  :requires_documentation_only => params[:requires_documentation_only]
+) %>');
