@@ -30,12 +30,15 @@ class BulkUploadStage < ActiveRecord::Base
   }.freeze
     
   belongs_to :bulk_upload
-  
-  belongs_to :employee
+
+  # resolved references  
   belongs_to :location
   belongs_to :department
-  belongs_to :approver, :class_name => 'Employee'
-  belongs_to :new_approver, :class_name => 'BulkUploadStage'
+  
+  belongs_to :approver, :class_name => 'Employee'               # existing approver
+  belongs_to :new_approver, :class_name => 'BulkUploadStage'    # references a bulk upload record
+  
+  belongs_to :employee
   
   default_values :line_number => 0,
                  :selected => false,
@@ -52,152 +55,87 @@ class BulkUploadStage < ActiveRecord::Base
   validates :load_sequence, 
             :presence => true, 
             :numericality => { :only_integer => true }
+
+  # validations not run when saved... used for validation during staging
+
+  validates :reference, :length => { :maximum => 255 }, :allow_nil => true
+  validates :title, :allow_blank => true, :length => { :maximum => 20 }
+
+  validates :first_name, 
+            :presence => true, 
+            :length => { :maximum => 100 }, 
+            :uniqueness => { :scope => [:bulk_upload_id, :last_name] }
   
+  validates :middle_name, :allow_blank => true, :length => { :maximum => 20 }
+
+  validates :last_name, 
+            :presence => true, 
+            :length => { :maximum => 100 }, 
+            :uniqueness => { :scope => [:bulk_upload_id, :first_name] }
+
   def user_name
-    [self.first_name, self.last_name].reject {|n| n.blank? }.join('.').downcase
+    @user_name ||= [self.first_name, self.last_name].reject {|n| n.blank? }.join('.').downcase
   end
+
+  validates :user_name, :unique_user_name_for_bulk_upload => true
+  
+  validates :email, 
+            :allow_blank => true, 
+            :email => true,
+            :uniqueness => { :scope => [:bulk_upload_id, :email] },
+            :unique_email_for_bulk_upload => true
+  
+  validates :gender, :presence => true, :inclusion => { :in => ['M', 'F', 'm', 'f'] }
+
+  validates :telephone, :length => { :maximum => 20 }, :allow_nil => true
+  validates :telephone_extension, :length => { :maximum => 10 }, :allow_nil => true
+  validates :mobile, :length => { :maximum => 20 }, :allow_nil => true
+
+  validates :designation, :allow_blank => true, :length => { :maximum => 255 }
+  validates :start_date, :timeliness => { :type => :date }
+  validates :location_name, :allow_blank => true, :length => { :maximum => 255 }
+  validates :department_name, :allow_blank => true, :length => { :maximum => 255 }
+  validates :approver_first_and_last_name, :allow_blank => true, :length => { :maximum => 220 }
+  validates :role, :presence => true, :inclusion => { :in => %w{employee approver manager admin} }
+
+  validates :take_on_balance_as_at, :allow_blank => true, :timeliness => { :type => :date }
+  validate :validate_take_on_balance_as_at
+   
+  validates :annual_leave_take_on, :allow_blank => true, :numericality => true
+  validates :educational_leave_take_on, :allow_blank => true, :numericality => true
+  validates :medical_leave_take_on, :allow_blank => true, :numericality => true
+  validates :compassionate_leave_take_on, :allow_blank => true, :numericality => true
+  validates :maternity_leave_take_on, :allow_blank => true, :numericality => true
   
   def employee_name
-    [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
+    @employee_name ||= [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
   end
   
   def approver_name
-    self.approver.nil? ? self.new_approver.employee_name : self.approver.full_name
+    @approver_name ||= self.approver.nil? ? self.new_approver.employee_name : self.approver.full_name
   end
   
   def increment_load_sequence
     self.update_attributes(:load_sequence => self.load_sequence + 1)
   end
+
+  private 
   
-  #
-  # NB: no other fields need to be validated so that the row will *always save!
-  #     * well almost always
-  #
+  def validate_take_on_balance_as_at
+    # take_on_balance_as_at is required if there are take on balance amounts
+    self.errors[:take_on_balance_as_at] << 'is required' if take_on_balances? && self.take_on_balance_as_at.nil?
+  end 
   
-  def validate_for_import()
-    model = BulkUploadValidationModel.new().tap do |r|
-      r.reference = self.reference
-      r.title = self.title
-      r.first_name = self.first_name
-      r.middle_name = self.middle_name
-      r.last_name = self.last_name
-      r.gender = self.gender
-      r.email = self.email
-      r.telephone = self.telephone
-      r.telephone_extension = self.telephone_extension
-      r.mobile = self.mobile
-      r.designation = self.designation
-      r.start_date = self.start_date
-      r.location_name = self.location_name
-      r.department_name = self.department_name
-      r.approver_first_and_last_name = self.approver_first_and_last_name
-      r.role = self.role.blank? ? 'employee' : self.role.downcase
-      r.take_on_balance_as_at = ApplicationHelper.safe_parse_date(self.take_on_balance_as_at)
-      r.annual_leave_take_on = self.annual_leave_take_on.to_f
-      r.educational_leave_take_on = self.educational_leave_take_on.to_f
-      r.medical_leave_take_on = self.medical_leave_take_on.to_f
-      r.compassionate_leave_take_on = self.compassionate_leave_take_on.to_f
-      r.maternity_leave_take_on = self.maternity_leave_take_on.to_f
-    end
-    valid = model.valid?
-    [valid, valid ? '' : model.errors.full_messages]
+  def take_on_balances?
+    [
+      :annual_leave_take_on, 
+      :educational_leave_take_on, 
+      :medical_leave_take_on, 
+      :compassionate_leave_take_on, 
+      :maternity_leave_take_on
+    ].reject {|take_on_for|
+      self.send(take_on_for).nil? || self.send(take_on_for) == 0
+    }.length > 0
   end
   
-  # Not a real model, but used for the validations!
-  class BulkUploadValidationModel
-    include Informal::Model
-  
-    #
-    # NOTE: duplicates validation in Employee model
-    #
-  
-    attr_accessor :reference
-    validates :reference, :length => { :maximum => 255 }, :allow_nil => true
-    
-    attr_accessor :title
-    validates :title, :allow_blank => true, :length => { :maximum => 20 }
-    
-    attr_accessor :first_name
-    validates :first_name, :presence => true, :length => { :maximum => 100 }
-    
-    attr_accessor :middle_name
-    validates :middle_name, :allow_blank => true, :length => { :maximum => 20 }
-    
-    attr_accessor :last_name
-    validates :last_name, :presence => true, :length => { :maximum => 100 }
-    
-    attr_accessor :gender
-    validates :gender, :presence => true, :inclusion => { :in => ['M', 'F', 'm', 'f'] }
-    
-    attr_accessor :email
-    validates :email, :allow_blank => true, :email => true
-    
-    attr_accessor :telephone
-    validates :telephone, :length => { :maximum => 20 }, :allow_nil => true
-    
-    attr_accessor :telephone_extension
-    validates :telephone_extension, :length => { :maximum => 10 }, :allow_nil => true
-    
-    attr_accessor :mobile
-    validates :mobile, :length => { :maximum => 20 }, :allow_nil => true
-    
-    attr_accessor :designation
-    validates :designation, :allow_blank => true, :length => { :maximum => 255 }
-    
-    attr_accessor :start_date
-    validates :start_date, :timeliness => { :type => :date }
-
-    attr_accessor :location_name
-    validates :location_name, :allow_blank => true, :length => { :maximum => 255 }
-    
-    attr_accessor :department_name
-    validates :department_name, :allow_blank => true, :length => { :maximum => 255 }
-    
-    attr_accessor :approver_first_and_last_name
-    validates :approver_first_and_last_name, :allow_blank => true, :length => { :maximum => 220 }
-    
-    attr_accessor :role
-    validates :role, :presence => true, :inclusion => { :in => %w{employee approver manager admin} }
-
-    attr_accessor :take_on_balance_as_at
-    validates :take_on_balance_as_at, :allow_blank => true, :timeliness => { :type => :date }
-    
-    attr_accessor :annual_leave_take_on
-    validates :annual_leave_take_on, :allow_blank => true, :numericality => true
-    
-    attr_accessor :educational_leave_take_on
-    validates :educational_leave_take_on, :allow_blank => true, :numericality => true
-    
-    attr_accessor :medical_leave_take_on
-    validates :medical_leave_take_on, :allow_blank => true, :numericality => true
-    
-    attr_accessor :compassionate_leave_take_on
-    validates :compassionate_leave_take_on, :allow_blank => true, :numericality => true
-    
-    attr_accessor :maternity_leave_take_on
-    validates :maternity_leave_take_on, :allow_blank => true, :numericality => true
-    
-    validate :validate_take_on_balance_as_at
-    
-    private 
-    
-    def validate_take_on_balance_as_at
-      # take_on_balance_as_at is required if there are take on balance amounts
-      self.errors[:take_on_balance_as_at] << 'is required' if take_on_balances? && self.take_on_balance_as_at.nil?
-    end 
-    
-    def take_on_balances?
-      [
-        :annual_leave_take_on, 
-        :educational_leave_take_on, 
-        :medical_leave_take_on, 
-        :compassionate_leave_take_on, 
-        :maternity_leave_take_on
-      ].reject {|take_on_for|
-        self.send(take_on_for).nil? || self.send(take_on_for) == 0
-      }.length > 0
-    end
-  
-  end
-
 end

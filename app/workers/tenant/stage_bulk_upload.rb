@@ -92,12 +92,12 @@ module Tenant
             bulk_upload_row = @bulk_upload.records.build(
               row.to_hash
             )
-            bulk_upload_row.line_number = line_number
             
-            # unlikely that this will fail
-            unless bulk_upload_row.save
-              raise Exception.new("Error on line #{line_number}: #{bulk_upload_row.errors.full_messages}")
-            end
+            bulk_upload_row.line_number = line_number
+            bulk_upload_row.role = 'Employee' if bulk_upload_row.role.blank?
+            
+            # save without validation, so it *always* suceeds
+            bulk_upload_row.save!(:validate => false)
           
           end
           
@@ -107,102 +107,81 @@ module Tenant
 
         temp_file.close!
         
-        @bulk_upload.save
+        @bulk_upload.save!
       end
     end
 
     def validate_upload()
       logger.info("#{@bulk_upload.id}: Validating bulk upload.")
     
-      # validate each row, save the error message per row?
-      # and raise an exception at the end to indicate failure
-      # fault tolerant? skip problem rows?
-      
+      # load defaults
       default_location = @account.location
-      locations = @account.locations.inject({}) {|list, location| 
-        list[location.title.downcase] = location
-        list 
-      }
-      
       default_department = @account.department
-      departments = @account.departments.inject({}) {|list, department| 
-        list[department.title.downcase] = department
-        list 
-      }
-
-      default_approver = @bulk_upload.uploaded_by 
-      employee_emails = @account.employees.collect {|employee| employee.email }
-      employees = @account.employees.inject({}) {|list, employee| 
-        list[employee.full_name.downcase] = employee
-        list 
-      }
-
-      duplicate_employee_emails = @bulk_upload.records.inject({}) {|list, employee| 
-        list[employee.email.downcase] = (list[employee.email.downcase] || []) << employee unless employee.email.blank?
-        list
-      }.delete_if {|key, items| items.length == 1 }
+      default_approver = @bulk_upload.uploaded_by
       
-      new_employees = @bulk_upload.records.inject({}) {|list, employee| 
-        list[employee.employee_name.downcase] = employee
-        list 
-      }
+      # load lookups
+      employees = load_employees_lookup
+      locations = load_locations_lookup
+      departments = load_departments_lookup
+      approvers = load_approvers_lookup
+      new_approvers = to_lookup(@bulk_upload.records) {|item| item.employee_name }
 
-      ActiveRecord::Base.transaction do
-      
-        for record in @bulk_upload.records
+      for record in @bulk_upload.records
+
+        record_valid = record.valid?
+        validation_messages = record_valid ? nil : record.errors.full_messages
+
+        existing_employee = employees[record.user_name]
+        location = locations[record.location_name] || default_location
+        department = departments[record.department_name] || default_department
         
-          # resolve location, department and approver
-          # check for duplicate employees
-          # work out the load sequencing
-          # check for duplicate email address
-
-          # TODO: check for duplicate user name
-          
-          duplicate_employee = employees[record.employee_name]
-          
-          # try to find approver from existing employees
-          approver = nil
-          unless record.approver_first_and_last_name.blank?
-            approver = employees[record.approver_first_and_last_name.downcase] 
-          else
-            approver = default_approver
-          end
-
-          # try find approver from new employees
-          new_approver = nil
-          if approver.nil? && new_approver = new_employees[record.approver_first_and_last_name.downcase]
-            new_approver.increment_load_sequence
-          else
-            approver = default_approver
-          end
-
-          selected, messages = record.validate_for_import
-          
-          messages += " - Approver not found" if approver.nil? && new_approver.nil?
-          messages += " - Employee already exists" if duplicate_employee
-          
-          if !record.email.blank? && ( employee_emails.include?(record.email.downcase) || 
-                                       duplicate_employee_emails.include?(record.email.downcase) )
-            messages += " - Email address must be unique" 
-          end
-          
-          record.update_attributes!(
-            :location => locations[record.location_name] || default_location,
-            :department => locations[record.department_name] || default_department,
-            :employee => duplicate_employee,            
-            :approver => approver,
-            :new_approver => new_approver,
-            :role => record.role || 'Employee',
-            :selected => selected & duplicate_employee.nil?,
-            :messages => messages
-          )
-          
-        end
+        # resolve for approver, first in existing employees, 
+        #  then in the bulk upload, otherwise use the default
+        approver = approvers[record.approver_first_and_last_name]
+        new_approver = approver.nil? ? new_approvers[record.approver_first_and_last_name] : nil
+        approver = default_approver if approver.nil? && new_approver.nil?
         
-        @bulk_upload.save
-
+        record.update_attributes(
+          :location => location,
+          :department => department,
+          :employee => existing_employee,            
+          :approver => approver,
+          :new_approver => new_approver,
+          :selected => record_valid,
+          :messages => validation_messages
+        )
+        
+        # NB: save without validation
+        record.save!(:validate => false)
+        
+        # push this employee up the load order
+        new_approver.increment_load_sequence() unless new_approver.nil?
+        
       end
+      
+    end
+    
+    def load_employees_lookup
+      to_lookup(@account.employees) {|item| item.full_name }
+    end
+    
+    def load_locations_lookup
+      to_lookup(@account.locations) {|item| item.title }
+    end
 
+    def load_departments_lookup
+      to_lookup(@account.departments) {|item| item.title }
+    end
+    
+    def load_approvers_lookup
+      to_lookup(@account.employees.active_approvers) {|item| item.full_name }
+    end
+    
+    def to_lookup(items, &block)
+      items.inject({}) {|list, item| 
+        list[yield(item).downcase] = item
+        list 
+      }
     end
 
     def complete_staging()
