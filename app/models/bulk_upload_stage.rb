@@ -64,16 +64,14 @@ class BulkUploadStage < ActiveRecord::Base
 
   validates :first_name, 
             :presence => true, 
-            :length => { :maximum => 100 }, 
-            :uniqueness => { :scope => [:bulk_upload_id, :last_name] }
+            :length => { :maximum => 100 }
   
   validates :middle_name, :allow_blank => true, :length => { :maximum => 20 }
 
   validates :last_name, 
             :presence => true, 
-            :length => { :maximum => 100 }, 
-            :uniqueness => { :scope => [:bulk_upload_id, :first_name] }
-
+            :length => { :maximum => 100 }
+            
   def user_name
     @user_name ||= [self.first_name, self.last_name].reject {|n| n.blank? }.join('.').downcase
   end
@@ -83,7 +81,7 @@ class BulkUploadStage < ActiveRecord::Base
   validates :email, 
             :allow_blank => true, 
             :email => true,
-            :uniqueness => { :scope => [:bulk_upload_id, :email] },
+            :uniqueness => { :scope => [:bulk_upload_id, :email], :case_sensitive => false },
             :unique_email_for_bulk_upload => true
   
   validates :gender, :presence => true, :inclusion => { :in => ['M', 'F', 'm', 'f'] }
@@ -94,9 +92,11 @@ class BulkUploadStage < ActiveRecord::Base
 
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }
   validates :start_date, :timeliness => { :type => :date }
+  
   validates :location_name, :allow_blank => true, :length => { :maximum => 255 }
   validates :department_name, :allow_blank => true, :length => { :maximum => 255 }
   validates :approver_first_and_last_name, :allow_blank => true, :length => { :maximum => 220 }
+  
   validates :role, :presence => true, :inclusion => { :in => %w{employee approver manager admin} }
 
   validates :take_on_balance_as_at, :allow_blank => true, :timeliness => { :type => :date }
@@ -147,7 +147,7 @@ class BulkUploadStage < ActiveRecord::Base
       :compassionate_leave_take_on, 
       :maternity_leave_take_on
     ].reject {|take_on_for|
-      self.send(take_on_for).nil? || self.send(take_on_for) == 0
+      self.send(take_on_for).nil? || self.send(take_on_for).to_f == 0
     }.length > 0
   end
   
