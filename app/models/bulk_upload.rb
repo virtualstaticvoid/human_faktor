@@ -116,7 +116,7 @@ class BulkUpload < ActiveRecord::Base
   end
   
   def set_as_staged()
-    self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged file.")
+    self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged employee data.")
   end
 
   def set_as_accepted()
