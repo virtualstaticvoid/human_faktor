@@ -344,7 +344,7 @@ class LeaveRequest < ActiveRecord::Base
   def can_cancel?(employee)
     raise InvalidOperationException if employee.nil?
     
-    self.employee == employee || employee.is_manager_of?(self.employee)
+    employee.is_admin? || employee.is_manager_of?(self.employee)
   end
 
   def calculate_duration
