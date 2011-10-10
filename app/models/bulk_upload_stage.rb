@@ -61,6 +61,10 @@ class BulkUploadStage < ActiveRecord::Base
     [self.first_name, self.last_name].reject {|n| n.blank? }.join(' ')
   end
   
+  def approver_name
+    self.approver.nil? ? self.new_approver.employee_name : self.approver.full_name
+  end
+  
   def increment_load_sequence
     self.update_attributes(:load_sequence => self.load_sequence + 1)
   end
