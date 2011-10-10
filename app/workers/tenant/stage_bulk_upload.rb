@@ -192,6 +192,7 @@ module Tenant
             :employee => duplicate_employee,            
             :approver => approver,
             :new_approver => new_approver,
+            :role => record.role || 'Employee',
             :selected => selected & duplicate_employee.nil?,
             :messages => messages
           )
@@ -199,6 +200,7 @@ module Tenant
         end
         
         @bulk_upload.save
+
       end
 
     end
