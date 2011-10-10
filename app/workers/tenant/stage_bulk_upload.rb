@@ -58,21 +58,21 @@ module Tenant
         :skip_blanks => true
       }
       
+      # copy the file locally
+      temp_file = Tempfile.new('bulk_upload.csv')
+      
+      File.open(temp_file.path, 'w') do |file|        
+        open(@bulk_upload.authenticated_url) {|data| 
+          puts "Reading data from file storage"
+          bytes = file.write(data.read)
+          puts "Done reading file (#{bytes} bytes)"
+        }
+      end
+
       ActiveRecord::Base.transaction do
       
         # ensure initial state (when retrying)
         @bulk_upload.records.clear
-
-        # copy the file locally
-        temp_file = Tempfile.new('bulk_upload.csv')
-        
-        File.open(temp_file.path, 'w') do |file|        
-          open(@bulk_upload.authenticated_url) {|data| 
-            puts "Reading data from file storage"
-            bytes = file.write(data.read)
-            puts "Done reading file (#{bytes} bytes)"
-          }
-        end
         
         # open as CSV and process each row
         CSV.foreach(temp_file.path, options) do |row|
@@ -94,7 +94,10 @@ module Tenant
             )
             
             bulk_upload_row.line_number = line_number
-            bulk_upload_row.role = 'Employee' if bulk_upload_row.role.blank?
+            
+            bulk_upload_row.role = bulk_upload_row.role.blank? ?
+              'employee' :
+              bulk_upload_row.role.downcase
             
             # save without validation, so it *always* suceeds
             bulk_upload_row.save!(:validate => false)
@@ -126,20 +129,31 @@ module Tenant
       approvers = load_approvers_lookup
       new_approvers = to_lookup(@bulk_upload.records) {|item| item.employee_name }
 
+      # check each row
       for record in @bulk_upload.records
+        
+        # working variables
+        existing_employee = nil
+        location = nil
+        department = nil
+        approver = nil
+        new_approver = nil
 
+        # validate the current record
         record_valid = record.valid?
         validation_messages = record_valid ? nil : record.errors.full_messages
-
+    
+        # resolve for foreign key values (location, department, approver)
+  
         existing_employee = employees[record.user_name]
-        location = locations[record.location_name] || default_location
-        department = departments[record.department_name] || default_department
+        location = locations[record.location_name_downcased] || default_location
+        department = departments[record.department_name_downcased] || default_department
         
         # resolve for approver, first in existing employees, 
         #  then in the bulk upload, otherwise use the default
-        approver = approvers[record.approver_first_and_last_name]
-        new_approver = approver.nil? ? new_approvers[record.approver_first_and_last_name] : nil
-        approver = default_approver if approver.nil? && new_approver.nil?
+        approver = approvers[record.approver_first_and_last_name_downcased]
+        new_approver = approver.nil? ? new_approvers[record.approver_first_and_last_name_downcased] : nil
+        approver = new_approver.nil? ? default_approver : nil
         
         record.update_attributes(
           :location => location,
@@ -150,7 +164,7 @@ module Tenant
           :selected => record_valid,
           :messages => validation_messages
         )
-        
+
         # NB: save without validation
         record.save!(:validate => false)
         
