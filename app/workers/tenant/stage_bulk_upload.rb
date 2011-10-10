@@ -132,12 +132,12 @@ module Tenant
       }
 
       duplicate_employee_emails = @bulk_upload.records.inject({}) {|list, employee| 
-        list[employee.email] = (list[employee.email] || []) << employee 
+        list[employee.email.downcase] = (list[employee.email.downcase] || []) << employee 
         list
       }.delete_if {|key, items| items.length == 1 }
       
       new_employees = @bulk_upload.records.inject({}) {|list, employee| 
-        list[employee.employee_name] = employee
+        list[employee.employee_name.downcase] = employee
         list 
       }
 
@@ -153,32 +153,42 @@ module Tenant
           # TODO: check for duplicate user name
           
           duplicate_employee = employees[record.employee_name]
-          approver = employees[record.approver_first_and_last_name] || default_approver
           
-          new_employee = nil
-          if approver.nil?
-            new_employee = new_employees[record.approver_first_and_last_name]
-            new_employee.increment_load_sequence unless new_employee.nil?
+          # try to find approver from existing employees
+          approver = nil
+          unless record.approver_first_and_last_name.blank?
+            approver = employees[record.approver_first_and_last_name.downcase] 
+          else
+            approver = default_approver
           end
-        
+
+          # try find approver from new employees
+          new_approver = nil
+          if approver.nil? && new_approver = new_employees[record.approver_first_and_last_name.downcase]
+            new_approver.increment_load_sequence
+          else
+            approver = default_approver
+          end
+
           selected, messages = record.validate_for_import
           
-          messages += " - Approver not found" if approver.nil? && new_employee.nil?
+          messages += " - Approver not found" if approver.nil? && new_approver.nil?
           messages += " - Employee already exists" if duplicate_employee
           
-          if !record.email.blank? && ( employee_emails.include?(record.email) || 
-                                       duplicate_employee_emails.include?(record.email) )
+          if !record.email.blank? && ( employee_emails.include?(record.email.downcase) || 
+                                       duplicate_employee_emails.include?(record.email.downcase) )
             messages += " - Email address must be unique" 
           end
           
-          record.update_attributes(
+          record.update_attributes!(
             :location => locations[record.location_name] || default_location,
             :department => locations[record.department_name] || default_department,
             :employee => duplicate_employee,            
             :approver => approver,
+            :new_approver => new_approver,
             :selected => selected & duplicate_employee.nil?,
             :messages => messages
-          ) 
+          )
           
         end
         
