@@ -37,7 +37,7 @@ class Employee < ActiveRecord::Base
   default_values :identifier => lambda { TokenHelper.friendly_token },
                  :role => ROLE_EMPLOYEE.to_s,
                  :fixed_daily_hours => 8,
-                 :active => false,
+                 :active => true,
                  :notify => false,
                  :take_on_balance_as_at => lambda { Date.today }
 
