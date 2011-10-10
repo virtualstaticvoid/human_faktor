@@ -50,7 +50,7 @@ module Tenant
           employee = employees.build(
           
             :user_name => record.user_name,
-            :email => record.email,
+            :email => record.email.blank? ? nil : record.email,
 
             :title => record.title,
             :first_name => record.first_name,

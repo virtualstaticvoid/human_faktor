@@ -132,7 +132,7 @@ module Tenant
       }
 
       duplicate_employee_emails = @bulk_upload.records.inject({}) {|list, employee| 
-        list[employee.email.downcase] = (list[employee.email.downcase] || []) << employee 
+        list[employee.email.downcase] = (list[employee.email.downcase] || []) << employee unless employee.email.blank?
         list
       }.delete_if {|key, items| items.length == 1 }
       
