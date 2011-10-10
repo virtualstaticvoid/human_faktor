@@ -93,11 +93,11 @@ class BulkUploadStage < ActiveRecord::Base
       r.approver_first_and_last_name = self.approver_first_and_last_name
       r.role = self.role.blank? ? 'employee' : self.role.downcase
       r.take_on_balance_as_at = ApplicationHelper.safe_parse_date(self.take_on_balance_as_at)
-      r.annual_leave_take_on = self.annual_leave_take_on.to_i
-      r.educational_leave_take_on = self.educational_leave_take_on.to_i
-      r.medical_leave_take_on = self.medical_leave_take_on.to_i
-      r.compassionate_leave_take_on = self.compassionate_leave_take_on.to_i
-      r.maternity_leave_take_on = self.maternity_leave_take_on.to_i
+      r.annual_leave_take_on = self.annual_leave_take_on.to_f
+      r.educational_leave_take_on = self.educational_leave_take_on.to_f
+      r.medical_leave_take_on = self.medical_leave_take_on.to_f
+      r.compassionate_leave_take_on = self.compassionate_leave_take_on.to_f
+      r.maternity_leave_take_on = self.maternity_leave_take_on.to_f
     end
     valid = model.valid?
     [valid, valid ? '' : model.errors.full_messages]

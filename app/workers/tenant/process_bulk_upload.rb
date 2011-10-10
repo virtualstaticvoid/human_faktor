@@ -87,11 +87,11 @@ module Tenant
             :notify => !record.email.blank?,
 
             :take_on_balance_as_at => record.take_on_balance_as_at,
-            :annual_leave_take_on_balance => record.annual_leave_take_on,
-            :educational_leave_take_on_balance => record.educational_leave_take_on,
-            :medical_leave_take_on_balance => record.medical_leave_take_on,
-            :maternity_leave_take_on_balance => record.maternity_leave_take_on,
-            :compassionate_leave_take_on_balance => record.compassionate_leave_take_on
+            :annual_leave_take_on_balance => record.annual_leave_take_on.to_f,
+            :educational_leave_take_on_balance => record.educational_leave_take_on.to_f,
+            :medical_leave_take_on_balance => record.medical_leave_take_on.to_f,
+            :maternity_leave_take_on_balance => record.maternity_leave_take_on.to_f,
+            :compassionate_leave_take_on_balance => record.compassionate_leave_take_on.to_f
           )
           
           employee.save!
