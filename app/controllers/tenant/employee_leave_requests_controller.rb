@@ -44,7 +44,7 @@ module Tenant
             .where(:requires_documentation.as_constraint_override => true)
       end
       
-      @leave_requests = @leave_requests.order(:date_from)
+      @leave_requests = @leave_requests.order('created_at DESC')
 
     end
 
