@@ -112,36 +112,42 @@ class BulkUpload < ActiveRecord::Base
   end
   
   def set_as_staging
-    self.update_attributes(:status => STATUS_STAGING, :messages => "Staging uploaded file.")
+    self.update_attributes!(
+      :status => STATUS_STAGING, 
+      :messages => "Staging uploaded file."
+    )
   end
   
   def set_as_staged()
-    self.update_attributes(:status => STATUS_STAGED, :messages => "Successfully staged employee data.")
+    self.update_attributes!(
+      :status => STATUS_STAGED, 
+      :messages => "Successfully staged employee data."
+    )
   end
 
   def set_as_accepted()
-    self.update_attributes(
+    self.update_attributes!(
       :status => STATUS_ACCEPTED, 
       :messages => 'Ready for import.'
     )
   end
 
   def set_as_processing()
-    self.update_attributes(
+    self.update_attributes!(
       :status => STATUS_PROCESSING, 
       :messages => 'Processing employee data.'
     )
   end
 
   def set_as_processed()
-    self.update_attributes(
+    self.update_attributes!(
       :status => STATUS_PROCESSED, 
       :messages => "Successfully imported #{self.records.selected.count()} employees."
     )
   end
 
   def set_as_failed(messages)
-    self.update_attributes(
+    self.update_attributes!(
       :status => STATUS_FAILED, 
       :messages => messages
     )

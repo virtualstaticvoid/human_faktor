@@ -8,6 +8,7 @@ module Tenant
     include ActionView::Helpers::TextHelper
   
     def perform()
+      puts ">>> StageBulkUpload#perform"
       
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
