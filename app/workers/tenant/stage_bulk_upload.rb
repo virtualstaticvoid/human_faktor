@@ -1,11 +1,14 @@
 require 'open-uri'
 require 'aws/s3'
 require 'csv'
+require 'action_view/helpers/text_helper'
 
 module Tenant
   class StageBulkUpload < Struct.new(:upload_id)
+    include ActionView::Helpers::TextHelper
   
     def perform()
+      
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
 
@@ -13,6 +16,9 @@ module Tenant
           stage_upload() && 
             validate_upload() && 
               complete_staging()
+      
+      puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
+      logger.info "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
         
     rescue Exception => error
     
