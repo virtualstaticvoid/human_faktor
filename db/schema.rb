@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110929120539) do
+ActiveRecord::Schema.define(:version => 20111010123712) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20110929120539) do
     t.string  "medical_leave_take_on"
     t.string  "compassionate_leave_take_on"
     t.string  "maternity_leave_take_on"
+    t.integer "new_approver_id"
   end
 
   add_index "bulk_upload_stages", ["bulk_upload_id"], :name => "index_bulk_upload_stages_on_bulk_upload_id"

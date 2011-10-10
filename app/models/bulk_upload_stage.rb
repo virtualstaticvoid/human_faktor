@@ -35,6 +35,7 @@ class BulkUploadStage < ActiveRecord::Base
   belongs_to :location
   belongs_to :department
   belongs_to :approver, :class_name => 'Employee'
+  belongs_to :new_approver, :class_name => 'BulkUploadStage'
   
   default_values :line_number => 0,
                  :selected => false,
