@@ -264,7 +264,7 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
   
-  def approve(approver, comment)
+  def approve(approver, comment = '')
     raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver) || !self.leave_type.approval_required
@@ -275,7 +275,7 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :status, STATUS_APPROVED
   end
   
-  def decline(approver, comment)
+  def decline(approver, comment = '')
     raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver)

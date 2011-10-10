@@ -39,7 +39,7 @@ module Tenant
     test "should get edit when status is approved" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.approve!(employees(:admin), '')
+      assert @leave_request.approve!(employees(:admin))
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
 
       assert_equal false, @leave_request.approved_declined_by.nil?
@@ -52,7 +52,7 @@ module Tenant
     test "should get edit when status is declined" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.decline!(employees(:admin), '')
+      assert @leave_request.decline!(employees(:admin))
       assert @leave_request.status == LeaveRequest::STATUS_DECLINED
 
       assert_equal false, @leave_request.approved_declined_by.nil?
@@ -65,8 +65,8 @@ module Tenant
     test "should get edit when status is cancelled" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.approve(employees(:admin), '')
-      assert @leave_request.cancel!(@leave_request.employee)
+      assert @leave_request.approve(employees(:admin))
+      assert @leave_request.cancel!(employees(:admin))
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
 
       assert_equal false, @leave_request.cancelled_by.nil?
@@ -79,8 +79,8 @@ module Tenant
     test "should get edit when status is reinstated" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.approve(employees(:admin), '')
-      assert @leave_request.cancel(@leave_request.employee)
+      assert @leave_request.approve(employees(:admin))
+      assert @leave_request.cancel(@leave_request.approver)
       assert @leave_request.reinstate!(@leave_request.approver)
 
       assert_equal false, @leave_request.reinstated_by.nil?
@@ -120,7 +120,7 @@ module Tenant
       test "should reinstate for #{role}" do
         sign_in_as role
         @leave_request.confirm
-        assert @leave_request.cancel!(@leave_request.employee)
+        assert @leave_request.cancel!(@leave_request.approver)
         assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
         put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
         assert_redirected_to dashboard_path(:tenant => @account.subdomain)
@@ -144,10 +144,10 @@ module Tenant
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
 
-    test "cannot cancel for employee" do
+    test "cannot cancel approved leave for employee" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.approve!(@leave_request.approver, '')
+      assert @leave_request.approve!(@leave_request.approver)
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
       put :cancel, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
@@ -156,13 +156,13 @@ module Tenant
     test "cannot reinstate for employee" do
       sign_in_as :employee
       @leave_request.confirm
-      assert @leave_request.cancel!(@leave_request.employee)
+      assert @leave_request.cancel!(@leave_request.approver)
       assert @leave_request.status == LeaveRequest::STATUS_CANCELLED
       put :reinstate, :tenant => @account.subdomain, :id => @leave_request.to_param, :leave_request => @leave_request_attributes
       assert_redirected_to dashboard_path(:tenant => @account.subdomain)
     end
 
-    test "employee can cancel own leave" do
+    test "employee can cancel unapproved leave request" do
       sign_in_as :employee
       assert @leave_request.employee == employees(:employee)
       assert @leave_request.confirm!
