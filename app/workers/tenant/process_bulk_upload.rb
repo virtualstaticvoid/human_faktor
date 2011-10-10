@@ -38,8 +38,11 @@ module Tenant
 
       ActiveRecord::Base.transaction do
         
+        default_approver_id = @bulk_upload.uploaded_by_id
         employees = @account.employees
+
         new_employees = {}
+        employees_needing_approvers = {}
         
         # load new employees in sequence
         for record in @bulk_upload.records.selected.order('load_sequence DESC')
@@ -70,9 +73,8 @@ module Tenant
             :location_id => record.location_id,
             :department_id => record.department_id,
             
-            :approver_id => (record.approver_id.nil? ? 
-                              new_employees[record.approver_first_and_last_name] : 
-                              record.approver_id),
+            # use the default for now...
+            :approver_id => record.approver_id || default_approver_id,
             
             :role => ( case record.role.downcase
                          when 'admin' then Employee::ROLE_ADMIN
@@ -93,9 +95,17 @@ module Tenant
           )
           
           employee.save!
-
-          new_employees[employee.full_name] = employee
           
+          employees_needing_approvers[employee] = record unless record.new_approver_id.nil?
+          new_employees[employee.full_name.downcase] = employee
+          
+        end
+        
+        # fix up approvers
+        employees_needing_approvers.each do |employee, record|
+          employee.update_attributes!(
+            :approver => new_employees[record.approver_first_and_last_name.downcase]
+          )
         end
         
         @account.save!
