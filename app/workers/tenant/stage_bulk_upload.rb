@@ -18,7 +18,6 @@ module Tenant
               complete_staging()
       
       puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
-      logger.info "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
         
     rescue Exception => error
     
@@ -27,9 +26,6 @@ module Tenant
       @bulk_upload.reload
     
       # log out the full error message
-      logger.error error.message
-      logger.error error.backtrace.join("\n")
-
       puts error.message
       puts error.backtrace.join("\n")
 
@@ -42,12 +38,12 @@ module Tenant
     private
     
     def start_staging()
-      logger.info("#{@bulk_upload.id}: Started staging bulk upload.")
+      puts "#{@bulk_upload.id}: Started staging bulk upload."
       @bulk_upload.set_as_staging
     end
 
     def stage_upload()
-      logger.info("#{@bulk_upload.id}: Staging bulk upload.")
+      puts "#{@bulk_upload.id}: Staging bulk upload."
     
       # import the file as is into the bulk upload stage model
 
@@ -115,7 +111,7 @@ module Tenant
     end
 
     def validate_upload()
-      logger.info("#{@bulk_upload.id}: Validating bulk upload.")
+      puts "#{@bulk_upload.id}: Validating bulk upload."
     
       # load defaults
       default_location = @account.location
@@ -199,21 +195,17 @@ module Tenant
     end
 
     def complete_staging()
-      logger.info("#{@bulk_upload.id}: Completed staging bulk upload.")
+      puts "#{@bulk_upload.id}: Completed staging bulk upload."
       @bulk_upload.set_as_staged()
     end
 
     def fail_upload(error)
-      logger.info("#{@bulk_upload.id}: Failed to stage bulk upload.")
+      puts "#{@bulk_upload.id}: Failed to stage bulk upload."
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
           "#{error.message}\n#{error.backtrace.join("\n")}"
       )
-    end
-
-    def logger
-      Delayed::Worker.logger
     end
 
   end

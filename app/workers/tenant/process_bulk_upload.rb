@@ -14,9 +14,6 @@ module Tenant
       # any errors will be raised here which fail the bulk upload
     
       # log out the full error message
-      logger.error error.message
-      logger.error error.backtrace.join("\n")
-
       puts error.message
       puts error.backtrace.join("\n")
 
@@ -29,12 +26,12 @@ module Tenant
     private
 
     def start_processing()
-      logger.info("#{@bulk_upload.id}: Started processing bulk upload.")
+      puts "#{@bulk_upload.id}: Started processing bulk upload."
       @bulk_upload.set_as_processing
     end
     
     def apply_upload()
-      logger.info("#{@bulk_upload.id}: Processing bulk upload.")
+      puts "#{@bulk_upload.id}: Processing bulk upload."
 
       ActiveRecord::Base.transaction do
         
@@ -113,12 +110,12 @@ module Tenant
     end
   
     def complete_processing()
-      logger.info("#{@bulk_upload.id}: Completed processing bulk upload.")
+      puts "#{@bulk_upload.id}: Completed processing bulk upload."
       @bulk_upload.set_as_processed()
     end
 
     def fail_upload(error)
-      logger.info("#{@bulk_upload.id}: Failed to process bulk upload.")
+      puts "#{@bulk_upload.id}: Failed to process bulk upload."
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
@@ -126,10 +123,6 @@ module Tenant
       )
     end
     
-    def logger
-      Delayed::Worker.logger
-    end
-
   end
 end
 
