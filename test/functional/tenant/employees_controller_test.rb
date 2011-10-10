@@ -45,6 +45,11 @@ module Tenant
       assert_redirected_to employees_path(:tenant => @account.subdomain)
     end
 
+    test "should reactivate employee" do
+      put :reactivate, :tenant => @account.subdomain, :id => @employee.to_param
+      assert_redirected_to employees_path(:tenant => @account.subdomain)
+    end
+
     test "should destroy employee" do
       assert_difference('Employee.count', -1) do
         delete :destroy, :tenant => @account.subdomain, :id => @employee.to_param

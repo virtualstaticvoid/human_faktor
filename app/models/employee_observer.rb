@@ -4,4 +4,8 @@ class EmployeeObserver < ActiveRecord::Observer
     WorkQueue.enqueue(Tenant::EmployeeMailer, employee.id)
   end
 
+  def after_update(employee)
+    WorkQueue.enqueue(Tenant::EmployeeMailer, employee.id) if employee.changed.any? {|field| field == 'active' } && employee.active
+  end
+
 end

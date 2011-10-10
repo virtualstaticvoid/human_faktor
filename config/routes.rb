@@ -102,6 +102,7 @@ HumanFaktor::Application.routes.draw do
       resources :employees, :module => 'tenant' do
         member do
           put 'deactivate'
+          put 'reactivate'
         end
       end
 

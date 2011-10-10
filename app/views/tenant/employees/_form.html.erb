@@ -236,8 +236,13 @@
   <div class="actions">
     <%= f.submit %> 
     <% if @employee.persisted? %>
-      <%= link_to 'deactivate', deactivate_employee_path(@employee, :tenant => current_account.subdomain),
-                   :method => :put, :confirm => 'Deactivate this employee?' %>
+      <% if @employee.active %>
+        <%= link_to 'deactivate', deactivate_employee_path(@employee, :tenant => current_account.subdomain),
+                     :method => :put, :confirm => 'Deactivate this employee?' %>
+      <% else %>
+        <%= link_to 're-activate', reactivate_employee_path(@employee, :tenant => current_account.subdomain),
+                     :method => :put, :confirm => 'Activate this employee?' %>
+      <% end %>
       or <%= link_to 'delete', employee_path(@employee, :tenant => current_account.subdomain),
                    :method => :delete, 
                    :confirm => "Are you sure you want to delete the employee?\n\nPlease consider deactivating the employee instead so that the employee's history is preserved." %>

@@ -60,6 +60,19 @@ module Tenant
       end
     end
 
+    def reactivate
+      @employee = current_account.employees.find_by_identifier(params[:id])
+    
+      respond_to do |format|
+        if @employee.update_attributes(:active => true)
+          format.html { redirect_to(employees_url, :notice => 'Employee was successfully re-activated.') }
+        else
+          load_leave_types
+          format.html { render :action => "edit" }
+        end
+      end
+    end
+
     def destroy
       @employee = current_account.employees.find_by_identifier(params[:id])
       @employee.destroy
