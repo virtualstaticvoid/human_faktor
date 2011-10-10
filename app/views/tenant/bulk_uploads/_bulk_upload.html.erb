@@ -31,6 +31,6 @@
   </tr>
   <tr>
     <td><span>Rows with Errors</span></td>
-    <td><%= pluralize(@bulk_upload.records.where(:selected => false).count(), 'row') %></td>
+    <td><%= pluralize(@bulk_upload.records.with_errors.count(), 'row') %></td>
   </tr>
 </table>
