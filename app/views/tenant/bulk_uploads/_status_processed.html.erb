@@ -1,14 +1,6 @@
 <p>SUCCESS: The bulk upload file has been applied successfully.</p>
 
-<p>Details:</p>
-
-<div style="padding-left: 12px;">
-  <div><span>Created:</span> <%= @bulk_upload.created_at.strftime('%d %b %Y %H:%M') %></div>
-  <div><span>Filename:</span> <%= @bulk_upload.csv.original_filename %></div>
-  <% unless @bulk_upload.comment.blank? %>
-    <div><span>Comment:</span> <%= @bulk_upload.comment %></div>
-  <% end %>
-</div>
+<%= render @bulk_upload %>
 
 <p>Messages:</p>
 <pre style="min-height: 60px; max-height: 300px; overflow: auto;">

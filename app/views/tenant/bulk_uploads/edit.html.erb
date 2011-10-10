@@ -1,15 +1,6 @@
 <% title "Employee Bulk Upload" %>
 
-<p>Bulk Upload Details:</p>
-<div style="padding-left: 12px;">
-  <div><span>Filename:</span> <%= @bulk_upload.csv.original_filename %></div>
-  <% unless @bulk_upload.comment.blank? %>
-    <div><span>Comment:</span> <%= @bulk_upload.comment %></div>
-  <% end %>
-  <div><span>Row Count:</span> <%= pluralize(@bulk_upload.records.count(), 'row') %></div>
-  <div><span>Rows with Errors:</span> <%= pluralize(@bulk_upload.records.where(:selected => false).count(), 'row') %></div>
-  <div><span>Messages:</span> <%= @bulk_upload.messages %></div>
-</div>
+<%= render @bulk_upload %>
 
 <p>Please review the following employee data:</p>
 
@@ -48,8 +39,8 @@
       <th width="20px"></th>
       <th width="25px">Line</th>
       <th>User Name</th>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Full Name</th>
+      <th>Start Date</th>
       <th>Email</th>
       <th>Approver</th>
       <th></th>
@@ -64,12 +55,17 @@
   </tbody>
 </table>
 
+<div style="margin-top: 20px; line-height: 24px;">
+  <%= image_tag '../images/warning.png', :style => 'vertical-align: middle; margin-right: 8px;' %> Invalid rows will be skipped during the import phase.
+</div>
+
 <div style="margin-top: 20px;" class="clearfix">
   <div style="float: left; width: 190px; height: 35px;">
     <%= form_for @bulk_upload, :url => bulk_upload_path(@bulk_upload, :tenant => current_account.subdomain) do |f| %>
       <%= f.submit 'Import Employees',
                     :disable_with => 'Importing Employees...', 
-                    :style => 'width: 186px;' %>
+                    :style => 'width: 186px;',
+                    :disabled => @bulk_upload.records.selected.count() == 0 %>
     <% end %>
   </div>
   <div style="float: left; height: 35px; line-height: 35px;">

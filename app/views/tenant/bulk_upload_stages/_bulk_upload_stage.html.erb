@@ -2,8 +2,8 @@
   <td><%= image_tag bulk_upload_stage.selected ? '../images/ok.png' : '../images/warning.png' %></td>
   <td><%= bulk_upload_stage.line_number %></td>
   <td><%= bulk_upload_stage.user_name %></td>
-  <td><%= bulk_upload_stage.first_name %></td>
-  <td><%= bulk_upload_stage.last_name %></td>
+  <td><%= bulk_upload_stage.employee_name %></td>
+  <td><%= bulk_upload_stage.start_date %></td>
   <td><%= bulk_upload_stage.email %></td>
   <td><%= bulk_upload_stage.approver_name %></td>
   <td></td>
@@ -13,4 +13,3 @@
     <td colspan="8"><em><%= bulk_upload_stage.messages %></em></td>
   </tr>
 <% end %>
-

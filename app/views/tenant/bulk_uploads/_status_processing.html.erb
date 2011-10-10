@@ -1,11 +1,6 @@
 <p class="ajax_working">The bulk upload file is being processed and the data imported, please wait.</p>
 
-<div style="padding-left: 12px;">
-  <div><span>Filename:</span> <%= @bulk_upload.csv.original_filename %></div>
-  <% unless @bulk_upload.comment.blank? %>
-    <div><span>Comment:</span> <%= @bulk_upload.comment %></div>
-  <% end %>
-</div>
+<%= render @bulk_upload %>
 
 <p>The progress will be checked automatically. <%= link_to 'Click here', bulk_upload_path(@bulk_upload, :tenant => current_account.subdomain) %> to check manually.</p>
 

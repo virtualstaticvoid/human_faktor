@@ -1,0 +1,36 @@
+<p>Details:</p>
+
+<table id="bulk_upload_details" style="width: 100%">
+  <tr>
+    <td width="200px"><span>Status:</span></td>
+    <td><%= @bulk_upload.status_text %></td>
+  </tr>
+  <tr>
+    <td><span>Uploaded By</span></td>
+    <td><%= @bulk_upload.uploaded_by %></td>
+  </tr>
+  <tr>
+    <td><span>Created</span></td>
+    <td><%= time_ago_in_words(@bulk_upload.created_at) %> ago</td>
+  </tr>
+  <tr>
+    <td><span>Filename</span></td>
+    <td><%= @bulk_upload.csv.original_filename %></td>
+  </tr>
+
+  <% unless @bulk_upload.comment.blank? %>
+  <tr>
+    <td><span>Comment</span></td>
+    <td><%= @bulk_upload.comment %></td>
+  </tr>
+  <% end %>
+  
+  <tr>
+    <td><span>Rows Loaded</span></td>
+    <td><%= pluralize(@bulk_upload.records.count(), 'row') %></td>
+  </tr>
+  <tr>
+    <td><span>Rows with Errors</span></td>
+    <td><%= pluralize(@bulk_upload.records.where(:selected => false).count(), 'row') %></td>
+  </tr>
+</table>
