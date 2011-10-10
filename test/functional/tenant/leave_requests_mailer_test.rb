@@ -43,7 +43,7 @@ module Tenant
     test "cancelled" do
       @leave_request.confirm
       @leave_request.approve(@leave_request.approver, '')
-      @leave_request.cancel!(@leave_request.employee)
+      @leave_request.cancel!(@leave_request.approver)
 
       mail = LeaveRequestsMailer.cancelled(@leave_request)
       assert_equal "#{AppConfig.title} - #{@account.title} - Leave Cancelled", mail.subject
@@ -55,7 +55,7 @@ module Tenant
     test "reinstated" do
       @leave_request.confirm
       @leave_request.approve(@leave_request.approver, '')
-      @leave_request.cancel(@leave_request.employee)
+      @leave_request.cancel(@leave_request.approver)
       @leave_request.reinstate!(@leave_request.approver)
 
       mail = LeaveRequestsMailer.reinstated(@leave_request)
