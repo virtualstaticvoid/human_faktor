@@ -95,10 +95,12 @@ class Employee < ActiveRecord::Base
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }
   validates :start_date, :timeliness => { :type => :date }, :allow_nil => true
   validates :end_date, :timeliness => { :type => :date }, :allow_nil => true
-  validates :location, :existence => { :allow_nil => true }
-  validates :department, :existence => { :allow_nil => true }
-  validates :approver, :existence => { :allow_nil => true }
-
+  validates :location, :existence => true, :allow_nil => true
+  validates :department, :existence => true, :allow_nil => true
+  validates :approver, :existence => true, :allow_nil => true
+  
+  validate :approver_id, :require_approver_for_non_admin_employees
+  
   # system settings
 
   def role_sym
@@ -314,6 +316,10 @@ class Employee < ActiveRecord::Base
   
   def downcase_user_name
     self.user_name.downcase!
+  end
+
+  def require_approver_for_non_admin_employees
+    self.errors[:approver_id] << 'is required' if self.approver.nil? unless self.is_admin?
   end
 
 end
