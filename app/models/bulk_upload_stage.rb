@@ -116,6 +116,18 @@ class BulkUploadStage < ActiveRecord::Base
     @approver_name ||= self.approver.nil? ? self.new_approver.employee_name : self.approver.full_name
   end
   
+  def location_name_downcased
+    self.location_name.downcase unless self.location_name.blank?
+  end
+
+  def department_name_downcased
+    self.department_name.downcase unless self.department_name.blank?
+  end
+  
+  def approver_first_and_last_name_downcased
+    self.approver_first_and_last_name.downcase unless self.approver_first_and_last_name.blank?
+  end
+  
   def increment_load_sequence
     self.update_attributes(:load_sequence => self.load_sequence + 1)
   end
