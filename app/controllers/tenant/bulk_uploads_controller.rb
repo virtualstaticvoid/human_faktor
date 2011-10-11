@@ -15,7 +15,6 @@ module Tenant
     
       respond_to do |format|
         if @bulk_upload.save
-          WorkQueue.enqueue(Tenant::StageBulkUpload, @bulk_upload.id)
           format.html { redirect_to bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain), 
                           :notice => 'Successfully created bulk upload. Please wait while the file is processed.' }
         else
@@ -38,7 +37,6 @@ module Tenant
 
       respond_to do |format|
         if @bulk_upload.set_as_accepted()
-          WorkQueue.enqueue(Tenant::ProcessBulkUpload, @bulk_upload.id)
           format.html { redirect_to bulk_upload_url(@bulk_upload, :tenant => current_account.subdomain), 
                           :notice => 'Successfully queued bulk upload for import. Please wait while the data is imported.' }
         else
