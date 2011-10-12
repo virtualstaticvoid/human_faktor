@@ -19,6 +19,7 @@ module Tenant
               complete_staging()
       
       puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
+      true
         
     rescue Exception => error
     

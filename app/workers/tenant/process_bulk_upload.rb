@@ -1,5 +1,8 @@
+require 'action_view/helpers/text_helper'
+
 module Tenant
   class ProcessBulkUpload < Struct.new(:upload_id)
+    include ActionView::Helpers::TextHelper
   
     def perform()
       puts ">>> ProcessBulkUpload#perform"
@@ -10,10 +13,14 @@ module Tenant
       start_processing() && 
         apply_upload() && 
           complete_processing()
+          
+      puts "Processed #{pluralize(@bulk_upload.records.count(), 'employee')}."
+      true
 
     rescue Exception => error
     
       # any errors will be raised here which fail the bulk upload
+      @bulk_upload.reload
     
       # log out the full error message
       puts error.message
