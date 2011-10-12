@@ -24,7 +24,11 @@ class ActiveSupport::TestCase
     assert !model.nil?
     
     unless model.valid?
+      puts ""
       puts "INVALID MODEL: #{model.class} => #{model.errors.full_messages}"
+      puts caller.inspect
+      puts ""
+
       assert false
     end
     
