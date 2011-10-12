@@ -162,9 +162,12 @@ class LeaveType < ActiveRecord::Base
   def allowance_for(employee, date_as_at)
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
+    # if the date_as_at is prior to the start date, then return zero!
+    return 0 if date_as_at <= employee_start_date(employee)
+    
     # for non-accruing leave types, this is simply the configured
     # allowance irrespective of the leave cycle of the given `date_as_at`
-    
+
     # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
     employee.leave_cycle_allocation_for(self)
 
@@ -219,6 +222,10 @@ class LeaveType < ActiveRecord::Base
     end
   
     def allowance_for(employee, date_as_at)
+  
+      # if the date_as_at is prior to the start date, then return zero!
+      employee_start_date = employee_start_date(employee)  
+      return 0 if date_as_at <= employee_start_date
 
       # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
       # also, the employees fixed_daily_hours ratio needs to be applied
@@ -234,21 +241,6 @@ class LeaveType < ActiveRecord::Base
       to_index = self.cycle_index_of(date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
       
-      #
-      # get the employee "start date"
-      #  presidence:
-      #   * employee take on balance date
-      #   * employee start date
-      #   * leave type cycle start date
-      #
-      employee_start_date = if self.can_take_on? && employee.take_on_balance_as_at.present?
-                              employee.take_on_balance_as_at
-                            elsif employee.start_date.present?
-                              employee.start_date
-                            else
-                              self.cycle_start_date
-                            end  
-
       begin
       
         end_date = self.cycle_end_date_for(index)
@@ -260,11 +252,10 @@ class LeaveType < ActiveRecord::Base
 
           # adjust the start date if the employee started after the cycle start date.
           #  the accrual will therefore be pro-rated
-          start_date = employee_start_date if employee_start_date > start_date
-          #start_date = employee_start_date if employee_start_date >= start_date
+          start_date = employee_start_date if employee_start_date >= start_date
 
           # end date should be up to the date_as_at
-          end_date = date_as_at if date_as_at > start_date && date_as_at < end_date
+          end_date = date_as_at if date_as_at >= start_date && date_as_at < end_date
 
           # ASSERTIONS
           raise InvalidOperationException if start_date > end_date
@@ -372,5 +363,23 @@ class LeaveType < ActiveRecord::Base
     end
   end
   
-end
+  def employee_start_date(employee)
 
+    #
+    # get the employee "start date"
+    #  presidence:
+    #   * employee take on balance date
+    #   * employee start date
+    #   * leave type cycle start date
+    #
+   
+    if self.can_take_on? && employee.take_on_balance_as_at.present?
+      employee.take_on_balance_as_at
+    elsif employee.start_date.present?
+      employee.start_date
+    else
+      self.cycle_start_date
+    end  
+  end
+
+end

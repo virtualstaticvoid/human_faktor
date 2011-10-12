@@ -64,10 +64,13 @@ class LeaveTypeTest < ActiveSupport::TestCase
   test "should have zero allowance when date before start date of employee" do
     employee = employees(:employee)
     employee.start_date = Date.new(2000, 2, 1)
+    employee.take_on_balance_as_at = nil
 
     LeaveType.for_each_leave_type do |leave_type_class|
+      #puts ">>> leave_type => #{leave_type_class}"
       leave_type = leave_type_class.new()
       leave_type.cycle_start_date = Date.new(2000, 1, 1)
+      leave_type.cycle_days_allowance = 1
       
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
@@ -79,11 +82,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
 
   test "should have zero allowance when date before balance take on date of employee" do
     employee = employees(:employee)
+    employee.start_date = nil
     employee.take_on_balance_as_at = Date.new(2000, 2, 1)
 
     LeaveType.for_each_leave_type do |leave_type_class|
+      #puts ">>> leave_type => #{leave_type_class}"
       leave_type = leave_type_class.new()
       leave_type.cycle_start_date = Date.new(2000, 1, 1)
+      leave_type.cycle_days_allowance = 1
       
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
