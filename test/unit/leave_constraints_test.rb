@@ -275,30 +275,6 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
 
   end
   
-  test "OverlappingRequest" do
-    constraint = LeaveConstraints::OverlappingRequest.new()
-
-    leave_request = @leave_request
-
-    approved_leave_request = leave_requests(:annual2)
-    approved_leave_request.date_from = Date.new(2011, 7, 6)
-    approved_leave_request.date_to = approved_leave_request.date_from
-    approved_leave_request.confirm
-    approved_leave_request.approve!(employees(:admin), '') # NB: must be approved
-
-    leave_request.date_from = Date.new(2011, 7, 4)
-    leave_request.date_to = Date.new(2011, 7, 8)
-    assert constraint.evaluate(leave_request)
-
-    leave_request.date_to = Date.new(2011, 7, 5)
-    assert_equal false, constraint.evaluate(leave_request)
-
-    leave_request.date_from = Date.new(2011, 7, 7)
-    leave_request.date_to = Date.new(2011, 7, 8)
-    assert_equal false, constraint.evaluate(leave_request)
-
-  end
-
   test "ExceedsMaximumFutureDate" do
     constraint = LeaveConstraints::ExceedsMaximumFutureDate.new()
 

@@ -11,7 +11,10 @@ class AddConstraintsToLeaveRequest < ActiveRecord::Migration
       t.boolean :constraint_is_unscheduled, :null => false, :default => false
       t.boolean :constraint_is_adjacent, :null => false, :default => false
       t.boolean :constraint_requires_documentation, :null => false, :default => false
+
+      # not used anymore!
       t.boolean :constraint_overlapping_request, :null => false, :default => false
+
       t.boolean :constraint_exceeds_maximum_future_date, :null => false, :default => false
       t.boolean :constraint_exceeds_maximum_back_date, :null => false, :default => false
       
@@ -24,7 +27,10 @@ class AddConstraintsToLeaveRequest < ActiveRecord::Migration
       t.boolean :override_is_unscheduled, :null => false, :default => false
       t.boolean :override_is_adjacent, :null => false, :default => false
       t.boolean :override_requires_documentation, :null => false, :default => false
+
+      # not used anymore!
       t.boolean :override_overlapping_request, :null => false, :default => false
+
       t.boolean :override_exceeds_maximum_future_date, :null => false, :default => false
       t.boolean :override_exceeds_maximum_back_date, :null => false, :default => false
 
@@ -36,7 +42,10 @@ class AddConstraintsToLeaveRequest < ActiveRecord::Migration
 
       t.remove :override_exceeds_maximum_back_date
       t.remove :override_exceeds_maximum_future_date
+
+      # not used anymore!
       t.remove :override_overlapping_request
+
       t.remove :override_requires_documentation
       t.remove :override_is_adjacent
       t.remove :override_is_unscheduled
@@ -48,7 +57,10 @@ class AddConstraintsToLeaveRequest < ActiveRecord::Migration
 
       t.remove :constraint_exceeds_maximum_back_date
       t.remove :constraint_exceeds_maximum_future_date
+
+      # not used anymore!
       t.remove :constraint_overlapping_request
+
       t.remove :constraint_requires_documentation
       t.remove :constraint_is_adjacent
       t.remove :constraint_is_unscheduled

@@ -6,9 +6,9 @@ one:
   employee: employee
   leave_type: annual
   approver: admin 
-  date_from: 2011-01-01
+  date_from: 2011-03-01
   half_day_from: false
-  date_to: 2011-01-12
+  date_to: 2011-03-12
   half_day_to: false
   unpaid: false
   comment: Annual leave request
@@ -19,9 +19,9 @@ two:
   employee: employee
   leave_type: annual
   approver: admin 
-  date_from: 2011-01-01
+  date_from: 2011-04-01
   half_day_from: false
-  date_to: 2011-01-12
+  date_to: 2011-04-12
   half_day_to: false
   unpaid: false
   comment: Annual leave request
@@ -35,9 +35,9 @@ three:
   employee: employee
   leave_type: annual
   approver: admin 
-  date_from: 2011-01-01
+  date_from: 2011-05-01
   half_day_from: false
-  date_to: 2011-01-12
+  date_to: 2011-05-12
   half_day_to: false
   unpaid: false
   comment: Annual leave request
@@ -50,9 +50,9 @@ annual:
   employee: employee
   leave_type: annual
   approver: approver2 
-  date_from: 2011-01-01
-  half_day_from: false
-  date_to: 2011-01-12
+  date_from: 2011-06-01
+  half_day_from: true
+  date_to: 2011-06-12
   half_day_to: false
   unpaid: false
   comment: Annual leave request
@@ -68,10 +68,10 @@ annual2:
   employee: employee
   leave_type: annual
   approver: approver2 
-  date_from: 2011-01-01
+  date_from: 2011-07-01
   half_day_from: false
-  date_to: 2011-01-12
-  half_day_to: false
+  date_to: 2011-07-12
+  half_day_to: true
   unpaid: false
   comment: Annual leave request
 
@@ -81,9 +81,9 @@ educational:
   employee: employee
   leave_type: educational
   approver: approver2 
-  date_from: 2011-02-01
+  date_from: 2011-08-01
   half_day_from: false
-  date_to: 2011-02-12
+  date_to: 2011-08-12
   half_day_to: false
   unpaid: false
   comment: Educational leave request
@@ -94,9 +94,9 @@ medical:
   employee: employee
   leave_type: medical
   approver: approver2 
-  date_from: 2011-03-01
+  date_from: 2011-09-01
   half_day_from: false
-  date_to: 2011-03-12
+  date_to: 2011-09-12
   half_day_to: false
   unpaid: false
   comment: Medical leave request
@@ -107,9 +107,9 @@ maternity:
   employee: employee
   leave_type: maternity
   approver: approver2 
-  date_from: 2011-04-01
+  date_from: 2011-10-01
   half_day_from: false
-  date_to: 2011-04-12
+  date_to: 2011-10-12
   half_day_to: false
   unpaid: false
   comment: Maternity leave request
@@ -120,9 +120,9 @@ compassionate:
   employee: employee
   leave_type: compassionate
   approver: approver2 
-  date_from: 2011-05-01
+  date_from: 2011-11-01
   half_day_from: false
-  date_to: 2011-05-12
+  date_to: 2011-11-12
   half_day_to: false
   unpaid: false
   comment: Compassionate leave request

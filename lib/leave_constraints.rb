@@ -166,18 +166,6 @@ module LeaveConstraints
 
   end
 
-  # Overlapping leave request (irrespective of leave type)
-  class OverlappingRequest < Base
-  
-    def evaluate(request)
-      request.employee.leave_requests.active.where(
-        ' (date_from BETWEEN :from_date AND :to_date) OR (date_to BETWEEN :from_date AND :to_date) ', 
-        { :from_date => request.date_from, :to_date => request.date_to }
-      ).any?
-    end
-
-  end
-  
   # Exceeds maximum date in the future for a leave request
   class ExceedsMaximumFutureDate < Base
 

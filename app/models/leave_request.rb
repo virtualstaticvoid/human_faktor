@@ -15,6 +15,8 @@ class LeaveRequest < ActiveRecord::Base
   STATUS_REINSTATED = 6
   STATUSES = [STATUS_NEW, STATUS_PENDING, STATUS_APPROVED, STATUS_DECLINED, STATUS_CANCELLED, STATUS_REINSTATED]
 
+  CURRENT_STATUSES = [STATUS_NEW, STATUS_PENDING, STATUS_APPROVED, STATUS_REINSTATED]
+
   FILTER_STATUS_ACTIVE = 90
   ACTIVE_STATUSES = [STATUS_PENDING, STATUS_APPROVED, STATUS_REINSTATED]
 
@@ -37,6 +39,7 @@ class LeaveRequest < ActiveRecord::Base
     
   end
   
+  scope :current, where(:status => CURRENT_STATUSES)
   scope :pending, where(:status => STATUS_PENDING)
   scope :active, where(:status => ACTIVE_STATUSES)
   scope :approved, where(:status => APPROVED_STATUSES)
@@ -105,7 +108,9 @@ class LeaveRequest < ActiveRecord::Base
 
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from,
-           :same_date_half_day
+           :same_date_half_day,
+           :must_not_overlap_with_another_request,
+           :date_from_cannot_be_prior_to_start_or_take_on_date
 
   validates :unpaid, :inclusion => { :in => [true, false] }
   
@@ -409,6 +414,22 @@ class LeaveRequest < ActiveRecord::Base
   def same_date_half_day
     errors.add(:base, "From and to dates can't be the same and both be half day") if
       !(date_from.blank? || date_to.blank?) && (date_to == date_from) && (half_day_from && half_day_to)
+  end
+  
+  def must_not_overlap_with_another_request
+    errors.add(:base, "Cannot overlap with another leave request") if
+      self.employee.leave_requests.current.where(
+        ' (date_from BETWEEN :from_date AND :to_date) OR (date_to BETWEEN :from_date AND :to_date) ', 
+        { :from_date => self.date_from, :to_date => self.date_to }
+      ).any?
+  end
+  
+  def date_from_cannot_be_prior_to_start_or_take_on_date
+    errors.add(:date_from, "is prior to the employee start date of #{self.employee.start_date.strftime('%e %B %Y')}") if
+      !self.employee.start_date.nil? && self.date_from < self.employee.start_date
+  
+    errors.add(:date_from, "is prior to the employee balance take on date of #{self.employee.take_on_balance_as_at.strftime('%e %B %Y')}") if
+      !self.employee.take_on_balance_as_at.nil? && self.date_from < self.employee.take_on_balance_as_at
   end
 
   def evaluate_constraints
