@@ -51,7 +51,7 @@ annual:
   leave_type: annual
   approver: approver2 
   date_from: 2011-06-01
-  half_day_from: true
+  half_day_from: false
   date_to: 2011-06-12
   half_day_to: false
   unpaid: false
@@ -71,7 +71,7 @@ annual2:
   date_from: 2011-07-01
   half_day_from: false
   date_to: 2011-07-12
-  half_day_to: true
+  half_day_to: false
   unpaid: false
   comment: Annual leave request
 
@@ -126,4 +126,30 @@ compassionate:
   half_day_to: false
   unpaid: false
   comment: Compassionate leave request
+
+half_day_from:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee
+  leave_type: annual
+  approver: admin 
+  date_from: 2012-03-01
+  half_day_from: true
+  date_to: 2012-03-01
+  half_day_to: false
+  unpaid: false
+  comment: Annual leave request
+
+half_day_to:
+  identifier: <%= TokenHelper.friendly_token %>
+  account: one
+  employee: employee
+  leave_type: annual
+  approver: admin 
+  date_from: 2012-04-01
+  half_day_from: false
+  date_to: 2012-04-02
+  half_day_to: true
+  unpaid: false
+  comment: Annual leave request
 

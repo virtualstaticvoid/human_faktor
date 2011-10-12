@@ -417,11 +417,17 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def must_not_overlap_with_another_request
-    errors.add(:base, "Cannot overlap with another leave request") if
-      self.employee.leave_requests.current.where(
-        ' (date_from BETWEEN :from_date AND :to_date) OR (date_to BETWEEN :from_date AND :to_date) ', 
-        { :from_date => self.date_from, :to_date => self.date_to }
-      ).any?
+  
+    # check whether the dates intersect
+    query = self.employee.leave_requests.current.where(
+              ' (:from_date BETWEEN date_from AND date_to) OR (:to_date BETWEEN date_from AND date_to) OR ((:from_date <= date_from) AND (:to_date >= date_to)) ', 
+              { :from_date => self.date_from, :to_date => self.date_to }
+            )
+            
+    # exclude this leave request when updating
+    query = query.where("id <> #{self.id}") if self.persisted?
+
+    errors.add(:base, "Cannot overlap with another leave request") if query.any?
   end
   
   def date_from_cannot_be_prior_to_start_or_take_on_date

@@ -9,7 +9,9 @@ module Tenant
         setup do
           @leave_request = leave_requests(:one)
           @leave_request_attributes = @leave_request.attributes.merge!({ 
-            "identifier" => TokenHelper.friendly_token
+            "identifier" => TokenHelper.friendly_token,
+            "date_from" => Date.new(2012, 2, 10),
+            "date_to" => Date.new(2012, 2, 12)
           })
         end
 

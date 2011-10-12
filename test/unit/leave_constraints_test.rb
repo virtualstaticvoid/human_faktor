@@ -12,7 +12,7 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
   end
   
   test "leave constraint should evaluate" do
-    @leave_request.update_attributes!(:date_from => Date.today, :date_to => Date.today + 1)
+    @leave_request.update_attributes!(:date_from => Date.new(2011, 12, 1), :date_to => Date.new(2011, 12, 10))
     constraint_flags = LeaveConstraints::Base.evaluate(@leave_request)
     constraint_flags.each do |key, value| 
       assert_equal false, value.nil?
@@ -52,14 +52,15 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request = @leave_request
     leave_request.leave_type.min_days_per_single_request = 2
 
-    leave_request.date_from = Date.new(2011, 6, 13)
+    leave_request.date_from = Date.new(2011, 12, 1)
     leave_request.date_to = leave_request.date_from
     leave_request.update_duration
     assert constraint.evaluate(leave_request)
 
-    # ensure an integer is added to the date!
-    leave_request.date_to = leave_request.date_from + (leave_request.leave_type.min_days_per_single_request + 1).to_i
+    leave_request.date_from = Date.new(2011, 12, 1)
+    leave_request.date_to = Date.new(2011, 12, 2)
     leave_request.update_duration
+    assert leave_request.duration >= leave_request.leave_type.min_days_per_single_request
     assert_equal false, constraint.evaluate(leave_request)
 
     leave_request.date_to += 1
@@ -74,16 +75,16 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request = @leave_request
     leave_request.leave_type.max_days_per_single_request = 2
 
-    leave_request.date_from = Date.new(2011, 6, 13)
-    leave_request.date_to = Date.new(2011, 6, 17)
+    leave_request.date_from = Date.new(2011, 12, 13)
+    leave_request.date_to = Date.new(2011, 12, 17)
     leave_request.update_duration
     assert constraint.evaluate(leave_request)
 
-    leave_request.date_to = Date.new(2011, 6, 13)
+    leave_request.date_to = Date.new(2011, 12, 13)
     leave_request.update_duration
     assert_equal false, constraint.evaluate(leave_request)
 
-    leave_request.date_to = Date.new(2011, 6, 14)
+    leave_request.date_to = Date.new(2011, 12, 14)
     leave_request.update_duration
     assert_equal false, constraint.evaluate(leave_request)
     
@@ -242,9 +243,10 @@ class LeaveConstraintsTest < ActiveSupport::TestCase
     leave_request.leave_type.requires_documentation = true
     leave_request.leave_type.requires_documentation_after = 1
 
-    leave_request.date_from = Date.new(2011, 6, 13)
+    leave_request.date_from = Date.new(2011, 6, 20)
     leave_request.date_to = leave_request.date_from
     leave_request.update_duration
+    assert leave_request.duration >= leave_request.leave_type.requires_documentation_after
     assert constraint.evaluate(leave_request)
 
     leave_request.leave_type.requires_documentation_after = 2

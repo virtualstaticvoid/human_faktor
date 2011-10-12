@@ -20,13 +20,16 @@ class ActiveSupport::TestCase
     Fixtures.all_loaded_fixtures[name].keys.each {|key| block.call key } 
   end
   
-  def assert_valid(model)
+  def assert_valid(model, key = nil)
     assert !model.nil?
     
     unless model.valid?
       puts ""
       puts "INVALID MODEL: #{model.class} => #{model.errors.full_messages}"
-      puts caller.inspect
+      puts "  key => #{key}" if key
+      caller.each do |item|
+        puts "  #{item}"
+      end 
       puts ""
 
       assert false

@@ -7,7 +7,9 @@ module Tenant
       @leave_request = leave_requests(:one)
       @leave_request_attributes = @leave_request.attributes.merge!({ 
         "identifier" => TokenHelper.friendly_token,
-        "approver_comment" => 'Test comment by approver'
+        "approver_comment" => 'Test comment by approver',
+        "date_from" => Date.new(2012, 1, 10),
+        "date_to" => Date.new(2012, 1, 12)
       })
     end
 

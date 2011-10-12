@@ -3,7 +3,7 @@ require 'test_helper'
 class LeaveRequestTest < ActiveSupport::TestCase
 
   test "fixture data valid" do
-    for_each_fixture ('leave_requests') {|key| assert_valid leave_requests(key) }
+    for_each_fixture ('leave_requests') {|key| assert_valid leave_requests(key), key }
   end
 
   # NB: internet connection to S3 required 
@@ -56,6 +56,7 @@ class LeaveRequestTest < ActiveSupport::TestCase
   test "should not allow an overlapping leave request to be created" do
     leave_request = leave_requests(:annual)
     assert leave_request.confirm!
+    assert leave_request.status_pending?
     
     assert !LeaveRequest.new(
       :account_id => leave_request.account_id,
