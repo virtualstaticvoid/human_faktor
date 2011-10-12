@@ -344,7 +344,20 @@ class LeaveRequest < ActiveRecord::Base
   def can_cancel?(employee)
     raise InvalidOperationException if employee.nil?
     
-    employee.is_admin? || employee.is_manager_of?(self.employee)
+    #
+    # employee can cancel leave if
+    #  - it hasn't been approved (i.e. pending)
+    #  - it is in the future
+    #  - is the approver
+    #  - is the manager/approver of the request
+    #  - is an admin, but not for own leave request (unless is approver)
+    #
+    
+    self.status_pending? ||
+      (self.employee == employee && self.date_from > Date.today) ||
+      self.approver == employee ||
+      employee.is_manager_of?(self.employee) ||
+      (self.employee != employee && employee.is_admin?)
   end
 
   def calculate_duration
