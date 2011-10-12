@@ -6,6 +6,10 @@ class LeaveType < ActiveRecord::Base
   extend NestedClassesHelper
   include ActionView::Helpers::TextHelper
   
+  #
+  # NNB: assumes that the cycle_start_date is less than any employee start or take on date!
+  #
+  
   default_scope order(:display_order)
 
   # units for cycle duration
@@ -14,7 +18,8 @@ class LeaveType < ActiveRecord::Base
   DURATION_UNIT_YEARS = 3
   DURATIONS = [DURATION_UNIT_DAYS, DURATION_UNIT_MONTHS, DURATION_UNIT_YEARS]
 
-  default_values :cycle_duration_unit => DURATION_UNIT_YEARS,
+  default_values :cycle_duration => 1,
+                 :cycle_duration_unit => DURATION_UNIT_YEARS,
                  :cycle_days_carry_over => 0,
                  :employee_capture_allowed => true,
                  :approver_capture_allowed => true,
@@ -158,7 +163,7 @@ class LeaveType < ActiveRecord::Base
     raise InvalidOperationException if date_as_at < self.cycle_start_date
   
     # for non-accruing leave types, this is simply the configured
-    # allowance irrespect of the leave cycle of the given `date_as_at`
+    # allowance irrespective of the leave cycle of the given `date_as_at`
     
     # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
     employee.leave_cycle_allocation_for(self)
@@ -172,18 +177,16 @@ class LeaveType < ActiveRecord::Base
     cycle_start_date = self.cycle_start_date_of(date_as_at)
     cycle_end_date = self.cycle_end_date_of(date_as_at)
 
-    leave_take_on = 0
-
     # include take on balance if within the given leave cycle
     if self.can_take_on? &&
          !employee.take_on_balance_as_at.nil? && 
             employee.take_on_balance_as_at >= cycle_start_date && 
                 employee.take_on_balance_as_at <= cycle_end_date
 
-      leave_take_on += employee.take_on_balance_for(self)
+      employee.take_on_balance_for(self)
+    else
+      0
     end
-
-    leave_take_on
   end    
 
   # calculates the leave taken for the leave cycle of the given `date_as_at`
@@ -258,6 +261,7 @@ class LeaveType < ActiveRecord::Base
           # adjust the start date if the employee started after the cycle start date.
           #  the accrual will therefore be pro-rated
           start_date = employee_start_date if employee_start_date > start_date
+          #start_date = employee_start_date if employee_start_date >= start_date
 
           # end date should be up to the date_as_at
           end_date = date_as_at if date_as_at > start_date && date_as_at < end_date

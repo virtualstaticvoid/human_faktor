@@ -41,5 +41,54 @@ class LeaveTypeTest < ActiveSupport::TestCase
       assert_equal i, leave_type.cycle_index_of(Date.new(2011 + i, 12, 31))
     end
   end
+  
+  test "should calculate cycle indexes, start and end dates" do
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type = leave_type_class.new()
+      leave_type.cycle_start_date = Date.new(2000, 1, 1)
+
+      assert_equal 0, leave_type.cycle_index_of(Date.new(2000, 1, 1))
+      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_for(0)
+      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_of(Date.new(2000, 2, 1))
+      
+      end_date = case leave_type.cycle_duration_unit
+                    when LeaveType::DURATION_UNIT_DAYS then leave_type.cycle_start_date + leave_type.cycle_duration
+                    when LeaveType::DURATION_UNIT_MONTHS then leave_type.cycle_start_date >> leave_type.cycle_duration
+                    when LeaveType::DURATION_UNIT_YEARS then leave_type.cycle_start_date >> (leave_type.cycle_duration * 12)
+                  end - 1
+      
+      assert_equal end_date, leave_type.cycle_end_date_of(Date.new(2000, 2, 1))
+    end
+  end
+
+  test "should have zero allowance when date before start date of employee" do
+    employee = employees(:employee)
+    employee.start_date = Date.new(2000, 2, 1)
+
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type = leave_type_class.new()
+      leave_type.cycle_start_date = Date.new(2000, 1, 1)
+      
+      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
+      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
+
+      assert leave_type.allowance_for(employee, Date.new(2000, 4, 1)) > 0
+      assert_equal leave_type.cycle_days_allowance, leave_type.allowance_for(employee, Date.new(2001, 2, 1))
+    end
+  end
+
+  test "should have zero allowance when date before balance take on date of employee" do
+    employee = employees(:employee)
+    employee.take_on_balance_as_at = Date.new(2000, 2, 1)
+
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type = leave_type_class.new()
+      leave_type.cycle_start_date = Date.new(2000, 1, 1)
+      
+      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
+      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
+      assert leave_type.allowance_for(employee, Date.new(2000, 3, 1)) > 0
+    end
+  end
 
 end
