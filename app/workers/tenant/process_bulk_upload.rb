@@ -42,13 +42,13 @@ module Tenant
     def apply_upload()
       puts "#{@bulk_upload.id}: Processing bulk upload."
 
-      ActiveRecord::Base.transaction do
-        
-        default_approver_id = @bulk_upload.uploaded_by_id
-        employees = @account.employees
+      default_approver_id = @bulk_upload.uploaded_by_id
+      employees = @account.employees
 
-        new_employees = {}
-        employees_needing_approvers = {}
+      new_employees = {}
+      employees_needing_approvers = {}
+      
+      ActiveRecord::Base.transaction do
         
         # load new employees in sequence
         for record in @bulk_upload.records.selected.order('load_sequence DESC')
