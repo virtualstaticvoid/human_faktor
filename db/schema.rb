@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111010222348) do
+ActiveRecord::Schema.define(:version => 20111013192627) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(:version => 20111010222348) do
     t.integer  "account_id",                                                                  :null => false
     t.string   "identifier",                                                                  :null => false
     t.string   "user_name",                                                                   :null => false
-    t.string   "email",                                               :default => "",         :null => false
+    t.string   "email",                                               :default => ""
     t.string   "encrypted_password",                   :limit => 128, :default => "",         :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
