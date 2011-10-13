@@ -103,7 +103,7 @@ module Tenant
 
         temp_file.close!
         
-        @bulk_upload.save
+        @bulk_upload.save(:validate => false)
       end
     end
 
