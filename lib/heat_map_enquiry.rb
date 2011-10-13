@@ -442,7 +442,7 @@ class HeatMapEnquiry
 
     def initialize(criteria)
       super
-      @calendar_entries = self.criteria.account.country.calendar_entries
+      @calendar_entries = self.criteria.account.country.calendar_entries.to_a
     end
 
     def leave_requests_query(employee)
@@ -472,7 +472,9 @@ class HeatMapEnquiry
         # holidays 
         #  NOTE: possibly double counts if the holiday is on a Mon or Fri
         #        or the from date and holiday is on a Sat or Sun
-        count += @calendar_entries.where(:entry_date => [from, to]).count()
+        count += @calendar_entries.select {|calendar_entry| 
+                   calendar_entry.entry_date >= from && calendar_entry.entry_date <= to
+                 }.length
       
       end
     
