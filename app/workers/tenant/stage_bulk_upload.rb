@@ -67,49 +67,49 @@ module Tenant
         }
       end
 
-      ActiveRecord::Base.transaction do
+      # ensure initial state (when retrying)
+      @bulk_upload.records.clear
       
-        # ensure initial state (when retrying)
-        @bulk_upload.records.clear
-        
-        # open as CSV and process each row
-        CSV.foreach(temp_file.path, options) do |row|
-        
-          # skip if the row is empty or nil
-          next unless row || row.fields.reject {|v| v.nil? || v.blank? }.empty?
-                  
-          if row.header_row?
+      # open as CSV and process each row
+      CSV.foreach(temp_file.path, options) do |row|
+      
+        # skip if the row is empty or nil
+        next unless row || row.fields.reject {|v| v.nil? || v.blank? }.empty?
+                
+        if row.header_row?
 
-            # verify header
-            unless (row.fields - BulkUploadStage::VALID_FIELDS).empty?
-              raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - BulkUploadStage::VALID_FIELDS)}.\nAborting bulk upload!")
-            end
-          
-          else
-          
-            bulk_upload_row = @bulk_upload.records.build(
-              row.to_hash
-            )
-            
-            bulk_upload_row.line_number = line_number
-            
-            bulk_upload_row.role = bulk_upload_row.role.blank? ?
-              'employee' :
-              bulk_upload_row.role.downcase
-            
-            # save without validation, so it *always* suceeds
-            bulk_upload_row.save!(:validate => false)
-          
+          # verify header
+          unless (row.fields - BulkUploadStage::VALID_FIELDS).empty?
+            raise Exception.new("Invalid file header. The following unknown columns found:\n#{(row.fields - BulkUploadStage::VALID_FIELDS)}.\nAborting bulk upload!")
           end
-          
-          line_number += 1
-                  
-        end
-
-        temp_file.close!
         
-        @bulk_upload.save!
+        else
+        
+          bulk_upload_row = @bulk_upload.records.build(
+            row.to_hash
+          )
+          
+          bulk_upload_row.line_number = line_number
+          
+          bulk_upload_row.role = bulk_upload_row.role.blank? ?
+            'employee' :
+            bulk_upload_row.role.downcase
+          
+          # save without validation, so it *always* suceeds
+          bulk_upload_row.save!(:validate => false)
+        
+        end
+        
+        line_number += 1
+                
       end
+      
+      @bulk_upload.save!
+
+    ensure
+    
+      temp_file.close! if temp_file  # this will automatically delete the file!
+
     end
 
     def validate_upload()
