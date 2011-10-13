@@ -440,6 +440,11 @@ class HeatMapEnquiry
   class UnscheduledLeaveAdjacentToWeekend < UnscheduledLeave
     include LeaveConstraints
 
+    def initialize(criteria)
+      super
+      @calendar_entries = self.criteria.account.country.calendar_entries
+    end
+
     def leave_requests_query(employee)
       # add on additional constraint
       super.where(:is_adjacent.as_constraint_override => true)
@@ -451,7 +456,6 @@ class HeatMapEnquiry
       # return the count of days within request that are adjacent to w/end or holiday
       #  i.e. If next to a mon and thur (holiday) and sat, then = 3
       
-      calendar_entries = self.criteria.account.country.calendar_entries
       count = 0
       
       for leave_request in leave_requests
@@ -468,7 +472,7 @@ class HeatMapEnquiry
         # holidays 
         #  NOTE: possibly double counts if the holiday is on a Mon or Fri
         #        or the from date and holiday is on a Sat or Sun
-        count += calendar_entries.where(:entry_date => [from, to]).count()
+        count += @calendar_entries.where(:entry_date => [from, to]).count()
       
       end
     
