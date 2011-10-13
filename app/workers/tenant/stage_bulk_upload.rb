@@ -104,7 +104,7 @@ module Tenant
                 
       end
       
-      @bulk_upload.save!
+      @bulk_upload.save!(:validate => false)
 
     ensure
     
