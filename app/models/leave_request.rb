@@ -269,11 +269,12 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
   
-  def approve(approver, comment = '')
+  def approve(approver, comment = '', constraint_overrides = {})
     raise InvalidOperationException if approver.nil?
     raise InvalidOperationException unless self.status_pending?
     raise PermissionDeniedException unless self.can_authorise?(approver) || !self.leave_type.approval_required
 
+    update_attributes constraint_overrides
     write_attribute :approved_declined_by_id, approver.id
     write_attribute :approved_declined_at, Time.now
     write_attribute :approver_comment, comment

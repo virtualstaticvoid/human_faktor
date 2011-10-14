@@ -43,6 +43,8 @@ module Tenant
     # PUT
     def approve
       leave_request_params = params[:leave_request]
+      constraint_overrides = leave_request_params.select {|key, value| key =~ /^override/ }
+
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       unless @leave_request.can_authorise?(current_employee)
@@ -52,7 +54,7 @@ module Tenant
       @leave_request.unpaid = leave_request_params[:unpaid]
 
       respond_to do |format|
-        if @leave_request.approve!(current_employee, leave_request_params[:approver_comment])
+        if @leave_request.approve!(current_employee, leave_request_params[:approver_comment], constraint_overrides)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully approved.' }
         else
           format.html { render :action => "edit" }
