@@ -2,9 +2,20 @@ module Tenant
   class EmployeesController < AdminController
   
     def index
-      @employees = current_account.employees.page(params[:page])
+      employee_filter_params = params[:employee_filter] || {}
+      @filter = EmployeeFilter.new(current_account).tap do |c|
+        c.filter_by = employee_filter_params[:filter_by] || 'none'
+        c.location_id = employee_filter_params[:location_id]
+        c.department_id = employee_filter_params[:department_id]
+        c.employee_id = employee_filter_params[:employee_id]
+
+        c.valid?
+      end
+
+      @employees = @filter.employees.page(params[:page])
     end
-    
+    alias filtered index
+
     def new
       @employee = Employee.new(
         :location_id => current_account.location_id,

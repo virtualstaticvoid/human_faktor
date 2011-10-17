@@ -1,4 +1,39 @@
-<% title "Employees" %>
+<% title "Maintain Staff" %>
+
+<div id="filter" style="margin-bottom: 14px; z-order: 0;">
+  <%= form_for @filter, :as => 'employee_filter', :url => employees_filtered_path(), :remote => true do |f| %>
+    <%= error_messages_for @filter %>
+    <table width="100%">
+      <tr>
+        <td width="120px" style="height: 29px;"></td>
+        <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
+        <td class="field">All staff</td>
+        <td align="right" rowspan="4"><%= f.submit 'Apply Filter' %></td>
+      </tr>
+      <tr>
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td class="field">
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td class="field">
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+      <tr>
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td class="field">
+          <%= f.select :employee_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
 
 <div id="paginator">
   <%= paginate @employees, :remote => true %>
@@ -27,10 +62,23 @@
 <%= link_to 'New Employee', new_employee_path %>
 
 <script type="text/javascript">
-$(".table_grid tbody").delegate('tr', 'click', function(e) {
-  if (e.target.parentElement == this) {
-    window.location = e.currentTarget.getAttribute('data-url');
-  }
-});
-</script>
+  
+  $(".table_grid tbody").delegate('tr', 'click', function(e) {
+    if (e.target.parentElement == this) {
+      window.location = e.currentTarget.getAttribute('data-url');
+    }
+  });
 
+  $('#employee_filter_location_id').change(function(){
+    $('#employee_filter_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#employee_filter_department_id').change(function(){
+    $('#employee_filter_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#employee_filter_employee_id').change(function(){
+    $('#employee_filter_filter_by_employee').attr('checked', 'checked');
+  });
+
+</script>

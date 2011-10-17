@@ -99,6 +99,9 @@ HumanFaktor::Application.routes.draw do
       resources :locations, :module => 'tenant'
       resources :departments, :module => 'tenant'
       
+      get 'employees/filtered', :to => 'tenant/employees#filtered'
+      post 'employees/filtered', :to => 'tenant/employees#filtered', :as => :employees_filtered
+
       resources :employees, :module => 'tenant' do
         member do
           put 'deactivate'

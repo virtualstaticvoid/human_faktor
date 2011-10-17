@@ -17,6 +17,12 @@ module Tenant
       assert_not_nil assigns(:employees)
     end
 
+    test "should post filtered" do
+      post :filtered, :tenant => @account.subdomain, :format => :js
+      assert_response :success
+      assert_not_nil assigns(:employees)
+    end
+
     test "should get new" do
       get :new, :tenant => @account.subdomain
       assert_response :success
