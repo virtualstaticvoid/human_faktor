@@ -44,13 +44,6 @@
           <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
         </td>
       </tr>
-      <tr class="extra">
-        <td>Employee:</td>
-        <td><%= f.radio_button :filter_by, 'employee' %></td>
-        <td class="field" colspan="6">
-          <%= f.select :employee_id, current_employee.staff.collect {|item| [item.full_name, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
-        </td>
-      </tr>
     </table>
     
   <% end %>
