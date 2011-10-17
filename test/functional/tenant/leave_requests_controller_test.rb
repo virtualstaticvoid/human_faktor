@@ -221,14 +221,6 @@ module Tenant
       assert_redirected_to dashboard_url(:tenant => @account.subdomain)
     end
 
-    test "should get amend when status is pending for employee request" do
-      pending
-    end
-
-    test "should get amend when status is pending for staff request" do
-      pending
-    end
-    
     # NB: internet connection to S3 required 
     test "should update attached document" do
       sign_in_as :employee
