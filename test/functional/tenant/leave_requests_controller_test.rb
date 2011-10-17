@@ -23,6 +23,29 @@ module Tenant
       assert_redirected_to new_employee_session_url(:tenant => @account.subdomain)
     end
 
+    test "should confirm when status is pending" do
+      sign_in_as :employee
+      #assert @leave_request.status == LeaveRequest::STATUS_PENDING
+      post :confirm, :tenant => @account.subdomain, :id => @leave_request.to_param
+      assert_redirected_to dashboard_url(:tenant => @account.subdomain)
+    end
+
+    test "should get amend when status is pending for employee request" do
+      sign_in_as :employee
+      @leave_request.request!()
+      assert !@leave_request.captured?
+      get :amend, :tenant => @account.subdomain, :id => @leave_request.to_param
+      assert_redirected_to new_employee_leave_request_url(:request => @leave_request.to_param, :tenant => @account.subdomain)
+    end
+
+    test "should get amend when status is pending for staff request" do
+      sign_in_as :approver
+      @leave_request.capture!(employees(:approver))
+      assert @leave_request.captured?
+      get :amend, :tenant => @account.subdomain, :id => @leave_request.to_param
+      assert_redirected_to new_staff_leave_request_url(:request => @leave_request.to_param, :tenant => @account.subdomain)
+    end
+    
     test "should get edit when status is new" do
       sign_in_as :employee
       assert @leave_request.status == LeaveRequest::STATUS_NEW
