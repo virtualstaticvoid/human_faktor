@@ -94,11 +94,11 @@ class StaffCalendarEnquiry
   def filter_by_item_id
     case self.filter_by
       when 'location' then
-        errors.add(:base) << 'Location required.' unless self.location_id.present? && self.account.locations.exists?(self.location_id)
+        errors.add(:base, 'Location required.') unless self.location_id.present? && self.account.locations.exists?(self.location_id)
       when 'department' then
-        errors.add(:base) << 'Department required.' unless self.department_id.present? && self.account.departments.exists?(self.department_id)
+        errors.add(:base, 'Department required.') unless self.department_id.present? && self.account.departments.exists?(self.department_id)
       when 'employee' then
-        errors.add(:base) << 'Employee required.' if !self.employee_id.present? || self.account.employees.find_by_identifier(self.employee_id).nil?
+        errors.add(:base, 'Employee required.') if !self.employee_id.present? || self.account.employees.find_by_identifier(self.employee_id).nil?
       else
         # ignore...
     end
