@@ -1,6 +1,6 @@
-<% title "Employee Bulk Upload" %>
+<% title "Staff Bulk Upload" %>
 
-<p>Supply the following to upload employee data.</p>
+<p>Supply the following to upload staff data.</p>
 
 <p>Download a <%= link_to 'template file', template_bulk_uploads_path(:format => :csv) %> to help get started.</p>
 
@@ -28,9 +28,11 @@
 
 <div id="bulk_upload_info">
 
-  <h3>Employee Bulk Upload CSV File Specification</h3>
+  <h3>Staff Bulk Upload CSV File Specification</h3>
 
-  <p>The file must contain the following columns:</p>
+  <p>You can download a <%= link_to 'template file', template_bulk_uploads_path(:format => :csv) %> to help get started.</p>
+
+  <p>The CSV file must contain the following columns:</p>
 
   <table class="table_grid">
     <thead>
@@ -245,8 +247,6 @@
     </tbody>
 
   </table>
-
-  <p>Download a <%= link_to 'template file', template_bulk_uploads_path(:format => :csv) %> to help get started.</p>
 
 </div>
 
