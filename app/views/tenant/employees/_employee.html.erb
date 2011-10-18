@@ -1,11 +1,11 @@
-<tr id="_employee_<%= employee.to_param %>" data-url="<%= edit_employee_path(employee, :tenant => current_account.subdomain) %>">
+<tr id="_employee_<%= employee.to_param %>" data-url="<%= edit_employee_path(employee, :tenant => current_account.subdomain) %>" style="<% unless employee.active %>text-decoration: line-through;<% end %>">
   <td><%= image_tag(employee.avatar.url(:avatar), :width => 24, :height => 24, :class => 'avatar boxradius') %></td>
   <td><%= employee.full_name %></td>
   <td><%= employee.designation %></td>
-  <td><%= employee.role %></td>
+  <td><%= t(employee.role_sym, :scope => :roles) %></td>
   <td><%= employee.location %></td>
   <td><%= employee.department %></td>
-  <td class="boolean"><%= employee.active %></td>
+  <td><%= employee.approver %></td>
   <td>
     <%= mail_to(employee.email, image_tag('mail.png'), :class => "grid_button") if employee.email.present? %>
   </td>

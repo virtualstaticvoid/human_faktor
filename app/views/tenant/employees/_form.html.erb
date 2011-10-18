@@ -90,7 +90,12 @@
 
       <div class="field required">
         <div><%= f.label :role %></div>
-        <span><%= f.select :role, [['Administrator', :admin], ['Manager', :manager], ['Approver', :approver], ['Employee', :employee]], {}, { :class => 'dropdown' } %></span>
+        <span><%= f.select :role, [
+            [t(:admin, :scope => 'roles'), :admin], 
+            [t(:manager, :scope => 'roles'), :manager], 
+            [t(:approver, :scope => 'roles'), :approver], 
+            [t(:employee, :scope => 'roles'), :employee]
+          ], {}, { :class => 'dropdown' } %></span>
         <span class="field_info"></span>
       </div>
     <% end %>

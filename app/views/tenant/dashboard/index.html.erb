@@ -1,5 +1,5 @@
 <% title "Dashboard" %>
-<% content_title "#{current_employee.role.titleize} Dashboard", "content_title_dashboard" %>
+<% content_title "#{t(current_employee.role_sym, :scope => 'roles')} Dashboard", "content_title_dashboard" %>
 
 <%= render :partial => "tenant/dashboard/#{current_employee.role}/dashboard" %>
 
