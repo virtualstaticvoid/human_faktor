@@ -55,5 +55,10 @@ module Tenant
     def template
     end
     
+    def download
+      @bulk_upload = current_account.bulk_uploads.find(params[:id])
+      redirect_to @bulk_upload.authenticated_url()
+    end
+    
   end
 end

@@ -60,7 +60,7 @@ module Tenant
       temp_file = Tempfile.new('bulk_upload.csv')
       
       File.open(temp_file.path, 'w') do |file|        
-        open(@bulk_upload.authenticated_url) {|data| 
+        open(@bulk_upload.authenticated_url(90.minutes, :server_side => true)) {|data| 
           puts "Reading data from file storage"
           bytes = file.write(data.read)
           puts "Done reading file (#{bytes} bytes)"
