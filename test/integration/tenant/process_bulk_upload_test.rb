@@ -16,7 +16,7 @@ module Tenant
       end
       
       bulk_upload.reload
-      puts bulk_upload.messages
+      #puts bulk_upload.messages
       
       assert result
       

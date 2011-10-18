@@ -24,7 +24,8 @@ class HeatMapEnquiryTest < ActiveSupport::TestCase
 
   test "HeatMapEnquiry::UnscheduledLeaveAdjacentToWeekend" do
     @criteria.enquiry = 'HeatMapEnquiry::UnscheduledLeaveAdjacentToWeekend'
-    puts @criteria.json
+    json = @criteria.json
+    #puts json
   end
 
 end

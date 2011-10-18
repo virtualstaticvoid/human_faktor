@@ -14,7 +14,7 @@ module Tenant
       result = StageBulkUpload.new(bulk_upload.id).perform()
       
       bulk_upload.reload
-      puts bulk_upload.messages
+      #puts bulk_upload.messages
       
       assert result
       
