@@ -100,11 +100,13 @@ module Tenant
           line_number += 1
                   
         end
-
-        temp_file.close!
         
         @bulk_upload.save(:validate => false)
       end
+
+    ensure
+      # close the temp file, this automatically deletes it
+      temp_file.close!
     end
 
     def validate_upload()
