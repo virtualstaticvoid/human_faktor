@@ -77,6 +77,8 @@ class Employee < ActiveRecord::Base
   validates :gender, :allow_nil => true,
             :numericality => { :only_integer => true, :in => GENDERS }
 
+  validate :gender, :require_gender_for_subsequent_employees
+
   def gender_filter
     self.gender ? [self.gender] : GENDERS
   end
@@ -320,6 +322,12 @@ class Employee < ActiveRecord::Base
 
   def require_approver_for_non_admin_employees
     self.errors[:approver_id] << 'is required' if self.approver.nil? unless self.is_admin?
+  end
+
+  def require_gender_for_subsequent_employees
+    # we don't know the gender of the first user,
+    # so only validate for subsequent employees
+    self.errors[:gender] << 'is required' if self.gender.nil? unless self.account.employees.count() == 0
   end
 
 end
