@@ -4,8 +4,8 @@ class UniqueEmailForBulkUploadValidator < ActiveModel::EachValidator
     
     account = record.bulk_upload.account
     record.errors[:email] << 'must be unique' if account.employees.where(
-      "LOWER(email) = :email",
-      { :email => value.downcase }
+      "LOWER(email) = LOWER(:email)",
+      { :email => value }
     ).exists?
     
   end
