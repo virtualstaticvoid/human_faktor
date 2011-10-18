@@ -2,22 +2,30 @@
 
 <div id="filter" style="margin-bottom: 14px; z-order: 0;">
   <%= form_for @filter, :as => 'employee_filter', :url => employees_filtered_path(), :remote => true do |f| %>
+    
     <%= error_messages_for @filter %>
+
+    <div style="float: right;" class="clearfix">
+      <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
+        <%= @filter_by == 'none' ? 'Show Criteria' : 'Hide Criteria' %>
+      </a>
+    </div>
+
     <table width="100%">
-      <tr>
+      <tr class="extra">
         <td width="120px" style="height: 29px;"></td>
         <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
         <td class="field">All staff</td>
-        <td align="right" rowspan="4"><%= f.submit 'Apply Filter' %></td>
+        <td align="right" rowspan="4"><%= f.submit 'Apply Criteria' %></td>
       </tr>
-      <tr>
+      <tr class="extra">
         <td>Location:</td>
         <td><%= f.radio_button :filter_by, 'location' %></td>
         <td class="field">
           <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
         </td>
       </tr>
-      <tr>
+      <tr class="extra">
         <td>Department:</td>
         <td><%= f.radio_button :filter_by, 'department' %></td>
         <td class="field">
@@ -25,6 +33,7 @@
         </td>
       </tr>
     </table>
+
   <% end %>
 </div>
 
@@ -56,6 +65,16 @@
 
 <script type="text/javascript">
   
+  var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
+
+  $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
+
+  function toggle_criteria() {
+    extra_criteria = !extra_criteria;
+    $('.extra').css('display', extra_criteria ? '' : 'none');
+    $('#toggle_criteria').html(extra_criteria ? 'Hide Criteria' : 'Show Criteria');
+  }
+
   $(".table_grid tbody").delegate('tr', 'click', function(e) {
     if (e.target.parentElement == this) {
       window.location = e.currentTarget.getAttribute('data-url');
