@@ -257,7 +257,7 @@ class LeaveRequest < ActiveRecord::Base
     end
   end
 
-  def confirm(employee = nil)
+  def confirm(employee = nil, comment = '', constraint_overrides = {})
     raise InvalidOperationException unless self.status_new?
     
     write_attribute :status, STATUS_PENDING
@@ -265,7 +265,7 @@ class LeaveRequest < ActiveRecord::Base
     # automatically approve the leave if captured
     # or approval isn't required for the leave type
     if !employee.nil? && self.valid?
-      approve(employee, '') if (self.captured? && self.approver == employee) || !self.leave_type.approval_required
+      approve(employee, comment, constraint_overrides) if (self.captured? && self.approver == employee) || !self.leave_type.approval_required
     end
   end
   
