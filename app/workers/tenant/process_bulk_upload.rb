@@ -100,6 +100,7 @@ module Tenant
             :compassionate_leave_take_on_balance => record.compassionate_leave_take_on.to_f
           )
           
+          # save with validation, and fail if needed!
           employee.save!
           
           employees_needing_approvers[employee] = record unless record.new_approver_id.nil?
@@ -113,9 +114,20 @@ module Tenant
             :approver => new_employees[record.approver_first_and_last_name.downcase]
           )
         end
-        
+
         true
-      end      
+      end
+
+    rescue Exception => exception
+
+      puts exception
+
+      employees.reload  # discard any changes
+      @account.reload
+
+      # re-raise it!
+      raise exception
+    
     end
   
     def complete_processing()
