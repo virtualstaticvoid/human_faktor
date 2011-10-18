@@ -8,7 +8,7 @@ module Tenant
     include ActionView::Helpers::TextHelper
   
     def perform()
-      puts ">>> StageBulkUpload#perform"
+      puts ">>> StageBulkUpload#perform [#{self.upload_id}]"
       
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
@@ -18,7 +18,7 @@ module Tenant
             validate_upload() && 
               complete_staging()
       
-      puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
+      puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')} [#{self.upload_id}]."
       true
         
     rescue Exception => error
@@ -40,12 +40,12 @@ module Tenant
     private
     
     def start_staging()
-      puts "#{@bulk_upload.id}: Started staging bulk upload."
+      puts "#{@bulk_upload.id}: Started staging bulk upload. [#{self.upload_id}]"
       @bulk_upload.set_as_staging
     end
 
     def stage_upload()
-      puts "#{@bulk_upload.id}: Staging bulk upload."
+      puts "#{@bulk_upload.id}: Staging bulk upload. [#{self.upload_id}]"
     
       # import the file as is into the bulk upload stage model
 
@@ -108,7 +108,7 @@ module Tenant
     end
 
     def validate_upload()
-      puts "#{@bulk_upload.id}: Validating bulk upload."
+      puts "#{@bulk_upload.id}: Validating bulk upload. [#{self.upload_id}]"
     
       # load defaults
       default_location = @account.location
@@ -192,12 +192,12 @@ module Tenant
     end
 
     def complete_staging()
-      puts "#{@bulk_upload.id}: Completed staging bulk upload."
+      puts "#{@bulk_upload.id}: Completed staging bulk upload. [#{self.upload_id}]"
       @bulk_upload.set_as_staged()
     end
 
     def fail_upload(error)
-      puts "#{@bulk_upload.id}: Failed to stage bulk upload."
+      puts "#{@bulk_upload.id}: Failed to stage bulk upload. [#{self.upload_id}]"
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
