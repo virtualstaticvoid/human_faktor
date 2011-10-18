@@ -8,15 +8,17 @@ class UniqueUserNameForBulkUploadValidator < ActiveModel::EachValidator
     # checks for duplicates in existing and proposed new employees
     
     if account.employees.where(
-        :user_name => value
-       ).count() > 0 || 
+          'LOWER(user_name) = :user_name',
+          { :user_name => value.downcase }
+        ).exists? || 
+
        record.bulk_upload.records.where(
          'LOWER(first_name) = :first_name AND LOWER(last_name) = :last_name',
          { 
           :first_name => record.first_name.downcase,
           :last_name => record.last_name.downcase 
          }
-       ).where("id <> #{record.id}").count() > 0
+       ).where("id <> #{record.id}").exists?
     
       record.errors[:user_name] << 'has already been taken'
     end

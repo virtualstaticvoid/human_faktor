@@ -76,7 +76,8 @@ class BulkUploadStage < ActiveRecord::Base
     @user_name ||= [self.first_name, self.last_name].reject {|n| n.blank? }.join('.').downcase
   end
 
-  validates :user_name, :unique_user_name_for_bulk_upload => true
+  validates :user_name, 
+            :unique_user_name_for_bulk_upload => true
   
   validates :email, 
             :allow_blank => true, 

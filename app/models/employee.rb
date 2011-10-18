@@ -51,7 +51,7 @@ class Employee < ActiveRecord::Base
   validates :identifier, :presence => true, :uniqueness => true
   validates :user_name, :presence => true, 
                         :length => { :maximum => 20 },
-                        :uniqueness => { :scope => [:account_id] }
+                        :uniqueness => { :scope => [:account_id], :case_sensitive => false }
 
   validates :email, :email => true, :allow_nil => lambda { self.notify != true }
   
