@@ -1,16 +1,4 @@
-.account_setup_step {
+.new_registration h2, .edit_account_setup h2 {
+  border-bottom: 1px dashed #C0C0C0;
+  padding-bottom: 4px;
 }
-
-.account_setup_step .actions {
-  border-top: 1px solid lightgray;
-  padding-top: 10px;
-}
-
-.account_setup_step_content {
-  margin-left: 10px;
-}
-
-.account_setup_step_content h3 {
-  margin-top: 20px;
-}
-
