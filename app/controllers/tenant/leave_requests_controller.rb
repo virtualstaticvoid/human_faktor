@@ -2,6 +2,14 @@ module Tenant
   class LeaveRequestsController < TenantController
     layout 'dashboard'
 
+    def show
+      @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+
+      respond_to do |format|
+        format.html # edit.html.erb
+      end
+    end
+
     def edit
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 

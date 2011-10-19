@@ -61,27 +61,31 @@ HumanFaktor::Application.routes.draw do
     get "profile", :to => "tenant/profile#edit", :as => :profile
     put "profile", :to => "tenant/profile#update", :as => :update_profile
 
-    # leave requests
+    # employee leave requests
     get "leave", :to => "tenant/employee_leave_requests#index", :as => :employee_leave_requests
     post "leave", :to => "tenant/employee_leave_requests#index"
     get "leave/new", :to => "tenant/employee_leave_requests#new", :as => :new_employee_leave_request
     post "leave/new", :to => "tenant/employee_leave_requests#create", :as => :create_employee_leave_request
 
+    # staff leave requests
     get "staff_leave", :to => "tenant/staff_leave_requests#index", :as => :staff_leave_requests
     post "staff_leave", :to => "tenant/staff_leave_requests#index"
     get "staff_leave/new", :to => "tenant/staff_leave_requests#new", :as => :new_staff_leave_request
     post "staff_leave/new", :to => "tenant/staff_leave_requests#create", :as => :create_staff_leave_request
 
-    get "leave_balance", :to => "tenant/leave_requests#balance", :as => :leave_balance
+    # both employee and staff leave requests
+    resources :leave_requests, :path => '/leave', :module => 'tenant', :except => [:index, :new, :create, :destroy] do
+      member do
+        get 'amend'
+        put 'confirm'
+        put 'approve'
+        put 'decline'
+        put 'cancel'
+        put 'reinstate'
+      end
+    end
 
-    get "leave/:id", :to => "tenant/leave_requests#edit", :as => :edit_leave_request
-    get "leave/:id/amend", :to => "tenant/leave_requests#amend", :as => :amend_leave_request
-    put "leave/:id/confirm", :to => "tenant/leave_requests#confirm", :as => :confirm_leave_request
-    put "leave/:id/approve", :to => "tenant/leave_requests#approve", :as => :approve_leave_request
-    put "leave/:id/decline", :to => "tenant/leave_requests#decline", :as => :decline_leave_request
-    put "leave/:id/cancel", :to => "tenant/leave_requests#cancel", :as => :cancel_leave_request
-    put "leave/:id/reinstate", :to => "tenant/leave_requests#reinstate", :as => :reinstate_leave_request
-    put "leave/:id/update", :to => "tenant/leave_requests#update", :as => :update_leave_request
+    get "leave_balance", :to => "tenant/leave_requests#balance", :as => :leave_balance
 
     # data feeds
     get "calendar_entries_feed(.:format)", :to => "tenant/data_feeds#calendar_entries", :as => :calendar_entries_feed
