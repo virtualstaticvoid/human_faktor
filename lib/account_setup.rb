@@ -70,12 +70,14 @@ class AccountSetup
       # activate account
       account.active = true
       
-      valid &= administrator.save
+      valid &= administrator.save(:validate => false)   # save ~ ignore any validation errors
       valid &= account.save
       
       # make admin own approver
-      administrator.update_attributes(:approver => administrator)
-      valid &= administrator.save
+      administrator.update_attributes(
+        :approver => administrator
+      )
+      valid &= administrator.save(:validate => false)   # save ~ ignore any validation errors
       
     end if valid
   
