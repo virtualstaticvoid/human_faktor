@@ -115,7 +115,6 @@ module Tenant
           )
         end
 
-        true
       end
 
     rescue Exception => exception
