@@ -64,7 +64,7 @@ module Tenant
 
           leave_request = assigns(:leave_request)
           if leave_request.has_constraint_violations?
-            assert_redirected_to edit_leave_request_url(leave_request, :tenant => leave_request.account.subdomain)
+            assert_redirected_to leave_request_url(leave_request, :tenant => leave_request.account.subdomain)
           else
             assert_redirected_to dashboard_url(:tenant => leave_request.account.subdomain)
           end

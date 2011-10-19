@@ -154,7 +154,7 @@
         if (node) {
           if (node.data.url != null ) {
             // navigate to the leave request
-            window.location = "<%= edit_leave_request_path(LeaveRequest, :tenant => current_account.subdomain).gsub(/LeaveRequest/, '') %>" + node.data.url;
+            window.location = "<%= leave_request_path(LeaveRequest, :tenant => current_account.subdomain).gsub(/LeaveRequest/, '') %>" + node.data.url;
           } else {
             treeMap.enter(node);
           }         

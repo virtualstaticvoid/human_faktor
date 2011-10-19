@@ -6,7 +6,7 @@
     "start": "<%= leave_request.date_from %>", 
     "end": "<%= leave_request.date_to %>",
     "color": "<%= leave_request.leave_type.hex_color %>",
-    "url": "<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>",
+    "url": "<%= leave_request_path(leave_request, :tenant => current_account.subdomain) %>",
     "className": "<%= "leave_request_#{leave_request.status_text.underscore}" %>",
     "description": "<%= leave_request.description %>"
   }

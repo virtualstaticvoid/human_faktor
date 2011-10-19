@@ -42,7 +42,7 @@
   <p>To review the leave request, please follow this link:</p>
 
   <p class="block">
-    <%= link_to 'View Leave Request', edit_leave_request_url(@leave_request, :tenant => @account.subdomain) %>
+    <%= link_to 'View Leave Request', leave_request_url(@leave_request, :tenant => @account.subdomain) %>
   </p>
   
   <p>Thank You.</p>

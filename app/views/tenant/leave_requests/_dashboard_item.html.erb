@@ -11,7 +11,7 @@
   <div>
     <div style="float: left;">
       <%= link_to "#{leave_request.leave_type}: #{leave_request.date_from_s} to #{leave_request.date_to_s}", 
-                    edit_leave_request_path(leave_request, :tenant => current_account.subdomain),
+                    leave_request_path(leave_request, :tenant => current_account.subdomain),
                     :title => h(leave_request.comment) %>
     </div>
     <div style="float: right; text-align: right; color: gray; font-size: 10pt;">

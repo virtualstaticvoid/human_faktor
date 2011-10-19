@@ -145,7 +145,7 @@
               <% if leave_request && !(date.wday == 0 || date.wday == 6 || holiday.present?) %>
                 <td class="leave_request_#{leave_request.status_text.underscore}"
                     style="background-color: <%= leave_request.leave_type.hex_color %>; cursor: pointer;"
-                    onclick="javascript: window.location = '<%= edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';"
+                    onclick="javascript: window.location = '<%= leave_request_path(leave_request, :tenant => current_account.subdomain) %>';"
                     title="<%= leave_request.to_s %>">
                 </td>
               <% else %>

@@ -1,4 +1,4 @@
-<tr onclick="window.location = '<%=	edit_leave_request_path(leave_request, :tenant => current_account.subdomain) %>';" title="<%= h(leave_request.comment) %>">
+<tr onclick="window.location = '<%= leave_request_path(leave_request, :tenant => current_account.subdomain) %>';" title="<%= h(leave_request.comment) %>">
   <td class="status_<%= leave_request.status_text.downcase %><%= leave_request.has_constraint_violations? ? ' status_violation' : '' %>"></td>
   <td class="<%= leave_request.document_attached? ? 'leave_request_paperclip' : '' %>"></td>
   <td><%=	leave_request.leave_type %></td>
