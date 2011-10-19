@@ -5,9 +5,8 @@ module Tenant
       employee_filter_params = params[:employee_filter] || {}
       @filter = EmployeeFilter.new(current_account).tap do |c|
         c.filter_by = @filter_by = employee_filter_params[:filter_by] || 'none'
-        c.location_id = employee_filter_params[:location_id]
-        c.department_id = employee_filter_params[:department_id]
-        c.employee_id = employee_filter_params[:employee_id]
+        c.location_id = employee_filter_params[:location_id] || current_employee.location_id
+        c.department_id = employee_filter_params[:department_id] || current_employee.department_id
 
         c.valid?
       end
