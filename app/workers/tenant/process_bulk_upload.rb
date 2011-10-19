@@ -5,7 +5,7 @@ module Tenant
     include ActionView::Helpers::TextHelper
   
     def perform()
-      puts "#{self.upload_id}: Processing bulk upload"
+      log "Processing bulk upload"
 
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
@@ -14,7 +14,7 @@ module Tenant
         apply_upload() && 
           complete_processing()
           
-      puts "Processed #{pluralize(@bulk_upload.records.count(), 'employee')}."
+      log "Processed #{pluralize(@bulk_upload.records.count(), 'employee')}."
       true
 
     rescue Exception => error
@@ -23,8 +23,8 @@ module Tenant
       @bulk_upload.reload
     
       # log out the full error message
-      puts error.message
-      puts error.backtrace.join("\n")
+      log error.message
+      log error.backtrace.join("\n")
 
       # store the failure message
       fail_upload(error)
@@ -35,12 +35,12 @@ module Tenant
     private
 
     def start_processing()
-      puts "#{@bulk_upload.id}: Started processing bulk upload."
+      log "Started processing bulk upload."
       @bulk_upload.set_as_processing
     end
     
     def apply_upload()
-      puts "#{@bulk_upload.id}: Processing bulk upload."
+      log "Processing bulk upload."
 
       default_approver_id = @bulk_upload.uploaded_by_id
       employees = @account.employees
@@ -119,7 +119,7 @@ module Tenant
 
     rescue Exception => exception
 
-      puts exception
+      log exception
 
       employees.reload  # discard any changes
       @account.reload
@@ -130,12 +130,12 @@ module Tenant
     end
   
     def complete_processing()
-      puts "#{@bulk_upload.id}: Completed processing bulk upload."
+      log "Completed processing bulk upload."
       @bulk_upload.set_as_processed()
     end
 
     def fail_upload(error)
-      puts "#{@bulk_upload.id}: Failed to process bulk upload."
+      log "Failed to process bulk upload."
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
@@ -143,6 +143,23 @@ module Tenant
       )
     end
     
+    private
+
+    def log(message)
+      puts "#{self.upload_id}: #{message}" if Rails.env.development?
+      logger.info "#{self.upload_id}: #{message}"
+    end
+
+    def logger
+      @logger ||= if defined?(Rails)
+        Rails.logger
+      elsif defined?(RAILS_DEFAULT_LOGGER)
+        RAILS_DEFAULT_LOGGER
+      else
+        Logger.new(STDOUT)
+      end
+    end
+
   end
 end
 

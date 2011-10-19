@@ -8,7 +8,7 @@ module Tenant
     include ActionView::Helpers::TextHelper
   
     def perform()
-      puts ">>> StageBulkUpload#perform [#{self.upload_id}]"
+      log "Staging bulk upload"
       
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
@@ -18,7 +18,7 @@ module Tenant
             validate_upload() && 
               complete_staging()
       
-      puts "Staged #{pluralize(@bulk_upload.records.count(), 'employee')} [#{self.upload_id}]."
+      log "Staged #{pluralize(@bulk_upload.records.count(), 'employee')}."
       true
         
     rescue Exception => error
@@ -28,8 +28,8 @@ module Tenant
       @bulk_upload.reload
     
       # log out the full error message
-      puts error.message
-      puts error.backtrace.join("\n")
+      log error.message
+      log error.backtrace.join("\n")
 
       # store the failure message
       fail_upload(error)
@@ -40,12 +40,12 @@ module Tenant
     private
     
     def start_staging()
-      puts "#{@bulk_upload.id}: Started staging bulk upload. [#{self.upload_id}]"
+      log "Started staging bulk upload."
       @bulk_upload.set_as_staging
     end
 
     def stage_upload()
-      puts "#{@bulk_upload.id}: Staging bulk upload. [#{self.upload_id}]"
+      log "Staging bulk upload."
     
       # import the file as is into the bulk upload stage model
 
@@ -61,9 +61,9 @@ module Tenant
       
       File.open(temp_file.path, 'w') do |file|        
         open(@bulk_upload.authenticated_url(90.minutes, :server_side => true)) {|data| 
-          puts "Reading data from file storage"
+          log "Reading data from file storage"
           bytes = file.write(data.read)
-          puts "Done reading file (#{bytes} bytes)"
+          log "Done reading file (#{bytes} bytes)"
         }
       end
 
@@ -110,7 +110,7 @@ module Tenant
     end
 
     def validate_upload()
-      puts "#{@bulk_upload.id}: Validating bulk upload. [#{self.upload_id}]"
+      log "Validating bulk upload."
     
       # load defaults
       default_location = @account.location
@@ -194,17 +194,34 @@ module Tenant
     end
 
     def complete_staging()
-      puts "#{@bulk_upload.id}: Completed staging bulk upload. [#{self.upload_id}]"
+      log "Completed staging bulk upload."
       @bulk_upload.set_as_staged()
     end
 
     def fail_upload(error)
-      puts "#{@bulk_upload.id}: Failed to stage bulk upload. [#{self.upload_id}]"
+      log "Failed to stage bulk upload."
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
           "#{error.message}\n#{error.backtrace.join("\n")}"
       )
+    end
+
+    private
+
+    def log(message)
+      puts "#{self.upload_id}: #{message}" if Rails.env.development?
+      logger.info "#{self.upload_id}: #{message}"
+    end
+
+    def logger
+      @logger ||= if defined?(Rails)
+        Rails.logger
+      elsif defined?(RAILS_DEFAULT_LOGGER)
+        RAILS_DEFAULT_LOGGER
+      else
+        Logger.new(STDOUT)
+      end
     end
 
   end
