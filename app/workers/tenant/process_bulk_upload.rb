@@ -5,7 +5,7 @@ module Tenant
     include ActionView::Helpers::TextHelper
   
     def perform()
-      puts ">>> ProcessBulkUpload#perform [#{self.upload_id}]"
+      puts "#{self.upload_id}: Processing bulk upload"
 
       @bulk_upload = BulkUpload.find(self.upload_id)
       @account = @bulk_upload.account
@@ -14,7 +14,7 @@ module Tenant
         apply_upload() && 
           complete_processing()
           
-      puts "Processed #{pluralize(@bulk_upload.records.count(), 'employee')}. [#{self.upload_id}]"
+      puts "Processed #{pluralize(@bulk_upload.records.count(), 'employee')}."
       true
 
     rescue Exception => error
@@ -35,12 +35,12 @@ module Tenant
     private
 
     def start_processing()
-      puts "#{@bulk_upload.id}: Started processing bulk upload. [#{self.upload_id}]"
+      puts "#{@bulk_upload.id}: Started processing bulk upload."
       @bulk_upload.set_as_processing
     end
     
     def apply_upload()
-      puts "#{@bulk_upload.id}: Processing bulk upload. [#{self.upload_id}]"
+      puts "#{@bulk_upload.id}: Processing bulk upload."
 
       default_approver_id = @bulk_upload.uploaded_by_id
       employees = @account.employees
@@ -130,12 +130,12 @@ module Tenant
     end
   
     def complete_processing()
-      puts "#{@bulk_upload.id}: Completed processing bulk upload. [#{self.upload_id}]"
+      puts "#{@bulk_upload.id}: Completed processing bulk upload."
       @bulk_upload.set_as_processed()
     end
 
     def fail_upload(error)
-      puts "#{@bulk_upload.id}: Failed to process bulk upload. [#{self.upload_id}]"
+      puts "#{@bulk_upload.id}: Failed to process bulk upload."
       @bulk_upload.set_as_failed(
         Rails.env.production? ? 
           error.message :
