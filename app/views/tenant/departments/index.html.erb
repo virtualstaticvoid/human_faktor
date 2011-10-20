@@ -9,6 +9,7 @@
     <tr>
       <th>Title</th>
       <th width="60px"></th>
+      <th width="60px"></th>
     </tr>
   </thead>
   <tbody id="data-rows">
@@ -20,11 +21,4 @@
 
 <%= link_to 'New Department', new_department_path %>
 
-<script type="text/javascript">
-$(".table_grid tbody").delegate('tr', 'click', function(e) {
-  if (e.target.parentElement == this) {
-    window.location = e.currentTarget.getAttribute('data-url');
-  }
-});
-</script>
-
+<%= table_grid_row_click_handler %>

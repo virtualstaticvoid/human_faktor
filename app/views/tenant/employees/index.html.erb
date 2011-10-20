@@ -52,6 +52,7 @@
       <th>Department</th>
       <th>Approver</th>
       <th width="40px"></th>
+      <th width="40px"></th>
     </tr>
   </thead>
   <tbody id="data-rows">
@@ -62,6 +63,8 @@
 <br />
 
 <%= link_to 'New Employee', new_employee_path %>
+
+<%= table_grid_row_click_handler %>
 
 <script type="text/javascript">
   
@@ -74,12 +77,6 @@
     $('.extra').css('display', extra_criteria ? '' : 'none');
     $('#toggle_criteria').html(extra_criteria ? 'Hide Criteria' : 'Show Criteria');
   }
-
-  $(".table_grid tbody").delegate('tr', 'click', function(e) {
-    if (e.target.parentElement == this) {
-      window.location = e.currentTarget.getAttribute('data-url');
-    }
-  });
 
   $('#employee_filter_location_id').change(function(){
     $('#employee_filter_filter_by_location').attr('checked', 'checked');

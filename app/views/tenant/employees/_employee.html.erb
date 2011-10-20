@@ -6,6 +6,7 @@
   <td><%= employee.location %></td>
   <td><%= employee.department %></td>
   <td><%= employee.approver %></td>
+  <td><%= link_to image_tag('edit.png'), edit_employee_path(employee, :tenant => current_account.subdomain), :class => "grid_button" %></td>
   <td>
     <%= mail_to(employee.email, image_tag('mail.png'), :class => "grid_button") if employee.email.present? %>
   </td>
