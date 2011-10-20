@@ -9,3 +9,4 @@ public/system/*
 tmp/
 heroku_setup.sh
 *.dump
+*.sublime-workspace
