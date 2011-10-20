@@ -19,7 +19,7 @@ class Registration < ActiveRecord::Base
   validates :subdomain, 
             :presence => true, 
             :uniqueness => true, 
-            :subdomain => true
+            :subdomain => { :reserved => Account::RESERVED_SUBDOMAINS }
   
   validates :title, :presence => true, :length => { :maximum => 255 }
   

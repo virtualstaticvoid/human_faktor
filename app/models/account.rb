@@ -2,6 +2,19 @@ require 'date'
 
 class Account < ActiveRecord::Base
 
+  RESERVED_SUBDOMAINS = %w{
+    about 
+    contact 
+    features 
+    subscriptions 
+    terms 
+    privacy 
+    partner 
+    sign_in 
+    sign_out 
+    registrations
+  }
+
   #
   # When the account is created initially, active is false
   # and the auth token is used to grant access to the system
@@ -33,7 +46,7 @@ class Account < ActiveRecord::Base
   validates :subdomain, 
             :presence => true, 
             :uniqueness => true, 
-            :subdomain => { :reserved => %w{about contact features subscriptions terms privacy partner sign_in sign_out registrations} }
+            :subdomain => { :reserved => RESERVED_SUBDOMAINS }
 
   validates :title, :presence => true, :length => { :maximum => 255 }
   validates :theme, :presence => true
