@@ -1,0 +1,36 @@
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.features li {
+  margin: 8px;
+  padding-left: 80px;
+  height: 70px;
+  line-height: 70px;
+  border: 1px solid #C0C0C0;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.features .simple {
+  background: url(../images/marketing/simple.png) no-repeat 8px 4px;
+}
+
+.features .workflow {
+  background: url(../images/marketing/workflow.png) no-repeat 8px 4px;
+}
+
+.features .email {
+  background: url(../images/marketing/email.png) no-repeat 8px 4px;
+}
+
+.features .dashboard {
+  background: url(../images/marketing/dashboard.png) no-repeat 8px 4px;
+}
+
+.features .heatmap {
+  background: url(../images/marketing/heatmap.png) no-repeat 8px 4px;
+}
