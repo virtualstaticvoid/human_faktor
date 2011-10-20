@@ -5,6 +5,11 @@ class RegistrationsController < ApplicationController
  
   def new
     @registration = Registration.new()
+    
+    @registration.subscription = Subscription.where(
+      :max_employees => params[:subscription]
+    ).where('price > 0').first if params[:subscription]
+    
     @registration.partner = Partner.find(params[:partner]) if params[:partner]
   end
 
