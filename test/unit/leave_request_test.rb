@@ -29,8 +29,8 @@ class LeaveRequestTest < ActiveSupport::TestCase
       :leave_type_id => leave_type.id,
       :employee_id => employees(:employee).id,
       :approver_id => employees(:admin).id,
-      :date_from => Date.today + 2,
-      :date_to => Date.today + 12,
+      :date_from => Date.new(2011, 9, 20),
+      :date_to => Date.new(2011, 9, 22),
       :comment => 'Test'
     )
     assert leave.confirm!(leave.employee)
