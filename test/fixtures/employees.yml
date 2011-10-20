@@ -144,6 +144,24 @@ takeon:
   <%= leave_type_name %>_leave_take_on_balance: 10.5
 <% end %> 
 
+demo:
+  account: demo
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: demo.user
+  email: demo@human-faktor.com
+  first_name: Demo
+  last_name: User
+  gender: 1
+  location: one
+  department: one
+  designation: Employee
+  start_date: 2011-02-01
+  take_on_balance_as_at: 2011-02-01
+  role: admin
+  fixed_daily_hours: 8
+  active: true
+  notify: true
+
 #
 # Hierarchy:
 #

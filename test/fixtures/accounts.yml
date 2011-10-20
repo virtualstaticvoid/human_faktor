@@ -31,3 +31,11 @@ three:
   auth_token: <%= TokenHelper.friendly_token %>
   active: false
 
+demo:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: demo
+  title: Demo Account
+  country: za
+  fixed_daily_hours: 8
+  auth_token: <%= TokenHelper.friendly_token %>
+  active: true
