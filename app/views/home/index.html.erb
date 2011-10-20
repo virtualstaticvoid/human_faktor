@@ -1,22 +1,24 @@
 <% robots "index, follow" %>
 
-<h2 style="text-align: center; margin: 20px;">The online employee leave management solution!</h2>
+<h2 style="text-align: center; margin: 20px;">
+  The online employee leave management solution!
+</h2>
 
 <div style="height: 420px;">
 
   <div style="float: left; height: 400px; width: 530px;">
     <ul class="features">
-      <li class="simple">Simple, intuitive and efficient leave management</li>
-      <li class="workflow">Full leave application, approval, rejection workflow</li>
-      <li class="email">E-mail notification of entire application process</li>
-      <li class="dashboard">Dashboards for effective management information</li>
-      <li class="heatmap">Heat maps to identify potential staff issues </li>
+      <li class="nice_box simple">Simple, intuitive and efficient leave management</li>
+      <li class="nice_box workflow">Full leave application, approval, rejection workflow</li>
+      <li class="nice_box email">E-mail notification of entire application process</li>
+      <li class="nice_box dashboard">Dashboards for effective management information</li>
+      <li class="nice_box heatmap">Heat maps to identify potential staff issues </li>
     </ul>
   </div>
 
   <div style="float: right; height: 400px; width: 380px;">
-    <div style="margin-top: 8px;">
-      <div style="border: 1px solid #C0C0C0; padding: 12px; text-align: center;" class="box_radius">
+    <div style="margin: 8px;">
+      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box">
         <div>
           <%= link_to image_tag('../images/play.png'), dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %>
         </div>
@@ -30,8 +32,8 @@
       </div>
     </div>  
 
-    <div style="margin-top: 20px;">
-      <div style="border: 1px solid #C0C0C0; padding: 12px; text-align: center; height: 154px;" class="box_radius">
+    <div style="margin: 8px;">
+      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box">
         <div>
           <%= link_to image_tag('../images/start.png'), new_account_registration_path() %>
         </div>

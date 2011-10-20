@@ -15,8 +15,8 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 10px 0;
 }
 
-h1 { font-size: 16pt; }
-h2 { font-size: 14pt; }
+h1 { font-size: 16pt; text-shadow: #C0C0C0 4px 4px 8px; }
+h2 { font-size: 14pt; text-shadow: #C0C0C0 4px 4px 8px; }
 h3 { font-size: 12pt; }
 h4 { font-size: 11pt; font-weight: bold; }
 h5 { font-size: 11pt; font-style: italic; }
