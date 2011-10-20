@@ -1,16 +1,51 @@
 <% robots "index, follow" %>
 
-<h1>Welcome to <%= AppConfig.title %></h1>
+<h2 style="text-align: center; margin: 20px;">The online employee leave management solution!</h2>
 
-<ul>
-  <li><%= link_to 'Register', new_account_registration_path %></li>
-  <li><%= link_to 'Sign In', home_sign_in_path %></li>
-</ul>
-<ul>
-  <li><%= link_to 'Features', home_features_path %></li>
-  <li><%= link_to 'Subscriptions', home_subscriptions_path %></li>
-  <li><%= link_to 'Terms & Conditions', home_terms_path %></li>
-  <li><%= link_to 'Partner Program', home_partner_path %></li>
-  <li><%= link_to 'Contact', home_contact_path %></li>
-</ul>
+<div style="height: 420px;">
 
+  <div style="float: left; height: 400px; width: 530px;">
+    <ul class="features">
+      <li class="simple">Simple, intuitive and efficient leave management</li>
+      <li class="workflow">Full leave application, approval, rejection workflow</li>
+      <li class="email">E-mail notification of entire application process</li>
+      <li class="dashboard">Dashboards for effective management information</li>
+      <li class="heatmap">Heat maps to identify potential staff issues </li>
+    </ul>
+  </div>
+
+  <div style="float: right; height: 400px; width: 380px;">
+    <div style="margin-top: 8px;">
+      <div style="border: 1px solid #C0C0C0; padding: 12px; text-align: center;" class="box_radius">
+        <div>
+          <%= link_to image_tag('../images/play.png'), dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %>
+        </div>
+        <p>
+          Give it a try now! <br/> 
+          No need to sign up or register!
+        </p>
+        <p>
+          Click here for a <%= link_to 'Demo', dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %></p>
+        </p>
+      </div>
+    </div>  
+
+    <div style="margin-top: 20px;">
+      <div style="border: 1px solid #C0C0C0; padding: 12px; text-align: center; height: 154px;" class="box_radius">
+        <div>
+          <%= link_to image_tag('../images/start.png'), new_account_registration_path() %>
+        </div>
+        <p>
+          Get started Today! <br/> 
+        </p>
+        <p>
+          Click here for a <%= link_to 'Free Trial', new_account_registration_path() %></p>
+        </p>
+      </div>
+    </div>  
+
+  </div>
+
+</div>
+
+  

@@ -77,11 +77,33 @@
   
   </tr>
 
+  <tr class="no_hover">
+    <td>
+    </td>
+
+    <% for subscription in subscriptions %>
+      <td>
+        <div class="button">
+          <%= link_to 'Sign Up', new_account_registration_path(:subscription => subscription[1]) %>
+        </div>
+      </td>
+    <% end %>
+  
+  </tr>
+
 </table>
 
-<div style="margin-top: 8px; text-align: right;">
-  <i>* All prices given in ZAR currency.</i>
+<div style="height: 32px">
+  <div style="margin-top: 8px; float: left;">
+    <%= link_to 'Sign Up', new_account_registration_path() %> for a Free Trial.
+  </div>
+
+  <div style="margin-top: 8px; float: right; text-align: right;">
+    <i>* All prices given in ZAR currency.</i>
+  </div>
 </div>
+
+<div class="clearfix"></div>
 
 <style type="text/css">
 
