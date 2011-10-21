@@ -1,0 +1,22 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identifier: <%= TokenHelper.friendly_token %>
+  first_name: Joe
+  last_name: Soap
+  email: info@human-faktor.com
+  country: za
+
+two:
+  identifier: <%= TokenHelper.friendly_token %>
+  first_name: Adam
+  last_name: Henry
+  email: info@human-faktor.com
+  country: za
+
+three:
+  identifier: <%= TokenHelper.friendly_token %>
+  first_name: Paula
+  last_name: Jones
+  email: info@human-faktor.com
+  country: za
