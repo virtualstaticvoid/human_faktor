@@ -1,0 +1,13 @@
+Hello <%= @demo_request.full_name %>,
+
+Thank you for your interest in <%= AppConfig.title %>.
+
+You can use the following URL to access the online demonstration:
+
+  <%= link_to dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token) %>
+
+Should you have any questions, please contact us at <%= mail_to AppConfig.info_email %>.
+
+The <%= AppConfig.title %> Team
+<%= link_to root_url, root_url %>
+

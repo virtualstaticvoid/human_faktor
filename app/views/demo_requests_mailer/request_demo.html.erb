@@ -1,0 +1,20 @@
+<%
+  dashboard_link = dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token)
+%>
+
+<p>Hello <%= @demo_request.full_name %>,</p>
+
+<p>Thank you for your interest in <strong><%= AppConfig.title %></strong>.</p>
+
+<p>You can use the following URL to access the online demonstration:</p>
+
+<p class="block">
+<strong><%= link_to dashboard_link, dashboard_link %></strong>
+</p>
+
+<p>Should you have any questions, please contact us at <%= mail_to AppConfig.info_email %>.</p>
+
+<p>
+<strong>The <%= AppConfig.title %> Team</strong><br />
+<%= link_to root_url, root_url %>
+</p>
