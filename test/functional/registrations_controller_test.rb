@@ -24,7 +24,6 @@ class RegistrationsControllerTest < ActionController::TestCase
   end
 
   test "should create registration" do
-    registration = registrations(:one)
     assert_difference('Registration.count') do
       post :create, :registration => @registration_attributes
     end
