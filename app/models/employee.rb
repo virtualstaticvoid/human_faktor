@@ -39,7 +39,7 @@ class Employee < ActiveRecord::Base
                  :fixed_daily_hours => 8,
                  :active => true,
                  :notify => false,
-                 :take_on_balance_as_at => lambda { Date.today }
+                 :start_date => lambda { Date.today }
 
   belongs_to :location
   belongs_to :department
@@ -92,7 +92,7 @@ class Employee < ActiveRecord::Base
   # job information
   validates :internal_reference, :length => { :maximum => 255 }, :allow_nil => true
   validates :designation, :allow_blank => true, :length => { :maximum => 255 }
-  validates :start_date, :timeliness => { :type => :date }, :allow_nil => true
+  validates :start_date, :timeliness => { :type => :date }, :allow_nil => false
   validates :end_date, :timeliness => { :type => :date }, :allow_nil => true
   validates :location, :existence => true, :allow_nil => true
   validates :department, :existence => true, :allow_nil => true
@@ -192,7 +192,8 @@ class Employee < ActiveRecord::Base
   # take on balances
   validates :take_on_balance_as_at, :timeliness => { :type => :date }, :allow_nil => true
   validates_presence_of :take_on_balance_as_at, :if => lambda { self.has_take_on_balance }
-  
+  validate :take_on_balance_as_at_cannot_be_prior_to_start_date
+
   def effective_start_date
     # use the take on date
     #  then the start date
@@ -318,7 +319,13 @@ class Employee < ActiveRecord::Base
   end
 
   def require_approver_for_non_admin_employees
-    self.errors[:approver_id] << 'is required' if self.approver.nil? unless self.is_admin?
+    self.errors.add(:approver_id, 'is required') if self.approver.nil? unless self.is_admin?
+  end
+
+  def take_on_balance_as_at_cannot_be_prior_to_start_date
+    unless self.take_on_balance_as_at.nil?
+      self.errors.add(:take_on_balance_as_at, 'cannot be less than the employee start date') if self.take_on_balance_as_at < self.start_date
+    end  
   end
 
 end
