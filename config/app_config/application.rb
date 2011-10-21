@@ -3,8 +3,8 @@
 # application settings
 AppConfig.product_group = "Human Faktor"
 AppConfig.title = "Human Faktor Online Leave Management"
-AppConfig.meta_keywords = ""
-AppConfig.meta_description = ""
+AppConfig.meta_keywords = "employee human resources holiday vacation leave absence absent absentee annual sick medical leave online cost-effective management control dashboard free trial simple easy hr planning"
+AppConfig.meta_description = "Online employee leave management application"
 
 AppConfig.company_name = "FaktorWorks Pty (Ltd)"
 AppConfig.company_registration_number = "M2011/007679/07"
