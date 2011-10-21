@@ -1,4 +1,7 @@
 #!/bin/bash
 tar cvzf log/log_$(date +%Y%m%d)_$(date +%H%M).tgz log/*.*
 bundle exec rake log:clear
+
+# nginx log files
 echo > log/access.log
+echo > log/error.log
