@@ -54,12 +54,36 @@
       <td></td>
     </tr>
     
+    <% if leave_request.leave_type.requires_documentation %>
+      <% if leave_request.document_attached? %>
+        <tr>
+          <td>Document:</td>
+          <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
+          <td></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td>Document:</td>
+          <td>
+            <em>Documentation not supplied!</em>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+    <% elsif leave_request.document_attached? %>
+      <tr>
+        <td>Document:</td>
+        <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
+        <td></td>
+      </tr>
+    <% end %>
+
     <% if leave_request.document_attached? %>
-    <tr>
-      <td>Document:</td>
-      <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
-      <td></td>
-    </tr>
+      <tr>
+        <td>Document:</td>
+        <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
+        <td></td>
+      </tr>
     <% end %>
     
     <% if leave_request.comment.present? %>
