@@ -4,7 +4,7 @@ Thank you for your interest in <%= AppConfig.title %>.
 
 You can use the following URL to access the online demonstration:
 
-  <%= dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token) %>
+  <%= dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token, :r => @demo_request.id) %>
 
 Should you have any questions, please contact us at <%= AppConfig.info_email %>.
 

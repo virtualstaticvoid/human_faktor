@@ -1,5 +1,5 @@
 <%
-  dashboard_link = dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token)
+  dashboard_link = dashboard_url(:tenant => 'demo', :auth_token => @demo_auth_token, :r => @demo_request.id)
 %>
 
 <p>Hello <%= @demo_request.full_name %>,</p>
