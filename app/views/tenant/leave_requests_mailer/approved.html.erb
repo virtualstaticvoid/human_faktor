@@ -1,48 +1,28 @@
 <%
   dashboard_link = dashboard_url(:tenant => @account.subdomain)
 %>
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= AppConfig.title %></title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <style type="text/css">
-    body {
-      font-family: Tahoma, Helvetica, Arial, sans-serif;
-      font-size: 10pt;
-    }
-    .block {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
 
-  <p>Hello <%= @leave_request.employee.full_name %>,</p>
+<p>Hello <%= @leave_request.employee.full_name %>,</p>
 
 <% if @leave_request.captured? %>
-  <p><strong><%= @leave_request.captured_by.full_name %></strong> has captured a request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.
-  <% if @leave_request.captured_by != @leave_request.approved_declined_by %><br />The request has been approved by <strong><%= @leave_request.approved_declined_by.fullname %></strong>.<% end %>
-  </p>
+<p><strong><%= @leave_request.captured_by.full_name %></strong> has captured a request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.
+<% if @leave_request.captured_by != @leave_request.approved_declined_by %><br />The request has been approved by <strong><%= @leave_request.approved_declined_by.fullname %></strong>.<% end %>
+</p>
 <% else %>
-  <p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has approved your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+<p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has approved your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 <% end %>
 
-  <%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
-  <%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
 
-  <p>To review the leave request, please follow this link:</p>
+<p>To review the leave request, please follow this link:</p>
 
-  <p class="block">
-    <%= link_to 'View Leave Request', leave_request_url(@leave_request, :tenant => @account.subdomain) %>
-  </p>
-  
-  <p>Thank You.</p>
-  <p>
-    <strong><%= @account.title %></strong><br />
-    <%= link_to dashboard_link, dashboard_link %>
-  </p>
+<p class="block">
+  <%= link_to 'View Leave Request', leave_request_url(@leave_request, :tenant => @account.subdomain) %>
+</p>
 
-</body>
-</html>
-
+<p>Thank You.</p>
+<p>
+  <strong><%= @account.title %></strong><br />
+  <%= link_to dashboard_link, dashboard_link %>
+</p>

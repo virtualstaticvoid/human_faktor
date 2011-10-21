@@ -1,57 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= AppConfig.title %></title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <style type="text/css">
-    body {
-      font-family: Tahoma, Helvetica, Arial, sans-serif;
-      font-size: 10pt;
-    }
-    .block {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
+<p>The following support request was captured on <strong><%= AppConfig.title %></strong>!</p>
 
-  <p>The following support request was captured on <strong><%= AppConfig.title %></strong>!</p>
+<p>Support request details:</p>
 
-  <p>Support request details:</p>
+<table>
+  <tr>
+    <td width="80px">Date</td>
+    <td><%= Time.now %></td>
+  </tr>
+  <tr>
+    <td>Account</td>
+    <td><%= @account.title %></td>
+  </tr>
+  <tr>
+    <td>Subdomain</td>
+    <td><%= @account.subdomain %></td>
+  </tr>
+  <tr>
+    <td>Employee</td>
+    <td><%= @employee.full_name %></td>
+  </tr>
+  <tr>
+    <td>Employee contact</td>
+    <td><%= @employee.email %></td>
+  </tr>
+</table>
 
-  <table>
-    <tr>
-      <td width="80px">Date</td>
-      <td><%= Time.now %></td>
-    </tr>
-    <tr>
-      <td>Account</td>
-      <td><%= @account.title %></td>
-    </tr>
-    <tr>
-      <td>Subdomain</td>
-      <td><%= @account.subdomain %></td>
-    </tr>
-    <tr>
-      <td>Employee</td>
-      <td><%= @employee.full_name %></td>
-    </tr>
-    <tr>
-      <td>Employee contact</td>
-      <td><%= @employee.email %></td>
-    </tr>
-  </table>
+<p>The following message is included with the request:</p>
 
-  <p>The following message is included with the request:</p>
-  
-  <pre><%= @message %></pre>
+<pre><%= @message %></pre>
 
-  <p>
-  <strong>The <%= AppConfig.title %> Team</strong><br />
-  <%= link_to root_url, root_url %>
-  </p>
-
-</body>
-</html>
-
-
+<p>
+<strong>The <%= AppConfig.title %> Team</strong><br />
+<%= link_to root_url, root_url %>
+</p>

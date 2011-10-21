@@ -1,72 +1,52 @@
 <%
   dashboard_link = dashboard_url(:auth_token => @employee.authentication_token, :tenant => @account.subdomain)
 %>
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= AppConfig.title %></title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <style type="text/css">
-    body {
-      font-family: Tahoma, Helvetica, Arial, sans-serif;
-      font-size: 10pt;
-    }
-    .block {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
 
-  <p>Hello <%= @employee.full_name %>,</p>
+<p>Hello <%= @employee.full_name %>,</p>
 
-  <p>Welcome to <strong><%= AppConfig.title %></strong>. You have been added as an employee on the <strong><%= @account.title %></strong> account!</p>
+<p>Welcome to <strong><%= AppConfig.title %></strong>. You have been added as an employee on the <strong><%= @account.title %></strong> account!</p>
 
-  <p>Your details have been captured as follows:</p>
+<p>Your details have been captured as follows:</p>
 
-  <table>
-    <tr>
-      <td>User Name:</td>
-      <td><strong><%= @employee.user_name %></strong></td>
-    </tr>
-    <tr>
-      <td>First Name:</td>
-      <td><%= @employee.first_name %></td>
-    </tr>
-    <tr>
-      <td>Last Name:</td>
-      <td><%= @employee.last_name %></td>
-    </tr>
-    <tr>
-      <td>System Role:</td>
-      <td><%= @employee.role %></td>
-    </tr>
-    <% if @employee.approver %>
-    <tr>
-      <td>Leave Approver:</td>
-      <td><%= @employee.approver %></td>
-    </tr>
-    <% end %>
-  </table>
+<table>
+  <tr>
+    <td>User Name:</td>
+    <td><strong><%= @employee.user_name %></strong></td>
+  </tr>
+  <tr>
+    <td>First Name:</td>
+    <td><%= @employee.first_name %></td>
+  </tr>
+  <tr>
+    <td>Last Name:</td>
+    <td><%= @employee.last_name %></td>
+  </tr>
+  <tr>
+    <td>System Role:</td>
+    <td><%= @employee.role %></td>
+  </tr>
+  <% if @employee.approver %>
+  <tr>
+    <td>Leave Approver:</td>
+    <td><%= @employee.approver %></td>
+  </tr>
+  <% end %>
+</table>
 
-  <p>You can use the following URL to access your dashboard:</p>
+<p>You can use the following URL to access your dashboard:</p>
 
-  <p class="block">
-  <strong><%= link_to dashboard_link, dashboard_link %></strong>
-  </p>
+<p class="block">
+<strong><%= link_to dashboard_link, dashboard_link %></strong>
+</p>
 
-  <p>Next steps:</p>
-  <ul>
-    <li>Activate access to your dashboard by providing a password,</li>
-    <li>Create leave requests.</li>
-  </ul>
+<p>Next steps:</p>
+<ul>
+  <li>Activate access to your dashboard by providing a password,</li>
+  <li>Create leave requests.</li>
+</ul>
 
-  <p>Thank You.</p>
-  <p>
-    <strong><%= @account.title %></strong><br />
-    <%= link_to dashboard_url(:tenant => @account.subdomain), dashboard_url(:tenant => @account.subdomain) %>
-  </p>
-
-</body>
-</html>
-
+<p>Thank You.</p>
+<p>
+  <strong><%= @account.title %></strong><br />
+  <%= link_to dashboard_url(:tenant => @account.subdomain), dashboard_url(:tenant => @account.subdomain) %>
+</p>

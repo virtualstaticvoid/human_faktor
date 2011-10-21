@@ -1,56 +1,36 @@
 <%
   dashboard_link = dashboard_url(:tenant => @account.subdomain)
 %>
-<!DOCTYPE html>
-<html>
-<head>
-  <title><%= AppConfig.title %></title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  <style type="text/css">
-    body {
-      font-family: Tahoma, Helvetica, Arial, sans-serif;
-      font-size: 10pt;
-    }
-    .block {
-      margin-left: 20px;
-    }
-  </style>
-</head>
-<body>
 
-  <p>Hello <%= @leave_request.employee.full_name %>,</p>
+<p>Hello <%= @leave_request.employee.full_name %>,</p>
 
-  <p><strong><%= @leave_request.reinstated_by.full_name %></strong> has reinstated your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
+<p><strong><%= @leave_request.reinstated_by.full_name %></strong> has reinstated your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 
-  <%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
-  <%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
 
-  <p>Reinstatement Details:</p>
-  <table>
-    <tr>
-      <td width="20px"></td>
-      <td width="120px">Reinstated On:</td>
-      <td><%= @leave_request.reinstated_at_s %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Reinstated By:</td>
-      <td><%= @leave_request.reinstated_by.full_name %></td>
-    </tr>
-  </table>
+<p>Reinstatement Details:</p>
+<table>
+  <tr>
+    <td width="20px"></td>
+    <td width="120px">Reinstated On:</td>
+    <td><%= @leave_request.reinstated_at_s %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Reinstated By:</td>
+    <td><%= @leave_request.reinstated_by.full_name %></td>
+  </tr>
+</table>
 
-  <p>To review the leave request, please follow this link:</p>
+<p>To review the leave request, please follow this link:</p>
 
-  <p class="block">
-    <%= link_to 'View Leave Request', leave_request_url(@leave_request, :tenant => @account.subdomain) %>
-  </p>
-  
-  <p>Thank You.</p>
-  <p>
-    <strong><%= @account.title %></strong><br />
-    <%= link_to dashboard_link, dashboard_link %>
-  </p>
+<p class="block">
+  <%= link_to 'View Leave Request', leave_request_url(@leave_request, :tenant => @account.subdomain) %>
+</p>
 
-</body>
-</html>
-
+<p>Thank You.</p>
+<p>
+  <strong><%= @account.title %></strong><br />
+  <%= link_to dashboard_link, dashboard_link %>
+</p>
