@@ -1,5 +1,7 @@
 <% title "New Registration" %>
 
+<p>Please supply the following information to create your account.</p>
+
 <%= form_for @registration, :url => create_account_registration_path do |f| %>
   
   <%= error_messages_for @registration %>
