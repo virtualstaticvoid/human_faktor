@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
   <title><%= content_for?(:title) ? AppConfig.title + ' - ' + yield(:title) : AppConfig.title %></title>
+  <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="description" content="<%= AppConfig.meta_description %>" />
   <meta name="keywords" content="<%= AppConfig.meta_keywords %>" />
   <meta name="robots" content="<%= content_for?(:robots) ? yield(:robots) : 'noindex' %>" />
   <link href='https://fonts.googleapis.com/css?family=Ubuntu:regular,italic,bold&subset=cyrillic,latin' rel='stylesheet' type='text/css' />
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png">
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :defaults, 'google_analytics' %>
   <%= csrf_meta_tag %>
