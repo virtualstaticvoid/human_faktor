@@ -20,14 +20,14 @@
     <div style="margin: 8px;">
       <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box">
         <div>
-          <%= link_to image_tag('../images/play.png'), dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %>
+          <%= link_to image_tag('../images/play.png'), new_demo_request_path() %>
         </div>
         <p>
           Give it a try now! <br/> 
-          No need to sign up or register!
+          No need to create an account!
         </p>
         <p>
-          Click here for a <%= link_to 'Demo', dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %></p>
+          Click here for a <%= link_to 'Demo', new_demo_request_path() %></p>
         </p>
       </div>
     </div>  

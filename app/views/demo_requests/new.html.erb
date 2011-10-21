@@ -1,0 +1,59 @@
+<% title "Demo Request" %>
+
+<p>Please supply the following information in order to access the online demonstration.</p>
+
+<%= form_for @demo_request, :url => create_demo_request_path do |f| %>
+  
+  <%= error_messages_for @demo_request %>
+
+  <h2>Contact Information</h2>
+
+  <div class="field required">
+    <div><%= f.label :first_name %></div>
+    <span><%= f.text_field :first_name %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div class="field required">
+    <div><%= f.label :last_name %></div>
+    <span><%= f.text_field :last_name %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div class="field required">
+    <div><%= f.label :email %></div>
+    <span><%= f.text_field :email %></span>
+    <span class="field_info"></span>
+  </div>
+  
+  <div class="field required">
+    <div><%= f.label :email_confirmation %></div>
+    <span><%= f.text_field :email_confirmation %></span>
+    <span class="field_info"></span>
+  </div>
+
+  <h2>General Information</h2>
+
+  <div class="field required">
+    <div><%= f.label :country %></div>
+    <div><%= f.select :country_id, Country.all.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown' } %></div>
+    <div class="field_info"></div>
+  </div>
+
+  <h2>Verification</h2>
+
+  <div class="field">
+    <div style="width: 440px;">
+      <%= raw recaptcha_tag(:challenge, :display => { :theme => 'white' }) %>
+    </div>
+  </div>
+  
+  <hr />
+  
+  <p>By clicking <em>Request Demo</em> you agree to our <%= link_to "Terms of Service", home_terms_path %>.</p>
+
+  <div class="actions">
+    <%= f.submit 'Request Demo', :disable_with => 'Requesting Demo...', :style => 'width: 160px;' %> or <%= link_to 'cancel', root_path %>.
+  </div>
+
+<% end %>

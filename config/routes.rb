@@ -15,6 +15,9 @@ HumanFaktor::Application.routes.draw do
   get "partner", :to => 'home#partner', :as => :home_partner
   get "sign_in", :to => 'home#sign_in', :as => :home_sign_in
 
+  get "demo_request", :to => 'demo_requests#new', :as => :new_demo_request
+  post "demo_request", :to => 'demo_requests#create', :as => :create_demo_request
+
   get "registrations/new", :to => 'registrations#new', :as => :new_account_registration
   post "registrations", :to => 'registrations#create', :as => :create_account_registration
   get "registrations/:id", :to => 'registrations#show', :as => :account_registration
