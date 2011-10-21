@@ -57,7 +57,3 @@ end
 
 # instrumentation
 gem 'newrelic_rpm', :group => :production
-
-# for database import/export support
-gem 'taps'
-gem 'yaml_db'
