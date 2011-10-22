@@ -89,7 +89,7 @@ module Tenant
 
     test "should get download" do
       sign_in_as :admin
-      get :download, :tenant => @account.subdomain
+      get :download, :id => @bulk_upload.to_param, :tenant => @account.subdomain
       assert_response :success      
     end
       
