@@ -114,7 +114,7 @@ class LeaveRequestTest < ActiveSupport::TestCase
     leave_request = leave_requests(:annual)
     
     employee = leave_request.employee
-    employee.update_attributes!(:start_date => Date.today)
+    employee.update_attributes!(:start_date => Date.today, :take_on_balance_as_at => nil)
 
     assert !LeaveRequest.new(
       :account_id => leave_request.account_id,
