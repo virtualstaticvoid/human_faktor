@@ -3,7 +3,8 @@ class DemoRequest < ActiveRecord::Base
   belongs_to :country
 
   default_values :identifier => lambda { TokenHelper.friendly_token },
-                 :country => lambda { Country.default }
+                 :country => lambda { Country.default },
+                 :trackback => false
 
   validates :identifier, :presence => true, :uniqueness => true
 
