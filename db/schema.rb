@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111021103116) do
+ActiveRecord::Schema.define(:version => 20111021162036) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -139,13 +139,14 @@ ActiveRecord::Schema.define(:version => 20111021103116) do
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "demo_requests", :force => true do |t|
-    t.string   "identifier", :null => false
-    t.string   "first_name", :null => false
-    t.string   "last_name",  :null => false
-    t.string   "email",      :null => false
-    t.integer  "country_id", :null => false
+    t.string   "identifier",                    :null => false
+    t.string   "first_name",                    :null => false
+    t.string   "last_name",                     :null => false
+    t.string   "email",                         :null => false
+    t.integer  "country_id",                    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "trackback",  :default => false, :null => false
   end
 
   add_index "demo_requests", ["identifier"], :name => "index_demo_requests_on_identifier", :unique => true
