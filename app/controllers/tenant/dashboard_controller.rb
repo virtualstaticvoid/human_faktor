@@ -2,6 +2,8 @@ module Tenant
   class DashboardController < TenantController
     layout 'dashboard'
     
+    before_filter :handle_demo_request_trackback
+
     def index
       # create a holder for all the data instead of separate variables here
       @dashboard = DashboardData.new(current_account, current_employee)
@@ -96,6 +98,17 @@ module Tenant
     def help
     end
 
+  private
+
+    def handle_demo_request_trackback
+      unless params[:r].nil?
+        demo_request = DemoRequest.find(params[:r])
+        demo_request.update_attributes!(:trackback => true) if demo_request
+      end
+    rescue
+      # ignore any errors!
+      true
+    end
+
   end
 end
-
