@@ -5,6 +5,34 @@ one:
   line_number: 1
   selected: true
   messages: Fine
+  reference: emp00897C
+  title: Mr
+  first_name: Johnny
+  middle_name: 
+  last_name: Rotten
+  gender: M
+  email: johnny@host.com
+  telephone: +27215555555
+  mobile: +27215555555
+  designation: Worker
+  start_date: 2011/01/01
+  location_name: Location 1
+  department_name: Testing
+  approver_first_and_last_name: admin
+  role: approver
+  take_on_balance_as_at: 2011/01/01
+  annual_leave_take_on: 0.0
+  educational_leave_take_on: 0.0
+  medical_leave_take_on: 0.0
+  compassionate_leave_take_on: 0.0
+  maternity_leave_take_on: 0.0
+  approver: admin
+
+two:
+  bulk_upload: one 
+  line_number: 2
+  selected: true
+  messages: Fine
   reference: emp001122A
   title: Mr
   first_name: Joe
@@ -26,10 +54,11 @@ one:
   medical_leave_take_on: 0.0
   compassionate_leave_take_on: 0.0
   maternity_leave_take_on: 0.0
+  new_approver: one
 
-two:
+three:
   bulk_upload: one 
-  line_number: 2
+  line_number: 3
   selected: true
   messages: Fine
   reference: emp008271C
@@ -53,31 +82,4 @@ two:
   medical_leave_take_on: 0.0
   compassionate_leave_take_on: 0.0
   maternity_leave_take_on: 0.0
-
-three:
-  bulk_upload: one 
-  line_number: 3
-  selected: true
-  messages: Fine
-  reference: emp00897C
-  title: Mr
-  first_name: Johnny
-  middle_name: 
-  last_name: Rotten
-  gender: M
-  email: johnny@host.com
-  telephone: +27215555555
-  mobile: +27215555555
-  designation: Worker
-  start_date: 2011/01/01
-  location_name: Location 1
-  department_name: Testing
-  approver_first_and_last_name: admin
-  role: approver
-  take_on_balance_as_at: 2011/01/01
-  annual_leave_take_on: 0.0
-  educational_leave_take_on: 0.0
-  medical_leave_take_on: 0.0
-  compassionate_leave_take_on: 0.0
-  maternity_leave_take_on: 0.0
-
+  new_approver: one
