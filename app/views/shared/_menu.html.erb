@@ -9,6 +9,9 @@
 <div class="menu_bar menu_bar_right">
   <ul>
     <li><%= link_to 'Free Trial', new_account_registration_path %></li>
+    <% if Rails.env.development?  %>
+      <li><%= link_to 'Dev Login', dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %></li>
+    <% end %>
   </ul>
 </div>
 
