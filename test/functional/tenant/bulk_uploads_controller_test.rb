@@ -86,6 +86,12 @@ module Tenant
       get :template, :tenant => @account.subdomain, :format => :csv
       assert_response :success      
     end
+
+    test "should get download" do
+      sign_in_as :admin
+      get :download, :tenant => @account.subdomain
+      assert_response :success      
+    end
       
   end
 end
