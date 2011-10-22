@@ -77,12 +77,36 @@ module Tenant
       assert_response :success
     end
 
+    test "should get staff balance filtered by location" do
+      sign_in_as :approver
+      get :staff_balance, :tenant => @account.subdomain, :staff_balance_enquiry => { :filter_by => 'location', :location_id => @account.locations.first.id }
+      assert_response :success
+    end
+
+    test "should get staff balance filtered by department" do
+      sign_in_as :approver
+      get :staff_balance, :tenant => @account.subdomain, :staff_balance_enquiry => { :filter_by => 'department',:department_id => @account.departments.first.id }
+      assert_response :success
+    end
+
     test "should get staff calendar for approver" do
       sign_in_as :approver
       get :staff_calendar, :tenant => @account.subdomain
       assert_response :success
     end
   
+    test "should get staff calendar filtered by location" do
+      sign_in_as :approver
+      get :staff_calendar, :tenant => @account.subdomain, :staff_calendar_enquiry => { :filter_by => 'location', :location_id => @account.locations.first.id }
+      assert_response :success
+    end
+
+    test "should get staff calendar filtered by department" do
+      sign_in_as :approver
+      get :staff_calendar, :tenant => @account.subdomain, :staff_calendar_enquiry => { :filter_by => 'department',:department_id => @account.departments.first.id }
+      assert_response :success
+    end
+
     [:manager, :admin].each do |role|
 
       test "should get staff balance for #{role}" do
@@ -100,6 +124,18 @@ module Tenant
       test "should get heatmap analysis for #{role}" do
         sign_in_as role
         get :heatmap, :tenant => @account.subdomain
+        assert_response :success
+      end
+
+      test "should get heatmap analysis for #{role} filtered by location" do
+        sign_in_as role
+        get :heatmap, :tenant => @account.subdomain, :heat_map_enquiry => { :filter_by => 'location', :location_id => @account.locations.first.id }
+        assert_response :success
+      end
+
+      test "should get heatmap analysis for #{role} filtered by department" do
+        sign_in_as role
+        get :heatmap, :tenant => @account.subdomain, :heat_map_enquiry => { :filter_by => 'location', :location_id => @account.locations.first.id }
         assert_response :success
       end
 
