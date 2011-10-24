@@ -2,6 +2,11 @@ require 'test_helper'
 
 class LeaveTypeTest < ActiveSupport::TestCase
 
+  setup do
+    @employee = employees(:employee)
+    @employee.start_date = Date.new(2011, 1, 1)
+  end
+
   test "fixture data valid" do
     for_each_fixture ('leave_types') {|key| assert_valid leave_types(key) }
   end
@@ -25,20 +30,20 @@ class LeaveTypeTest < ActiveSupport::TestCase
   
   test "should get cycle index" do
     leave_type = LeaveType.new(:cycle_start_date => Date.new(2011, 1, 1), :cycle_duration => 1)
-    assert_equal 0, leave_type.cycle_index_of(Date.new(2011, 1, 1))
-    assert_equal 0, leave_type.cycle_index_of(Date.new(2011, 2, 1))
-    assert_equal 0, leave_type.cycle_index_of(Date.new(2011, 12, 31))
-    assert_equal 1, leave_type.cycle_index_of(Date.new(2012, 1, 1))
-    assert_equal 1, leave_type.cycle_index_of(Date.new(2012, 2, 1))
-    assert_equal 1, leave_type.cycle_index_of(Date.new(2012, 12, 31))
-    assert_equal 2, leave_type.cycle_index_of(Date.new(2013, 1, 1))
+    assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 1, 1))
+    assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 2, 1))
+    assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 12, 31))
+    assert_equal 1, leave_type.cycle_index_of(@employee, Date.new(2012, 1, 1))
+    assert_equal 1, leave_type.cycle_index_of(@employee, Date.new(2012, 2, 1))
+    assert_equal 1, leave_type.cycle_index_of(@employee, Date.new(2012, 12, 31))
+    assert_equal 2, leave_type.cycle_index_of(@employee, Date.new(2013, 1, 1))
   end
 
   test "should get cycle index over 20 of years" do
     leave_type = LeaveType.new(:cycle_start_date => Date.new(2011, 1, 1), :cycle_duration => 1)
     20.times do |i|
-      assert_equal i, leave_type.cycle_index_of(Date.new(2011 + i, 1, 1))
-      assert_equal i, leave_type.cycle_index_of(Date.new(2011 + i, 12, 31))
+      assert_equal i, leave_type.cycle_index_of(@employee, Date.new(2011 + i, 1, 1))
+      assert_equal i, leave_type.cycle_index_of(@employee, Date.new(2011 + i, 12, 31))
     end
   end
   
@@ -46,10 +51,11 @@ class LeaveTypeTest < ActiveSupport::TestCase
     LeaveType.for_each_leave_type do |leave_type_class|
       leave_type = leave_type_class.new()
       leave_type.cycle_start_date = Date.new(2000, 1, 1)
+      @employee.start_date = Date.new(2000, 1, 1) unless leave_type.has_absolute_start_date?
 
-      assert_equal 0, leave_type.cycle_index_of(Date.new(2000, 1, 1))
-      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_for(0)
-      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_of(Date.new(2000, 2, 1))
+      assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2000, 1, 1))
+      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_for(@employee, 0)
+      assert_equal Date.new(2000, 1, 1), leave_type.cycle_start_date_of(@employee, Date.new(2000, 2, 1))
       
       end_date = case leave_type.cycle_duration_unit
                     when LeaveType::DURATION_UNIT_DAYS then leave_type.cycle_start_date + leave_type.cycle_duration
@@ -57,7 +63,7 @@ class LeaveTypeTest < ActiveSupport::TestCase
                     when LeaveType::DURATION_UNIT_YEARS then leave_type.cycle_start_date >> (leave_type.cycle_duration * 12)
                   end - 1
       
-      assert_equal end_date, leave_type.cycle_end_date_of(Date.new(2000, 2, 1))
+      assert_equal end_date, leave_type.cycle_end_date_of(@employee, Date.new(2000, 2, 1))
     end
   end
 

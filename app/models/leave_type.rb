@@ -107,16 +107,21 @@ class LeaveType < ActiveRecord::Base
   def leave_type_name
     self.class.name.gsub(/LeaveType::/, '').downcase
   end
-  
+
+  #
   # determines the cycle index for the given date
   #  i.e. for each successive cycle, the index increments
   #   so a date which falls in the second cycle will yield an index of 1 (NOTE: zero based!)
-  # returns nil if the date is prior to the absolute cycle start date!!!
-  def cycle_index_of(date)
-    return nil if date < self.cycle_start_date
-    
-    # REFACTOR: better way using a formula?
-    index, start_date = -1, self.cycle_start_date
+  #
+  # returns nil if the date is prior to the cycle start date!!!
+  #  the start date is either the employee's take on balance date or employment start date
+  #
+  def cycle_index_of(employee, date)
+    raise InvalidOperationException unless employee && date
+
+    index, start_date = -1, employee_start_date(employee)
+    return nil if date < start_date
+
     while start_date <= date
       index += 1
       start_date += cycle_duration_in_units
@@ -125,26 +130,31 @@ class LeaveType < ActiveRecord::Base
   end
   
   # determines the start date for the given cycle index
-  def cycle_start_date_for(index)
-    index < 0 ? 
+  def cycle_start_date_for(employee, index)
+    raise InvalidOperationException unless employee
+    
+    index < 0 ?
       nil :
-      self.cycle_start_date + cycle_duration_in_units(index)
+      employee_start_date(employee) + cycle_duration_in_units(index)
   end
 
   # determines the end date for the given cycle index
-  def cycle_end_date_for(index)
+  def cycle_end_date_for(employee, index)
+    raise InvalidOperationException unless employee    
+
     index < 0 ?
       nil :
-      self.cycle_start_date + cycle_duration_in_units(index + 1) - 1.day
+      employee_start_date(employee) + cycle_duration_in_units(index + 1) - 1.day
   end
-  
+    
   # given an arbitrary date, get the start date of the cycle in which it falls within
-  def cycle_start_date_of(date)
-    # REFACTOR: better way using a formula?
-    leave_cycle_index = self.cycle_index_of(date)
+  def cycle_start_date_of(employee, date)
+    raise InvalidOperationException unless employee && date
+
+    leave_cycle_index = self.cycle_index_of(employee, date)
     return nil unless leave_cycle_index
     
-    start_date = self.cycle_start_date
+    start_date = employee_start_date(employee)
     leave_cycle_index.times do |i|
       start_date += cycle_duration_in_units
     end
@@ -152,12 +162,13 @@ class LeaveType < ActiveRecord::Base
   end
 
   # given an arbitrary date, get the end date of the cycle in which it falls within
-  def cycle_end_date_of(date)
-    # REFACTOR: better way using a formula?
-    leave_cycle_index = self.cycle_index_of(date) + 1
+  def cycle_end_date_of(employee, date)
+    raise InvalidOperationException unless employee && date
+
+    leave_cycle_index = self.cycle_index_of(employee, date) + 1
     return nil unless leave_cycle_index
 
-    start_date = self.cycle_start_date
+    start_date = employee_start_date(employee)
     leave_cycle_index.times do |i|
       start_date += cycle_duration_in_units
     end
@@ -166,7 +177,8 @@ class LeaveType < ActiveRecord::Base
 
   # calculates the total allowance for the leave cycle of the given `date_as_at`
   def allowance_for(employee, date_as_at)
-    raise InvalidOperationException if date_as_at < self.cycle_start_date
+    raise InvalidOperationException unless employee    
+    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
     # if the date_as_at is prior to the start date, then return zero!
     return 0 if date_as_at <= employee_start_date(employee)
@@ -181,10 +193,11 @@ class LeaveType < ActiveRecord::Base
 
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
   def leave_take_on_for(employee, date_as_at)
-    raise InvalidOperationException if date_as_at < self.cycle_start_date
+    raise InvalidOperationException unless employee    
+    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
-    cycle_start_date = self.cycle_start_date_of(date_as_at)
-    cycle_end_date = self.cycle_end_date_of(date_as_at)
+    cycle_start_date = self.cycle_start_date_of(employee, date_as_at)
+    cycle_end_date = self.cycle_end_date_of(employee, date_as_at)
 
     # include take on balance if within the given leave cycle
     if self.can_take_on? &&
@@ -200,19 +213,21 @@ class LeaveType < ActiveRecord::Base
 
   # calculates the leave taken for the leave cycle of the given `date_as_at`
   def leave_taken_for(employee, date_as_at, unpaid = false)
-    raise InvalidOperationException if date_as_at < self.cycle_start_date
+    raise InvalidOperationException unless employee    
+    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
-    start_date = self.cycle_start_date_of(date_as_at)
-    end_date = date_as_at - 1 # self.cycle_end_date_of(date_as_at)
+    start_date = self.cycle_start_date_of(employee, date_as_at)
+    end_date = date_as_at - 1.day
     
     leave_taken(employee, start_date, end_date, unpaid)
   end
   
   def leave_outstanding_for(employee, date_as_at, unpaid = false)
-    raise InvalidOperationException if date_as_at < self.cycle_start_date
+    raise InvalidOperationException unless employee    
+    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
-    start_date = date_as_at # self.cycle_start_date_of(date_as_at)
-    end_date = self.cycle_end_date_of(date_as_at)
+    start_date = date_as_at
+    end_date = self.cycle_end_date_of(employee, date_as_at)
     
     leave_taken(employee, start_date, end_date, unpaid)
   end
@@ -248,17 +263,17 @@ class LeaveType < ActiveRecord::Base
 
       final_allowance = 0
       index = 0
-      to_index = self.cycle_index_of(date_as_at)
+      to_index = self.cycle_index_of(employee, date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
       
       begin
       
-        end_date = self.cycle_end_date_for(index)
+        end_date = self.cycle_end_date_for(employee, index)
         
         # only include cycles from when the employee was employed
         if employee_start_date < end_date
 
-          start_date = self.cycle_start_date_for(index)
+          start_date = self.cycle_start_date_for(employee, index)
 
           # adjust the start date if the employee started after the cycle start date.
           #  the accrual will therefore be pro-rated
@@ -363,17 +378,8 @@ class LeaveType < ActiveRecord::Base
     ).sum(:duration)
   end
   
-  private
-  
-  def cycle_duration_in_units(multiplier = 1)
-    case self.cycle_duration_unit
-      when DURATION_UNIT_DAYS then (self.cycle_duration * multiplier).days
-      when DURATION_UNIT_MONTHS then (self.cycle_duration * multiplier).months
-      when DURATION_UNIT_YEARS then (self.cycle_duration * multiplier).years
-    end
-  end
-  
   def employee_start_date(employee)
+    raise InvalidOperationException unless employee    
 
     #
     # get the employee "start date"
@@ -387,9 +393,19 @@ class LeaveType < ActiveRecord::Base
       employee.take_on_balance_as_at
     elsif employee.start_date.present?
       employee.start_date
-    else
+    elsif self.has_absolute_start_date?
       self.cycle_start_date
+    else
+      raise Exception.new("Start date required for #{employee}.")
     end  
   end
 
+  def cycle_duration_in_units(multiplier = 1)
+    case self.cycle_duration_unit
+      when DURATION_UNIT_DAYS then (self.cycle_duration * multiplier).days
+      when DURATION_UNIT_MONTHS then (self.cycle_duration * multiplier).months
+      when DURATION_UNIT_YEARS then (self.cycle_duration * multiplier).years
+    end
+  end
+  
 end
