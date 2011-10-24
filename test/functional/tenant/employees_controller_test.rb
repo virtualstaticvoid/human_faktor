@@ -53,6 +53,11 @@ module Tenant
       assert_response :success
     end
 
+    test "should get balance" do
+      get :balance, :tenant => @account.subdomain, :id => @employee.to_param, :format => :js
+      assert_response :success
+    end
+
     test "should update employee" do
       put :update, :tenant => @account.subdomain, :id => @employee.to_param, :employee => @employee.attributes
       assert_redirected_to employees_path(:tenant => @account.subdomain)
