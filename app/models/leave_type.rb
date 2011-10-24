@@ -44,6 +44,11 @@ class LeaveType < ActiveRecord::Base
   validates :cycle_duration_unit, :inclusion => { :in => DURATIONS }
   validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
   validates :cycle_days_carry_over, :numericality => { :greater_than_or_equal_to => 0 }
+
+  # default to false for all leave types (except Annual - below)
+  def has_absolute_start_date?
+    false
+  end
   
   # default to false for all leave types (except Annual - below)
   def can_carry_over?
@@ -217,6 +222,10 @@ class LeaveType < ActiveRecord::Base
   
     default_values :color => '0037C7'
   
+    def has_absolute_start_date?
+      true
+    end
+
     def can_carry_over?
       true
     end

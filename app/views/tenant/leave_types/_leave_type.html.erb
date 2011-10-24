@@ -10,11 +10,13 @@
         
         <h4>Leave Cycle</h4>
 
-        <div class="field">
-          <div><%= f.label :cycle_start_date %></div>
-          <span><%= f.date_picker :cycle_start_date %></span>
-          <span class="field_info"></span>
-        </div>
+        <% if leave_type.has_absolute_start_date?  %>
+          <div class="field">
+            <div><%= f.label :cycle_start_date %></div>
+            <span><%= f.date_picker :cycle_start_date %></span>
+            <span class="field_info"></span>
+          </div>
+        <% end %>
 
         <div class="field">
           <div><%= f.label :cycle_duration %></div>
