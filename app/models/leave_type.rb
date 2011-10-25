@@ -153,28 +153,20 @@ class LeaveType < ActiveRecord::Base
   def cycle_start_date_of(employee, date)
     raise InvalidOperationException unless employee && date
 
-    leave_cycle_index = self.cycle_index_of(employee, date)
-    return nil unless leave_cycle_index
+    index = self.cycle_index_of(employee, date)
+    return nil unless index
     
-    start_date = employee_start_date(employee)
-    leave_cycle_index.times do |i|
-      start_date += cycle_duration_in_units
-    end
-    start_date
+    self.cycle_start_date_for(employee, index)
   end
 
   # given an arbitrary date, get the end date of the cycle in which it falls
   def cycle_end_date_of(employee, date)
     raise InvalidOperationException unless employee && date
 
-    leave_cycle_index = self.cycle_index_of(employee, date) + 1
-    return nil unless leave_cycle_index
-
-    start_date = employee_start_date(employee)
-    leave_cycle_index.times do |i|
-      start_date += cycle_duration_in_units
-    end
-    start_date - 1.day
+    index = self.cycle_index_of(employee, date)
+    return nil unless index
+    
+    self.cycle_start_date_for(employee, index + 1) - 1.day
   end
 
   # calculates the total allowance for the leave cycle of the given `date_as_at`
@@ -241,6 +233,63 @@ class LeaveType < ActiveRecord::Base
     def has_absolute_start_date?
       true
     end
+
+    #
+    # determines the cycle index for the given date
+    #
+    # annual leave period end dates are fixed, unlike the other types which roll on from the
+    # employee start date (or leave balance take on date)
+    #
+    # the first cycle starts from the employees start date and ends on the fixed end date
+    # according to the leave cycle start date and duration
+    #
+    # returns nil if the date is prior to the cycle or employee start date
+    #
+    def cycle_index_of(employee, date)
+      raise InvalidOperationException unless employee && date
+
+      index, start_date, employee_start_date = -1, self.cycle_start_date, employee_start_date(employee)
+      return nil if date < start_date || date < employee_start_date
+
+      while start_date <= date
+        start_date += cycle_duration_in_units
+        index += 1 if start_date >= employee_start_date
+      end
+      index
+    end
+
+    # determines the start date for the given cycle index
+    def cycle_start_date_for(employee, index)
+      raise InvalidOperationException unless employee
+
+      return nil if index < 0
+      return employee_start_date(employee) if index == 0
+
+      start_date, employee_start_date = self.cycle_start_date, employee_start_date(employee)
+
+      while index > 0
+        start_date += cycle_duration_in_units
+        index -= 1 if start_date >= employee_start_date
+      end
+      start_date
+    end
+
+    # determines the end date for the given cycle index
+    def cycle_end_date_for(employee, index)
+      raise InvalidOperationException unless employee
+
+      return nil if index < 0
+
+      cycle_start_date_for(employee, index + 1) - 1.day
+    end
+      
+    # given an arbitrary date, get the start date of the cycle in which it falls
+    # def cycle_start_date_of(employee, date)
+    # end
+
+    # given an arbitrary date, get the end date of the cycle in which it falls
+    # def cycle_end_date_of(employee, date)
+    # end
 
     def can_carry_over?
       true
