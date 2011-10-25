@@ -21,7 +21,7 @@ two:
   fixed_daily_hours: 8
   auth_token: <%= TokenHelper.friendly_token %>
   active: true
-  
+
 three:
   identifier: <%= TokenHelper.friendly_token %>
   subdomain: acme3
@@ -39,3 +39,12 @@ demo:
   fixed_daily_hours: 8
   auth_token: <%= TokenHelper.friendly_token %>
   active: true
+
+inactive:
+  identifier: <%= TokenHelper.friendly_token %>
+  subdomain: inactive
+  title: Demo Account
+  country: za
+  fixed_daily_hours: 8
+  auth_token: <%= TokenHelper.friendly_token %>
+  active: false
