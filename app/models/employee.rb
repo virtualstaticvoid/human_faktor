@@ -194,15 +194,6 @@ class Employee < ActiveRecord::Base
   validates_presence_of :take_on_balance_as_at, :if => lambda { self.has_take_on_balance }
   validate :take_on_balance_as_at_cannot_be_prior_to_start_date
 
-  def effective_start_date
-    # use the take on date
-    #  then the start date
-    # otherwise beginning of time...
-    return self.take_on_balance_as_at unless self.take_on_balance_as_at.nil?
-    return self.start_date unless self.start_date.nil?
-    Date.new()
-  end
-
   LeaveType.for_each_leave_type_name do |leave_type_name|
     default_value_for :"#{leave_type_name}_leave_take_on_balance", 0
     validates :"#{leave_type_name}_leave_take_on_balance", :numericality => true  
