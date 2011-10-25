@@ -1,5 +1,5 @@
 Kaminari.configure do |config|
-  config.default_per_page = 20
+  config.default_per_page = Rails.env.development? ? 10 : 20
   config.window = 0
   config.outer_window = 0
   config.left = 0
