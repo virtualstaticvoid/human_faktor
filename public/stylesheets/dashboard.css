@@ -112,12 +112,10 @@
 
 #leave_balances tbody td {
   text-align: right;
-  border-left: 1px solid #C0C0C0;
 }
 
 #leave_balances tbody td:first-child {
-  text-align: left;
-  border-left: none;
+  text-align: left !important;
 }
 
 .leave_balance_detail input[type=text] {
