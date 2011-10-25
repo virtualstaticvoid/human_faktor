@@ -3,6 +3,7 @@ require 'test_helper'
 class LeaveTypeTest < ActiveSupport::TestCase
 
   setup do
+    @account = accounts(:one)
     @employee = employees(:employee)
     @employee.start_date = Date.new(2011, 1, 1)
     @employee.take_on_balance_as_at = nil
@@ -31,10 +32,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
   
   test "should get cycle index" do
     leave_type = LeaveType.new(
+      :account_id => @account.id,
       :cycle_start_date => @employee.start_date, 
       :cycle_duration => 1,
-      :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS
+      :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+      :cycle_days_allowance => 21
     )
+    # assert leave_type.valid?
+
     assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 1, 1))
     assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 2, 1))
     assert_equal 0, leave_type.cycle_index_of(@employee, Date.new(2011, 12, 31))
@@ -53,10 +58,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
     start_date = @employee.start_date
     end_date = start_date + 1.year - 1.day
     leave_type = LeaveType.new(
+      :account_id => @account.id,
       :cycle_start_date => start_date,
       :cycle_duration => 1,
-      :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS
+      :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+      :cycle_days_allowance => 21
     )
+    # assert leave_type.valid?
+
     (0..19).each do |i|
       assert_equal i, leave_type.cycle_index_of(@employee, start_date)
       assert_equal i, leave_type.cycle_index_of(@employee, end_date)
@@ -69,10 +78,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
     start_date = @employee.start_date
     end_date = start_date + 1.month - 1.day
     leave_type = LeaveType.new(
+      :account_id => @account.id,
       :cycle_start_date => start_date,
       :cycle_duration => 1,
-      :cycle_duration_unit => LeaveType::DURATION_UNIT_MONTHS
+      :cycle_duration_unit => LeaveType::DURATION_UNIT_MONTHS,
+      :cycle_days_allowance => 21
     )
+    # assert leave_type.valid?
+
     (0..19).each do |i|
       assert_equal i, leave_type.cycle_index_of(@employee, start_date)
       assert_equal i, leave_type.cycle_index_of(@employee, end_date)
@@ -85,10 +98,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
     start_date = @employee.start_date
     end_date = start_date + 29.days
     leave_type = LeaveType.new(
+      :account_id => @account.id,
       :cycle_start_date => start_date,
       :cycle_duration => 30,
-      :cycle_duration_unit => LeaveType::DURATION_UNIT_DAYS
+      :cycle_duration_unit => LeaveType::DURATION_UNIT_DAYS,
+      :cycle_days_allowance => 21
     )
+    # assert leave_type.valid?
+
     (0..19).each do |i|
       assert_equal i, leave_type.cycle_index_of(@employee, start_date)
       assert_equal i, leave_type.cycle_index_of(@employee, end_date)
@@ -101,10 +118,13 @@ class LeaveTypeTest < ActiveSupport::TestCase
     LeaveType.for_each_leave_type do |leave_type_class|
       @employee.start_date = Date.new(2000, 1, 1)
       leave_type = leave_type_class.new(
+        :account_id => @account.id,
         :cycle_start_date => @employee.start_date,
         :cycle_duration => 1,
-        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS
+        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+        :cycle_days_allowance => 21
       )
+      # assert leave_type.valid?
 
       next if leave_type.has_absolute_start_date?
 
@@ -124,7 +144,15 @@ class LeaveTypeTest < ActiveSupport::TestCase
 
   test "should calculate cycle indexes, start and end dates (absolute-start-date)" do
     LeaveType.for_each_leave_type do |leave_type_class|
-      leave_type = leave_type_class.new()
+      @employee.start_date = Date.new(2000, 1, 1)
+      leave_type = leave_type_class.new(
+        :account_id => @account.id,
+        :cycle_start_date => @employee.start_date,
+        :cycle_duration => 1,
+        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+        :cycle_days_allowance => 21
+      )
+      # assert leave_type.valid?
 
       next unless leave_type.has_absolute_start_date?
 
@@ -140,10 +168,13 @@ class LeaveTypeTest < ActiveSupport::TestCase
 
     LeaveType.for_each_leave_type do |leave_type_class|
       leave_type = leave_type_class.new(
+        :account_id => @account.id,
         :cycle_start_date => Date.new(2000, 1, 1),
         :cycle_duration => 1,
-        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS
+        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+        :cycle_days_allowance => 21
       )
+      # assert leave_type.valid?
       
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
@@ -160,10 +191,13 @@ class LeaveTypeTest < ActiveSupport::TestCase
 
     LeaveType.for_each_leave_type do |leave_type_class|
       leave_type = leave_type_class.new(
+        :account_id => @account.id,
         :cycle_start_date => Date.new(2000, 1, 1),
         :cycle_duration => 1,
-        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS
+        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+        :cycle_days_allowance => 21
       )
+      # assert leave_type.valid?
       
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
