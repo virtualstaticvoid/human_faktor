@@ -2,7 +2,12 @@
      leave_balance = employee.leave_balance(leave_type, date_as_at)
 %>
 
-<div class="leave_balance_detail">
+<div style="margin-bottom: 12px;">
+  Leave cycle from <%= leave_balance.cycle_start_date.strftime('%e %B %Y') %> 
+  to <%= leave_balance.cycle_end_date.strftime('%e %B %Y') %>
+</div>
+
+<div class="leave_balance_detail" style="width: 230px;">
 
   <% if leave_balance.take_on > 0 %>
     <div class="field">
