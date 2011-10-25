@@ -35,6 +35,12 @@ module Tenant
       assert_not_nil assigns(:employees)
     end
 
+    test "should get index filtered by employee (not currently used)" do
+      get :index, :tenant => @account.subdomain, :employee_filter => { :filter_by => 'employee',:employee_id => @employee.id }
+      assert_response :success
+      assert_not_nil assigns(:employees)
+    end
+
     test "should get new" do
       get :new, :tenant => @account.subdomain
       assert_response :success
