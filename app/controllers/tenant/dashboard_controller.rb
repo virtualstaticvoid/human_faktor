@@ -49,6 +49,8 @@ module Tenant
         
         c.valid?
       end
+
+      @employees = Kaminari.paginate_array(@staff_balance.employees).page(params[:page])
       
     end
 
