@@ -246,7 +246,7 @@ class Employee < ActiveRecord::Base
   def staff
     if self.is_admin?
       # admins, just return all employees
-      self.account.employees 
+      self.account.employees.to_a
 
     elsif self.is_manager?
       # manager, so build the hierarchy
