@@ -73,7 +73,15 @@
       <tr onclick="window.location = '<%=	balance_path(:employee => employee, 
                                                        :as_at => @staff_balance.date_as_at, 
                                                        :tenant => current_account.subdomain) %>';">
-        <td><%= employee.full_name %></td>
+        <td>
+          
+          <%= employee.full_name %> <br />
+          <div style="color: slategray; font-size: 10pt;">
+            <%= @staff_balance.leave_type.cycle_start_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %> to
+            <%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %>
+          </div>
+
+        </td>
 
         <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
                 @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
