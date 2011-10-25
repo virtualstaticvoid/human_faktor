@@ -188,6 +188,11 @@
 
     <% b.add_tab('Take on Balances') do %>
 
+      <div class="error_messages box_radius">
+        Take on balances should be the opening balance (or remaining allowance) for the period. <br/>
+        E.g. If the allowance is 21 days and the employee has taken 11 days then the take on balance is 10 days.
+      </div>
+
       <div class="field required">
         <div><%= f.label :take_on_balance_as_at %></div>
         <span><%= f.date_picker :take_on_balance_as_at %></span>
