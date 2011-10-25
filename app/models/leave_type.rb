@@ -178,7 +178,6 @@ class LeaveType < ActiveRecord::Base
   # calculates the total allowance for the leave cycle of the given `date_as_at`
   def allowance_for(employee, date_as_at)
     raise InvalidOperationException unless employee    
-    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
     # if the date_as_at is prior to the start date, then return zero!
     return 0 if date_as_at <= employee_start_date(employee)
@@ -194,7 +193,6 @@ class LeaveType < ActiveRecord::Base
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
   def leave_take_on_for(employee, date_as_at)
     raise InvalidOperationException unless employee    
-    raise InvalidOperationException if date_as_at < employee_start_date(employee)
   
     cycle_start_date = self.cycle_start_date_of(employee, date_as_at)
     cycle_end_date = self.cycle_end_date_of(employee, date_as_at)
