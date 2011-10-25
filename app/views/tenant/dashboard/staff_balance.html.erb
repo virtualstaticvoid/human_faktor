@@ -1,8 +1,8 @@
 <% content_title "Staff Balances", "content_title_staff_balance" %>
 
-<div style="margin-bottom: 14px; z-order: 0;">
+<div id="filter" style="margin-bottom: 14px; z-order: 0;">
 
-  <%= form_for @staff_balance, :url => '' do |f| %>
+  <%= form_for @staff_balance, :as => 'staff_balance_enquiry', :url => '', :remote => true do |f| %>
 
     <%= error_messages_for @staff_balance %>
 
@@ -12,7 +12,7 @@
         <td class="field" colspan="6">
           <%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 160px;' } %>
         </td>
-        <td align="right" rowspan="2"><%= f.submit 'Show Balances' %></td>
+        <td align="right" rowspan="2"><div style="display: none;"><%= f.submit 'Show Balances' %></div></td>
       </tr>
       <tr>
         <td width="150px">Leave balances as at:</td>
@@ -50,64 +50,36 @@
   
 </div>
 
+<div id="paginator" style="float: left;">
+</div>
+
+<div style="height: 32px; margin-bottom: 10px;">
+  <div id="ajax_working">Loading staff balances...</div>
+</div>
+
 <table id="leave_balances" class="table_grid">
   <thead>
     <tr>
-      <th colspan="8"><%= @staff_balance.leave_type.to_s %> Leave</th>
+      <th colspan="8" id="leave_type_name"><%= @staff_balance.leave_type.to_s %> Leave</th>
     </tr>
     <tr>
       <th>Employee</th>
       <th width="80px"><abbr title="Take on leave balance allowance">Take on</abbr></th>
       <th width="80px"><abbr title="Allowance for the current leave cycle">Allowance</abbr></th>
       <th width="80px"><abbr title="Leave taken to date">Taken</abbr></th>
-      <th width="80px"><abbr title="Available leave balance to date">Available</abbr></th>
-      <th width="80px"><abbr title="Pending and approved leave, not yet taken">Outstanding</abbr></th>
-      <th width="80px"><abbr title="Leave balance to date">Balance</abbr></th>
       <th width="80px"><abbr title="Number of days of unpaid leave taken or outstanding">Unpaid</abbr></th>
+      <th width="80px"><abbr title="Available leave balance to date">Balance</abbr></th>
+      <th width="90px"><abbr title="End date for the cycle for the employee">Cycle Ends</abbr></th>
+      <th width="32px"></th>
+      <th width="32px"></th>
     </tr>
   </thead>
-  <tbody>
-    <% for employee in @staff_balance.employees %>
-      <% next if (@staff_balance.leave_type.gender_filter & employee.gender_filter).empty? %>
-      
-      <tr onclick="window.location = '<%=	balance_path(:employee => employee, 
-                                                       :as_at => @staff_balance.date_as_at, 
-                                                       :tenant => current_account.subdomain) %>';">
-        <td>
-          
-          <%= employee.full_name %> <br />
-          <div style="color: slategray; font-size: 10pt;">
-            <%= @staff_balance.leave_type.cycle_start_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %> to
-            <%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %>
-          </div>
-
-        </td>
-
-        <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
-                @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
-      
-            leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
-
-          <td><%= number_with_precision(leave_balance.take_on, :precision => 1) %></td>
-          <td><%= number_with_precision(leave_balance.allowance, :precision => 1) %></td>
-          <td><%= number_with_precision(leave_balance.leave_taken, :precision => 1) %></td>
-          <td><%= number_with_precision(leave_balance.available, :precision => 1) %></td>
-          <td><%= number_with_precision(leave_balance.outstanding, :precision => 1) %></td>
-          <td><strong><%= number_with_precision(leave_balance.projected, :precision => 1) %></strong></td>
-          <td><%= number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1) %></td>
-
-        <% else %>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
-        <% end %>
-
-      </tr>
-    <% end %>
+  <tbody id="data-rows">
+    <tr class="no_hover">
+      <td colspan="9">
+        <p>Loading staff balances...</p>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -140,6 +112,13 @@
 
   $('#staff_balance_enquiry_employee_id').change(function(){
     $('#staff_balance_enquiry_filter_by_employee').attr('checked', 'checked');
+  });
+
+  $('#staff_balance_enquiry_new').submit();
+  $('#filter input, #filter select').change(function(){
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+    $('#staff_balance_enquiry_new').submit();
   });
 
 </script>
