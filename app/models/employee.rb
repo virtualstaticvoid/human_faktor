@@ -74,7 +74,7 @@ class Employee < ActiveRecord::Base
   GENDER_FEMALE = 2
   GENDERS = [GENDER_MALE, GENDER_FEMALE]
   
-  validates :gender, :numericality => { :only_integer => true, :in => GENDERS }
+  validates :gender, :presence => true, :numericality => { :only_integer => true, :in => GENDERS }
 
   def gender_filter
     self.gender ? [self.gender] : GENDERS
