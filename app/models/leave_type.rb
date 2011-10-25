@@ -110,11 +110,13 @@ class LeaveType < ActiveRecord::Base
 
   #
   # determines the cycle index for the given date
-  #  i.e. for each successive cycle, the index increments
-  #   so a date which falls in the second cycle will yield an index of 1 (NOTE: zero based!)
   #
-  # returns nil if the date is prior to the cycle start date!!!
-  #  the start date is either the employee's take on balance date or employment start date
+  #  i.e. starting from the employees employment start date (or leave balance take on date)
+  #       increments for each successive cycle by the cycle_duration.
+  #
+  #  e.g. a date which falls in the second cycle will yield an index of 1 (NOTE: zero based!)
+  #
+  # returns nil if the date is prior to the employees start date
   #
   def cycle_index_of(employee, date)
     raise InvalidOperationException unless employee && date
@@ -147,7 +149,7 @@ class LeaveType < ActiveRecord::Base
       employee_start_date(employee) + cycle_duration_in_units(index + 1) - 1.day
   end
     
-  # given an arbitrary date, get the start date of the cycle in which it falls within
+  # given an arbitrary date, get the start date of the cycle in which it falls
   def cycle_start_date_of(employee, date)
     raise InvalidOperationException unless employee && date
 
@@ -161,7 +163,7 @@ class LeaveType < ActiveRecord::Base
     start_date
   end
 
-  # given an arbitrary date, get the end date of the cycle in which it falls within
+  # given an arbitrary date, get the end date of the cycle in which it falls
   def cycle_end_date_of(employee, date)
     raise InvalidOperationException unless employee && date
 
