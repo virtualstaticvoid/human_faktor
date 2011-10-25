@@ -13,6 +13,14 @@ class LeaveTypeTest < ActiveSupport::TestCase
     for_each_fixture ('leave_types') {|key| assert_valid leave_types(key) }
   end
 
+  test "provides hex color" do
+    for_each_fixture ('leave_types') {|key| assert leave_types(key).hex_color }
+  end
+
+  test "provides duration display text" do
+    for_each_fixture ('leave_types') {|key| assert leave_types(key).duration_display }
+  end
+
   test "different leave types can be accessed via class methods" do
     assert LeaveType.annual
     assert LeaveType.educational
