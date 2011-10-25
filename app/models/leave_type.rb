@@ -108,6 +108,28 @@ class LeaveType < ActiveRecord::Base
     self.class.name.gsub(/LeaveType::/, '').downcase
   end
 
+  def employee_start_date(employee)
+    raise InvalidOperationException unless employee    
+
+    #
+    # get the employee "start date"
+    #  presidence:
+    #   * employee take on balance date
+    #   * employee start date
+    #   * leave type cycle start date
+    #
+   
+    if self.can_take_on? && employee.take_on_balance_as_at.present?
+      employee.take_on_balance_as_at
+    elsif employee.start_date.present?
+      employee.start_date
+    elsif self.has_absolute_start_date?
+      self.cycle_start_date
+    else
+      raise Exception.new("Start date required for #{employee}.")
+    end  
+  end
+
   #
   # determines the cycle index for the given date
   #
@@ -427,28 +449,6 @@ class LeaveType < ActiveRecord::Base
     ).sum(:duration)
   end
   
-  def employee_start_date(employee)
-    raise InvalidOperationException unless employee    
-
-    #
-    # get the employee "start date"
-    #  presidence:
-    #   * employee take on balance date
-    #   * employee start date
-    #   * leave type cycle start date
-    #
-   
-    if self.can_take_on? && employee.take_on_balance_as_at.present?
-      employee.take_on_balance_as_at
-    elsif employee.start_date.present?
-      employee.start_date
-    elsif self.has_absolute_start_date?
-      self.cycle_start_date
-    else
-      raise Exception.new("Start date required for #{employee}.")
-    end  
-  end
-
   def cycle_duration_in_units(multiplier = 1)
     case self.cycle_duration_unit
       when DURATION_UNIT_DAYS then (self.cycle_duration * multiplier).days
