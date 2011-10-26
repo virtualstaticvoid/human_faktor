@@ -107,6 +107,7 @@ module Tenant
       leave_request_params = params[:leave_request]
     
       @leave_request = current_account.leave_requests.build(leave_request_params)
+      @leave_request.approver = current_employee unless @leave_request.approver
 
       respond_to do |format|
         if @leave_request.capture!(current_employee)
