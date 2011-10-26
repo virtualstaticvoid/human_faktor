@@ -4,6 +4,7 @@ module JqueryUiButtonHelper
   
     # insert defaults
     options[:id] = "radio" unless options[:id]
+    options[:name] = options[:id] unless options[:name]
 
     button_builder = ButtonBuilder.new
     
@@ -19,7 +20,7 @@ module JqueryUiButtonHelper
     
     button_builder.buttons.each do |title, button_options|
       button_id = "#{options[:id]}_#{title.underscore}"
-      html << "<input type=\"radio\" id=\"#{button_id}\" name=\"#{options[:id]}\""
+      html << "<input type=\"radio\" id=\"#{button_id}\" name=\"#{options[:name]}\""
       html << " checked=\"checked\"" if button_options[:checked] == true
       html << " value=\"#{button_options[:value]}\"" if button_options[:value]
       if options[:remote] == true
