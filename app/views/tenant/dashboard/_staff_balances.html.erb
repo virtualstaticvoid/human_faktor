@@ -5,18 +5,12 @@
                                                    :employee => employee, 
                                                    :tenant => current_account.subdomain) %>';">
 
+    <td><%= employee.full_name %></td>
+
     <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
             @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
   
         leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
-
-      <td>
-        <%= employee.full_name %> <br />
-        <div style="color: slategray; font-size: 8pt;">
-          <%= @staff_balance.leave_type.cycle_start_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %> to
-          <%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %>
-        </div>
-      </td>
 
       <td><%= number_with_precision(leave_balance.take_on, :precision => 1) %></td>
       <td><%= number_with_precision(leave_balance.allowance, :precision => 1) %></td>
@@ -24,6 +18,7 @@
       <td><%= number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1) %></td>
       <td><strong><%= number_with_precision(leave_balance.available, :precision => 1) %></strong></td>
       <td><%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %></td>
+      <td><%= number_with_precision(leave_balance.outstanding, :precision => 1) %></td>
       <td class="centered">
         <%= link_to image_tag('../images/calculator.png'), 
                     balance_path(
@@ -42,7 +37,6 @@
       </td>
 
     <% else %>
-      <td><%= employee.full_name %> <br> </td>
       <td>---</td>
       <td>---</td>
       <td>---</td>
