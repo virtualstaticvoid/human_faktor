@@ -1,3 +1,6 @@
 <div class="user_info">
-  Signed in as <%= link_to current_employee, profile_path, :title => "Your user name is #{current_employee.user_name}" %>.
+  Signed in as <%= link_to current_employee, profile_path, :title => "Your user name is '#{current_employee.user_name}'" %>.
+
+  <br/>
+  <div style="font-size: 8pt;"><%= current_employee.role.titleize %> permissions</div>
 </div>
