@@ -7,7 +7,7 @@
 
     <div style="float: right;" class="clearfix">
       <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
-        <%= @filter_by == 'none' ? 'Show Criteria' : 'Hide Criteria' %>
+        <%= @filter_by == 'none' ? 'More Criteria' : 'Less Criteria' %>
       </a>
     </div>
 
@@ -83,7 +83,7 @@
   function toggle_criteria() {
     extra_criteria = !extra_criteria;
     $('.extra').css('display', extra_criteria ? '' : 'none');
-    $('#toggle_criteria').html(extra_criteria ? 'Hide Criteria' : 'Show Criteria');
+    $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
   }
 
   $('#employee_filter_location_id').change(function(){
