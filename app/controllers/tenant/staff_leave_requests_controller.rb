@@ -3,12 +3,20 @@ module Tenant
     layout 'dashboard'
 
     def index
-      
-      @filter = LeaveRequestFilter.new()
-      @filter.status = params[:status] || LeaveRequest::STATUS_PENDING
-      @filter.date_from = ApplicationHelper.safe_parse_date(params[:date_from])
-      @filter.date_to = ApplicationHelper.safe_parse_date(params[:date_to])
-      @filter.requires_documentation_only = params[:requires_documentation_only] == '1'
+
+      filter_params = params[:leave_request_filter] || {}
+      @filter = LeaveRequestFilter.new(current_account, current_employee).tap do |c|
+        c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
+        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from])
+        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to])
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
+        c.employee_id = filter_params[:employee_id] || current_employee.id
+        c.requires_documentation_only = filter_params[:requires_documentation_only] == '1'
+
+        c.valid?
+      end
 
       # user role filter
       if current_employee.is_admin?
@@ -20,12 +28,24 @@ module Tenant
       else
         @leave_requests = current_employee.leave_requests
       end
+
+      # apply location, department or employee filter
+      case @filter_by
+        when 'location' then
+          @leave_requests = @leave_requests.joins(:employee)
+                              .where(:employees => { :location_id => @filter.location_id })
+        when 'department' then
+          @leave_requests = @leave_requests.joins(:employee)
+                              .where(:employees => { :department_id => @filter.department_id })
+        when 'employee' then
+          @leave_requests = @leave_requests.where(:employee_id => @filter.employee_id)
+      end
       
       # status filter
       if @filter.status == LeaveRequest::STATUS_PENDING
-        @leave_requests = @leave_requests.pending.page(params[:page])
+        @leave_requests = @leave_requests.pending
       else
-        @leave_requests = @leave_requests.where(:status => @filter.leave_request_status).page(params[:page])
+        @leave_requests = @leave_requests.where(:status => @filter.leave_request_status)
       end
       
       # date filter
@@ -55,7 +75,7 @@ module Tenant
             .where(:requires_documentation.as_constraint_override => true)
       end
       
-      @leave_requests = @leave_requests.order('created_at DESC')
+      @leave_requests = @leave_requests.order('created_at DESC').page(params[:page])
       
     end
 

@@ -7,34 +7,75 @@
     <table width="100%">
       <tr>
         <td width="120px">From:</td>
-        <td width="30px"></td>
-        <td class="field"><%= f.date_picker :date_from %></td>
-        <td rowspan="3" style="vertical-align: bottom; align: right;">
-          <div style="float: right;">
-            <%= render_buttonset(:id => 'status') do |builder| %>
-              <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => @filter.status?(LeaveRequest::STATUS_PENDING)) %>
-              <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_APPROVED, :checked => @filter.status?(LeaveRequest::FILTER_STATUS_APPROVED)) %>
-              <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED, :checked => @filter.status?(LeaveRequest::STATUS_DECLINED)) %>
-              <% builder.add_button("Cancelled", :value => LeaveRequest::STATUS_CANCELLED, :checked => @filter.status?(LeaveRequest::STATUS_CANCELLED)) %>
-            <% end %>
-          </div>
+        <td colspan="2" class="field"><%= f.date_picker :date_from %></td>
+        <td style="text-align: right;" colspan="2">
+          <div style="display: none;"><%= f.submit %></div>  
+          <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
+            <%= @filter_by == 'none' ? 'More Criteria' : 'Less Criteria' %>
+          </a>
         </td>
       </tr>
       <tr>
         <td>To:</td>
+        <td colspan="2" class="field"><%= f.date_picker :date_to %></td>
         <td></td>
-        <td class="field"><%= f.date_picker :date_to %></td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td></td>
+        <td colspan="3" class="field" style="padding-left: 3px;">
+          <%= f.check_box :requires_documentation_only %>
+          <%= f.label :requires_documentation_only, 'Requires documentation?' %>
+        </td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td style="height: 29px;"></td>
+        <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
+        <td colspan="2" class="field">All staff</td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :employee_id, @filter.employees.collect {|item| [item.full_name, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td colspan="5" style="height: 8px;"></td>
       </tr>
       <tr>
         <td></td>
         <td></td>
-        <td class="field">
-          <%= f.check_box :requires_documentation_only %>
-          <%= f.label :requires_documentation_only, 'Requires documentation?' %>
+        <td></td>
+        <td colspan="2" style="text-align: right;">
+          <%= render_buttonset(:id => 'status', :name => 'leave_request_filter[status]') do |builder| %>
+            <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => @filter.status?(LeaveRequest::STATUS_PENDING)) %>
+            <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_APPROVED, :checked => @filter.status?(LeaveRequest::FILTER_STATUS_APPROVED)) %>
+            <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED, :checked => @filter.status?(LeaveRequest::STATUS_DECLINED)) %>
+            <% builder.add_button("Cancelled", :value => LeaveRequest::STATUS_CANCELLED, :checked => @filter.status?(LeaveRequest::STATUS_CANCELLED)) %>
+          <% end %>
         </td>
       </tr>
     </table>
-    <div style="display: none;"><%= f.submit %></div>  
   <% end %>
 </div>
 
@@ -69,15 +110,40 @@
 </p>
 
 <script type="text/javascript">
-  $('#filter input').change(function(){
+
+  var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
+
+  $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
+
+  $('#leave_request_filter_location_id').change(function(){
+    $('#leave_request_filter_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#leave_request_filter_department_id').change(function(){
+    $('#leave_request_filter_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#leave_request_filter_employee_id').change(function(){
+    $('#leave_request_filter_filter_by_employee').attr('checked', 'checked');
+  });
+
+  function toggle_criteria() {
+    extra_criteria = !extra_criteria;
+    $('.extra').css('display', extra_criteria ? '' : 'none');
+    $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
+  }
+
+  $('#filter input, #filter select').change(function(){
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
     $('#leave_request_filter_new').submit();
   });
+
   $('#paginator a').live('ajax:before', function(e) { 
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
   });
+
 </script>
 
 <script type="text/javascript" defer="defer">

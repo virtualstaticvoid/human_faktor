@@ -4,17 +4,21 @@ module Tenant
 
     def index
 
-      @filter = LeaveRequestFilter.new()
-      @filter.status = params[:status] || LeaveRequest::STATUS_PENDING
-      @filter.date_from = ApplicationHelper.safe_parse_date(params[:date_from])
-      @filter.date_to = ApplicationHelper.safe_parse_date(params[:date_to])
-      @filter.requires_documentation_only = params[:requires_documentation_only] == '1'
+      filter_params = params[:leave_request_filter] || {}
+      @filter = LeaveRequestFilter.new(current_account, current_employee).tap do |c|
+        c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
+        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from])
+        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to])
+        c.requires_documentation_only = filter_params[:requires_documentation_only] == '1'
+
+        c.valid?
+      end
 
       # status filter
       if @filter.status == LeaveRequest::STATUS_PENDING
-        @leave_requests = current_employee.leave_requests.pending.page(params[:page])
+        @leave_requests = current_employee.leave_requests.pending
       else
-        @leave_requests = current_employee.leave_requests.where(:status => @filter.leave_request_status).page(params[:page])
+        @leave_requests = current_employee.leave_requests.where(:status => @filter.leave_request_status)
       end
 
       # date filter
@@ -44,7 +48,7 @@ module Tenant
             .where(:requires_documentation.as_constraint_override => true)
       end
       
-      @leave_requests = @leave_requests.order('created_at DESC')
+      @leave_requests = @leave_requests.order('created_at DESC').page(params[:page])
 
     end
 

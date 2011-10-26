@@ -11,7 +11,7 @@
         <td class="field"><%= f.date_picker :date_from %></td>
         <td rowspan="3" style="vertical-align: bottom; align: right;">
           <div style="float: right;">
-            <%= render_buttonset(:id => 'status') do |builder| %>
+            <%= render_buttonset(:id => 'status', :name => 'leave_request_filter[status]') do |builder| %>
               <% builder.add_button("Pending", :value => LeaveRequest::STATUS_PENDING, :checked => @filter.status?(LeaveRequest::STATUS_PENDING)) %>
               <% builder.add_button("Approved", :value => LeaveRequest::FILTER_STATUS_APPROVED, :checked => @filter.status?(LeaveRequest::FILTER_STATUS_APPROVED)) %>
               <% builder.add_button("Declined", :value => LeaveRequest::STATUS_DECLINED, :checked => @filter.status?(LeaveRequest::STATUS_DECLINED)) %>
@@ -69,7 +69,7 @@
 </p>
 
 <script type="text/javascript">
-  $('#filter input').change(function(){
+  $('#filter input, #filter select').change(function(){
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
     $('#leave_request_filter_new').submit();
