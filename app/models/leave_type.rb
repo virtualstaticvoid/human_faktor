@@ -234,7 +234,7 @@ class LeaveType < ActiveRecord::Base
   # calculates the leave taken for the leave cycle of the given `date_as_at`
   def leave_taken_for(employee, date_as_at, unpaid = false)
     return nil unless employee && date_as_at
-    return nil if date_as_at < employee.start_date
+    return nil if date_as_at < employee_start_date(employee)
   
     start_date = self.cycle_start_date_of(employee, date_as_at)
     end_date = date_as_at - 1.day
@@ -244,7 +244,7 @@ class LeaveType < ActiveRecord::Base
   
   def leave_outstanding_for(employee, date_as_at, unpaid = false)
     return nil unless employee && date_as_at
-    return nil if date_as_at < employee.start_date
+    return nil if date_as_at < employee_start_date(employee)
   
     start_date = date_as_at
     end_date = self.cycle_end_date_of(employee, date_as_at)
