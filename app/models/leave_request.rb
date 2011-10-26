@@ -418,7 +418,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def must_not_overlap_with_another_request
-  
+    return unless self.employee
     # check whether the dates intersect
     query = self.employee.leave_requests.current.where(
               ' (:from_date BETWEEN date_from AND date_to) OR (:to_date BETWEEN date_from AND date_to) OR ((:from_date <= date_from) AND (:to_date >= date_to)) ', 
@@ -432,6 +432,8 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def date_from_cannot_be_prior_to_start_or_take_on_date
+    return unless self.employee
+
     errors.add(:date_from, "is prior to the employee start date of #{self.employee.start_date.strftime('%e %B %Y')}") if
       !self.employee.start_date.nil? && self.date_from < self.employee.start_date
   
