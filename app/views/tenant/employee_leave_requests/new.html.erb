@@ -5,7 +5,7 @@
 
   <%= error_messages_for @leave_request %>
 
-  <div class="leave_request_container">
+  <div class="leave_request_container clearfix">
   
     <div class="leave_request_left">
     
@@ -52,10 +52,14 @@
         </div>
       <% end %>
 
+      <div class="actions">
+        <%= f.submit 'Apply for Leave' %> or <%= link_to 'cancel', dashboard_path %>
+      </div>
+
     </div>
 
     <div class="leave_request_right">
-      <div class="panel_box">
+      <div class="panel_box box_radius box_shadow">
         <div class="panel_box_title box_radius_top">
           <div style="float: left;"><h2>Leave Balance</h2></div>
           <div id="ajax_working" style="float: right; margin-top: -4px; display: none;"></div>
@@ -73,10 +77,7 @@
         <%= link_to 'Update Balance', '', :remote => true, :id => 'leave_balance_link', :style => 'display: none;' %>
       </div>
     </div>
-  </div>
 
-  <div class="actions">
-    <%= f.submit 'Apply for Leave' %> or <%= link_to 'cancel', dashboard_path %>
   </div>
   
 <% end %>

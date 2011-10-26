@@ -66,7 +66,11 @@
 }
 
 .leave_request_container {
-  height: 500px;
+  min-height: 500px;
+}
+
+.leave_request_container .actions {
+  margin-top: 24px;
 }
 
 .leave_request_left {
@@ -76,7 +80,7 @@
 
 .leave_request_right {
   width: 258px; 
-  float: right;
+  float: left;
 }
 
 .leave_request_right input {

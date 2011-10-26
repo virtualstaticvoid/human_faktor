@@ -5,63 +5,67 @@
 
   <%= error_messages_for @leave_request %>
 
-  <div class="leave_request_container">
+  <div class="leave_request_container clearfix">
   
     <div class="leave_request_left">
     
-    <div class="field required">
-      <div><%= f.label :employee_id %></div>
-      <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name, or * for all') {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
-      <span class="field_info"></span>
-    </div>
-
-    <div class="field required">
-      <div><%= f.label :leave_type_id %></div>
-      <span><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
-      <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
-      <span class="field_info"></span>
-    </div>
-    
-    <div class="field required">
-      <div><%= f.label :date_from %></div>
-      <span><%= f.date_picker :date_from %></span>
-      <span><%= f.check_box :half_day_from %></span>
-      <span><%= f.label :half_day_from, 'Half day?' %></span>
-      <span class="field_info"></span>
-    </div>
-
-    <div class="field required">
-      <div><%= f.label :date_to %></div>
-      <span><%= f.date_picker :date_to %></span>
-      <span><%= f.check_box :half_day_to %></span>
-      <span><%= f.label :half_day_to, 'Half day?' %></span>
-      <span class="field_info"></span>
-    </div>
-
-    <div class="field">
-      <div><%= f.label :comment %></div>
-      <span><%= f.text_area :comment, :style => 'min-width: 378px; max-width: 755px; min-height: 96px; max-height: 156px;' %></span>
-      <span class="field_info"></span>
-    </div>
-
-    <div class="field">
-      <div><%= f.label :document %></div>
-      <span><%= f.file_field :document %></span>
-      <span class="field_info"></span>
-    </div>
-
-    <% if current_employee.can_choose_own_approver? %>
       <div class="field required">
-        <div><%= f.label :approver_id %></div>
-        <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+        <div><%= f.label :employee_id %></div>
+        <span><%= f.auto_complete(:employee_id, :source => employee_staff_feed_url(:format => :json), :placeholder => 'Enter employee name, or * for all') {|employee_id| Employee.find(employee_id) unless employee_id.nil? } %></span>
         <span class="field_info"></span>
       </div>
-    <% end %>
+
+      <div class="field required">
+        <div><%= f.label :leave_type_id %></div>
+        <span><%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, {}, { :class => 'dropdown', :style => 'width: 158px;' } %></span>
+        <span><%= f.check_box :unpaid %><%= f.label :unpaid, 'Unpaid?' %></span>
+        <span class="field_info"></span>
+      </div>
+      
+      <div class="field required">
+        <div><%= f.label :date_from %></div>
+        <span><%= f.date_picker :date_from %></span>
+        <span><%= f.check_box :half_day_from %></span>
+        <span><%= f.label :half_day_from, 'Half day?' %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field required">
+        <div><%= f.label :date_to %></div>
+        <span><%= f.date_picker :date_to %></span>
+        <span><%= f.check_box :half_day_to %></span>
+        <span><%= f.label :half_day_to, 'Half day?' %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :comment %></div>
+        <span><%= f.text_area :comment, :style => 'min-width: 378px; max-width: 755px; min-height: 96px; max-height: 156px;' %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <div class="field">
+        <div><%= f.label :document %></div>
+        <span><%= f.file_field :document %></span>
+        <span class="field_info"></span>
+      </div>
+
+      <% if current_employee.can_choose_own_approver? %>
+        <div class="field required">
+          <div><%= f.label :approver_id %></div>
+          <span><%= f.select :approver_id, current_account.employees.active_approvers.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+          <span class="field_info"></span>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit 'Capture Staff Leave' %> or <%= link_to 'cancel', dashboard_path %>
+      </div>
 
     </div>
 
     <div class="leave_request_right">
-      <div class="panel_box">
+      <div class="panel_box box_radius box_shadow">
         <div class="panel_box_title box_radius_top">
           <div style="float: left;"><h2>Leave Balance</h2></div>
           <div id="ajax_working" style="float: right; margin-top: -4px; display: none;"></div>
@@ -79,12 +83,9 @@
         <%= link_to 'Update Balance', '', :remote => true, :id => 'leave_balance_link', :style => 'display: none;' %>
       </div>
     </div>
+
   </div>
 
-  <div class="actions">
-    <%= f.submit 'Capture Staff Leave' %> or <%= link_to 'cancel', dashboard_path %>
-  </div>
-  
 <% end %>
 
 <script type="text/javascript">
