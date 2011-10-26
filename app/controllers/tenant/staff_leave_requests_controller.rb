@@ -38,7 +38,7 @@ module Tenant
           @leave_requests = @leave_requests.joins(:employee)
                               .where(:employees => { :department_id => @filter.department_id })
         when 'employee' then
-          @leave_requests = @leave_requests.where(:employee_id => @filter.employee_id)
+          @leave_requests = @leave_requests.where(:employee_id => @filter.get_employee_for_filter.id)
       end
       
       # status filter

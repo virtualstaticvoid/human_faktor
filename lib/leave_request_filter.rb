@@ -44,6 +44,10 @@ class LeaveRequestFilter < DateFilter
   def status=(value)
     @status = value.to_i
   end
+
+  def get_employee_for_filter
+    self.account.employees.find_by_identifier(self.employee_id)
+  end
   
   def leave_request_status
     case @status
