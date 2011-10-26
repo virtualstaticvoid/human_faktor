@@ -111,23 +111,11 @@ class LeaveType < ActiveRecord::Base
   def employee_start_date(employee)
     return nil unless employee
 
-    #
-    # get the employee "start date"
-    #  presidence:
-    #   * employee take on balance date
-    #   * employee start date
-    #   * leave type cycle start date
-    #
-   
-    if self.can_take_on? && employee.take_on_balance_as_at.present?
-      employee.take_on_balance_as_at
-    elsif employee.start_date.present?
-      employee.start_date
-    elsif self.has_absolute_start_date?
-      self.cycle_start_date
-    else
-      raise Exception.new("Start date required for #{employee}.")
-    end  
+    # try using the employees start date
+    employee.start_date.present? ?
+      employee.start_date :
+      employee.created_at.date      # use the date the record was created...
+
   end
 
   #
