@@ -16,7 +16,11 @@
         <td width="120px" style="height: 29px;"></td>
         <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
         <td class="field">All staff</td>
-        <td align="right" rowspan="4"><%= f.submit 'Apply Criteria' %></td>
+        <td align="right" rowspan="4">
+          <div style="display: none;">
+            <%= f.submit 'Apply Criteria' %>
+          </div>
+        </td>
       </tr>
       <tr class="extra">
         <td>Location:</td>
@@ -37,8 +41,10 @@
   <% end %>
 </div>
 
-<div id="paginator">
-  <%= paginate @employees, :remote => true %>
+<div style="height: 32px; margin-bottom: 10px;">
+  <div id="ajax_working">Loading staff...</div>
+  <div id="paginator" style="display: none;">
+  </div>
 </div>
 
 <table class="table_grid">
@@ -56,7 +62,9 @@
     </tr>
   </thead>
   <tbody id="data-rows">
-<%= render @employees %>
+    <tr>
+      <td colspan="9">Loading staff...</td>
+    </tr>
   </tbody>
 </table>
 
@@ -90,4 +98,19 @@
     $('#employee_filter_filter_by_employee').attr('checked', 'checked');
   });
 
+  $('#filter input, #filter select').change(function(){
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+    $('#employee_filter_new').submit();
+  });
+
+  $('#paginator a').live('ajax:before', function(e) { 
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+  });
+
+</script>
+
+<script type="text/javascript" defer="defer">
+  $('#employee_filter_new').submit();
 </script>

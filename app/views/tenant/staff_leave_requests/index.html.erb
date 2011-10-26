@@ -2,7 +2,7 @@
 <% content_title "Staff Leave Requests", "content_title_staff_leave" %>
 
 <div id="filter" style="margin-bottom: 10px;">
-  <%= form_for @filter, :as => '', :url => staff_leave_requests_path(), :remote => true do |f| %>
+  <%= form_for @filter, :as => 'leave_request_filter', :url => staff_leave_requests_path(), :remote => true do |f| %>
     <%= error_messages_for @filter %>
     <table width="100%">
       <tr>
@@ -38,11 +38,10 @@
   <% end %>
 </div>
 
-<div id="paginator" style="float: left;">
-</div>
-
 <div style="height: 32px; margin-bottom: 10px;">
   <div id="ajax_working">Loading leave requests...</div>
+  <div id="paginator" style="display: none;">
+  </div>
 </div>
 
 <table id="leave_requests" class="table_grid">
@@ -70,11 +69,10 @@
 </p>
 
 <script type="text/javascript">
-  $('#_new').submit();
   $('#filter input').change(function(){
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
-    $('#_new').submit();
+    $('#leave_request_filter_new').submit();
   });
   $('#paginator a').live('ajax:before', function(e) { 
     $('#ajax_working').css('display', '');
@@ -82,3 +80,6 @@
   });
 </script>
 
+<script type="text/javascript" defer="defer">
+  $('#leave_request_filter_new').submit();
+</script>

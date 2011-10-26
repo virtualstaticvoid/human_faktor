@@ -1,3 +1,8 @@
-$('#data-rows').html('<%= escape_javascript(render(@employees)) %>');
 $('#paginator').html('<%= escape_javascript(paginate(@employees, :remote => true).to_s) %>');
-$('#flash').html('<%= escape_javascript(error_messages_for(@filter)) %>');
+<% if @employees.count() == 0 %>
+  $('#data-rows').html('<tr class="no_hover"><td colspan="9"><p>No staff found for the given criteria.</p></td></tr>');
+<% else %>
+  $('#data-rows').html('<%= escape_javascript(render(@employees)) %>');
+<% end %>
+$('#ajax_working').css('display', 'none');
+$('#paginator').css('display', '');

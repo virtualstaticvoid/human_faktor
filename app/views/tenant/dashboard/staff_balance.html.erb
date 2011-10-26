@@ -48,11 +48,10 @@
   
 </div>
 
-<div id="paginator" style="float: left;">
-</div>
-
 <div style="height: 32px; margin-bottom: 10px;">
   <div id="ajax_working">Loading staff balances...</div>
+  <div id="paginator" style="display: none;">
+  </div>
 </div>
 
 <table id="leave_balances" class="table_grid">
@@ -113,12 +112,19 @@
     $('#staff_balance_enquiry_filter_by_employee').attr('checked', 'checked');
   });
 
-  $('#staff_balance_enquiry_new').submit();
   $('#filter input, #filter select').change(function(){
     $('#ajax_working').css('display', '');
     $('#paginator').css('display', 'none');
     $('#staff_balance_enquiry_new').submit();
   });
 
+  $('#paginator a').live('ajax:before', function(e) { 
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+  });
+
 </script>
 
+<script type="text/javascript" defer="defer">
+  $('#staff_balance_enquiry_new').submit();
+</script>
