@@ -11,9 +11,9 @@ employee,take_on,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,
     data << leave_balance.leave_taken.round(1)
     data << leave_balance.unpaid_leave_taken.round(1)
     data << leave_balance.available.round(1)
-    data << leave_balance.outstanding.round(1)
     data << @staff_balance.leave_type.cycle_start_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d')
     data << @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d')
+    data << leave_balance.outstanding.round(1)
 
   else
     data << 0
@@ -21,9 +21,9 @@ employee,take_on,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,
     data << 0
     data << 0
     data << 0
+    data << ''
+    data << ''
     data << 0
-    data << ''
-    data << ''
   end
 %><%= data.join(',').html_safe %>
 <% end %>
