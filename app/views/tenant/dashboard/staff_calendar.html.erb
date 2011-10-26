@@ -37,14 +37,14 @@
         <td>Location:</td>
         <td><%= f.radio_button :filter_by, 'location' %></td>
         <td class="field" colspan="6">
-          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
         </td>
       </tr>
       <tr class="extra">
         <td>Department:</td>
         <td><%= f.radio_button :filter_by, 'department' %></td>
         <td class="field" colspan="6">
-          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, { :include_blank => true }, { :class => 'dropdown' } %>
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
         </td>
       </tr>
     </table>
