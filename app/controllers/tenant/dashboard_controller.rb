@@ -36,16 +36,16 @@ module Tenant
     def staff_balance
       redirect_to balance_url if current_employee.is_employee?
 
-      staff_balance_params = params[:staff_balance_enquiry] || {}
       @leave_types = current_account.leave_types
-      @filter_by = staff_balance_params[:filter_by] || 'none'
 
+      filter_params = params[:staff_balance_enquiry] || {}
       @staff_balance = StaffBalanceEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_as_at = ApplicationHelper.safe_parse_date(staff_balance_params[:date_as_at], Date.today)
-        c.leave_type_id = staff_balance_params[:leave_type_id] if staff_balance_params[:leave_type_id]
-        c.filter_by = @filter_by
-        c.location_id = staff_balance_params[:location_id] || current_employee.location_id
-        c.department_id = staff_balance_params[:department_id] || current_employee.department_id
+        c.date_as_at = ApplicationHelper.safe_parse_date(filter_params[:date_as_at], Date.today)
+        c.leave_type_id = filter_params[:leave_type_id] if filter_params[:leave_type_id]
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
+        c.employee_id = filter_params[:employee_id] || current_employee.id
         
         c.valid?
       end
@@ -61,15 +61,14 @@ module Tenant
     def staff_calendar
       redirect_to calendar_url if current_employee.is_employee?
 
-      staff_calendar_params = params[:staff_calendar_enquiry] || {}
-      @filter_by = staff_calendar_params[:filter_by] || 'none'
-
+      filter_params = params[:staff_calendar_enquiry] || {}
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_from], Date.today << 3)
-        c.date_to = ApplicationHelper.safe_parse_date(staff_calendar_params[:date_to], Date.today >> 6)
-        c.filter_by = @filter_by
-        c.location_id = staff_calendar_params[:location_id] || current_employee.location_id
-        c.department_id = staff_calendar_params[:department_id] || current_employee.department_id
+        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 3)
+        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 6)
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
+        c.employee_id = filter_params[:employee_id] || current_employee.id
         
         c.valid?
       end
@@ -80,17 +79,16 @@ module Tenant
     def heatmap
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       
-      heat_map_params = params[:heat_map_enquiry] || {}
-      @filter_by = heat_map_params[:filter_by] || 'none'
-      
+      filter_params = params[:heat_map_enquiry] || {}
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
-        c.enquiry = heat_map_params[:enquiry] if heat_map_params[:enquiry]
+        c.enquiry = filter_params[:enquiry] if filter_params[:enquiry]
         
-        c.date_from = ApplicationHelper.safe_parse_date(heat_map_params[:date_from], Date.today << 9)
-        c.date_to = ApplicationHelper.safe_parse_date(heat_map_params[:date_to], Date.today >> 3)
-        c.filter_by = @filter_by
-        c.location_id = heat_map_params[:location_id] || current_employee.location_id
-        c.department_id = heat_map_params[:department_id] || current_employee.department_id
+        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 9)
+        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 3)
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
+        c.employee_id = filter_params[:employee_id] || current_employee.id
         
         c.valid?
       end

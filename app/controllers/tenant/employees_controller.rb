@@ -2,11 +2,11 @@ module Tenant
   class EmployeesController < AdminController
   
     def index
-      employee_filter_params = params[:employee_filter] || {}
+      filter_params = params[:employee_filter] || {}
       @filter = EmployeeFilter.new(current_account).tap do |c|
-        c.filter_by = @filter_by = employee_filter_params[:filter_by] || 'none'
-        c.location_id = employee_filter_params[:location_id] || current_employee.location_id
-        c.department_id = employee_filter_params[:department_id] || current_employee.department_id
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
 
         c.valid?
       end
