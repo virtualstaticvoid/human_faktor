@@ -200,9 +200,15 @@ class LeaveType < ActiveRecord::Base
     
     # for non-accruing leave types, this is simply the configured
     # allowance irrespective of the leave cycle of the given `date_as_at`
+    # unless there is a take on balance
+
+    take_on_balance = self.leave_take_on_for(employee, date_as_at)
 
     # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
-    employee.leave_cycle_allocation_for(self)
+    #  unless the employee has an override for the allocation
+    take_on_balance > 0 ? 
+      0 : 
+      employee.leave_cycle_allocation_for(self)
 
   end
 
