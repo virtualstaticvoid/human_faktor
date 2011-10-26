@@ -30,8 +30,12 @@
       <td class="centered">
         <%= link_to image_tag('../images/leave_requests.png'), 
                     staff_leave_requests_path(
-                      :date_to => @staff_balance.date_as_at, 
-                      :employee => employee, 
+                      :leave_request_filter => { 
+                          :date_to => @staff_balance.date_as_at,
+                          :filter_by => 'employee',
+                          :employee_id => employee.to_param,
+                          :status => LeaveRequest::FILTER_STATUS_APPROVED
+                      },
                       :tenant => current_account.subdomain
                     ), :title => 'Leave Request for Employee' %>
       </td>
