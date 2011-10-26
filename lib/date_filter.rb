@@ -13,6 +13,10 @@ class DateFilter
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from
 
+  def date_range
+    (self.date_from..self.date_to)
+  end
+
   private
   
   def date_from_must_occur_before_date_to
