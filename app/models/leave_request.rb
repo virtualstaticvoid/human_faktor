@@ -366,6 +366,21 @@ class LeaveRequest < ActiveRecord::Base
       (self.employee != employee && employee.is_admin?)
   end
 
+  def can_update_documentation?(employee)
+    raise InvalidOperationException if employee.nil?
+
+    employee.is_admin? ||
+      self.employee == employee    
+  end
+
+  def can_update_constraints?(employee)
+    raise InvalidOperationException if employee.nil?
+
+    employee.is_admin? ||
+      self.approver == employee ||
+      employee.is_manager_of?(self.employee)
+  end
+
   def calculate_duration
   
     # subtract weekends and holidays!
