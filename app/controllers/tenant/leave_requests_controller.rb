@@ -124,7 +124,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to constraint overrides
-      override_params = params[:leave_request].select {|key, value|
+      override_params = params[:leave_request_constraints].select {|key, value|
          key =~ /^override/
       }
 

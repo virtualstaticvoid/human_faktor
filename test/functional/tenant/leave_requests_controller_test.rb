@@ -246,13 +246,13 @@ module Tenant
 
     test "should update constraint overrides" do
       sign_in_as :approver
-      assert @leave_request.confirm
+      @leave_request.confirm
       assert @leave_request.approve!(@leave_request.approver)
       assert @leave_request.status == LeaveRequest::STATUS_APPROVED
       put :update_constraints, :format => :js, 
                                :tenant => @account.subdomain, 
                                :id => @leave_request.to_param, 
-                               :leave_request => @leave_request_attributes
+                               :leave_request_constraints => @leave_request_attributes
       assert_response :success
     end
 

@@ -1,19 +1,19 @@
 <%= form_for @leave_request, 
+             :as => 'leave_request_constraints',
              :url => update_constraints_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-             :remote => true,
-             :html => { :id => 'update_warnings' } do |f| %>
+             :remote => true do |f| %>
 
   <%= render :partial => 'leave_request_constraint_overrides', 
              :locals => { :f => f, :leave_request => @leave_request } %>
 
-  <%= f.submit 'Update Warnings', :style => 'display: none;' %>
+  <div style="display: none;">
+    <%= f.submit 'Update Warnings' %>
+  </div>
 
 <% end %>
 
 <script type="text/javascript">
-
-  $('#update_warnings input[type=checkbox]').change(function(){
-    $('#update_warnings').submit();
+  $('#leave_request_constraints_edit input[type=checkbox]').change(function(){
+    $('#leave_request_constraints_edit').submit();
   });
-
 </script>
