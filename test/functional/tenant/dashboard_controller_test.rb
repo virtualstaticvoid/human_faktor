@@ -103,7 +103,13 @@ module Tenant
 
     test "should get staff calendar filtered by department" do
       sign_in_as :approver
-      get :staff_calendar, :tenant => @account.subdomain, :staff_calendar_enquiry => { :filter_by => 'department',:department_id => @account.departments.first.id }
+      get :staff_calendar, :tenant => @account.subdomain, :staff_calendar_enquiry => { :filter_by => 'department', :department_id => @account.departments.first.id }
+      assert_response :success
+    end
+
+    test "should get staff calendar filtered by employee" do
+      sign_in_as :approver
+      get :staff_calendar, :tenant => @account.subdomain, :staff_calendar_enquiry => { :filter_by => 'employee', :employee_id => employees(:approver).to_param }
       assert_response :success
     end
 
