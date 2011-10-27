@@ -78,14 +78,6 @@
       </tr>
     <% end %>
 
-    <% if leave_request.document_attached? %>
-      <tr>
-        <td>Document:</td>
-        <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
-        <td></td>
-      </tr>
-    <% end %>
-    
     <% if leave_request.comment.present? %>
     <tr>
       <td style="vertical-align: top;">Comment:</td>
