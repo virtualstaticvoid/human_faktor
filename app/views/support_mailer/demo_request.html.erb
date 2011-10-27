@@ -1,0 +1,27 @@
+<p>Yay, a prospective client just requested a demo on <strong><%= AppConfig.title %></strong>!</p>
+
+<p>Demo request details:</p> 
+
+<table>
+  <tr>
+    <td width="90px">First Name</td>
+    <td><%= @demo_request.first_name %></td>
+  </tr>
+  <tr>
+    <td>Last Name</td>
+    <td><%= @demo_request.last_name %></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%= mail_to @demo_request.email %></td>
+  </tr>
+  <tr>
+    <td>Country</td>
+    <td><%= @demo_request.country %></td>
+  </tr>
+</table>
+
+<p>
+<strong>The <%= AppConfig.title %> Team</strong><br />
+<%= link_to root_url, root_url %>
+</p>

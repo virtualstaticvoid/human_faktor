@@ -5,7 +5,6 @@ class DemoRequestsMailer < BaseMailer
     @demo_auth_token = demo_auth_token
     mail(
       :to => demo_request.email, 
-      :bcc => AppConfig.support_email,
       :subject => "#{AppConfig.title} - Demo Request"
     )  
   end
