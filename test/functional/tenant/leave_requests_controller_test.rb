@@ -263,7 +263,7 @@ module Tenant
       put :update_document, :format => :js, 
                             :tenant => @account.subdomain, 
                             :id => @leave_request.to_param, 
-                            :leave_request => @leave_request_attributes.merge({
+                            :leave_request_document => @leave_request_attributes.merge({
                               'document' => File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
                             })
       assert_response :success

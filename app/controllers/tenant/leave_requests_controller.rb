@@ -136,7 +136,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to attached document
-      @leave_request.update_attributes(:document => params[:leave_request][:document])
+      @leave_request.update_attributes(:document => params[:leave_request_document][:document])
     end
     
     #

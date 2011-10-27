@@ -53,31 +53,43 @@
       <td><%= pluralize(leave_request.duration, 'day') %></td>
       <td></td>
     </tr>
-    
-    <% if leave_request.leave_type.requires_documentation %>
-      <% if leave_request.document_attached? %>
-        <tr>
-          <td>Document:</td>
-          <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
-          <td></td>
-        </tr>
-      <% else %>
-        <tr>
-          <td>Document:</td>
-          <td>
-            <em>Documentation not supplied!</em>
-          </td>
-          <td></td>
-        </tr>
-      <% end %>
-    <% elsif leave_request.document_attached? %>
+
+    <% if leave_request.leave_type.requires_documentation || leave_request.document_attached? %>
       <tr>
         <td>Document:</td>
-        <td><%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %></td>
-        <td></td>
+        <td id="document">
+          <% if leave_request.document_attached? %>
+            <%= link_to leave_request.document_file_name, leave_request.document_authenticated_url %>
+          <% else %>
+            <em>Documentation not supplied!</em>
+          <% end %>
+        </td>
+        <td class="field">
+          <% if leave_request.can_update_documentation?(current_employee) %>
+            <%= form_for @leave_request, 
+                         :as => 'leave_request_document',
+                         :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
+                         :remote => true,
+                         :html => { :multipart => true } do |f| %>
+              
+              <%= f.file_field :document %>
+              <div style="display: none;">
+                <%= f.submit 'Update Document' %>
+              </div>  
+            <% end %>
+
+            <script type="text/javascript">
+              $('#leave_request_document_edit input').change(function(){
+                $('#leave_request_document_edit').submit();
+              });
+            </script>
+
+          <% end %>
+
+        </td>
       </tr>
     <% end %>
-
+    
     <% if leave_request.comment.present? %>
     <tr>
       <td style="vertical-align: top;">Comment:</td>
