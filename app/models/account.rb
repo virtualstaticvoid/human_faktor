@@ -149,5 +149,9 @@ class Account < ActiveRecord::Base
     end
   end
 
-end
+  # yield the first employee who is an admin
+  def default_admin
+    @default_admin ||= self.employees.where(:role => 'admin').first
+  end
 
+end
