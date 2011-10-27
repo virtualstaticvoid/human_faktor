@@ -28,11 +28,13 @@ module ApplicationHelper
   end
 
   # NNB: this demo data must exist, and is created in the seeds
-  def demo_auth_token
-    demo_account = Account.find_by_subdomain('demo')
-    demo_user = demo_account.employees.find_by_user_name('demo.user')
-    demo_user.ensure_authentication_token!
-    demo_user.authentication_token
+  def auth_token(account = nil, employee = nil)
+    account = Account.find_by_subdomain('demo') unless account
+    employee = account.employees.find_by_user_name('demo.user') unless employee
+    unless employee.nil?
+      employee.ensure_authentication_token!
+      employee.authentication_token
+    end
   end
 
 end
