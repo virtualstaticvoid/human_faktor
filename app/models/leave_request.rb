@@ -435,7 +435,7 @@ class LeaveRequest < ActiveRecord::Base
   def must_not_overlap_with_another_request
     return unless self.employee
     # check whether the dates intersect
-    query = self.employee.leave_requests.current.where(
+    query = self.employee.leave_requests.active.where(
               ' (:from_date BETWEEN date_from AND date_to) OR (:to_date BETWEEN date_from AND date_to) OR ((:from_date <= date_from) AND (:to_date >= date_to)) ', 
               { :from_date => self.date_from, :to_date => self.date_to }
             )

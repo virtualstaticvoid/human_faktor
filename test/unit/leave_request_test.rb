@@ -37,22 +37,6 @@ class LeaveRequestTest < ActiveSupport::TestCase
     assert leave.status_approved?
   end
 
-  test "should not allow an overlapping leave request to be created (including unconfirmed leave)" do
-    leave_request = leave_requests(:annual)
-    assert leave_request.status_new?
-    
-    assert !LeaveRequest.new(
-      :account_id => leave_request.account_id,
-      :leave_type_id => leave_request.leave_type_id,
-      :employee_id => leave_request.employee_id,
-      :approver_id => leave_request.approver_id,
-      :date_from => leave_request.date_from + 1,
-      :date_to => leave_request.date_to - 1,
-      :comment => 'Test'
-    ).valid?
-
-  end
-  
   test "should not allow an overlapping leave request to be created" do
     leave_request = leave_requests(:annual)
     assert leave_request.confirm!
