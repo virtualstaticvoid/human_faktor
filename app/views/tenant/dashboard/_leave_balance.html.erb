@@ -40,14 +40,14 @@
 
   <div class="field">
     <div class="total_row"><strong><%= label_tag :leave_available, 'Balance', :title => 'Available leave balance to date' %></strong></div>
-    <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :disabled => true} %></span>
+    <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :disabled => true, :style => 'font-weight: bold;' } %></span>
     <span class="field_info">days</span>
   </div>
   
   <% if leave_balance.outstanding > 0 %>
     <div class="field">
       <div><%= label_tag :outstanding, 'Outstanding Future Requests', :title => 'Pending and approved leave, not yet taken' %></div>
-      <span><%= text_field_tag :outstanding, number_with_precision(leave_balance.outstanding, :precision => 1), { :disabled => true} %></span>
+      <span><%= text_field_tag :outstanding, number_with_precision(leave_balance.outstanding * -1, :precision => 1), { :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
   <% end %>
