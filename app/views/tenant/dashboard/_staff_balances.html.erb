@@ -18,7 +18,7 @@
       <td><%= number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1) %></td>
       <td><strong><%= number_with_precision(leave_balance.available, :precision => 1) %></strong></td>
       <td><%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %></td>
-      <td><%= number_with_precision(leave_balance.outstanding, :precision => 1) %></td>
+      <td><%= number_with_precision(leave_balance.outstanding * -1, :precision => 1) %></td>
       <td class="centered">
         <%= link_to image_tag('../images/calculator.png'), 
                     balance_path(
