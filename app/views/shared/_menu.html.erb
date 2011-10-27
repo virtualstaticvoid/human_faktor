@@ -9,7 +9,8 @@
 <div class="menu_bar menu_bar_right">
   <ul>
     <li><%= link_to 'Free Trial', new_account_registration_path %></li>
-    <% if Rails.env.development?  %>
+    
+    <% if Rails.env.development? || AppConfig.subdomain == 'test' %>
       <li style="padding-top: 4px;">
         <select id="select_account" style="width: 260px;">
           <option>Select Account</option>
@@ -30,6 +31,7 @@
       </script>
 
     <% end %>
+
   </ul>
 </div>
 
