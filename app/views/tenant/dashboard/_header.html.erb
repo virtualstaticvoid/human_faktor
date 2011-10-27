@@ -1,6 +1,6 @@
 <div class="row">
   <div class="column grid_2">
-    <%= link_to image_tag(current_account.logo.url(:logo)), dashboard_path %>    
+    <%= link_to image_tag(current_account.logo.url(:logo), :width => '140px', :height => '60px'), dashboard_path %>    
   </div>
   <div class="column grid_6">
     <h2 class="title_bar_title"><%= h(current_account.title) %></h2>
