@@ -175,6 +175,10 @@ module LeaveConstraints
       request.date_from > (request.created_at.to_date + request.leave_type.max_days_for_future_dated) 
     end
 
+    def self.can_override?(leave_request)
+      false
+    end
+
   end
 
   # Exceeds maximum date in the past for a leave request
@@ -184,6 +188,10 @@ module LeaveConstraints
       # NOTE: implement based on the cycle start date and duration?
       #  and what about rolling window periods for leave type?
       request.date_from < (request.created_at.to_date - request.leave_type.max_days_for_back_dated)
+    end
+
+    def self.can_override?(leave_request)
+      false
     end
 
   end
