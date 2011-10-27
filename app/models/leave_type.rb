@@ -114,7 +114,7 @@ class LeaveType < ActiveRecord::Base
     # try using the employees start date
     employee.start_date.present? ?
       employee.start_date :
-      employee.created_at.date      # use the date the record was created...
+      employee.created_at.to_date      # use the date the record was created...
 
   end
 
