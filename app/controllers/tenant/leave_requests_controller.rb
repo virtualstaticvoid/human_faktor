@@ -40,7 +40,7 @@ module Tenant
         if @leave_request.confirm!(current_employee, leave_request_params[:approver_comment], constraint_overrides)
           format.html { redirect_to dashboard_url, :notice => "Leave request successfully #{@leave_request.captured? ? 'captured' : 'created'}." }
         else
-          format.html { render :action => "edit" }
+          format.html { render :action => :show }
         end
       end
     end
@@ -62,7 +62,7 @@ module Tenant
         if @leave_request.approve!(current_employee, leave_request_params[:approver_comment], constraint_overrides)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully approved.' }
         else
-          format.html { render :action => "edit" }
+          format.html { render :action => :show }
         end
       end
     end
@@ -80,7 +80,7 @@ module Tenant
         if @leave_request.decline!(current_employee, leave_request_params[:approver_comment])
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully declined.' }
         else
-          format.html { render :action => "edit" }
+          format.html { render :action => :show }
         end
       end
     end
@@ -97,7 +97,7 @@ module Tenant
         if @leave_request.cancel!(current_employee)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully cancelled.' }
         else
-          format.html { render :action => "edit" }
+          format.html { render :action => :show }
         end
       end
     end
@@ -114,7 +114,7 @@ module Tenant
         if @leave_request.reinstate!(current_employee)
           format.html { redirect_to dashboard_url, :notice => 'Leave request successfully reinstated.' }
         else
-          format.html { render :action => "edit" }
+          format.html { render :action => :show }
         end
       end
     end
