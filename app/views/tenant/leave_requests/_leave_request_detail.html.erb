@@ -4,7 +4,7 @@
 
     <tr>
       <td width="140px">For:</td>
-      <td width="220px"><%= leave_request.employee %></td>
+      <td width="280px"><%= leave_request.employee %></td>
       <td></td>
     </tr>
     
@@ -94,23 +94,22 @@
       <td><%= leave_request.approver %></td>
     </tr>
 
-
     <% unless current_employee.is_employee? %>
-      
-    <tr>
-      <td colspan="2"><br /></td>
-    </tr>
+        
+      <tr>
+        <td colspan="2"><br /></td>
+      </tr>
 
-    <tr>
-      <td colspan="2">
-        View the <%= link_to "staff calendar", staff_calendar_path(:staff_calendar_enquiry => { 
-            :filter_by => 'department', 
-            :department_id => @leave_request.employee.department_id,
-            :date_from => @leave_request.date_from << 1,
-            :date_to => @leave_request.date_to >> 2
-          }), :target => '_blank' %> for the <%= @leave_request.employee.department.title.downcase %> department.
-      </td>
-    </tr>
+      <tr>
+        <td colspan="2">
+          View the <%= link_to "staff calendar", staff_calendar_path(:staff_calendar_enquiry => { 
+              :filter_by => 'department', 
+              :department_id => @leave_request.employee.department_id,
+              :date_from => @leave_request.date_from << 1,
+              :date_to => @leave_request.date_to >> 2
+            }), :target => '_blank' %> for the <%= @leave_request.employee.department.title.downcase %> department.
+        </td>
+      </tr>
 
     <% end %>
 
@@ -119,7 +118,7 @@
 </div>
 
 <% unless leave_request.status_new? %>
-  <div class="leave_request box_radius">
+  <div class="leave_request">
     <h3>Leave Status</h3>
     <table>
 
@@ -139,7 +138,7 @@
      leave_balance = leave_request.leave_balance
 %>
 
-  <div class="leave_request box_radius">
+  <div class="leave_request">
     <h3>Leave Balance Details</h3>
     <table>
 

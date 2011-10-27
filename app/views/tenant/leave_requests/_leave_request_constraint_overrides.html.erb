@@ -7,16 +7,13 @@
       <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
           constraint_type = LeaveConstraints::Base.constraint_type(constraint_name)
           constraint_value = leave_request.send(constraint_name.as_constraint)
-          can_override = constraint_type.can_override?(leave_request) || !constraint_value
+          can_override = constraint_type.can_override?(leave_request)
+
+          next unless can_override || constraint_value
        %>
         <div class="field <%= constraint_value ? '' : 'extra_leave_constraint' %>" style="display: <%= constraint_value ? '' : 'none' %>;">
           <span><%= f.check_box constraint_name.as_constraint_override, :disabled => !can_override %></span>
-          <span>
-            <%= f.label t(constraint_name, :scope => 'leave_request_constraints') %>
-            <% if !can_override %>
-              <em>*Leave policy prevents override.</em>
-            <% end %>
-          </span>
+          <span><%= f.label t(constraint_name, :scope => 'leave_request_constraints') %></span>
         </div>
 
       <% end %>
