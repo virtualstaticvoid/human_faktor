@@ -369,16 +369,16 @@ class LeaveRequest < ActiveRecord::Base
   def can_update_documentation?(employee)
     raise InvalidOperationException if employee.nil?
 
-    employee.is_admin? ||
-      self.employee == employee    
+    (self.status_pending? || self.status_approved? || self.status_reinstated?) &&
+      (employee.is_admin? || self.employee == employee)
   end
 
   def can_update_constraints?(employee)
     raise InvalidOperationException if employee.nil?
 
-    employee.is_admin? ||
-      self.approver == employee ||
-      employee.is_manager_of?(self.employee)
+    (self.status_pending? || self.status_approved? || self.status_reinstated?) &&
+      (employee.is_admin? || self.approver == employee || employee.is_manager_of?(self.employee))
+
   end
 
   def calculate_duration

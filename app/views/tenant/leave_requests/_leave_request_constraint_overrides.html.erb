@@ -1,7 +1,15 @@
-<% if leave_request.has_constraint_violations? %>
+<% if leave_request.has_constraint_violations? || @leave_request.can_update_constraints?(current_employee) %>
   <div class="leave_request">
     <h3>Warnings</h3>
-    <p>The following warnings have been issued for the request, you may override them as necessary:</p>
+    <% if leave_request.has_constraint_violations? %>
+      <p>The following warnings have been issued for the request, you may override them as needed:</p>
+    <% else %>
+      <p>No warnings have been issued for the request, you may however override them as needed:</p>  
+    <% end %>
+
+    <div style="text-align: right;">
+      <a id="show_leave_constraints" href="javascript: show_leave_constraints();">Show All</a>
+    </div>
 
     <div style="margin: 0 0 20px 20px;">
       <% LeaveConstraints::Base.constraint_names.each do |constraint_name| 
@@ -16,10 +24,6 @@
           <span><%= f.label t(constraint_name, :scope => 'leave_request_constraints') %></span>
         </div>
       <% end %>
-    </div>
-    
-    <div style="text-align: right;">
-      <a id="show_leave_constraints" href="javascript: show_leave_constraints();">Show all available?</a>
     </div>
     
   </div>

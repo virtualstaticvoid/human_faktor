@@ -2,7 +2,7 @@
 
 <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
 
-<% if @leave_request.can_update_constraints?(current_employee)  %>
+<% if @leave_request.can_update_constraints?(current_employee) %>
   <%= render :partial => 'edit_leave_request_constraints', :locals => { :leave_request => @leave_request } %>
 <% else %>
   <%= render :partial => 'leave_request_constraints', :locals => { :leave_request => @leave_request } %>

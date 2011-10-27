@@ -1,6 +1,7 @@
 <% if leave_request.has_constraint_violations? %>
   <div class="leave_request">
     <h3>Warnings</h3>
+    <p>The following warnings have been issued for the request:</p>
 
     <ul>
       <% LeaveConstraints::Base.constraint_names.each do |constraint_name| %>
