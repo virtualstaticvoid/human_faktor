@@ -150,7 +150,7 @@ class LeaveRequest < ActiveRecord::Base
         self.document.path, 
         self.document.bucket_name, 
         :expires_in => expires_in, 
-        :use_ssl => self.document.s3_protocol == 'https'
+        :use_ssl => self.document.s3_protocol(:s3_path_url) == 'https'
       ) :
       self.document.path
   end
