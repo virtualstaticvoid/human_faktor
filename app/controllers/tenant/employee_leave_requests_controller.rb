@@ -49,6 +49,7 @@ module Tenant
       end
       
       # requires documentation only?
+      #if (@filter.status == LeaveRequest::STATUS_PENDING || @filter.status == LeaveRequest::FILTER_STATUS_APPROVED) && @filter.requires_documentation_only == true
       if @filter.requires_documentation_only == true
         @leave_requests = @leave_requests
             .where(:requires_documentation.as_constraint_override => true)
