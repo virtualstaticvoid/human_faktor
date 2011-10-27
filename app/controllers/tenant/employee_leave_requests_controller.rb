@@ -9,6 +9,7 @@ module Tenant
         c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
         c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from])
         c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to])
+        c.leave_type_id = filter_params[:leave_type_id].to_i || 0
         c.requires_documentation_only = filter_params[:requires_documentation_only] == '1'
 
         c.valid?
@@ -41,6 +42,11 @@ module Tenant
               { :to_date => @filter.date_to } 
             )
       end
+
+      # leave type
+      if @filter.leave_type_id != 0
+        @leave_requests = @leave_requests.where(:leave_type_id => @filter.leave_type_id)
+      end
       
       # requires documentation only?
       if @filter.requires_documentation_only == true
@@ -49,6 +55,11 @@ module Tenant
       end
       
       @leave_requests = @leave_requests.order('created_at DESC').page(params[:page])
+
+      # get leave types, filtered by the gender of the employee
+      @leave_types = current_account.leave_types.select {|leave_type| 
+        !(leave_type.gender_filter & current_employee.gender_filter).empty?
+      }
 
     end
 

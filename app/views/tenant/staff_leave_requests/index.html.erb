@@ -22,6 +22,14 @@
         <td></td>
       </tr>
       <tr class="extra">
+        <td>Leave type:</td>
+        <td class="field" colspan="2">
+          <%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, { :include_blank => '<All Types>' }, { :class => 'dropdown', :style => 'width: 160px;' } %>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr class="extra">
         <td></td>
         <td colspan="3" class="field" style="padding-left: 3px;">
           <%= f.check_box :requires_documentation_only %>

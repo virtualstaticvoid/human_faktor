@@ -6,6 +6,8 @@ class LeaveRequestFilter < DateFilter
   attr_reader :employee
   validates_presence_of :employee
 
+  attr_accessor :leave_type_id    # 0 means all
+
   attr_accessor :filter_by
   validates :filter_by, :inclusion => { :in => %w{none location department employee} }
   
@@ -21,6 +23,7 @@ class LeaveRequestFilter < DateFilter
     {
       :date_from => self.date_from,
       :date_to => self.date_to,
+      :leave_type_id => self.leave_type_id,
       :filter_by => self.filter_by,
       :location_id => self.location_id,
       :department_id => self.department_id,

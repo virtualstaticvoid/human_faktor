@@ -9,6 +9,7 @@ module Tenant
         c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
         c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from])
         c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to])
+        c.leave_type_id = filter_params[:leave_type_id].to_i || 0
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
@@ -69,6 +70,11 @@ module Tenant
             )
       end
       
+      # leave type
+      if @filter.leave_type_id != 0
+        @leave_requests = @leave_requests.where(:leave_type_id => @filter.leave_type_id)
+      end
+
       # requires documentation only?
       if @filter.requires_documentation_only == true
         @leave_requests = @leave_requests
@@ -76,6 +82,7 @@ module Tenant
       end
       
       @leave_requests = @leave_requests.order('created_at DESC').page(params[:page])
+      @leave_types = current_account.leave_types
       
     end
 

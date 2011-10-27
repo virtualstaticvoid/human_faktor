@@ -26,6 +26,13 @@
         <td class="field"><%= f.date_picker :date_to %></td>
       </tr>
       <tr>
+        <td>Leave type:</td>
+        <td></td>
+        <td class="field">
+          <%= f.select :leave_type_id, @leave_types.collect {|e| [e.to_s, e.id]}, { :include_blank => '<All Types>' }, { :class => 'dropdown', :style => 'width: 160px;' } %>
+        </td>
+      </tr>
+      <tr>
         <td></td>
         <td></td>
         <td class="field">
