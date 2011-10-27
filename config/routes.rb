@@ -77,7 +77,7 @@ HumanFaktor::Application.routes.draw do
     post "staff_leave/new", :to => "tenant/staff_leave_requests#create", :as => :create_staff_leave_request
 
     # both employee and staff leave requests
-    resources :leave_requests, :path => '/leave', :module => 'tenant', :except => [:index, :new, :create, :edit, :destroy] do
+    resources :leave_requests, :path => '/leave', :module => 'tenant', :except => [:index, :new, :create, :edit, :update, :destroy] do
       member do
         get 'amend'
         put 'confirm'
@@ -85,6 +85,8 @@ HumanFaktor::Application.routes.draw do
         put 'decline'
         put 'cancel'
         put 'reinstate'
+        put 'update_constraints'
+        put 'update_document'
       end
     end
 

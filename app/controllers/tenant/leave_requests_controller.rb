@@ -119,19 +119,24 @@ module Tenant
       end
     end
     
-    # PUT
-    def update
+    # PUT (JS)
+    def update_constraints
+      @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+      
+      # only allow update to constraint overrides
+      override_params = params[:leave_request].select {|key, value|
+         key =~ /^override/
+      }
+
+      @leave_request.update_attributes(override_params)
+    end
+
+    # PUT (JS)
+    def update_document
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to attached document
-      
-      respond_to do |format|
-        if @leave_request.update_attributes(:document => params[:leave_request][:document])
-          format.html { redirect_to dashboard_url, :notice => 'Leave request successfully updated.' }
-        else
-          format.html { render :action => "edit" }
-        end
-      end
+      @leave_request.update_attributes(:document => params[:leave_request][:document])
     end
     
     #

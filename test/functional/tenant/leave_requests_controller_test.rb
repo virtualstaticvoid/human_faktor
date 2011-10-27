@@ -244,17 +244,29 @@ module Tenant
       assert_redirected_to dashboard_url(:tenant => @account.subdomain)
     end
 
-    # NB: internet connection to S3 required 
-    test "should update attached document" do
+    test "should update constraint overrides" do
+      sign_in_as :approver
+      assert @leave_request.confirm
+      assert @leave_request.approve!(@leave_request.approver)
+      assert @leave_request.status == LeaveRequest::STATUS_APPROVED
+      put :update_constraints, :format => :js, 
+                               :tenant => @account.subdomain, 
+                               :id => @leave_request.to_param, 
+                               :leave_request => @leave_request_attributes
+      assert_response :success
+    end
+
+    test "should update document" do
       sign_in_as :employee
       assert @leave_request.confirm!
       assert @leave_request.status == LeaveRequest::STATUS_PENDING
-      put :update, :tenant => @account.subdomain, 
-                   :id => @leave_request.to_param, 
-                   :leave_request => @leave_request_attributes.merge({
-                      'document' => File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
-                   })
-      assert_redirected_to dashboard_path(:tenant => @account.subdomain)
+      put :update_document, :format => :js, 
+                            :tenant => @account.subdomain, 
+                            :id => @leave_request.to_param, 
+                            :leave_request => @leave_request_attributes.merge({
+                              'document' => File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
+                            })
+      assert_response :success
     end
 
   end
