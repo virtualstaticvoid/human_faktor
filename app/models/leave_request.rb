@@ -369,7 +369,7 @@ class LeaveRequest < ActiveRecord::Base
   def can_update_documentation?(employee)
     raise InvalidOperationException if employee.nil?
 
-    (self.status_pending? || self.status_approved? || self.status_reinstated?) &&
+    (self.status_approved? || self.status_reinstated?) &&
       (employee.is_admin? || self.employee == employee)
   end
 
