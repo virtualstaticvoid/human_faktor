@@ -260,13 +260,12 @@ module Tenant
       sign_in_as :employee
       assert @leave_request.confirm!
       assert @leave_request.status == LeaveRequest::STATUS_PENDING
-      put :update_document, :format => :js, 
-                            :tenant => @account.subdomain, 
+      put :update_document, :tenant => @account.subdomain, 
                             :id => @leave_request.to_param, 
                             :leave_request_document => @leave_request_attributes.merge({
                               'document' => File.new(File.join(FIXTURES_DIR, 'document.txt'), 'r')
                             })
-      assert_response :success
+      assert_redirected_to leave_request_url(@leave_request, :tenant => @account.subdomain)
     end
 
   end

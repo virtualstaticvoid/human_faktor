@@ -69,7 +69,6 @@
             <%= form_for @leave_request, 
                          :as => 'leave_request_document',
                          :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-                         :remote => true,
                          :html => { :multipart => true } do |f| %>
               
               <%= f.file_field :document %>

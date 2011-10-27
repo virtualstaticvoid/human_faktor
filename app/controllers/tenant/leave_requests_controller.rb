@@ -129,6 +129,10 @@ module Tenant
       }
 
       @leave_request.update_attributes(override_params)
+
+      respond_to do |format|
+        format.js
+      end
     end
 
     # PUT (JS)
@@ -136,7 +140,13 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to attached document
-      @leave_request.update_attributes(:document => params[:leave_request_document][:document])
+      respond_to do |format|
+        if @leave_request.update_attributes(:document => params[:leave_request_document][:document])
+          format.html { redirect_to leave_request_url(@leave_request, :tenant => current_account.subdomain), :notice => 'Successfully added document to the leave request' }
+        else
+          format.html { render :action => :show }
+        end
+      end
     end
     
     #
