@@ -6,7 +6,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
 
       respond_to do |format|
-        format.html # edit.html.erb
+        format.html
       end
     end
 
