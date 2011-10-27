@@ -10,7 +10,25 @@
   <ul>
     <li><%= link_to 'Free Trial', new_account_registration_path %></li>
     <% if Rails.env.development?  %>
-      <li><%= link_to 'Dev Login', dashboard_url(:tenant => 'demo', :auth_token => demo_auth_token) %></li>
+      <li style="padding-top: 4px;">
+        <select id="select_account" style="width: 260px;">
+          <option>Select Account</option>
+          <%= options_for_select(
+            Account.select {|account| !account.default_admin.nil? }.collect {|account| 
+              [
+                "#{account.subdomain} (#{account.default_admin.user_name})", 
+                dashboard_path(:tenant => account.subdomain, :auth_token => auth_token(account, account.default_admin))
+              ] 
+          }) %>
+        </select>
+      </li>
+
+      <script type="text/javascript">
+        $('#select_account').change(function(){
+          window.location = $('#select_account').val();
+        });
+      </script>
+
     <% end %>
   </ul>
 </div>
