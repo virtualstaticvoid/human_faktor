@@ -279,7 +279,6 @@ class LeaveType < ActiveRecord::Base
     def cycle_start_date_for(employee, index)
       return nil unless employee
       return nil if index < 0
-      return employee_start_date(employee) if index == 0
 
       start_date, employee_start_date = self.cycle_start_date, employee_start_date(employee)
 
