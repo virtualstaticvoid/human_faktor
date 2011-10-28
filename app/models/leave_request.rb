@@ -144,7 +144,7 @@ class LeaveRequest < ActiveRecord::Base
     self.document.file?
   end                    
 
-  def document_authenticated_url(expires_in = 90.minutes)
+  def document_authenticated_url(expires_in = 90.minutes, options = {})
     Rails.env.production? ?
       AWS::S3::S3Object.url_for(
         self.document.path, 
@@ -152,7 +152,7 @@ class LeaveRequest < ActiveRecord::Base
         :expires_in => expires_in, 
         :use_ssl => self.document.s3_protocol(:s3_path_url) == 'https'
       ) :
-      self.document.path
+      options[:server_side] ? self.document.path : self.document.url
   end
 
   validates :captured_by, :existence => true, :allow_nil => true
