@@ -5,7 +5,7 @@ class LeaveRequestObserver < ActiveRecord::Observer
   end
 
   def after_update(leave_request)
-    WorkQueue.enqueue(Tenant::LeaveRequestMailer, leave_request.id)
+    WorkQueue.enqueue(Tenant::LeaveRequestMailer, leave_request.id) if leave_request.changed.include?('status')
   end
 
 end
