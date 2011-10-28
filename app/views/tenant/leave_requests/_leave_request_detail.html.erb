@@ -48,73 +48,24 @@
       <td></td>
     </tr>
 
-    <tr>
+    <tr id="insert_document_after">
       <td><abbr title="Excludes weekends and public holidays">Duration</abbr>:</td>
       <td><%= pluralize(leave_request.duration, 'day') %></td>
       <td></td>
     </tr>
 
-    <% if leave_request.leave_type.requires_documentation || leave_request.document_attached? %>
+    <%= render :partial => 'tenant/leave_requests/leave_request_document_upload', 
+            :locals => { :leave_request => leave_request } %>
+
+    <% if leave_request.comment.present? %>
       <tr>
-        <td>Document:</td>
-        <td id="leave_request_document">
-          <% if leave_request.document_attached? %>
-            <%= link_to leave_request.document_file_name, leave_request.document_authenticated_url, :target => '_blank' %>
-          <% else %>
-            <em>Documentation not supplied!</em>
-          <% end %>
-        </td>
-        <td>
-          <% if leave_request.can_update_documentation?(current_employee) %>
-            <%= link_to_function image_tag('../images/edit.png', :title => 'Add/Update document'), 
-                  "$('#add_update_document').css('display', '');" %>
-          <% end %>
-          <% if leave_request.document_attached? %>
-            <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
-                        remove_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-                        :method => :delete, :remote => true, 
-                        :confirm => 'Are you sure?',
-                        :id => 'remove_document_link' %>
-          <% end %>
+        <td style="vertical-align: top;">Comment:</td>
+        <td colspan="2">
+          <div style="overflow: auto;">
+            <%= leave_request.comment %>
+          </div>
         </td>
       </tr>
-
-      <% if leave_request.can_update_documentation?(current_employee) %>
-        <tr id="add_update_document" style="display: none;">
-          <td></td>
-          <td colspan="2" class="field">
-            <%= form_for @leave_request, 
-                         :as => 'leave_request_document',
-                         :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-                         :html => { :multipart => true } do |f| %>
-              
-              <%= f.file_field :document %>
-              <div style="display: none;">
-                <%= f.submit 'Update Document' %>
-              </div>  
-            <% end %>
-          </td>
-        </tr>
-
-        <script type="text/javascript">
-          $('#leave_request_document_edit input').change(function(){
-            $('#leave_request_document_edit').submit();
-          });
-        </script>
-
-      <% end %>
-    
-    <% end %>
-    
-    <% if leave_request.comment.present? %>
-    <tr>
-      <td style="vertical-align: top;">Comment:</td>
-      <td colspan="2">
-        <div style="overflow: auto;">
-          <%= leave_request.comment %>
-        </div>
-      </td>
-    </tr>
     <% end %>
 
     <tr>

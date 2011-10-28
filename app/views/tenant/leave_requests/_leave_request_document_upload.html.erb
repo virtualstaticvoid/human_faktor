@@ -1,0 +1,48 @@
+<% if leave_request.leave_type.requires_documentation || 
+        leave_request.override_requires_documentation || 
+          leave_request.document_attached? %>
+  <tr>
+    <td>Document:</td>
+    <td id="leave_request_document">
+      <% if leave_request.document_attached? %>
+        <%= link_to leave_request.document_file_name, 
+              leave_request.document_authenticated_url, :target => '_blank' %>
+      <% else %>
+        <em>Documentation not supplied!</em>
+      <% end %>
+    </td>
+    <td>
+      <% if leave_request.can_update_documentation?(current_employee) %>
+        <%= link_to_function image_tag('../images/edit.png', :title => 'Add/Update document'), 
+              "$('#add_update_document').css('display', '');" %>
+      <% end %>
+      <% if leave_request.document_attached? %>
+        <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
+                    remove_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
+                    :method => :delete, :remote => true, 
+                    :confirm => 'Are you sure?',
+                    :id => 'remove_document_link' %>
+      <% end %>
+    </td>
+  </tr>
+
+  <% if leave_request.can_update_documentation?(current_employee) %>
+
+    <%= form_for @leave_request, 
+                 :as => 'leave_request_document',
+                 :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
+                 :html => { :multipart => true } do |f| %>
+
+      <tr id="add_update_document" style="display: none;">
+        <td></td>
+        <td class="field">
+          <%= f.file_field :document %>
+        </td>
+        <td>
+          <%= f.submit 'Upload', :disable_with => 'Uploading...' %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+
+<% end %>
