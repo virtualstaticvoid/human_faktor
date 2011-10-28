@@ -268,6 +268,16 @@ module Tenant
       assert_redirected_to leave_request_url(@leave_request, :tenant => @account.subdomain)
     end
 
+    test "should remove document" do
+      sign_in_as :employee
+      assert @leave_request.confirm!
+      assert @leave_request.status == LeaveRequest::STATUS_PENDING
+      put :remove_document, :format => :js, 
+                            :tenant => @account.subdomain, 
+                            :id => @leave_request.to_param
+      assert_response :success
+    end
+
   end
 end
 

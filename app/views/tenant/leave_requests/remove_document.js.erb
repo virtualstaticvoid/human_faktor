@@ -1,0 +1,3 @@
+$('#flash').html('<%= escape_javascript(render(:partial => "shared/flash", :locals => { :flash => {:notice => 'Document was successfully deleted.'} })) %>');
+$('#leave_request_document').html('<em>Documentation not supplied!</em>');
+$('#remove_document_link').remove();

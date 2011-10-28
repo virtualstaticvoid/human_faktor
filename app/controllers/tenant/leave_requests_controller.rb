@@ -148,6 +148,19 @@ module Tenant
         end
       end
     end
+
+    # PUT (JS)
+    def remove_document
+      @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
+      
+      @leave_request.document.destroy
+      @leave_request.document.clear
+      @leave_request.save
+
+      respond_to do |format|
+        format.js
+      end
+    end
     
     #
     # NOTE: employee parameter uses the employee id and not the identifier!

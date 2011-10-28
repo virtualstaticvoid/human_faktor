@@ -87,6 +87,7 @@ HumanFaktor::Application.routes.draw do
         put 'reinstate'
         put 'update_constraints'
         put 'update_document'
+        delete 'remove_document'
       end
     end
 
