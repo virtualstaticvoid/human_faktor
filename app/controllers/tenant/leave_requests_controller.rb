@@ -124,7 +124,7 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to constraint overrides
-      override_params = params[:leave_request_constraints].select {|key, value|
+      override_params = (params[:leave_request_constraints] || {}).select {|key, value|
          key =~ /^override/
       }
 
@@ -140,9 +140,15 @@ module Tenant
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       
       # only allow update to attached document
+      attributes = (params[:leave_request_document] || {}).select {|key, value|
+         key =~ /^document/
+      }
+
+      @leave_request.errors.add(:document, 'required') if attributes.empty?
+
       respond_to do |format|
-        if @leave_request.update_attributes(:document => params[:leave_request_document][:document])
-          format.html { redirect_to leave_request_url(@leave_request, :tenant => current_account.subdomain), :notice => 'Successfully added document to the leave request' }
+        if !attributes.empty? && @leave_request.update_attributes(attributes)
+          format.html { redirect_to leave_request_url(@leave_request, :tenant => current_account.subdomain), :notice => 'Successfully uploaded document for leave request' }
         else
           format.html { render :action => :show }
         end

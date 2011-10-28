@@ -33,7 +33,7 @@
                  :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
                  :html => { :multipart => true } do |f| %>
 
-      <tr id="add_update_document" style="display: none;">
+      <tr id="add_update_document" style="<%= @leave_request.errors[:document].any? ? '' : 'display: none;' %>">
         <td></td>
         <td class="field">
           <%= f.file_field :document %>

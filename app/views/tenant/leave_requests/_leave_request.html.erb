@@ -1,8 +1,14 @@
-<tr onclick="window.location = '<%= leave_request_path(leave_request, :tenant => current_account.subdomain) %>';" title="<%= h(leave_request.comment) %>">
+<tr data-url="<%= leave_request_path(leave_request, :tenant => current_account.subdomain) %>" 
+    title="<%= h(leave_request.comment) %>">
   <td class="status_<%= leave_request.status_text.downcase %><%= leave_request.has_constraint_violations? ? ' status_violation' : '' %>"></td>
-  <td class="<%= leave_request.document_attached? ? 
-                    'leave_request_paperclip' : 
-                    '' %>">
+  <td class="<%= ((leave_request.leave_type.requires_documentation || leave_request.override_requires_documentation) && 
+                      !leave_request.document_attached?) ? 
+                        'leave_request_no_paperclip' : 
+                        '' %>">
+    <% if leave_request.document_attached? %>
+      <%= link_to image_tag('../images/paperclip.png', :title => 'Click to download attached document'), 
+                  leave_request.document_authenticated_url, :target => '_blank' %>
+    <% end %>
   </td>
   <td><%=	leave_request.leave_type %></td>
   <td><%=	leave_request.employee.full_name %></td>
