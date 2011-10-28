@@ -45,6 +45,10 @@
   background: url('../images/paperclip.png') no-repeat center center;
 }
 
+.leave_request_no_paperclip {
+  background: url('../images/no_paperclip.png') no-repeat center center;
+}
+
 #leave_requests tbody tr td p, .leave_request_comment {
   padding: 6px 0 0 20px;
   min-height: 27px;
