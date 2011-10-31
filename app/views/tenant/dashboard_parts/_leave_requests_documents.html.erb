@@ -14,6 +14,6 @@
     <% end %>
   </div>
   <div class="dashboard_panel_footer">
-    <%= link_to 'More', employee_leave_requests_path(:status => LeaveRequest::FILTER_STATUS_APPROVED, :requires_documentation_only => '1') %>
+    <%= link_to 'More', employee_leave_requests_path(:leave_request_filter => { :status => LeaveRequest::FILTER_STATUS_APPROVED, :requires_documentation_only => '1' }) %>
   </div>
 </div>
