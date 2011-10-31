@@ -20,3 +20,32 @@
 
 <% end %>
 
+<div id="upload_document_dialog">
+
+  <%= form_for @leave_request, 
+               :as => 'leave_request_document',
+               :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
+               :html => { :multipart => true } do |f| %>
+
+    <div class="field">
+      <%= f.label :document %> <br />
+      <%= f.file_field :document %>
+    </div>
+
+    <div class="actions" style="text-align: right;">
+      <%= f.submit 'Upload', :disable_with => 'Uploading...' %>
+    </div>
+
+  <% end %>
+
+  <script type="text/javascript">
+    $('#upload_document_dialog').dialog({
+      title: 'Upload Document',
+      autoOpen: false,
+      width: 375,
+      height: 164,
+      model: true
+    });
+  </script>
+
+</div>

@@ -14,7 +14,7 @@
     <td>
       <% if leave_request.can_update_documentation?(current_employee) %>
         <%= link_to_function image_tag('../images/edit.png', :title => 'Add/Update document'), 
-              "$('#add_update_document').css('display', '');" %>
+              "$('#upload_document_dialog').dialog('open');" %>
       <% end %>
       <% if leave_request.document_attached? %>
         <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
@@ -25,24 +25,4 @@
       <% end %>
     </td>
   </tr>
-
-  <% if leave_request.can_update_documentation?(current_employee) %>
-
-    <%= form_for @leave_request, 
-                 :as => 'leave_request_document',
-                 :url => update_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-                 :html => { :multipart => true } do |f| %>
-
-      <tr id="add_update_document" style="<%= @leave_request.errors[:document].any? ? '' : 'display: none;' %>">
-        <td></td>
-        <td class="field">
-          <%= f.file_field :document %>
-        </td>
-        <td>
-          <%= f.submit 'Upload', :disable_with => 'Uploading...' %>
-        </td>
-      </tr>
-    <% end %>
-  <% end %>
-
 <% end %>
