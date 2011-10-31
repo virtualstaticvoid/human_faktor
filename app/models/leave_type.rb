@@ -184,8 +184,8 @@ class LeaveType < ActiveRecord::Base
     return nil unless employee && date_as_at
   
     # if the date_as_at is prior to the start date, then return zero!
-    return 0 if date_as_at <= employee_start_date(employee)
-    return 0 if employee.take_on_balance_as_at.present? && date_as_at <= employee.take_on_balance_as_at
+    return 0 if date_as_at < employee_start_date(employee)
+    return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
     
     # for non-accruing leave types, this is simply the configured
     # allowance irrespective of the leave cycle of the given `date_as_at`
@@ -314,8 +314,8 @@ class LeaveType < ActiveRecord::Base
       # if the date_as_at is prior to the start date, then return zero!
       employee_start_date = employee_start_date(employee)  
   
-      return 0 if date_as_at <= employee_start_date
-      return 0 if employee.take_on_balance_as_at.present? && date_as_at <= employee.take_on_balance_as_at
+      return 0 if date_as_at < employee_start_date
+      return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
 
       # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
       # also, the employees fixed_daily_hours ratio needs to be applied
