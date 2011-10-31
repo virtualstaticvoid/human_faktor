@@ -76,6 +76,28 @@ module Tenant
     end
     
     # GET & POST
+    def staff_leave_summary
+      redirect_to dashboard_url if current_employee.is_employee?
+
+      @leave_types = current_account.leave_types
+
+      filter_params = params[:staff_leave_summary_enquiry] || {}
+      @staff_summary = StaffSummaryEnquiry.new(current_account, current_employee).tap do |c|
+        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 3)
+        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 6)
+        c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
+        c.location_id = filter_params[:location_id] || current_employee.location_id
+        c.department_id = filter_params[:department_id] || current_employee.department_id
+        c.employee_id = filter_params[:employee_id] || current_employee.id
+        
+        c.valid?
+      end
+
+      @employees = Kaminari.paginate_array(@staff_summary.employees).page(params[:page])
+
+    end
+
+    # GET & POST
     def heatmap
       redirect_to dashboard_url unless current_employee.is_admin? || current_employee.is_manager?
       

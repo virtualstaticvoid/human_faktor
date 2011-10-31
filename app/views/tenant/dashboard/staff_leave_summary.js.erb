@@ -1,0 +1,12 @@
+$('#paginator').html('<%= escape_javascript(paginate(@employees, :remote => true).to_s) %>');
+<% if @employees.count == 0 %>
+  $('#data-rows').html('<tr class="no_hover"><td colspan="<%= 1 + @leave_types.count() %>"><p>No staff found for the given criteria.</p></td></tr>');
+<% else %>
+  $('#data-rows').html('<%= escape_javascript(render(:partial => 'tenant/dashboard/staff_leave_summaries')) %>');
+<% end %>
+$('#ajax_working').css('display', 'none');
+$('#paginator').css('display', '');
+$('#download_csv').attr('href', '<%= staff_leave_summary_path(
+          :format => :csv, 
+          :staff_leave_summary_enquiry => @staff_summary.attributes
+        ) %>');

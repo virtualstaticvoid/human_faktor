@@ -1,0 +1,19 @@
+<%
+
+  columns = ['employee']
+
+  @leave_types.each do |leave_type|
+    columns << leave_type.to_s.downcase
+  end
+
+%><%= columns.join(',').html_safe %>
+<% for employee in @staff_balance.employees %><%
+
+  data = ['"#{employee.full_name}"']
+
+  @leave_types.each do |leave_type|
+    data << 0.0
+  end
+
+%><%= data.join(',').html_safe %>
+<% end %>

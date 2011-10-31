@@ -1,0 +1,130 @@
+<% title "Staff Leave Summary" %>
+<% content_title "Staff Leave Summary", "content_title_staff_leave_summary" %>
+
+<div id="filter" style="margin-bottom: 10px;">
+  <%= form_for @staff_summary, :as => 'staff_leave_summary_enquiry', :url => staff_leave_summary_path(), :remote => true do |f| %>
+    <%= error_messages_for @staff_summary %>
+    <table width="100%">
+      <tr>
+        <td width="120px">From:</td>
+        <td colspan="2" class="field"><%= f.date_picker :date_from %></td>
+        <td style="text-align: right;" colspan="2">
+          <div style="display: none;"><%= f.submit %></div>  
+          <a id="toggle_criteria" href="javascript: toggle_criteria();" title="Hide or show additional filtering criteria">
+            <%= @filter_by == 'none' ? 'More Criteria' : 'Less Criteria' %>
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td>To:</td>
+        <td colspan="2" class="field"><%= f.date_picker :date_to %></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td style="height: 29px;"></td>
+        <td width="32px"><%= f.radio_button :filter_by, 'none' %></td>
+        <td colspan="2" class="field">All staff</td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Location:</td>
+        <td><%= f.radio_button :filter_by, 'location' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :location_id, current_account.locations.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Department:</td>
+        <td><%= f.radio_button :filter_by, 'department' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :department_id, current_account.departments.collect {|item| [item.title, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+      <tr class="extra">
+        <td>Employee:</td>
+        <td><%= f.radio_button :filter_by, 'employee' %></td>
+        <td colspan="2" class="field">
+          <%= f.select :employee_id, @staff_summary.employees.collect {|item| [item.full_name, item.to_param]}, {}, { :class => 'dropdown' } %>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+<div style="height: 32px; margin-bottom: 10px;">
+  <div id="ajax_working">Loading staff summaries...</div>
+  <div id="paginator" style="display: none;">
+  </div>
+</div>
+
+<table id="staff_summaries" class="table_grid">
+  <thead>
+    <tr>
+      <th>Employee</th>
+      <% @leave_types.each do |leave_type| %>
+        <th width="90px"><%= leave_type %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+    <tr class="no_hover">
+      <td colspan="7">
+        <p>Loading staff summaries...</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="text-align: right;">
+  <%= link_to "Download CSV", staff_leave_summary_path(
+                                :format => :csv,
+                                :staff_leave_summary_enquiry => @staff_summary.attributes
+                              ), :id => 'download_csv' %>
+</p>
+
+<script type="text/javascript">
+
+  var extra_criteria = <%= @filter_by == 'none' ? 'false' : 'true' %>;
+
+  $('.extra').css('display', '<%= @filter_by == 'none' ? 'none' : '' %>');
+
+  $('#staff_leave_summary_enquiry_location_id').change(function(){
+    $('#staff_leave_summary_enquiry_filter_by_location').attr('checked', 'checked');
+  });
+
+  $('#staff_leave_summary_enquiry_department_id').change(function(){
+    $('#staff_leave_summary_enquiry_filter_by_department').attr('checked', 'checked');
+  });
+
+  $('#staff_leave_summary_enquiry_employee_id').change(function(){
+    $('#staff_leave_summary_enquiry_filter_by_employee').attr('checked', 'checked');
+  });
+
+  function toggle_criteria() {
+    extra_criteria = !extra_criteria;
+    $('.extra').css('display', extra_criteria ? '' : 'none');
+    $('#toggle_criteria').html(extra_criteria ? 'Less Criteria' : 'More Criteria');
+  }
+
+  $('#filter input, #filter select').change(function(){
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+    $('#staff_leave_summary_enquiry_new').submit();
+  });
+
+  $('#paginator a').live('ajax:before', function(e) { 
+    $('#ajax_working').css('display', '');
+    $('#paginator').css('display', 'none');
+  });
+
+</script>
+
+<%= table_grid_row_click_handler %>
+
+<script type="text/javascript" defer="defer">
+  $('#staff_leave_summary_enquiry_new').submit();
+</script>
