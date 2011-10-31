@@ -53,7 +53,7 @@ class Employee < ActiveRecord::Base
                         :length => { :maximum => 20 },
                         :uniqueness => { :scope => [:account_id], :case_sensitive => false }
 
-  validates :email, :email => true, :allow_nil => lambda { self.notify != true }
+  validates :email, :email => true, :allow_blank => lambda { !self.notify }
   
    #, :uniqueness => { :scope => [:account_id] }
   
