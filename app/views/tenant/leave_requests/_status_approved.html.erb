@@ -32,6 +32,8 @@
       <%= f.file_field :document %>
     </div>
 
+    <div style="height: 6px;"></div>
+
     <div class="actions" style="text-align: right;">
       <%= f.submit 'Upload', :disable_with => 'Uploading...' %>
     </div>
@@ -40,11 +42,12 @@
 
   <script type="text/javascript">
     $('#upload_document_dialog').dialog({
-      title: 'Upload Document',
+      title: 'Upload New Document for Leave Request',
       autoOpen: false,
       width: 375,
       height: 164,
-      model: true
+      model: true,
+      resizable: false
     });
   </script>
 

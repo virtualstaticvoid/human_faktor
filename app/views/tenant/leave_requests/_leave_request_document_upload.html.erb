@@ -7,21 +7,19 @@
       <% if leave_request.document_attached? %>
         <%= link_to leave_request.document_file_name, 
               leave_request.document_authenticated_url, :target => '_blank' %>
+        <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
+                    remove_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
+                    :method => :delete, :remote => true, 
+                    :confirm => 'Are you sure?',
+                    :id => 'remove_document_link' %>
       <% else %>
         <em>Documentation not supplied!</em>
       <% end %>
     </td>
     <td>
       <% if leave_request.can_update_documentation?(current_employee) %>
-        <%= link_to_function image_tag('../images/edit.png', :title => 'Add/Update document'), 
+        <%= button_to_function (leave_request.document_attached? ? "Update Document" : "Add Document"), 
               "$('#upload_document_dialog').dialog('open');" %>
-      <% end %>
-      <% if leave_request.document_attached? %>
-        <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
-                    remove_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
-                    :method => :delete, :remote => true, 
-                    :confirm => 'Are you sure?',
-                    :id => 'remove_document_link' %>
       <% end %>
     </td>
   </tr>
