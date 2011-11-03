@@ -4,7 +4,7 @@
 
     <% @leave_types.each do |leave_type| %>
       <td class="numeric">
-        <%= @staff_summary.leave_summary_results[employee.id][leave_type.id] || 0.0 %>
+        <%= @filter.summary_for(employee, leave_type) %>
       </td>
     <% end %>
 

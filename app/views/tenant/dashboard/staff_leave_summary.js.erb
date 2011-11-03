@@ -8,5 +8,5 @@ $('#ajax_working').css('display', 'none');
 $('#paginator').css('display', '');
 $('#download_csv').attr('href', '<%= staff_leave_summary_path(
           :format => :csv, 
-          :staff_leave_summary_enquiry => @staff_summary.attributes
+          :staff_leave_summary_enquiry => @filter.attributes
         ) %>');

@@ -9,10 +9,10 @@
 %><%= columns.join(',').html_safe %>
 <% for employee in @filter.employees %><%
 
-  data = ['"#{employee.full_name}"']
+  data = [employee.full_name]
 
   @leave_types.each do |leave_type|
-    data << 0.0
+    data << @filter.summary_for(employee, leave_type)
   end
 
 %><%= data.join(',').html_safe %>

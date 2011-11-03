@@ -43,14 +43,6 @@
         </td>
         <td></td>
       </tr>
-      <tr class="extra">
-        <td>Employee:</td>
-        <td><%= f.radio_button :filter_by, 'employee' %></td>
-        <td colspan="2" class="field">
-          <%= f.select :employee_id, @filter.employees.collect {|item| [item.full_name, item.to_param]}, {}, { :class => 'dropdown' } %>
-        </td>
-        <td></td>
-      </tr>
     </table>
   <% end %>
 </div>

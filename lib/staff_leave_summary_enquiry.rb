@@ -1,7 +1,7 @@
 require 'date'
 require 'informal'
 
-class StaffSummaryEnquiry
+class StaffLeaveSummaryEnquiry
   include Informal::Model
   
   attr_reader :account
@@ -63,7 +63,9 @@ class StaffSummaryEnquiry
     end
   end
 
-  def leave_summary_results
+  def summary_for(employee, leave_type)
+
+    return 0
 
     @leave_summary_results ||= begin
       results = {}
