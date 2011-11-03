@@ -183,9 +183,8 @@ class LeaveTypeTest < ActiveSupport::TestCase
         :cycle_days_allowance => 21
       )
       # assert leave_type.valid?
-      
+
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
-      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
 
       assert leave_type.allowance_for(employee, Date.new(2000, 4, 1)) > 0
       assert_equal leave_type.cycle_days_allowance, leave_type.allowance_for(employee, Date.new(2001, 2, 1))
@@ -208,7 +207,7 @@ class LeaveTypeTest < ActiveSupport::TestCase
       # assert leave_type.valid?
       
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
-      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 2, 1))
+      assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 31))
       assert leave_type.allowance_for(employee, Date.new(2000, 3, 1)) > 0
     end
   end
