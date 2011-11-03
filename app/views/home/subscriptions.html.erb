@@ -2,7 +2,8 @@
 
 <%
 
-  # HACK!!! Assumes that the subscriptions stored in the database "align" via the max employees and duration
+  # HACK!!! Assumes that the subscriptions stored in the database 
+  # "align" via the max employees and duration
 
   subscriptions = [
     ['Small', 25], 
@@ -13,6 +14,9 @@
     ['Enterprise', 500],
     ['Enterprise+', 1000]
   ]
+
+  currency_symbol = @country.currency_symbol || 'R'
+  currency = @country.currency_code || 'ZAR'
 
 %>
 
@@ -43,7 +47,7 @@
 
     <% for subscription in subscriptions %>
       <td>
-        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 1).first.price.to_i) %>
+        <%= currency_symbol %> <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 1).first.price_for(@country).to_i) %>
       </td>
     <% end %>
   
@@ -57,7 +61,7 @@
 
     <% for subscription in subscriptions %>
       <td>
-        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 12).first.price.to_i) %>
+        <%= currency_symbol %> <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 12).first.price_for(@country).to_i) %>
       </td>
     <% end %>
   
@@ -71,7 +75,7 @@
 
     <% for subscription in subscriptions %>
       <td>
-        R <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 36).first.price.to_i) %>
+        <%= currency_symbol %> <%= number_with_delimiter(@subscriptions.where(:max_employees => subscription[1], :duration => 36).first.price_for(@country).to_i) %>
       </td>
     <% end %>
   
@@ -95,11 +99,11 @@
 
 <div style="height: 32px">
   <div style="margin-top: 8px; float: left;">
-    <%= link_to 'Sign Up', new_account_registration_path() %> for a Free Trial.
+    <%= link_to 'Sign Up', new_account_registration_path() %> for a Free Trial for <%= @default_subscription.max_employees %> employees.
   </div>
 
   <div style="margin-top: 8px; float: right; text-align: right;">
-    <i>* All prices given in ZAR currency.</i>
+    <i>* All prices given in <%= currency %> currency.</i>
   </div>
 </div>
 
