@@ -1,0 +1,44 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+<%
+def add_subscription(country_code, multiplier, title, description, employee_price, max_employees, threshold = 1)
+
+  monthly_price = (employee_price * max_employees) * multiplier
+  annual_price = ((monthly_price * 12) - (monthly_price * 1.20)) * multiplier
+  tri_annual_price = (annual_price * 0.90) * multiplier
+
+  yml = ""
+
+  yml << "#{country_code}_#{title.downcase}:\n"
+  yml << "  subscription: #{title.downcase}\n"
+  yml << "  country: #{country_code}\n"
+  yml << "  price: #{monthly_price.round()}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "\n"
+
+  yml << "#{country_code}_#{title.downcase}_1_year:\n"
+  yml << "  subscription: #{title.downcase}_1_year\n"
+  yml << "  country: #{country_code}\n"
+  yml << "  price: #{annual_price.round()}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "\n"
+
+  yml << "#{country_code}_#{title.downcase}_3_year:\n"
+  yml << "  subscription: #{title.downcase}_3_year\n"
+  yml << "  country: #{country_code}\n"
+  yml << "  price: #{tri_annual_price.round()}\n"
+  yml << "  price_over_threshold: #{employee_price}\n"
+  yml << "\n"
+
+  yml
+
+end
+%>
+
+<%= add_subscription 'us', 0.8, 'Small', 'Small', 5.00, 25 %>
+<%= add_subscription 'us', 0.8, 'Small-Medium', 'Small to medium', 4.75, 50 %>
+<%= add_subscription 'us', 0.8, 'Medium', 'Medium', 4.50, 100 %>
+<%= add_subscription 'us', 0.8, 'Medium-Large', 'Medium to large', 4.25, 150 %>
+<%= add_subscription 'us', 0.8, 'Large', 'Large', 4.00, 300 %>
+<%= add_subscription 'us', 0.8, 'Enterprise', 'Enterprise', 3.50, 500 %>
+<%= add_subscription 'us', 0.8, 'Enterprise+', 'Large Enterprise', 3.00, 1000 %>
