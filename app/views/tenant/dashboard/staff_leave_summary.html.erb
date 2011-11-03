@@ -2,8 +2,8 @@
 <% content_title "Staff Leave Summary", "content_title_staff_leave_summary" %>
 
 <div id="filter" style="margin-bottom: 10px;">
-  <%= form_for @staff_summary, :as => 'staff_leave_summary_enquiry', :url => staff_leave_summary_path(), :remote => true do |f| %>
-    <%= error_messages_for @staff_summary %>
+  <%= form_for @filter, :as => 'staff_leave_summary_enquiry', :url => staff_leave_summary_path(), :remote => true do |f| %>
+    <%= error_messages_for @filter %>
     <table width="100%">
       <tr>
         <td width="120px">From:</td>
@@ -47,7 +47,7 @@
         <td>Employee:</td>
         <td><%= f.radio_button :filter_by, 'employee' %></td>
         <td colspan="2" class="field">
-          <%= f.select :employee_id, @staff_summary.employees.collect {|item| [item.full_name, item.to_param]}, {}, { :class => 'dropdown' } %>
+          <%= f.select :employee_id, @filter.employees.collect {|item| [item.full_name, item.to_param]}, {}, { :class => 'dropdown' } %>
         </td>
         <td></td>
       </tr>
@@ -82,7 +82,7 @@
 <p style="text-align: right;">
   <%= link_to "Download CSV", staff_leave_summary_path(
                                 :format => :csv,
-                                :staff_leave_summary_enquiry => @staff_summary.attributes
+                                :staff_leave_summary_enquiry => @filter.attributes
                               ), :id => 'download_csv' %>
 </p>
 

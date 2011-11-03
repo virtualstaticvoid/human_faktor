@@ -71,9 +71,9 @@ module Tenant
 
     end
 
-    test "should redirect to dashboard if employee requests staff summary" do
+    test "should redirect to dashboard if employee requests staff leave summary" do
       sign_in_as :employee
-      get :staff_summary, :tenant => @account.subdomain
+      get :staff_leave_summary, :tenant => @account.subdomain
       assert_redirected_to dashboard_url(:tenant => @account.subdomain)
     end
 
@@ -138,13 +138,13 @@ module Tenant
 
       test "should get staff summary for #{role}" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain
+        get :staff_leave_summary, :tenant => @account.subdomain
         assert_response :success
       end
 
       test "should get staff summary for #{role} filtered by date from" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_summary_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_leave_summary_enquiry => { 
                                                               :date_from => Date.new(2011, 1, 1) 
                                                             }
         assert_response :success
@@ -152,7 +152,7 @@ module Tenant
 
       test "should get staff summary for #{role} filtered by date to" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_summary_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_leave_summary_enquiry => { 
                                                               :date_to => Date.new(2011, 12, 31) 
                                                             }
         assert_response :success
@@ -160,34 +160,34 @@ module Tenant
 
       test "should get staff summary for #{role} filtered by date from and to" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_summary_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_leave_summary_enquiry => { 
                                                               :date_from => Date.new(2011, 1, 1),
                                                               :date_to => Date.new(2011, 12, 31) 
                                                             }
         assert_response :success
       end
 
-      test "should get staff summary for #{role} filtered by location" do
+      test "should get staff leave summary for #{role} filtered by location" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_summary_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_leave_summary_enquiry => { 
                                                               :filter_by => 'location', 
                                                               :location_id => @account.locations.first.id 
                                                             }
         assert_response :success
       end
 
-      test "should get staff summary for #{role} filtered by department" do
+      test "should get staff leave summary for #{role} filtered by department" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_summary_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_leave_summary_enquiry => { 
                                                               :filter_by => 'location', 
                                                               :location_id => @account.locations.first.id 
                                                             }
         assert_response :success
       end
 
-      test "should get staff summary for #{role} filtered by employee" do
+      test "should get staff leave summary for #{role} filtered by employee" do
         sign_in_as role
-        get :staff_summary, :tenant => @account.subdomain, :staff_calendar_enquiry => { 
+        get :staff_leave_summary, :tenant => @account.subdomain, :staff_calendar_enquiry => { 
                                                               :filter_by => 'employee', 
                                                               :employee_id => employees(:employee).to_param 
                                                             }

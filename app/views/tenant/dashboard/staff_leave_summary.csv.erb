@@ -7,7 +7,7 @@
   end
 
 %><%= columns.join(',').html_safe %>
-<% for employee in @staff_balance.employees %><%
+<% for employee in @filter.employees %><%
 
   data = ['"#{employee.full_name}"']
 
