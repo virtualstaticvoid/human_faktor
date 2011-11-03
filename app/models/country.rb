@@ -15,8 +15,8 @@ class Country < ActiveRecord::Base
   validates :iso_code, :presence => true, :length => { :is => 2 }, :uniqueness => true
   validates :title, :presence => true, :length => { :maximum => 255 }, :uniqueness => true
 
-  validates :currency_symbol, :presence => true, :length => { :maximum => 3 }, :allow_nil => true
-  validates :currency_code, :presence => true, :length => { :maximum => 3 }, :allow_nil => true
+  validates :currency_symbol, :length => { :maximum => 3 }
+  validates :currency_code, :length => { :maximum => 3 }
   
   has_many :calendar_entries, :dependent => :destroy
 

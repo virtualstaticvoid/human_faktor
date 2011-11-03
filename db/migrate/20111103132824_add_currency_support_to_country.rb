@@ -21,10 +21,12 @@ class AddCurrencySupportToCountry < ActiveRecord::Migration
 private
 
   def self.update_country(iso_code, code, symbol)
-    Country.find_by_iso_code(iso_code).update_attributes(
+    country = Country.find_by_iso_code(iso_code)
+
+    country.update_attributes(
       :currency_symbol => symbol,
       :currency_code => code
-    )
+    ) unless country.nil?
   end
 
 end

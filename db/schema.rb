@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20111103132824) do
     t.integer  "account_id",                                                                  :null => false
     t.string   "identifier",                                                                  :null => false
     t.string   "user_name",                                                                   :null => false
-    t.string   "email"
+    t.string   "email",                                               :default => ""
     t.string   "encrypted_password",                   :limit => 128, :default => "",         :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
