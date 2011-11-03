@@ -27,7 +27,7 @@ class AccountProvisioner < Struct.new(:registration_id)
 
       #  calculate the start and end dates of the subscription
       from_date = Date.today
-      to_date = Date.new(from_date.year, from_date.month + 1, 1) >> subscription.duration
+      to_date = Date.new(from_date.year, from_date.month + 1, 1) >> subscription.duration.to_i
       
       account.account_subscriptions.build(
         :from_date => from_date,
