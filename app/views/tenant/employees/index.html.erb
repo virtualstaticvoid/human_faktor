@@ -1,7 +1,7 @@
 <% title "Maintain Staff" %>
 
 <div id="filter" style="margin-bottom: 14px; z-order: 0;">
-  <%= form_for @filter, :as => 'employee_filter', :url => employees_filtered_path(), :remote => true do |f| %>
+  <%= form_for @filter, :as => 'employee_filter', :url => filtered_employees_path(), :remote => true do |f| %>
     
     <%= error_messages_for @filter %>
 

@@ -112,10 +112,12 @@ HumanFaktor::Application.routes.draw do
       resources :locations, :module => 'tenant'
       resources :departments, :module => 'tenant'
       
-      get 'employees/filtered', :to => 'tenant/employees#filtered'
-      post 'employees/filtered', :to => 'tenant/employees#filtered', :as => :employees_filtered
-
       resources :employees, :module => 'tenant' do
+        collection do
+          get 'filtered'
+          post 'filtered'
+        end
+
         member do
           put 'deactivate'
           put 'reactivate'
@@ -128,7 +130,7 @@ HumanFaktor::Application.routes.draw do
         member do
           get 'download'
         end
-        get 'template', :to => 'bulk_uploads#template', :as => :template, :on => :collection
+        get 'template', :on => :collection, :as => :template
         get 'records', :to => 'bulk_upload_stages#index', :as => :records
         put 'records', :to => 'bulk_upload_stages#index'
       end
