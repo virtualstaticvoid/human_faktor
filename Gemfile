@@ -30,6 +30,7 @@ gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_val
 gem 'delayed_job'
 gem 'devise', :git => 'git://github.com/virtualstaticvoid/devise.git', :branch => 'find_for_authentication'
 gem 'foreman'
+gem 'geoip'
 gem 'informal', :git => 'git://github.com/virtualstaticvoid/informal.git', :branch => 'rails_3_0_model_name_back_port'
 gem 'jquery-rails', '~> 1.0.3'
 gem 'kaminari', '~> 0.12.4'
