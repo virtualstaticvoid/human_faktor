@@ -1,3 +1,5 @@
+require 'geoip'
+
 class RegistrationsController < ApplicationController
   include Rack::Recaptcha::Helpers
 
@@ -11,6 +13,11 @@ class RegistrationsController < ApplicationController
     ).where('price > 0').first if params[:subscription]
     
     @registration.partner = Partner.find(params[:partner]) if params[:partner]
+
+    # use Geo IP to figure out the country from the IP address
+    geoinf = GeoIP.new(File.join(Rails.root, 'db', 'geoip.dat')).country(request.remote_ip)
+    @registration.country = Country.by_iso_code(geoinf.country_code2) || @registration.country
+
   end
 
   def create
