@@ -315,7 +315,13 @@ class LeaveType < ActiveRecord::Base
       employee_start_date = employee_start_date(employee)  
   
       return 0 if date_as_at < employee_start_date
-      return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
+
+      if employee.take_on_balance_as_at.present?
+        return 0 if date_as_at < employee.take_on_balance_as_at
+  
+        # NB: use this date for the start of the calculation
+        employee_start_date = employee.take_on_balance_as_at
+      end
 
       # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
       # also, the employees fixed_daily_hours ratio needs to be applied
