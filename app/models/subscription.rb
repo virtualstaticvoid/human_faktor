@@ -28,4 +28,12 @@ class Subscription < ActiveRecord::Base
     self.active ? self.title : "#{self.title} [Inactive]"
   end
 
+  def price_for(country)
+    SubscriptionCountry.prices_for(self, country).price
+  end
+
+  def price_over_threshold_for(country)
+    SubscriptionCountry.prices_for(self, country).price_over_threshold
+  end
+
 end

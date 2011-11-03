@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111026121834) do
+ActiveRecord::Schema.define(:version => 20111103132824) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -114,10 +114,12 @@ ActiveRecord::Schema.define(:version => 20111026121834) do
   add_index "calendar_entries", ["country_id", "entry_date"], :name => "index_calendar_entries_on_country_id_and_entry_date"
 
   create_table "countries", :force => true do |t|
-    t.string   "iso_code",   :null => false
-    t.string   "title",      :null => false
+    t.string   "iso_code",        :null => false
+    t.string   "title",           :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "currency_symbol"
+    t.string   "currency_code"
   end
 
   add_index "countries", ["iso_code"], :name => "index_countries_on_iso_code", :unique => true
@@ -164,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20111026121834) do
     t.integer  "account_id",                                                                  :null => false
     t.string   "identifier",                                                                  :null => false
     t.string   "user_name",                                                                   :null => false
-    t.string   "email",                                               :default => ""
+    t.string   "email"
     t.string   "encrypted_password",                   :limit => 128, :default => "",         :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -375,6 +377,17 @@ ActiveRecord::Schema.define(:version => 20111026121834) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "subscription_countries", :force => true do |t|
+    t.integer  "subscription_id",                       :null => false
+    t.integer  "country_id",                            :null => false
+    t.decimal  "price",                :default => 0.0, :null => false
+    t.decimal  "price_over_threshold", :default => 0.0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscription_countries", ["subscription_id", "country_id"], :name => "index_subscription_countries_on_subscription_id_and_country_id", :unique => true
 
   create_table "subscriptions", :force => true do |t|
     t.integer  "sequence",                                :null => false
