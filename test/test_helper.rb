@@ -1,7 +1,12 @@
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_group 'Validators', 'app/validators'
+  add_group 'Workers', 'app/workers'
+end
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'cover_me'
 
 FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")
 DEFAULT_ACCOUNT = :one
