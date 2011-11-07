@@ -1,0 +1,5 @@
+.table_grid tbody tr:hover {
+  background-color: lightblue;
+  color: black;
+  cursor: pointer;
+}
