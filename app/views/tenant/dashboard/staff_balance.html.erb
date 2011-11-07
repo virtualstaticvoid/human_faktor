@@ -2,7 +2,7 @@
 
 <div id="filter" style="margin-bottom: 14px; z-order: 0;">
 
-  <%= form_for @staff_balance, :as => 'staff_balance_enquiry', :url => '', :remote => true do |f| %>
+  <%= form_for @staff_balance, :as => 'staff_balance_enquiry', :url => staff_balance_path(), :remote => true do |f| %>
 
     <%= error_messages_for @staff_balance %>
 
@@ -57,7 +57,7 @@
 <table id="leave_balances" class="table_grid">
   <thead>
     <tr>
-      <th colspan="8" id="leave_type_name"><%= @staff_balance.leave_type.to_s %> Leave</th>
+      <th colspan="10" id="leave_type_name"><%= @staff_balance.leave_type.to_s %> Leave</th>
     </tr>
     <tr>
       <th>Employee</th>
