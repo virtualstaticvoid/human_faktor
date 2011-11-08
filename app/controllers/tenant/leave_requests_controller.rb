@@ -135,7 +135,6 @@ module Tenant
       end
     end
 
-    # PUT (JS)
     def update_document
       @leave_request = current_account.leave_requests.find_by_identifier(params[:id])
       

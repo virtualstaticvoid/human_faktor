@@ -106,11 +106,13 @@ class LeaveRequest < ActiveRecord::Base
     self.half_day_to
   end
 
+  # only run validations on creation!!!
   validate :date_from_must_occur_before_date_to, 
            :date_to_must_occur_after_date_from,
            :same_date_half_day,
            :must_not_overlap_with_another_request,
-           :date_from_cannot_be_prior_to_start_or_take_on_date
+           :date_from_cannot_be_prior_to_start_or_take_on_date,
+           :on => :create
 
   validates :unpaid, :inclusion => { :in => [true, false] }
   
