@@ -8,5 +8,19 @@
       </td>
     <% end %>
 
+    <td class="centered">
+      <%= link_to image_tag('../images/leave_requests.png'), 
+                  staff_leave_requests_path(
+                    :leave_request_filter => { 
+                        :date_from => @filter.date_from,
+                        :date_to => @filter.date_to,
+                        :filter_by => 'employee',
+                        :employee_id => employee.to_param,
+                        :status => LeaveRequest::FILTER_STATUS_APPROVED
+                    },
+                    :tenant => current_account.subdomain
+                  ), :title => 'Leave Request for Employee' %>
+    </td>
+
   </tr>
 <% end %>
