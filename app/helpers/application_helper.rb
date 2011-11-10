@@ -14,6 +14,10 @@ module ApplicationHelper
     value1 > value2 ? value2 : value1
   end
 
+  def format_duration(value)
+    value == 0 ? '-' : number_with_precision(value, :precision => 1)
+  end
+
   def table_grid_row_click_handler
     javascript_tag do
       <<-JS

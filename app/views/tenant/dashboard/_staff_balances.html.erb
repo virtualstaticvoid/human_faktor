@@ -12,37 +12,14 @@
   
         leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
 
-      <td>
-        <% if leave_balance.take_on > 0 %>
-          <%= number_with_precision(leave_balance.take_on, :precision => 1) %>
-        <% else  %>
-          -
-        <% end %>
-      </td>
-      <td><%= number_with_precision(leave_balance.allowance, :precision => 1) %></td>
-      <td>
-        <% if leave_balance.leave_taken > 0 %>
-          <%= number_with_precision(leave_balance.leave_taken, :precision => 1) %>
-        <% else  %>
-          -
-        <% end %>
-      </td>
-      <td>
-        <% if leave_balance.unpaid_leave_taken > 0 %>
-          <%= number_with_precision(leave_balance.unpaid_leave_taken, :precision => 1) %>
-        <% else %>
-          -
-        <% end %>
-      </td>
-      <td><strong><%= number_with_precision(leave_balance.available, :precision => 1) %></strong></td>
+      <td><%= format_duration(leave_balance.take_on) %></td>
+      <td><%= format_duration(leave_balance.allowance) %></td>
+      <td><%= format_duration(leave_balance.leave_taken) %></td>
+      <td><%= format_duration(leave_balance.unpaid_leave_taken) %></td>
+      <td><strong><%= format_duration(leave_balance.available) %></strong></td>
       <td><%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %></td>
-      <td>
-        <% if leave_balance.outstanding > 0 %>
-          <%= number_with_precision(leave_balance.outstanding * -1, :precision => 1) %>
-        <% else %>
-          -
-        <% end %>
-      </td>
+      <td><%= format_duration(leave_balance.outstanding * -1) %></td>
+
       <td class="centered">
         <%= link_to image_tag('../images/calculator.png'), 
                     balance_path(
