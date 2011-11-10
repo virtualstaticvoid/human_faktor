@@ -1,9 +1,9 @@
 <% for employee in @employees %>
   <% next if (@staff_balance.leave_type.gender_filter & employee.gender_filter).empty? %>
   
-  <tr onclick="window.location = '<%= balance_path(:as_at => @staff_balance.date_as_at, 
-                                                   :employee => employee, 
-                                                   :tenant => current_account.subdomain) %>';">
+  <tr data-url="<%= balance_path(:as_at => @staff_balance.date_as_at, 
+                                 :employee => employee, 
+                                 :tenant => current_account.subdomain) %>">
 
     <td><%= employee.full_name %></td>
 
