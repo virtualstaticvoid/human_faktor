@@ -52,7 +52,9 @@ class ActionController::TestCase
   end
 
   def sign_in_as(role)
-    sign_in employees(role)
+    employee = employees(role)
+    sign_in employee
+    AccountTracker.current = employee.account
   end
 
 end
