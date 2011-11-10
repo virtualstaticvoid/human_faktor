@@ -40,7 +40,7 @@ class LeaveType < ActiveRecord::Base
   validates :type, :uniqueness => { :scope => [ :account_id ] }
 
   # leave cycle information
-  validates :cycle_start_date, :timeliness => { :type => :date}
+  validates :cycle_start_date, :timeliness => { :type => :date }
   validates :cycle_duration, :numericality => { :greater_than => 0 }
   validates :cycle_duration_unit, :inclusion => { :in => DURATIONS }
   validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
