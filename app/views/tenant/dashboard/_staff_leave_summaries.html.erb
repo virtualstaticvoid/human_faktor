@@ -1,4 +1,6 @@
-<% for employee in @employees %>
+<% for employee in @employees 
+    summary = @filter.summary_for(employee)
+%>
   <tr data-url="<%= staff_leave_requests_path(
                       :leave_request_filter => { 
                           :date_from => @filter.date_from,
@@ -14,7 +16,7 @@
 
     <% @leave_types.each do |leave_type| %>
       <td class="numeric">
-        <%= format_duration(@filter.summary_for(employee, leave_type)) %>
+        <%= format_duration(summary[leave_type.id]) %>
       </td>
     <% end %>
 

@@ -63,13 +63,21 @@ class StaffLeaveSummaryEnquiry
     end
   end
 
-  def summary_for(employee, leave_type)
+  def summary_for(employee)
+
+    # TODO: make this more efficient
 
     self.account
         .leave_requests
         .approved
-        .where(:employee_id => employee.id, :leave_type_id => leave_type.id)
+        .where(:employee_id => employee.id)
+        .where(
+          ' date_from >= :date_from AND date_to <= :date_to ',
+          { :date_from => self.date_from, :date_to => self.date_to }
+        )
+        .group(:leave_type_id)
         .sum(:duration)
+        .inject({}) {|list, item| list[item[0]] = item[1]; list; }
 
   end
   
