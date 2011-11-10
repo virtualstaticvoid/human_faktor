@@ -14,7 +14,7 @@
 
     <% @leave_types.each do |leave_type| %>
       <td class="numeric">
-        <%= @filter.summary_for(employee, leave_type) %>
+        <%= format_duration(@filter.summary_for(employee, leave_type)) %>
       </td>
     <% end %>
 
