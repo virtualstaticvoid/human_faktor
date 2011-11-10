@@ -1,7 +1,7 @@
 <% if leave_request.leave_type.requires_documentation || 
         leave_request.override_requires_documentation || 
           leave_request.document_attached? %>
-  <tr>
+  <tr id="document_update">
     <td>Document:</td>
     <td id="leave_request_document">
       <% if leave_request.document_attached? %>

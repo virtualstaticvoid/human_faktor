@@ -1,4 +1,7 @@
 <% if !(@leave_request.leave_type.requires_documentation || @leave_request.document_attached?) && 
           @leave_request.override_requires_documentation %>
-$('#insert_document_after').after('<%= escape_javascript(render(:partial => "tenant/leave_requests/leave_request_document_upload", :locals => { :leave_request => @leave_request })) %>');
+if ($('#document_update').length == 0) {
+  $('#insert_document_after').after('<%= escape_javascript(render(:partial => "tenant/leave_requests/leave_request_document_upload", :locals => { :leave_request => @leave_request })) %>');
+}
 <% end %>
+$('#ajax_working').css('display', 'none');

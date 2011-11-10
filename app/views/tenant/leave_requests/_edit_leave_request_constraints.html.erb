@@ -3,6 +3,10 @@
              :url => update_constraints_leave_request_path(@leave_request, :tenant => current_account.subdomain),
              :remote => true do |f| %>
 
+  <div style="height: 32px; margin-bottom: 10px; float: right;">
+    <div id="ajax_working" style="display: none;">Saving override...</div>
+  </div>
+
   <%= render :partial => 'leave_request_constraint_overrides', 
              :locals => { :f => f, :leave_request => @leave_request } %>
 
@@ -14,6 +18,7 @@
 
 <script type="text/javascript">
   $('#leave_request_constraints_edit input[type=checkbox]').change(function(){
+    $('#ajax_working').css('display', '');
     $('#leave_request_constraints_edit').submit();
   });
 </script>
