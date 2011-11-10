@@ -1,5 +1,15 @@
 <% for employee in @employees %>
-  <tr>
+  <tr data-url="<%= staff_leave_requests_path(
+                      :leave_request_filter => { 
+                          :date_from => @filter.date_from,
+                          :date_to => @filter.date_to,
+                          :filter_by => 'employee',
+                          :employee_id => employee.to_param,
+                          :status => LeaveRequest::FILTER_STATUS_APPROVED
+                      },
+                      :tenant => current_account.subdomain
+                    ) %>">
+
     <td><%= employee.full_name %></td>
 
     <% @leave_types.each do |leave_type| %>
