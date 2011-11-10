@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   
   helper_method :partials_path
   helper_method :current_account
+  helper_method :safe_parse_date
   
   def after_sign_in_path_for(resource)
     stored_location_for(resource) || (resource.leave_requests.count() == 0 ? welcome_path : dashboard_path)
@@ -25,6 +26,12 @@ class ApplicationController < ActionController::Base
   
   def current_account
     AccountTracker.current
+  end
+
+  def safe_parse_date(value, default = nil)
+    Date.parse(value)
+  rescue
+    default
   end
 
   def ensure_account

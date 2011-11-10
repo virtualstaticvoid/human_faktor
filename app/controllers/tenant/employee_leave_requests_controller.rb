@@ -7,8 +7,8 @@ module Tenant
       filter_params = params[:leave_request_filter] || {}
       @filter = LeaveRequestFilter.new(current_account, current_employee).tap do |c|
         c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
-        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from])
-        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to])
+        c.date_from = safe_parse_date(filter_params[:date_from])
+        c.date_to = safe_parse_date(filter_params[:date_to])
         c.leave_type_id = filter_params[:leave_type_id].to_i || 0
         c.requires_documentation_only = filter_params[:requires_documentation_only] == '1'
 

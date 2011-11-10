@@ -179,9 +179,9 @@ module Tenant
       end
       
       @leave_type = current_account.leave_types.find(params[:leave_type]) if params[:leave_type].present?
-      @date_from = ApplicationHelper.safe_parse_date(params[:date_from])
+      @date_from = safe_parse_date(params[:date_from])
       @half_day_from = params[:half_day_from] == '1'
-      @date_to = ApplicationHelper.safe_parse_date(params[:date_to])
+      @date_to = safe_parse_date(params[:date_to])
       @half_day_to = params[:half_day_to] == '1'
       @unpaid = params[:unpaid] == '1'
 

@@ -95,7 +95,7 @@ module Tenant
     
     def balance
       @employee = current_account.employees.find_by_identifier(params[:id])
-      @date_as_at = ApplicationHelper.safe_parse_date(params[:as_at], Date.today)
+      @date_as_at = safe_parse_date(params[:as_at], Date.today)
       load_leave_types
 
       respond_to do |format|

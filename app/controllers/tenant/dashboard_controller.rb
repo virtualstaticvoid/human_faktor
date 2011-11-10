@@ -22,7 +22,7 @@ module Tenant
         redirect_to dashboard_url and return false
       end
 
-      @date_as_at = ApplicationHelper.safe_parse_date(params[:as_at], Date.today)
+      @date_as_at = safe_parse_date(params[:as_at], Date.today)
       @account = current_account
     
       # get leave types, filtered by the gender of the employee
@@ -40,7 +40,7 @@ module Tenant
 
       filter_params = params[:staff_balance_enquiry] || {}
       @staff_balance = StaffBalanceEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_as_at = ApplicationHelper.safe_parse_date(filter_params[:date_as_at], Date.today)
+        c.date_as_at = safe_parse_date(filter_params[:date_as_at], Date.today)
         c.leave_type_id = filter_params[:leave_type_id] if filter_params[:leave_type_id]
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
@@ -63,8 +63,8 @@ module Tenant
 
       filter_params = params[:staff_calendar_enquiry] || {}
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 3)
-        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 6)
+        c.date_from = safe_parse_date(filter_params[:date_from], Date.today << 3)
+        c.date_to = safe_parse_date(filter_params[:date_to], Date.today >> 6)
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
@@ -83,8 +83,8 @@ module Tenant
 
       filter_params = params[:staff_leave_summary_enquiry] || {}
       @filter = StaffLeaveSummaryEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 3)
-        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 6)
+        c.date_from = safe_parse_date(filter_params[:date_from], Date.today << 3)
+        c.date_to = safe_parse_date(filter_params[:date_to], Date.today >> 6)
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
@@ -105,8 +105,8 @@ module Tenant
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
         c.enquiry = filter_params[:enquiry] if filter_params[:enquiry]
         
-        c.date_from = ApplicationHelper.safe_parse_date(filter_params[:date_from], Date.today << 9)
-        c.date_to = ApplicationHelper.safe_parse_date(filter_params[:date_to], Date.today >> 3)
+        c.date_from = safe_parse_date(filter_params[:date_from], Date.today << 9)
+        c.date_to = safe_parse_date(filter_params[:date_to], Date.today >> 3)
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
