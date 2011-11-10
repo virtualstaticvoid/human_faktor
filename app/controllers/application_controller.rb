@@ -6,7 +6,9 @@ class ApplicationController < ActionController::Base
   helper_method :partials_path
   helper_method :current_account
   helper_method :safe_parse_date
-  
+  helper_method :current_leave_cycle_start_date
+  helper_method :current_leave_cycle_end_date
+
   def after_sign_in_path_for(resource)
     stored_location_for(resource) || (resource.leave_requests.count() == 0 ? welcome_path : dashboard_path)
   end
