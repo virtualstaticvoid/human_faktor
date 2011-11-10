@@ -34,6 +34,14 @@ class ApplicationController < ActionController::Base
     default
   end
 
+  def current_leave_cycle_start_date(for_date = Date.today)
+    current_account.annual.current_cycle_start_date_for(for_date)
+  end
+
+  def current_leave_cycle_end_date(for_date = Date.today)
+    current_account.annual.current_cycle_end_date_for(for_date)
+  end
+
   def ensure_account
     AccountTracker.current = Account.find_by_subdomain(params[:tenant]) unless params[:tenant].nil?
     redirect_to(home_sign_in_url) and return false if current_account.nil?

@@ -118,6 +118,25 @@ class LeaveType < ActiveRecord::Base
 
   end
 
+  def current_cycle_index_for(date)
+    index, start_date = -1, self.cycle_start_date
+    return nil if date < start_date
+
+    while start_date <= date
+      index += 1
+      start_date += cycle_duration_in_units
+    end
+    index
+  end
+
+  def current_cycle_start_date_for(date)
+    self.cycle_start_date + cycle_duration_in_units(current_cycle_index_for(date)) 
+  end
+
+  def current_cycle_end_date_for(date)
+    self.cycle_start_date + cycle_duration_in_units(current_cycle_index_for(date) + 1) - 1.day 
+  end
+
   #
   # determines the cycle index for the given date
   #
