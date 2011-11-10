@@ -65,22 +65,11 @@ class StaffLeaveSummaryEnquiry
 
   def summary_for(employee, leave_type)
 
-    return 0
-
-    @leave_summary_results ||= begin
-      results = {}
-      for result in self.account.leave_requests
-                      .approved
-                      .where(:employee_id => self.employees.collect {|e| e.id })
-                      .group(:employee_id, :leave_type_id)
-                      .sum(:duration)
-
-        # map into 2 hashes, first for employee, second for leave type        
-
-      
-      end
-      results
-    end
+    self.account
+        .leave_requests
+        .approved
+        .where(:employee_id => employee.id, :leave_type_id => leave_type.id)
+        .sum(:duration)
 
   end
   
