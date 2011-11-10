@@ -31,24 +31,5 @@ module Tenant
       end
     end
     
-    def employee_staff
-
-      search_pattern = params[:term].present? ? params[:term] : "%"
-      search_pattern.gsub!(/\*/, '.*?')
-      
-      regexp = Regexp.new(search_pattern, Regexp::IGNORECASE)
-      
-      @employees = current_employee.staff.select {|employee| regexp.match(employee.full_name) }
-      
-      respond_to do |format|
-        format.json # employee_staff.json.erb
-      end
-
-    rescue
-      puts "ERROR!!!"
-      # ignore error...
-      @employees = []
-    end
-
   end
 end

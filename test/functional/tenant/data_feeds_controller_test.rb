@@ -3,7 +3,7 @@ require 'test_helper'
 module Tenant
   class DataFeedsControllerTest < ActionController::TestCase
 
-    [:calendar_entries, :leave_requests, :employee_staff].each do |action|
+    [:calendar_entries, :leave_requests].each do |action|
 
       test "should redirect to home_sign_in for #{action}" do
         get action, :tenant => 'non-existent'
@@ -31,12 +31,6 @@ module Tenant
         assert_response :success
       end
     
-      test "should get employee staff as #{role}" do
-        sign_in_as role
-        get :employee_staff, :tenant => @account.subdomain, :format => :json
-        assert_response :success
-      end
-
     end
 
   end
