@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def format_duration(value)
-    value == 0 ? '-' : number_with_precision(value, :precision => 1)
+    (value == 0 || value.nil?) ? '-' : number_with_precision(value, :precision => 1)
   end
 
   def table_grid_row_click_handler
