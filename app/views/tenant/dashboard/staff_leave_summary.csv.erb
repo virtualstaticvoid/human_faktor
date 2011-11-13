@@ -8,11 +8,12 @@
 
 %><%= columns.join(',').html_safe %>
 <% for employee in @filter.employees %><%
+  summary = @filter.summary_for(employee)
 
   data = [employee.full_name]
 
   @leave_types.each do |leave_type|
-    data << @filter.summary_for(employee, leave_type)
+    data << summary[leave_type.id] || 0
   end
 
 %><%= data.join(',').html_safe %>
