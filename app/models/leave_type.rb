@@ -329,7 +329,8 @@ class LeaveType < ActiveRecord::Base
     end
   
     def allowance_for(employee, date_as_at)
-  
+      return nil unless employee && date_as_at
+
       # if the date_as_at is prior to the start date, then return zero!
       employee_start_date = employee_start_date(employee)  
   
