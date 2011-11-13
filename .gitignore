@@ -11,3 +11,4 @@ heroku_setup.sh
 *.dump
 *.sublime-workspace
 db/backups/*.backup
+db/backups/*.restore
