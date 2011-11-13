@@ -50,7 +50,7 @@ class AccountProvisioner < Struct.new(:registration_id)
       account.department = default_department
       
       # leave types
-      cycle_start_date = Date.new(Date.today.year, 1, 1)
+      cycle_start_date = Date.new(Date.today.year - 5, 1, 1)
       
       # TODO: load country defaults instead...
       

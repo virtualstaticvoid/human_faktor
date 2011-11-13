@@ -18,7 +18,7 @@ class LeaveType < ActiveRecord::Base
   DURATION_UNIT_YEARS = 3
   DURATIONS = [DURATION_UNIT_DAYS, DURATION_UNIT_MONTHS, DURATION_UNIT_YEARS]
 
-  default_values :cycle_start_date => Date.new(Date.today.year, 1, 1),
+  default_values :cycle_start_date => Date.new(Date.today.year - 5, 1, 1),
                  :cycle_duration => 1,
                  :cycle_duration_unit => DURATION_UNIT_YEARS,
                  :cycle_days_carry_over => 0,
