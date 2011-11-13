@@ -70,7 +70,8 @@ class AccountProvisioner < Struct.new(:registration_id)
       
     end
 
-    # send welcome email
+    # send welcome emails
+    WorkQueue.enqueue(RegistrationSystemMailer, registration.id)
     WorkQueue.enqueue(RegistrationMailer, registration.id)
 
     new_account
