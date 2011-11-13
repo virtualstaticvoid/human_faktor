@@ -15,7 +15,7 @@
     <td><%= employee.full_name %></td>
 
     <% @leave_types.each do |leave_type| %>
-      <td class="numeric">
+      <td class="centered">
         <%= format_duration(summary[leave_type.id]) %>
       </td>
     <% end %>
