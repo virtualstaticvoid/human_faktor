@@ -1,4 +1,4 @@
-<% if leave_type.cycle_start_date <= date_as_at && leave_type.employee_start_date(employee) <= date_as_at
+<% if leave_type.employee_start_date(employee) <= date_as_at
      leave_balance = employee.leave_balance(leave_type, date_as_at)
 %>
 

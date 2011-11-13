@@ -7,8 +7,7 @@
 
     <td><%= employee.full_name %></td>
 
-    <% if @staff_balance.leave_type.cycle_start_date <= @staff_balance.date_as_at && 
-            @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
+    <% if @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
   
         leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
 
