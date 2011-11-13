@@ -67,6 +67,10 @@ class StaffLeaveSummaryEnquiry
 
     # TODO: make this more efficient
 
+    # TODO: include leave requests which start or end in band, but start or end out of band
+    #        will need to manually calculate the subset durations, taking into 
+    #          account weekends and public holidays
+
     self.account
         .leave_requests
         .approved
