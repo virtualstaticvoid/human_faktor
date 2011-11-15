@@ -65,23 +65,34 @@ class StaffLeaveSummaryEnquiry
 
   def summary_for(employee)
 
-    # TODO: make this more efficient
+    # TODO: amend leave request inclusion logic
+    #  include leave requests which start or end in band, but start or end out of band
+    #  will need to manually calculate the subset durations, taking into 
+    #  account weekends and public holidays
 
-    # TODO: include leave requests which start or end in band, but start or end out of band
-    #        will need to manually calculate the subset durations, taking into 
-    #          account weekends and public holidays
+    return @summary_for[employee.id] || {} if @summary_for
 
-    self.account
+    @summary_for = self.account
         .leave_requests
         .approved
-        .where(:employee_id => employee.id)
         .where(
-          ' date_from >= :date_from AND date_to <= :date_to ',
+          ' (date_from BETWEEN :date_from AND :date_to) OR (date_to BETWEEN :date_from AND :date_to) ',
           { :date_from => self.date_from, :date_to => self.date_to }
         )
-        .group(:leave_type_id)
+        .group(:employee_id, :leave_type_id)
         .sum(:duration)
-        .inject({}) {|list, item| list[item[0]] = item[1]; list; }
+        .inject({}) {|list, items| 
+          
+          employee_id, leave_type_id, duration = items[0][0], items[0][1], items[1]
+
+          list_items = list[employee_id]
+          list[employee_id] = list_items = {} unless list_items
+                
+          list_items[leave_type_id] = duration; 
+          list; 
+        }
+
+    @summary_for[employee.id] || {}
 
   end
   
