@@ -5,6 +5,10 @@
 
   <div style="height: 32px; margin-bottom: 10px; float: right;">
     <div id="ajax_working" style="display: none;">Saving override...</div>
+    <div id="update_message" style="line-height: 32px; text-align: right; display: none; padding-right: 8px;" class="field_info">
+      <%= image_tag 'ok.png' %>
+      Successfully Updated
+    </div>
   </div>
 
   <%= render :partial => 'leave_request_constraint_overrides', 
@@ -19,6 +23,7 @@
 <script type="text/javascript">
   $('#leave_request_constraints_edit input[type=checkbox]').change(function(){
     $('#ajax_working').css('display', '');
+    $('#update_message').css('display', 'none');
     $('#leave_request_constraints_edit').submit();
   });
 </script>
