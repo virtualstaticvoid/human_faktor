@@ -5,7 +5,7 @@ class Country < ActiveRecord::Base
   end
 
   def self.by_iso_code(iso_code)
-    Country.find_by_iso_code(iso_code.downcase) || self.default
+    Country.find_by_iso_code(iso_code.downcase)
   end
   
   before_save :downcase_iso_code
