@@ -1,3 +1,7 @@
+<% head do %>
+  <%= javascript_include_tag 'chosen.jquery' %>
+<% end %>
+
 <% title "Capture Staff Leave" %>
 <% content_title "Capture Staff Leave", "content_title_new_staff_leave" %>
 
@@ -11,7 +15,11 @@
     
       <div class="field required">
         <div><%= f.label :employee_id %></div>
-        <span><%= f.select :employee_id, current_employee.staff.collect {|e| [e.to_s, e.id]}, { :include_blank => true }, { :class => 'dropdown' } %></span>
+        <span><%= f.select :employee_id, 
+                           current_employee.staff.collect {|e| [e.to_s, e.id]}, 
+                           { :include_blank => true }, 
+                           :class => 'dropdown',
+                           :"data-placeholder" => "Choose an employee" %></span>
         <span class="field_info"></span>
       </div>
 
@@ -116,4 +124,7 @@
       .attr('href', path)
       .click();
   }
+
+  $("#leave_request_employee_id").chosen({no_results_text: "No employees matched"});
+
 </script>
