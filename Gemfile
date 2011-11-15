@@ -44,16 +44,14 @@ gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.gi
 # and rake tasks are available in development mode:
 
 group :development, :test do
-  gem 'simplecov', :require => false
   gem 'guard'
   gem 'guard-livereload'
   gem 'guard-test'
   gem 'libnotify'
-  gem 'log_buddy'
   gem 'pry'
   gem 'rb-inotify'
-  gem 'rcov'
   gem 'ruby-prof'
+  gem 'simplecov', :require => false
   gem 'test-unit'
 end
 
