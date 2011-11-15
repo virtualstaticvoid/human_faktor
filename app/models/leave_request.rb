@@ -466,8 +466,8 @@ class LeaveRequest < ActiveRecord::Base
     write_attribute :created_at, Time.now
 
     LeaveConstraints::Base.evaluate(self).each do |constraint_name, value|
-      write_attribute constraint_name.as_constraint, value
-      write_attribute constraint_name.as_constraint_override, value
+      write_attribute constraint_name.as_constraint, value || false
+      write_attribute constraint_name.as_constraint_override, value || false
     end
 
   end

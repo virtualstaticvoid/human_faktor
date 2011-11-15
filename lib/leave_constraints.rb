@@ -14,10 +14,12 @@ module LeaveConstraints
       @@constraint_types_by_name[klass.constraint_name] = klass
     end
     
-    def self.evaluate(leave_request)
+    def self.evaluate(leave_request, include_deferred_constraints = false)
       constraint_flags = {}
       @@constraint_types.each do |constraint_type|
-        constraint_flags[constraint_type.constraint_name] = constraint_type.new().evaluate(leave_request)
+        constraint = constraint_type.new()
+        next if constraint.defer_evaluation unless include_deferred_constraints
+        constraint_flags[constraint_type.constraint_name] = constraint.evaluate(leave_request)
       end
       constraint_flags
     end
@@ -43,8 +45,14 @@ module LeaveConstraints
       true
     end
   
+    attr_reader :defer_evaluation
+
+    def initialize()
+      @defer_evaluation = false
+    end
+
     protected 
-    
+
     def evaluate(request)
       throw :error_not_implemented
     end
@@ -113,6 +121,10 @@ module LeaveConstraints
   # Is considered to be unscheduled
   class IsUnscheduled < Base
   
+    def initialize()
+      @defer_evaluation = true
+    end
+
     def self.can_override?(leave_request)
       leave_request.leave_type.unscheduled_leave_allowed
     end
@@ -125,6 +137,10 @@ module LeaveConstraints
   
   # Is adjacent to a weekend, public holiday, approved leave
   class IsAdjacent < Base
+
+    def initialize()
+      @defer_evaluation = true
+    end
   
     def evaluate(request)
     
