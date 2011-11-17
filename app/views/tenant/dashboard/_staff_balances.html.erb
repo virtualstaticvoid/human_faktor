@@ -1,57 +1,41 @@
 <% for employee in @employees %>
   <% next if (@staff_balance.leave_type.gender_filter & employee.gender_filter).empty? %>
+  <% leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
   
   <tr data-url="<%= balance_path(:as_at => @staff_balance.date_as_at, 
                                  :employee => employee, 
                                  :tenant => current_account.subdomain) %>">
 
     <td><%= employee.full_name %></td>
+    <td><%= format_duration(leave_balance.take_on) %></td>
+    <td><%= format_duration(leave_balance.carried_forward) %></td>
+    <td><%= format_duration(leave_balance.allowance) %></td>
+    <td><%= format_duration(leave_balance.leave_taken) %></td>
+    <td><%= format_duration(leave_balance.unpaid_leave_taken) %></td>
+    <td><strong><%= format_duration(leave_balance.available) %></strong></td>
+    <td><%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %></td>
+    <td><%= format_duration(leave_balance.outstanding * -1) %></td>
 
-    <% if @staff_balance.leave_type.employee_start_date(employee) <= @staff_balance.date_as_at
-  
-        leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
-
-      <td><%= format_duration(leave_balance.take_on) %></td>
-      <td><%= format_duration(leave_balance.carried_forward) %></td>
-      <td><%= format_duration(leave_balance.allowance) %></td>
-      <td><%= format_duration(leave_balance.leave_taken) %></td>
-      <td><%= format_duration(leave_balance.unpaid_leave_taken) %></td>
-      <td><strong><%= format_duration(leave_balance.available) %></strong></td>
-      <td><%= @staff_balance.leave_type.cycle_end_date_of(employee, @staff_balance.date_as_at).strftime('%Y-%m-%d') %></td>
-      <td><%= format_duration(leave_balance.outstanding * -1) %></td>
-
-      <td class="centered">
-        <%= link_to image_tag('../images/calculator.png'), 
-                    balance_path(
-                      :as_at => @staff_balance.date_as_at, 
-                      :employee => employee, 
-                      :tenant => current_account.subdomain
-                    ), :title => 'Detailed Balance' %>
-      </td>
-      <td class="centered">
-        <%= link_to image_tag('../images/leave_requests.png'), 
-                    staff_leave_requests_path(
-                      :leave_request_filter => { 
-                          :date_to => @staff_balance.date_as_at,
-                          :filter_by => 'employee',
-                          :employee_id => employee.to_param,
-                          :status => LeaveRequest::FILTER_STATUS_APPROVED
-                      },
-                      :tenant => current_account.subdomain
-                    ), :title => 'Leave Request for Employee' %>
-      </td>
-
-    <% else %>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    <% end %>
+    <td class="centered">
+      <%= link_to image_tag('../images/calculator.png'), 
+                  balance_path(
+                    :as_at => @staff_balance.date_as_at, 
+                    :employee => employee, 
+                    :tenant => current_account.subdomain
+                  ), :title => 'Detailed Balance' %>
+    </td>
+    <td class="centered">
+      <%= link_to image_tag('../images/leave_requests.png'), 
+                  staff_leave_requests_path(
+                    :leave_request_filter => { 
+                        :date_to => @staff_balance.date_as_at,
+                        :filter_by => 'employee',
+                        :employee_id => employee.to_param,
+                        :status => LeaveRequest::FILTER_STATUS_APPROVED
+                    },
+                    :tenant => current_account.subdomain
+                  ), :title => 'Leave Request for Employee' %>
+    </td>
 
   </tr>
 <% end %>
