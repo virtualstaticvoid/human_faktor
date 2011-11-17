@@ -2,8 +2,10 @@
 
   <% if employee.nil? %>
     <p>Please supply an <em>employee</em>, <em>leave type</em>, <em>from</em> and <em>to</em> dates.</p>
+  <% elsif leave_type.nil? %>
+    <p>Please supply a <em>leave type</em>.</p>
   <% else %>
-    <p>Please supply a <em>leave type</em>, <em>from</em> and <em>to</em> dates.</p>
+    <p>Please supply <em>from</em> and <em>to</em> dates.</p>
   <% end %>
 
 <% else
