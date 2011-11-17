@@ -33,7 +33,7 @@ class StaffLeaveSummaryEnquiryTest < ActiveSupport::TestCase
   end
 
   test "should provide summary_for by employee" do
-    assert @enquery.summary_for(@employee)
+    assert @enquiry.summary_for(@employee)
   end
 
 end
