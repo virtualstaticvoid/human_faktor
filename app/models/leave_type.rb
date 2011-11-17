@@ -322,53 +322,45 @@ class LeaveType < ActiveRecord::Base
       cycle_start_date_for(employee, index + 1) - 1.day
     end
       
-    # given an arbitrary date, get the start date of the cycle in which it falls
-    # def cycle_start_date_of(employee, date)
-    # end
-
-    # given an arbitrary date, get the end date of the cycle in which it falls
-    # def cycle_end_date_of(employee, date)
-    # end
-
     def can_carry_over?
       true
     end
   
     def leave_carried_forward_for(employee, date_as_at)
-      # TODO: accumulate leave from the previous period
-      0
-    end
-
-    # NOTE: this excludes the carried forward balance  
-    def allowance_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
-      # if the date_as_at is prior to the start date, then return zero!
+      # calculates the leave allocation up the cycle start date of the cycle
+      # which contains `date_as_at`
+
+      # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
+      # also, the employees fixed_daily_hours ratio needs to be applied
+      
+      # NB: unpaid leave affects the calculation!!!
+      #  i.e. comes off the allowance
+
+      # if the date_as_at is prior to the start date, 
+      #  or take on date, then return zero!
       employee_start_date = employee_start_date(employee)  
   
       return 0 if date_as_at < employee_start_date
 
       if employee.take_on_balance_as_at.present?
-        return 0 if date_as_at < employee.take_on_balance_as_at
-  
+
+        # prior to the take on date? return ZERO
+        return 0 if date_as_at <= employee.take_on_balance_as_at
+
         # NB: use this date for the start of the calculation
         employee_start_date = employee.take_on_balance_as_at
-      end
 
-      # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
-      # also, the employees fixed_daily_hours ratio needs to be applied
-      # leave carried over (or negative balance) from the previous cycle must be included
-      
-      # this calculation needs to happen from the start_date of the leave type (i.e. beginning of time)
-      
-      # NB: unpaid leave affects the calculation!!!
-      #  i.e. comes off the allowance
+      end
 
       final_allowance = 0
       index = 0
       to_index = self.cycle_index_of(employee, date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
-      
+      date_up_to = self.cycle_start_date_of(employee, date_as_at)
+
+      # iterate through each leave cycle
       begin
       
         end_date = self.cycle_end_date_for(employee, index)
@@ -382,8 +374,8 @@ class LeaveType < ActiveRecord::Base
           #  the accrual will therefore be pro-rated
           start_date = employee_start_date if employee_start_date >= start_date
 
-          # end date should be up to the date_as_at
-          end_date = date_as_at if date_as_at >= start_date && date_as_at < end_date
+          # end date should be up to `date_up_to`
+          end_date = date_up_to if date_up_to >= start_date && date_up_to < end_date
 
           # ASSERTIONS
           raise InvalidOperationException if start_date > end_date
@@ -406,6 +398,58 @@ class LeaveType < ActiveRecord::Base
       end while index <= to_index
 
       final_allowance.round(1)  # NB: round up to 1 decimal
+
+    end
+
+    # NOTE: this excludes the carried forward balance  
+    def allowance_for(employee, date_as_at)
+      return nil unless employee && date_as_at
+
+      # calculates the leave allocation from the cycle start date of the cycle
+      # which contains `date_as_at` up to the `date_as_at`
+
+      # if the date_as_at is prior to the start date, 
+      #  or take on date, then return zero!
+      employee_start_date = employee_start_date(employee)  
+  
+      return 0 if date_as_at < employee_start_date
+
+      if employee.take_on_balance_as_at.present?
+
+        # prior to the take on date? return ZERO
+        return 0 if date_as_at <= employee.take_on_balance_as_at
+
+        # NB: use this date for the start of the calculation
+        employee_start_date = employee.take_on_balance_as_at
+      
+      end
+
+      # annual leave is accrued, so the allowance needs to be "pro-rated" up to the given `date_as_at`
+      #  from the cycle start date (of the leave cycle which contains `date_as_at`)
+      # also, the employees fixed_daily_hours ratio needs to be applied
+      
+      # NB: unpaid leave affects the calculation!!!
+      #  i.e. comes off the allowance
+
+      cycle_start_date = self.cycle_start_date_of(employee, date_as_at)
+      cycle_duration_days = cycle_duration_in_units / 1.days
+      
+      start_date = cycle_start_date < employee_start_date ? cycle_start_date : employee_start_date
+      end_date = date_as_at
+      
+      # ASSERTIONS
+      raise InvalidOperationException if start_date > end_date
+      
+      days_in_cycle = end_date - start_date
+        
+      # NOTE: includes all leave up to the end of the cycle
+      leave_taken = leave_taken(employee, start_date, end_date, false)
+      unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
+
+      # the allowance is pro-rated 
+      allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle
+
+      allowance.round(1)  # NB: round up to 1 decimal
       
     end
     
