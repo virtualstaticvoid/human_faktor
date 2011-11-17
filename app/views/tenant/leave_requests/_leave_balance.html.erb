@@ -1,3 +1,5 @@
+<% # shown on the apply and capture leave request views %>
+
 <% if employee.nil? || leave_type.nil? || date_from.nil? || (!date_to.nil? && date_from > date_to)  %>
 
   <% if employee.nil? %>
@@ -17,10 +19,18 @@
 
     <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
 
-    <% if leave_balance.take_on > 0 %>
+    <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on > 0 %>
       <div class="field">
-        <div><%= label_tag :take_on_balance, 'Brought Forward/Take-on', :title => 'Take on leave balance allowance' %></div>
+        <div><%= label_tag :take_on_balance, 'Take-on', :title => 'Take on leave balance allowance' %></div>
         <span><%= text_field_tag :take_on_balance, number_with_precision(leave_balance.take_on, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span class="field_info">days</span>
+      </div>
+    <% end %>
+
+    <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward > 0 %>
+      <div class="field">
+        <div><%= label_tag :carried_forward, 'Carried Forward', :title => 'Leave balance carried forward from previous cycle' %></div>
+        <span><%= text_field_tag :carried_forward, number_with_precision(leave_balance.carried_forward, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
     <% end %>
