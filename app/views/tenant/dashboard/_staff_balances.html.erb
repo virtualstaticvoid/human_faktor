@@ -11,7 +11,8 @@
   
         leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at) %>
 
-      <td><%= format_duration(leave_balance.take_on + leave_balance.carried_forward) %></td>
+      <td><%= format_duration(leave_balance.take_on) %></td>
+      <td><%= format_duration(leave_balance.carried_forward) %></td>
       <td><%= format_duration(leave_balance.allowance) %></td>
       <td><%= format_duration(leave_balance.leave_taken) %></td>
       <td><%= format_duration(leave_balance.unpaid_leave_taken) %></td>
