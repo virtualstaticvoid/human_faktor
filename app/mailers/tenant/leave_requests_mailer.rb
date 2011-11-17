@@ -4,6 +4,8 @@ module Tenant
     def pending(leave_request)
       @account = leave_request.account
       @leave_request = leave_request
+      @leave_balance = @leave_request.leave_balance
+
       mail(
         :to => leave_request.approver.email, 
         :subject => "#{AppConfig.title} - #{@account.title} - New Leave Request"
@@ -13,6 +15,8 @@ module Tenant
     def approved(leave_request)
       @account = leave_request.account
       @leave_request = leave_request
+      @leave_balance = @leave_request.leave_balance
+
       mail(
         :to => leave_request.employee.email, 
         :subject => "#{AppConfig.title} - #{@account.title} - Leave Approved"
@@ -22,6 +26,8 @@ module Tenant
     def declined(leave_request)
       @account = leave_request.account
       @leave_request = leave_request
+      @leave_balance = @leave_request.leave_balance
+
       mail(
         :to => leave_request.employee.email, 
         :subject => "#{AppConfig.title} - #{@account.title} - Leave Declined"
@@ -31,6 +37,8 @@ module Tenant
     def cancelled(leave_request)
       @account = leave_request.account
       @leave_request = leave_request
+      @leave_balance = @leave_request.leave_balance
+
       mail(
         :to => leave_request.approver.email, 
         :subject => "#{AppConfig.title} - #{@account.title} - Leave Cancelled"
@@ -40,6 +48,8 @@ module Tenant
     def reinstated(leave_request)
       @account = leave_request.account
       @leave_request = leave_request
+      @leave_balance = @leave_request.leave_balance
+
       mail(
         :to => leave_request.employee.email, 
         :subject => "#{AppConfig.title} - #{@account.title} - Leave Reinstated"
@@ -48,4 +58,3 @@ module Tenant
 
   end
 end
-
