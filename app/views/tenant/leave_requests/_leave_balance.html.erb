@@ -17,11 +17,6 @@
 
     <p>As at <strong><%= date_from.strftime("%e %b %Y") %></strong></p>
 
-    <p style="color: slategray; font-size: 10pt;">
-      Leave cycle from <%= leave_balance.cycle_start_date.strftime('%e %B %Y') %> 
-      to <%= leave_balance.cycle_end_date.strftime('%e %B %Y') %>
-    </p>
-
     <% if leave_balance.take_on > 0 %>
       <div class="field">
         <div><%= label_tag :take_on_balance, 'Brought Forward/Take-on', :title => 'Take on leave balance allowance' %></div>
@@ -92,6 +87,11 @@
         <span class="field_info">days</span>
       </div>
     <% end %>
+
+    <p style="color: slategray; font-size: 10pt;">
+      Leave cycle from <%= leave_balance.cycle_start_date.strftime('%e %B %Y') %> 
+      to <%= leave_balance.cycle_end_date.strftime('%e %B %Y') %>
+    </p>
 
   <% else %>
 
