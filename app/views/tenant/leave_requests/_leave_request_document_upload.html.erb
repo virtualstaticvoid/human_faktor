@@ -1,12 +1,12 @@
-<% if leave_request.leave_type.requires_documentation || 
-        leave_request.override_requires_documentation || 
-          leave_request.document_attached? %>
+<% if @leave_request.leave_type.requires_documentation || 
+        @leave_request.override_requires_documentation || 
+          @leave_request.document_attached? %>
   <tr id="document_update">
     <td>Document:</td>
     <td id="leave_request_document">
-      <% if leave_request.document_attached? %>
-        <%= link_to leave_request.document_file_name, 
-              leave_request.document_authenticated_url, :target => '_blank' %>
+      <% if @leave_request.document_attached? %>
+        <%= link_to @leave_request.document_file_name, 
+              @leave_request.document_authenticated_url, :target => '_blank' %>
         <%= link_to image_tag('../images/delete.png', :title => 'Delete document'),
                     remove_document_leave_request_path(@leave_request, :tenant => current_account.subdomain),
                     :method => :delete, :remote => true, 
@@ -17,8 +17,8 @@
       <% end %>
     </td>
     <td>
-      <% if leave_request.can_update_documentation?(current_employee) %>
-        <%= button_to_function (leave_request.document_attached? ? "Update Document" : "Add Document"), 
+      <% if @leave_request.can_update_documentation?(current_employee) %>
+        <%= button_to_function (@leave_request.document_attached? ? "Update Document" : "Add Document"), 
               "$('#upload_document_dialog').dialog('open');" %>
       <% end %>
     </td>

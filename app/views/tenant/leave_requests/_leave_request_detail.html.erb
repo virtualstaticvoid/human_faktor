@@ -4,21 +4,21 @@
 
     <tr>
       <td width="140px">For:</td>
-      <td width="280px"><%= leave_request.employee %></td>
+      <td width="280px"><%= @leave_request.employee %></td>
       <td></td>
     </tr>
     
     <tr>
       <td>Created:</td>
-      <td><%= leave_request.created_at_s %></td>
+      <td><%= @leave_request.created_at_s %></td>
       <td></td>
     </tr>
 
-    <% if leave_request.captured? %>
+    <% if @leave_request.captured? %>
 
       <tr>
         <td>Captured By:</td>
-        <td><%= leave_request.captured_by %></td>
+        <td><%= @leave_request.captured_by %></td>
         <td></td>
       </tr>
       
@@ -30,11 +30,11 @@
 
     <tr>
       <td>Type:</td>
-      <td><%= leave_request.leave_type %> Leave</td>
+      <td><%= @leave_request.leave_type %> Leave</td>
       <td></td>
     </tr>
     
-    <% if leave_request.unpaid %>
+    <% if @leave_request.unpaid %>
       <tr>
         <td>Unpaid:</td>
         <td><strong>Yes</strong></td>
@@ -44,25 +44,24 @@
 
     <tr>
       <td>Date From/To:</td>
-      <td><strong><%= leave_request.date_from_s %> to <%= leave_request.date_to_s %></strong></td>
+      <td><strong><%= @leave_request.date_from_s %> to <%= @leave_request.date_to_s %></strong></td>
       <td></td>
     </tr>
 
     <tr id="insert_document_after">
       <td><abbr title="Excludes weekends and public holidays">Duration</abbr>:</td>
-      <td><%= pluralize(leave_request.duration, 'day') %></td>
+      <td><%= pluralize(@leave_request.duration, 'day') %></td>
       <td></td>
     </tr>
 
-    <%= render :partial => 'tenant/leave_requests/leave_request_document_upload', 
-            :locals => { :leave_request => leave_request } %>
+    <%= render :partial => 'tenant/leave_requests/leave_request_document_upload' %>
 
-    <% if leave_request.comment.present? %>
+    <% if @leave_request.comment.present? %>
       <tr>
         <td style="vertical-align: top;">Comment:</td>
         <td colspan="2">
           <div style="overflow: auto;">
-            <%= leave_request.comment %>
+            <%= @leave_request.comment %>
           </div>
         </td>
       </tr>
@@ -70,7 +69,7 @@
 
     <tr>
       <td>Assigned Approver:</td>
-      <td><%= leave_request.approver %></td>
+      <td><%= @leave_request.approver %></td>
     </tr>
 
     <% unless current_employee.is_employee? %>
@@ -96,25 +95,25 @@
 
 </div>
 
-<% unless leave_request.status_new? %>
+<% unless @leave_request.status_new? %>
   <div class="leave_request">
     <h3>Leave Status</h3>
     <table>
 
       <tr>
         <td width="140px">Status:</td>
-        <td width="220px"><%= leave_request.status_text %></td>
+        <td width="220px"><%= @leave_request.status_text %></td>
         <td></td>
       </tr>
       
-      <%= render :partial => "leave_request_detail_#{leave_request.status_text.downcase}", :locals => { :leave_request => leave_request } %>
+      <%= render :partial => "leave_request_detail_#{@leave_request.status_text.downcase}" %>
 
     </table>
   </div>
 <% end %>
 
-<% if leave_request.status_new? || leave_request.status_active? 
-     leave_balance = leave_request.leave_balance
+<% if @leave_request.status_new? || @leave_request.status_active? 
+     leave_balance = @leave_request.leave_balance
 %>
 
   <div class="leave_request">
@@ -123,7 +122,7 @@
 
       <tr>
         <td width="140px">Balance as at:</td>
-        <td width="220px"><%= leave_request.date_from_s %></td>
+        <td width="220px"><%= @leave_request.date_from_s %></td>
         <td></td>
       </tr>
 
@@ -161,14 +160,14 @@
       <% if leave_balance.outstanding > 0 %>
         <tr>
           <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
-          <td><%= pluralize(number_with_precision(leave_balance.outstanding - leave_request.duration, :precision => 1), 'day') %></td>
+          <td><%= pluralize(number_with_precision(leave_balance.outstanding - @leave_request.duration, :precision => 1), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
 
       <tr>
         <td><em>less</em> Requested:</td>
-        <td><%= pluralize(number_with_precision(leave_request.duration, :precision => 1), 'day') %></td>
+        <td><%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %></td>
         <td></td>
       </tr>
 

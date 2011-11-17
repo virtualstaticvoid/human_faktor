@@ -43,7 +43,7 @@
 
   <p>The <%= @leave_request.leave_type.to_s.downcase %> leave request for <strong><%= @leave_request.employee %></strong> is <strong>pending</strong> approval by <strong><%= @leave_request.approver %></strong>.</p>
 
-  <%= render :partial => 'leave_request_detail', :locals => { :leave_request => @leave_request } %>
+  <%= render :partial => 'leave_request_detail' %>
 
   <% if @leave_request.can_cancel?(current_employee) %>
     <%= form_for @leave_request, :url => cancel_leave_request_path(@leave_request, :tenant => current_account.subdomain) do |f| %>
