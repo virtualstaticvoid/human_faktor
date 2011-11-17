@@ -414,7 +414,7 @@ class LeaveRequest < ActiveRecord::Base
   end
   
   def leave_balance
-    @leave_balance || LeaveRequestBalanceDetail.new(self)
+    LeaveRequestBalanceDetail.new(self)
   end
 
   private
