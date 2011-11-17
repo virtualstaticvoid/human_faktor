@@ -1,4 +1,4 @@
-employee,take_on,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,outstanding
+employee,take_on,carried_forward,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,outstanding
 <% for employee in @staff_balance.employees %><%
 
   data = [] << '"' + "#{employee.full_name}" + '"'
@@ -7,6 +7,7 @@ employee,take_on,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,
     leave_balance = employee.leave_balance(@staff_balance.leave_type, @staff_balance.date_as_at)
 
     data << leave_balance.take_on.round(1)
+    data << leave_balance.carried_forward.round(1)
     data << leave_balance.allowance.round(1)
     data << leave_balance.leave_taken.round(1)
     data << leave_balance.unpaid_leave_taken.round(1)
@@ -16,6 +17,7 @@ employee,take_on,allowance,taken,unpaid,balance,cycle_start_date,cycle_end_date,
     data << leave_balance.outstanding.round(1)
 
   else
+    data << 0
     data << 0
     data << 0
     data << 0
