@@ -220,6 +220,11 @@ class LeaveType < ActiveRecord::Base
 
   end
 
+  def leave_carried_forward_for(employee, date_as_at)
+    # accumulate leave from the previous period
+    0
+  end
+
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
   def leave_take_on_for(employee, date_as_at)
     return nil unless employee && date_as_at
