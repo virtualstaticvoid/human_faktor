@@ -117,3 +117,7 @@
   border-bottom: 1px dashed #C0C0C0;
   padding-bottom: 6px;
 }
+
+.leave_request_right #leave_balance {
+  margin: 12px;
+}
