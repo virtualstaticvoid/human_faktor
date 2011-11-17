@@ -7,7 +7,7 @@
     <td><%= @leave_request.date_from_s %></td>
   </tr>
   
-  <% if @leave_balance.take_on > 0 %>
+  <% if @leave_balance.leave_type.can_take_on? && @leave_balance.take_on > 0 %>
     <tr>
       <td></td>
       <td>Take On:</td>
@@ -15,6 +15,14 @@
     </tr>
   <% end %>
   
+  <% if @leave_balance.leave_type.can_carry_over? && @leave_balance.carried_forward > 0 %>
+    <tr>
+      <td></td>
+      <td>Carried Forward:</td>
+      <td><%= pluralize(number_with_precision(@leave_balance.carried_forward, :precision => 1), 'day') %></td>
+    </tr>
+  <% end %>
+
   <tr>
     <td></td>
     <td>Allowance:</td>
