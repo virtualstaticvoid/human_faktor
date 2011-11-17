@@ -34,10 +34,11 @@ gem 'geoip'
 gem 'informal', :git => 'git://github.com/virtualstaticvoid/informal.git', :branch => 'rails_3_0_model_name_back_port'
 gem 'jquery-rails', '~> 1.0.3'
 gem 'kaminari', '~> 0.12.4'
+gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
 gem 'paperclip', '~> 2.3'
 gem 'rack-recaptcha', :require => 'rack/recaptcha', :git => 'git://github.com/virtualstaticvoid/rack-recaptcha.git', :tag => 'v0.5.0'
+gem 'time_diff'
 gem 'validates_timeliness', '~> 3.0.2'
-gem 'kmandrup-colorist', :git => 'git://github.com/virtualstaticvoid/colorist.git', :branch => 'master'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators

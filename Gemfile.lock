@@ -188,6 +188,9 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.14.6)
+    time_diff (0.2.2)
+      activesupport
+      i18n
     timeliness (0.3.4)
     treetop (1.4.10)
       polyglot
@@ -231,4 +234,5 @@ DEPENDENCIES
   ruby-prof
   test-unit
   thin
+  time_diff
   validates_timeliness (~> 3.0.2)
