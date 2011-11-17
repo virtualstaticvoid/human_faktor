@@ -45,10 +45,6 @@ class StaffLeaveSummaryEnquiry
     @filter_by = 'none'
   end
 
-  def date_range
-    (self.date_from..self.date_to)
-  end
-  
   def employees
     case self.filter_by
       when 'location' then
