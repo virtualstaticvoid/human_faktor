@@ -198,7 +198,13 @@ class LeaveType < ActiveRecord::Base
     self.cycle_start_date_for(employee, index + 1) - 1.day
   end
 
+  def leave_carried_forward_for(employee, date_as_at)
+    # accumulate leave from the previous period
+    0
+  end
+
   # calculates the total allowance for the leave cycle of the given `date_as_at`
+  # there is no carried forward balance for non-accrued leave types... only take on balances...
   def allowance_for(employee, date_as_at)
     return nil unless employee && date_as_at
   
@@ -218,11 +224,6 @@ class LeaveType < ActiveRecord::Base
       0 : 
       employee.leave_cycle_allocation_for(self)
 
-  end
-
-  def leave_carried_forward_for(employee, date_as_at)
-    # accumulate leave from the previous period
-    0
   end
 
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
@@ -333,6 +334,12 @@ class LeaveType < ActiveRecord::Base
       true
     end
   
+    def leave_carried_forward_for(employee, date_as_at)
+      # TODO: accumulate leave from the previous period
+      0
+    end
+
+    # NOTE: this excludes the carried forward balance  
     def allowance_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
