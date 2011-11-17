@@ -6,8 +6,8 @@
 
 <p><strong><%= @leave_request.reinstated_by.full_name %></strong> has reinstated your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 
-<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
-<%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details' %>
+<%= render :partial => 'leave_balance' %>
 
 <p>Reinstatement Details:</p>
 <table>

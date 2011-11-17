@@ -6,7 +6,7 @@
 
 <p>The <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave request for <strong><%= @leave_request.employee.full_name %></strong> has been cancelled.</p>
 
-<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details' %>
 
 <p>Cancellation Details:</p>
 <table>

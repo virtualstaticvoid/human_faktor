@@ -10,8 +10,8 @@
 <p><strong><%= @leave_request.employee.full_name %></strong> has applied for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 <% end %>
 
-<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
-<%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details' %>
+<%= render :partial => 'leave_balance' %>
 
 <p>To approve or decline the leave request, please follow this link:</p>
 

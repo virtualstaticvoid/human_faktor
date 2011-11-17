@@ -12,8 +12,8 @@
 <p><strong><%= @leave_request.approved_declined_by.full_name %></strong> has approved your request for <strong><%= @leave_request.leave_type.to_s.downcase %></strong> leave.</p>
 <% end %>
 
-<%= render :partial => 'leave_details', :locals => { :leave_request => @leave_request } %>
-<%= render :partial => 'leave_balance', :locals => { :leave_request => @leave_request } %>
+<%= render :partial => 'leave_details' %>
+<%= render :partial => 'leave_balance' %>
 
 <p>To review the leave request, please follow this link:</p>
 

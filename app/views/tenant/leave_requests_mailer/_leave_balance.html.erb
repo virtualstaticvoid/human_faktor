@@ -1,4 +1,3 @@
-<% leave_balance = @leave_request.leave_balance %>
 <p>Leave Balance Details:</p>
 
 <table>
@@ -8,38 +7,38 @@
     <td><%= @leave_request.date_from_s %></td>
   </tr>
   
-  <% if leave_balance.take_on > 0 %>
+  <% if @leave_balance.take_on > 0 %>
     <tr>
       <td></td>
       <td>Take On:</td>
-      <td><%= pluralize(number_with_precision(leave_balance.take_on, :precision => 1), 'day') %></td>
+      <td><%= pluralize(number_with_precision(@leave_balance.take_on, :precision => 1), 'day') %></td>
     </tr>
   <% end %>
   
   <tr>
     <td></td>
     <td>Allowance:</td>
-    <td><%= pluralize(number_with_precision(leave_balance.allowance, :precision => 1), 'day') %></td>
+    <td><%= pluralize(number_with_precision(@leave_balance.allowance, :precision => 1), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td><em>less</em> Leave taken:</td>
-    <td><%= pluralize(number_with_precision(leave_balance.leave_taken, :precision => 1), 'day') %></td>
+    <td><%= pluralize(number_with_precision(@leave_balance.leave_taken, :precision => 1), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td>Leave available:</td>
-    <td><%= pluralize(number_with_precision(leave_balance.available, :precision => 1), 'day') %></td>
+    <td><%= pluralize(number_with_precision(@leave_balance.available, :precision => 1), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td><em>less</em> Outstanding:</td>
-    <td><%= pluralize(number_with_precision(leave_balance.outstanding, :precision => 1), 'day') %></td>
+    <td><%= pluralize(number_with_precision(@leave_balance.outstanding, :precision => 1), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td>Leave balance:</td>
-    <td><%= pluralize(number_with_precision(leave_balance.projected, :precision => 1), 'day') %></td>
+    <td><%= pluralize(number_with_precision(@leave_balance.projected, :precision => 1), 'day') %></td>
   </tr>
 </table>
 

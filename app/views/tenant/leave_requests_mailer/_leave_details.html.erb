@@ -4,33 +4,33 @@
   <tr>
     <td width="20px"></td>
     <td width="120px">Created:</td>
-    <td><%= leave_request.created_at_s %></td>
+    <td><%= @leave_request.created_at_s %></td>
   </tr>
   <tr>
     <td></td>
     <td>From:</td>
-    <td><%= leave_request.date_from_s %></td>
+    <td><%= @leave_request.date_from_s %></td>
   </tr>
   <tr>
     <td></td>
     <td>To:</td>
-    <td><%= leave_request.date_to_s %></td>
+    <td><%= @leave_request.date_to_s %></td>
   </tr>
   <tr>
     <td></td>
     <td>Duration:</td>
-    <td><%= pluralize(leave_request.duration, 'day') %></td>
+    <td><%= pluralize(@leave_request.duration, 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td>Warnings:</td>
     <td><%= @leave_request.has_constraint_violations? ? 'Yes' : 'No' %></td>
   </tr>
-  <% if leave_request.comment.present? %>
+  <% if @leave_request.comment.present? %>
     <tr>
       <td></td>
       <td>Comment:</td>
-      <td><%= leave_request.comment %></td>
+      <td><%= @leave_request.comment %></td>
     </tr>
   <% end %>
 </table>

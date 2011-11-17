@@ -2,14 +2,7 @@ Hello <%= @leave_request.employee.full_name %>,
 
 <%= @leave_request.approved_declined_by.full_name %> has declined your request for <%= @leave_request.leave_type.to_s.downcase %> leave.
 
-Leave Request Details:
-
-  Created:  <%= @leave_request.created_at_s %>
-  From:     <%= @leave_request.date_from_s %>
-  To:       <%= @leave_request.date_to_s %>
-  Duration: <%= pluralize(@leave_request.duration, 'day') %>
-  Warnings: <%= @leave_request.has_constraint_violations? ? 'Yes' : 'No' %>
-  Comment:  <%= @leave_request.comment %>
+<%= render :partial => 'leave_details' %>
   
 To review the leave request, please follow this link:
 
