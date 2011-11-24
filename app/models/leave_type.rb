@@ -290,12 +290,14 @@ class LeaveType < ActiveRecord::Base
     def cycle_index_of(employee, date)
       return nil unless employee && date
 
-      index, start_date, employee_start_date = -1, self.cycle_start_date, employee_start_date(employee)
+      index, employee_start_date = -1, employee_start_date(employee)
+      start_date = Date.new(employee_start_date.year, self.cycle_start_date.month, 1)
+      
       return nil if date < start_date || date < employee_start_date
 
       while start_date <= date
         start_date += cycle_duration_in_units
-        index += 1 if start_date >= employee_start_date
+        index += 1
       end
       index
     end
@@ -305,11 +307,12 @@ class LeaveType < ActiveRecord::Base
       return nil unless employee
       return nil if index < 0
 
-      start_date, employee_start_date = self.cycle_start_date, employee_start_date(employee)
+      employee_start_date = employee_start_date(employee)
+      start_date = Date.new(employee_start_date.year, self.cycle_start_date.month, 1)
 
       while index > 0
         start_date += cycle_duration_in_units
-        index -= 1 if start_date >= employee_start_date
+        index -= 1
       end
       start_date
     end
