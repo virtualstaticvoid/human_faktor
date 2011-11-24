@@ -40,3 +40,7 @@
   -moz-box-shadow: 3px 3px 3px #D0D0D0;
   -webkit-box-shadow: 3px 3px 3px #D0D0D0;
 }
+
+.make_prominant {
+  background-color: wheat;
+}

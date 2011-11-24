@@ -4,21 +4,12 @@
   The online employee leave management solution!
 </h2>
 
-<div style="height: 420px;">
+<div>
 
-  <div style="float: left; height: 400px; width: 530px;">
-    <ul class="features">
-      <li class="nice_box simple">Simple, intuitive and efficient leave management</li>
-      <li class="nice_box workflow">Full leave application, approval, rejection workflow</li>
-      <li class="nice_box email">E-mail notification of entire application process</li>
-      <li class="nice_box dashboard">Dashboards for effective management information</li>
-      <li class="nice_box heatmap">Heat maps to identify potential staff issues </li>
-    </ul>
-  </div>
+  <div style="height: 220px; padding: 0 160px 0 160px;">
 
-  <div style="float: right; height: 400px; width: 380px;">
-    <div style="margin: 8px;">
-      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box">
+    <div style="float: left; margin: 8px; width: 280px;">
+      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box <%= session[:visited] ? '' : 'make_prominant' %>">
         <div>
           <%= link_to image_tag('../images/play.png'), dashboard_path(:tenant => 'demo', :auth_token => auth_token), :target => '_blank' %>
         </div>
@@ -32,8 +23,8 @@
       </div>
     </div>  
 
-    <div style="margin: 8px;">
-      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box">
+    <div style="float: right; margin: 8px; width: 280px;">
+      <div style="padding: 12px; text-align: center; height: 166px;" class="nice_box <%= session[:visited] ? 'make_prominant' : '' %>">
         <div>
           <%= link_to image_tag('../images/start.png'), new_account_registration_path() %>
         </div>
@@ -45,6 +36,17 @@
         </p>
       </div>
     </div>  
+  </div>
+
+  <div style="padding: 0 160px 20px 160px;">
+
+    <ul class="features">
+      <li class="nice_box simple">Simple, intuitive and efficient leave management</li>
+      <li class="nice_box workflow">Full leave application, approval, rejection workflow</li>
+      <li class="nice_box email">E-mail notification of entire application process</li>
+      <li class="nice_box dashboard">Dashboards for effective management information</li>
+      <li class="nice_box heatmap">Heat maps to identify potential staff issues </li>
+    </ul>
 
   </div>
 
