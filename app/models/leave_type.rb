@@ -199,7 +199,7 @@ class LeaveType < ActiveRecord::Base
   end
 
   def leave_carried_forward_for(employee, date_as_at)
-    # accumulate leave from the previous period
+    # accumulate leave from the previous period(s) up to the `date_as_at`
     0
   end
 
