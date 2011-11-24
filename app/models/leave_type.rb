@@ -449,7 +449,7 @@ class LeaveType < ActiveRecord::Base
       # the allowance is pro-rated 
       allowance = (self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle
 
-      allowance.round(1)  # NB: round up to 1 decimal
+      allowance.round(2)
       
     end
     
