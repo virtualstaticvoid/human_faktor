@@ -126,7 +126,7 @@
         <td></td>
       </tr>
 
-      <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on > 0 %>
+      <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on != 0 %>
         <tr>
           <td>Take On:</td>
           <td><%= pluralize(number_with_precision(leave_balance.take_on, :precision => 1), 'day') %></td>
@@ -134,7 +134,7 @@
         </tr>
       <% end %>
 
-      <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward > 0 %>
+      <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward != 0 %>
         <tr>
           <td>Carried Forward:</td>
           <td><%= pluralize(number_with_precision(leave_balance.carried_forward, :precision => 1), 'day') %></td>
@@ -165,7 +165,7 @@
         <td></td>
       </tr>
 
-      <% if leave_balance.outstanding > 0 %>
+      <% if leave_balance.outstanding != 0 %>
         <tr>
           <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
           <td><%= pluralize(number_with_precision(leave_balance.outstanding - @leave_request.duration, :precision => 1), 'day') %></td>
