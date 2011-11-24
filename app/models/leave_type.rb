@@ -437,7 +437,7 @@ class LeaveType < ActiveRecord::Base
       cycle_start_date = self.cycle_start_date_of(employee, date_as_at)
       cycle_duration_days = cycle_duration_in_units / 1.days
       
-      start_date = cycle_start_date < employee_start_date ? cycle_start_date : employee_start_date
+      start_date = (employee_start_date > cycle_start_date ? employee_start_date : cycle_start_date)
       end_date = date_as_at
       
       # ASSERTIONS
@@ -446,7 +446,6 @@ class LeaveType < ActiveRecord::Base
       days_in_cycle = end_date - start_date
         
       # NOTE: includes all leave up to the end of the cycle
-      leave_taken = leave_taken(employee, start_date, end_date, false)
       unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
       # the allowance is pro-rated 
