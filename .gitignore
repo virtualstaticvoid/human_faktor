@@ -2,8 +2,7 @@
 *.sublime-workspace
 .bundle
 .rvmrc
-/config/secrets.yml
-config/environments/*.yml
+/config/environment.yml
 coverage.data
 coverage/
 db/*.sqlite3
