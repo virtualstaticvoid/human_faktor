@@ -10,7 +10,16 @@
   </div>
   <div class="menu_bar menu_bar_right">
     <ul>
-      <li><%= link_to "Sign Out", destroy_employee_session_path %></li>
+      <% if current_account.demo_account? %>
+        <li>
+          <div>
+            <%= link_to image_tag('../images/start_trial.png', :width => '22px', :height => '22px', :style => 'position: absolute;'), new_account_registration_path %>
+            <%= link_to "Sign up for Free Trial", new_account_registration_path, :style => 'padding-left: 28px;' %>
+          </div>
+        </li>
+      <% else %>
+        <li><%= link_to "Sign Out", destroy_employee_session_path %></li>
+      <% end %>
     </ul>
   </div>
 <% else %>

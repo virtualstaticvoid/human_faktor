@@ -125,6 +125,10 @@ class Account < ActiveRecord::Base
     self.title
   end
 
+  def demo_account?
+    self.subdomain == "demo"
+  end
+
   def registration
     @registration ||= Registration.find_by_auth_token(self.auth_token)
   end
