@@ -24,4 +24,11 @@ SitemapGenerator::Sitemap.create do
   #   Article.find_each do |article|
   #     add article_path(article), :lastmod => article.updated_at
   #   end
+
+  # only include the public main pages
+  add home_features_path()
+  add home_subscriptions_path()
+  add home_partner_path()
+  add home_contact_path()
+
 end
