@@ -11,5 +11,6 @@ db/backups/*.backup
 db/backups/*.restore
 heroku_setup.sh
 log/*.log
+public/sitemap*
 public/system/*
 tmp/
