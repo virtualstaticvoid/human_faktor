@@ -185,9 +185,28 @@ class LeaveTypeTest < ActiveSupport::TestCase
       # assert leave_type.valid?
 
       assert_equal 0, leave_type.allowance_for(employee, Date.new(2000, 1, 1))
+    end
+  end
+
+  test "should allocate full allowance for full year" do
+    employee = employees(:employee)
+    employee.start_date = Date.new(2000, 2, 1)
+    employee.take_on_balance_as_at = nil
+
+    LeaveType.for_each_leave_type do |leave_type_class|
+      leave_type = leave_type_class.new(
+        :account_id => @account.id,
+        :cycle_start_date => Date.new(2000, 1, 1),
+        :cycle_duration => 1,
+        :cycle_duration_unit => LeaveType::DURATION_UNIT_YEARS,
+        :cycle_days_allowance => 21
+      )
+      # assert leave_type.valid?
 
       assert leave_type.allowance_for(employee, Date.new(2000, 4, 1)) > 0
-      assert_equal leave_type.cycle_days_allowance, leave_type.allowance_for(employee, Date.new(2001, 2, 1))
+      assert_equal leave_type.cycle_days_allowance, 
+                   leave_type.allowance_for(employee, (employee.start_date >> 12) - 1),
+                   "leave_type => #{leave_type}, employee.start_date => #{employee.start_date}, to_date => #{(employee.start_date >> 12) - 1}"
     end
   end
 
