@@ -519,13 +519,20 @@ class LeaveType < ActiveRecord::Base
   protected
   
   def leave_taken(employee, start_date, end_date, unpaid = false)
+
+    #
+    # BUG: This include durations before and after the date range filter
+    #      when the request overlaps the start or end of date range
+    #
+
     employee.leave_requests.active.where(
       :leave_type_id => self.id,
       :unpaid => unpaid
     ).where(
-      ' date_from BETWEEN :from AND :to ',
+      ' date_from BETWEEN :from AND :to OR date_to BETWEEN :from AND :to ',
       { :from => start_date, :to => end_date }
     ).sum(:duration)
+
   end
   
   def cycle_duration_in_units(multiplier = 1)
