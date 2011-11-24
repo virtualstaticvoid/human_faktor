@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/virtualstaticvoid/app_config.git
-  revision: 734b79374f28790cbac1db92abe218918764f70a
-  branch: master
-  specs:
-    app_config (0.0.1)
-      rails (~> 3.0.0)
-
-GIT
   remote: git://github.com/virtualstaticvoid/colorist.git
   revision: 415413db8d891edc1851c8e7f77e31d79d01b607
   branch: master
@@ -165,6 +157,7 @@ GEM
       activesupport (= 3.0.10)
       bundler (~> 1.0)
       railties (= 3.0.10)
+    rails_simple_config (0.0.4)
     railties (3.0.10)
       actionpack (= 3.0.10)
       activesupport (= 3.0.10)
@@ -180,6 +173,7 @@ GEM
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
     sexp_processor (3.0.7)
+    sitemap_generator (2.1.6)
     slop (2.1.0)
     term-ansicolor (1.0.7)
     test-unit (2.4.1)
@@ -207,7 +201,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  app_config!
   aws-s3
   aws-ses (~> 0.4.3)
   cover_me
@@ -230,8 +223,10 @@ DEPENDENCIES
   pry
   rack-recaptcha!
   rails (= 3.0.10)
+  rails_simple_config
   rb-inotify
   ruby-prof
+  sitemap_generator
   test-unit
   thin
   time_diff

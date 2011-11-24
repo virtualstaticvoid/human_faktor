@@ -7,7 +7,7 @@ require 'rails/all'
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 # Load environment variables
-env_config_filename = File.expand_path("../environments/#{Rails.env}.yml", __FILE__)
+env_config_filename = File.expand_path("../config/environemt.yml", __FILE__)
 if File.exist?(env_config_filename)
   env_config = File.read(env_config_filename)
   YAML.load(env_config).each do |key, value|
@@ -60,8 +60,8 @@ module HumanFaktor
     end
     
     # Configure reCAPTCHA
-    config.middleware.use Rack::Recaptcha, :public_key => ENV['RECAPTCHA_PUBLIC_KEY'], 
-                                           :private_key => ENV['RECAPTCHA_PRIVATE_KEY']
+    config.middleware.use Rack::Recaptcha, :public_key => AppConfig.recaptcha_key, 
+                                           :private_key => AppConfig.recaptcha_secret
    
     # Customize layout used by devise
     config.to_prepare { 
