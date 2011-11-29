@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+robink:
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: robink
+  email: robink@human-faktor.com
+  active: true
+
+chriss:
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: chriss
+  email: chriss@human-faktor.com
+  active: true
