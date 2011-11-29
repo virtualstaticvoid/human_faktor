@@ -50,12 +50,13 @@ class Employee < ActiveRecord::Base
   # identifier  
   validates :identifier, :presence => true, :uniqueness => true
   validates :user_name, :presence => true, 
-                        :length => { :maximum => 20 },
+                        :length => { :maximum => 50 },
                         :uniqueness => { :scope => [:account_id], :case_sensitive => false }
 
-  validates :email, :email => true, :allow_blank => lambda { !self.notify }
-  
-   #, :uniqueness => { :scope => [:account_id] }
+  validates :email, :email => true, 
+                    :length => { :maximum => 255 },
+                    :allow_blank => lambda { !self.notify },
+                    :uniqueness => { :scope => [:account_id] }
   
   # authentication
   validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
@@ -67,7 +68,7 @@ class Employee < ActiveRecord::Base
   # personal information
   validates :title, :allow_blank => true, :length => { :maximum => 20 }
   validates :first_name, :presence => true, :length => { :maximum => 100 }
-  validates :middle_name, :allow_blank => true, :length => { :maximum => 20 }
+  validates :middle_name, :allow_blank => true, :length => { :maximum => 100 }
   validates :last_name, :presence => true, :length => { :maximum => 100 }
 
   GENDER_MALE = 1
