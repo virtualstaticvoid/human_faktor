@@ -13,7 +13,7 @@
     <div class="panel_box box_radius box_shadow">
       
       <div class="panel_box_title box_radius_top background_4">
-        <h2><%= current_account.title %> - Sign In</h2>
+        <h2><%= current_account.nil? ? 'Administration' : current_account.title %> - Sign In</h2>
       </div>
       
       <div class="panel_box_content">
