@@ -21,6 +21,17 @@
 
             <div id="center_container">
 
+              <% if current_account.demo_account? %>
+                <div class="centered">
+                  <div class="notices box_radius">
+                    <div class="flash flash_warning">
+                      This is the <b>Demonstration</b> Account! &nbsp; 
+                      <%= link_to "Sign up", new_account_registration_path %> for your own account.
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+
               <div id="content_body">
               
                 <% if content_for?(:title) %>
