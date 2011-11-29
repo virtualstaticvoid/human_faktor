@@ -24,6 +24,21 @@ HumanFaktor::Application.routes.draw do
   get "registrations/:id/query/:started(.:format)", :to => 'registrations#query', :as => :query_account_registration
 
   ###
+  # routes for tenant administration
+  #
+
+  scope 'admin' do
+
+    devise_for :tenant_admins, :path => "" do
+      # TODO: additional configuration for devise
+    end
+
+    get ":id", :to => 'tenant_admin#show', :as => :show_account
+    get "/", :to => 'tenant_admin#index', :as => :tenant_admin
+
+  end
+
+  ###
   # routes for tenant
   #
 

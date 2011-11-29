@@ -1,0 +1,23 @@
+<% title "Tenant Administration" %>
+
+<div id="paginator">
+  <%= paginate @accounts, :remote => true %>
+</div>
+
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Subdomain</th>
+      <th>Employees</th>
+      <th>Last Activity</th>
+      <th>Updated</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+<%= render @accounts %>
+  </tbody>
+</table>
+
+<%= table_grid_row_click_handler %>

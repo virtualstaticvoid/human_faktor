@@ -1,0 +1,92 @@
+<% title "Administer - #{@account.title}" %>
+
+<h3>Account Details</h3>
+<table class="table_grid">
+  <tr>
+    <td width="240px">Title</td>
+    <td><%= @account.title %></td>
+  </tr>
+  <tr>
+    <td>Subdomain</td>
+    <td><%= @account.subdomain %></td>
+  </tr>
+  <tr>
+    <td>Created</td>
+    <td><%= @account.created_at %></td>
+  </tr>
+  <tr>
+    <td>Updated</td>
+    <td><%= @account.updated_at %></td>
+  </tr>
+  <tr>
+    <td>Country</td>
+    <td><%= @account.country %></td>
+  </tr>
+  <tr>
+    <td>Active</td>
+    <td><%= @account.active? ? 'Yes' : 'No' %></td>
+  </tr>
+  <tr>
+    <td>Total Employees</td>
+    <td><%= @account.employees.count() %></td>
+  </tr>
+  <tr>
+    <td>Total Active Employees</td>
+    <td><%= @account.employees.where(:active => true).count() %></td>
+  </tr>
+</table>
+
+<br />
+<br />
+
+<h3>Account Subscriptions</h3>
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>From Date</th>
+      <th>To Date</th>
+      <th>Price</th>
+      <th>Max Employees</th>
+      <th>Threshold</th>
+      <th>Price Over Threshold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for subscription in @account.account_subscriptions %>
+      <tr>
+        <td><%= subscription.title %></td>
+        <td><%= subscription.from_date %></td>
+        <td><%= subscription.to_date %></td>
+        <td class="right"><%= subscription.price %></td>
+        <td class="right"><%= subscription.max_employees %></td>
+        <td class="right"><%= subscription.threshold %></td>
+        <td class="right"><%= subscription.price_over_threshold %></td>
+      </tr> 
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+<br />
+
+<h3>Employees</h3>
+<table class="table_grid">
+  <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>Designation</th>
+      <th width="130px">Role</th>
+      <th>Location</th>
+      <th>Department</th>
+      <th>Approver</th>
+      <th width="40px"></th>
+      <th width="40px"></th>
+    </tr>
+  </thead>
+  <tbody id="data-rows">
+<%= render @account.employees %>  
+  </tbody>
+</table>
+
+<p><%= link_to 'Back', tenant_admin_path() %></p>

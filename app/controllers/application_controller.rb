@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  before_filter :ensure_account
+  before_filter :ensure_account  # needed so devise works properly
   
   helper_method :partials_path
   helper_method :current_account
@@ -45,6 +45,12 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_account
+
+    #
+    # NB: not applicable for TenantAdmin
+    #
+    return true if resource_name == :tenant_admin
+
     AccountTracker.current = Account.find_by_subdomain(params[:tenant]) unless params[:tenant].nil?
     redirect_to(home_sign_in_url) and return false if current_account.nil?
     

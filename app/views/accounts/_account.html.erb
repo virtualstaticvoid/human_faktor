@@ -1,0 +1,9 @@
+<tr id="_account_<%= account.to_param %>" data-url="<%= show_account_path(account) %>" style="<% unless account.active? %>text-decoration: line-through;<% end %>">
+  <td><%= account.title %></td>
+  <td><%= account.subdomain %></td>
+  <td class="right"><%= account.employees.count() %></td>
+  <td class="right"><%= time_ago_in_words(account.last_active_at) %> ago</td>
+  <td class="right"><%= time_ago_in_words(account.updated_at) %> ago</td>
+  <td class="right"><%= time_ago_in_words(account.created_at) %> ago</td>
+</tr>
+
