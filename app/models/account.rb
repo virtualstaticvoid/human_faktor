@@ -3,6 +3,7 @@ require 'date'
 class Account < ActiveRecord::Base
 
   RESERVED_SUBDOMAINS = %w{
+    admin
     about 
     contact 
     features 
