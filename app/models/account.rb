@@ -158,4 +158,11 @@ class Account < ActiveRecord::Base
     @default_admin ||= self.employees.where(:role => 'admin').first
   end
 
+  def last_active_at
+    last_active_employee = self.employees.order(:last_sign_in_at).first()
+    last_active_employee.nil? ? 
+      (self.updated_at || self.created_at) : 
+      last_active_employee.last_sign_in_at || last_active_employee.created_at
+  end
+
 end
