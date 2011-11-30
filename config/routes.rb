@@ -33,6 +33,7 @@ HumanFaktor::Application.routes.draw do
       # TODO: additional configuration for devise
     end
 
+    get "impersonate/:id", :to => 'tenant_admin#impersonate', :as => :impersonate
     get ":id", :to => 'tenant_admin#show', :as => :show_account
     get "/", :to => 'tenant_admin#index', :as => :tenant_admin
 

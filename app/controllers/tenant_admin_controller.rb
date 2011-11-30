@@ -12,6 +12,12 @@ class TenantAdminController < ApplicationController
   def show
     @account = Account.find_by_identifier(params[:id])
   end
+  
+  def impersonate
+    employee = Employee.find_by_identifier(params[:id])
+    sign_in(:employee, employee)
+    redirect_to dashboard_url(:tenant => employee.account.subdomain)
+  end
 
   private
 
