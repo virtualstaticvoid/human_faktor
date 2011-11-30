@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
     #
     # NB: not applicable for TenantAdmin
     #
-    return true if resource_name == :tenant_admin
+    return true if respond_to?(:resource_name) && resource_name == :tenant_admin
 
     AccountTracker.current = Account.find_by_subdomain(params[:tenant]) unless params[:tenant].nil?
     redirect_to(home_sign_in_url) and return false if current_account.nil?
