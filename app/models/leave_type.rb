@@ -229,15 +229,16 @@ class LeaveType < ActiveRecord::Base
     def leave_carried_forward_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
+# TODO: take into account take on balance
+
       # accumulate leave from the start date up to the cycle start date of `date_as_at`
-      # subtract the leave taken in this period
-      # NOTE: allowance is pro-rated if the employee started intra cycle
 
       up_to_date = self.cycle_start_date_for(date_as_at, employee) - 1
 
       return 0 if employee.start_date > up_to_date
+#return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
 
-      leave_allowance = 0
+      leave_allowance = 0.0
       cycle_duration_days = cycle_duration_in_units / 1.days
       
       start_date = employee.start_date
@@ -247,7 +248,11 @@ class LeaveType < ActiveRecord::Base
         end_date = self.cycle_end_date_for(start_date, employee)
 
         days_in_cycle = end_date - start_date
+
+        # subtract the leave taken in this period
         leave_taken = leave_taken(employee, start_date, end_date, false)
+
+        # NOTE: allowance is pro-rated if the employee started intra cycle
         unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
         leave_allowance += ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle) - leave_taken
@@ -256,20 +261,31 @@ class LeaveType < ActiveRecord::Base
 
       end
 
-      leave_allowance
+      leave_allowance.round(1)
     end
 
     def allowance_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
+# TODO: take into account take on balance
+
       return 0 if employee.start_date > date_as_at
+#return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
 
       # accumulate leave from the current period start date to the `date_as_at`
-      # subtract the leave taken in this period
+      # NOTE: no deductions are made!
+
+      cycle_duration_days = cycle_duration_in_units / 1.days
+      start_date = self.cycle_start_date_for(date_as_at, employee)
+      end_date = date_as_at
+      days_in_cycle = end_date - start_date
 
       # NOTE: allowance is pro-rated if the employee started intra cycle
+      unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
-      0
+      leave_allowance = ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle)
+
+      leave_allowance.round(1)
     end
     
   end
