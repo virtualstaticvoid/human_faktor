@@ -7,7 +7,8 @@ module Tenant
       @employee = employees(:test)
       @employee_attributes = @employee.attributes.merge!({ 
         "identifier" => TokenHelper.friendly_token,
-        "user_name" => 'test.user'
+        "user_name" => 'test.user',
+        "email" => 'unique@human-faktor.com'
       })
     end
 

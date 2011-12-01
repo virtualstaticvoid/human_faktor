@@ -59,7 +59,10 @@ class Employee < ActiveRecord::Base
                     :uniqueness => { :scope => [:account_id] }
   
   # authentication
-  validates :password, :confirmation => true, :length => { :in => 5..20 }, :allow_nil => true, :if => lambda { self.active }
+  validates :password, :confirmation => true, 
+                       :length => { :in => 5..20 }, 
+                       :allow_nil => true, 
+                       :if => lambda { self.active }
 
   def has_password?
     self.encrypted_password.present?
