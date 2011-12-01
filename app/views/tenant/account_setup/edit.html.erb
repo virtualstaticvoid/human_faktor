@@ -67,7 +67,6 @@
     <h3>Leave Policy Settings</h3>
 
     <div class="clearfix">
-
       <div class="field required" style="float: left; width: 457px;">
         <div><%= f.label :fixed_daily_hours %></div>
         <span><%= f.text_field :fixed_daily_hours, :style => 'width: 158px;' %></span>
@@ -79,18 +78,21 @@
         <span><%= f.date_picker :leave_cycle_start_date %></span>
         <span class="field_info"></span>
       </div>
-
     </div>
+
+    <div class="clearfix">
 
     <% LeaveType.for_each_leave_type_name do |leave_type_name| %>
     
-      <div class="field required">
+      <div class="field required" style="float: left; width: 457px;">
         <div><%= f.label :"#{leave_type_name}_leave_allowance" %></div>
         <span><%= f.text_field :"#{leave_type_name}_leave_allowance", :style => 'width: 158px;' %></span>
         <span class="field_info">days</span>
       </div>
 
     <% end %>
+
+    </div>
 
   </div>
   
