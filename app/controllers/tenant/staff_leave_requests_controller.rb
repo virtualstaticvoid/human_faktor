@@ -7,8 +7,8 @@ module Tenant
       filter_params = params[:leave_request_filter] || {}
       @filter = LeaveRequestFilter.new(current_account, current_employee).tap do |c|
         c.status = filter_params[:status] || LeaveRequest::STATUS_PENDING
-        c.date_from = safe_parse_date(filter_params[:date_from], current_leave_cycle_start_date())
-        c.date_to = safe_parse_date(filter_params[:date_to], current_leave_cycle_end_date())
+        c.date_from = safe_parse_date(filter_params[:date_from], leave_cycle_start_date())
+        c.date_to = safe_parse_date(filter_params[:date_to], leave_cycle_end_date())
         c.leave_type_id = filter_params[:leave_type_id].to_i || 0
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id

@@ -24,11 +24,11 @@ class ApplicationControllerTest < ActionController::TestCase
   end
 
   test "provides current_leave_cycle_start_date helper" do
-    assert @controller.send(:current_leave_cycle_start_date, Date.today)
+    assert @controller.send(:leave_cycle_start_date, Date.today)
   end
 
   test "provides current_leave_cycle_end_date helper" do
-    assert @controller.send(:current_leave_cycle_end_date, Date.today)
+    assert @controller.send(:leave_cycle_end_date, Date.today)
   end
 
 end

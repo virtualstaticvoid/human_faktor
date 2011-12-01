@@ -102,7 +102,7 @@ module LeaveConstraints
 
     def leave_allowance(request)
       leave_type = request.leave_type
-      leave_type.leave_take_on_for(request.employee, request.date_from) +
+      leave_type.take_on_balance_for(request.employee, request.date_from) +
         leave_type.allowance_for(request.employee, request.date_from)
     end
   

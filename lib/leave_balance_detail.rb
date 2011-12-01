@@ -18,7 +18,7 @@ class LeaveBalanceDetail
   def initialize(leave_type, employee, date_as_at)
     @leave_type = leave_type
 
-    @take_on = leave_type.leave_take_on_for(employee, date_as_at)
+    @take_on = leave_type.take_on_balance_for(employee, date_as_at)
     @carried_forward = leave_type.leave_carried_forward_for(employee, date_as_at)
     @allowance = leave_type.allowance_for(employee, date_as_at)
     @leave_taken = leave_type.leave_taken_for(employee, date_as_at)
@@ -30,8 +30,8 @@ class LeaveBalanceDetail
 
     # extras
     @unpaid_leave_taken = leave_type.leave_taken_for(employee, date_as_at, true)
-    @cycle_start_date = leave_type.cycle_start_date_of(employee, date_as_at)
-    @cycle_end_date = leave_type.cycle_end_date_of(employee, date_as_at)
+    @cycle_start_date = leave_type.cycle_start_date_for(date_as_at, employee)
+    @cycle_end_date = leave_type.cycle_end_date_for(date_as_at, employee)
   end
   
 end

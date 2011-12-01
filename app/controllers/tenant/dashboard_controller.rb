@@ -63,8 +63,8 @@ module Tenant
 
       filter_params = params[:staff_calendar_enquiry] || {}
       @staff_calendar = StaffCalendarEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = safe_parse_date(filter_params[:date_from], current_leave_cycle_start_date())
-        c.date_to = safe_parse_date(filter_params[:date_to], current_leave_cycle_end_date())
+        c.date_from = safe_parse_date(filter_params[:date_from], leave_cycle_start_date())
+        c.date_to = safe_parse_date(filter_params[:date_to], leave_cycle_end_date())
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
@@ -83,8 +83,8 @@ module Tenant
 
       filter_params = params[:staff_leave_summary_enquiry] || {}
       @filter = StaffLeaveSummaryEnquiry.new(current_account, current_employee).tap do |c|
-        c.date_from = safe_parse_date(filter_params[:date_from], current_leave_cycle_start_date())
-        c.date_to = safe_parse_date(filter_params[:date_to], current_leave_cycle_end_date())
+        c.date_from = safe_parse_date(filter_params[:date_from], leave_cycle_start_date())
+        c.date_to = safe_parse_date(filter_params[:date_to], leave_cycle_end_date())
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id
@@ -105,8 +105,8 @@ module Tenant
       @heat_map = HeatMapEnquiry.new(current_account, current_employee).tap do |c| 
         c.enquiry = filter_params[:enquiry] if filter_params[:enquiry]
         
-        c.date_from = safe_parse_date(filter_params[:date_from], current_leave_cycle_start_date())
-        c.date_to = safe_parse_date(filter_params[:date_to], current_leave_cycle_end_date())
+        c.date_from = safe_parse_date(filter_params[:date_from], leave_cycle_start_date())
+        c.date_to = safe_parse_date(filter_params[:date_to], leave_cycle_end_date())
         c.filter_by = @filter_by = filter_params[:filter_by] || 'none'
         c.location_id = filter_params[:location_id] || current_employee.location_id
         c.department_id = filter_params[:department_id] || current_employee.department_id

@@ -1,5 +1,5 @@
 <% # shown in my balance and on the employee maintenance views %>
-<% if leave_type.employee_start_date(employee) <= date_as_at
+<% if employee.start_date <= date_as_at
      leave_balance = employee.leave_balance(leave_type, date_as_at)
 %>
 
