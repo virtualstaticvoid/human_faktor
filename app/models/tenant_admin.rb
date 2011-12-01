@@ -14,6 +14,7 @@ class TenantAdmin < ActiveRecord::Base
                  :active => true
 
   validates :identifier, :presence => true, :uniqueness => true
+
   validates :user_name, :presence => true, 
                         :length => { :maximum => 50 },
                         :uniqueness => { :case_sensitive => false }
@@ -22,7 +23,8 @@ class TenantAdmin < ActiveRecord::Base
                     :length => { :maximum => 255 }
 
   validates :password, :confirmation => true, 
-                       :length => { :in => 5..20 }
+                       :length => { :in => 5..20 }, 
+                       :if => lambda { self.active }
 
   validates :active, :inclusion => { :in => [true, false] }
   
