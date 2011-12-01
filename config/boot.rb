@@ -10,7 +10,7 @@ env_config_filename = File.expand_path("../environment.yml", __FILE__)
 if File.exist?(env_config_filename)
   env_config = File.read(env_config_filename)
   YAML.load(env_config).each do |key, value|
-    puts "Loading #{key} environment setting..."
+    #puts "Loading #{key} environment setting..."
     ENV[key] = value
   end
 end
