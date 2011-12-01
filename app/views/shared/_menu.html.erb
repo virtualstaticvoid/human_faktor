@@ -17,7 +17,7 @@
             Account.select {|account| !account.default_admin.nil? }.collect {|account| 
               [
                 "#{account.subdomain} (#{account.default_admin.user_name})", 
-                dashboard_path(:tenant => account.subdomain, :auth_token => auth_token(account, account.default_admin))
+                impersonate_path(account.default_admin.to_param)
               ] 
           }) %>
         </select>
