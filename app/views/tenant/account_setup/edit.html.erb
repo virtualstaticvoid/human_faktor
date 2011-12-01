@@ -75,8 +75,8 @@
     
       <div class="field required" style="float: left; width: 457px;">
         <div><%= f.label :leave_cycle_start_date, 'Annual Leave cycle start date' %></div>
-        <span><%= f.date_picker :leave_cycle_start_date %></span>
-        <span class="field_info"></span>
+        <span><%= f.date_select :leave_cycle_start_date, :discard_year => true, :order => [:day, :month] %></span>
+        <span class="field_info">Usually the first day of a month</span>
       </div>
     </div>
 
