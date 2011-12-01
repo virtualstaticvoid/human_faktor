@@ -5,9 +5,11 @@ robink:
   user_name: robink
   email: robink@human-faktor.com
   active: true
+  encrypted_password: sekret
 
 chriss:
   identifier: <%= TokenHelper.friendly_token %>
   user_name: chriss
   email: chriss@human-faktor.com
   active: true
+  encrypted_password: sekret

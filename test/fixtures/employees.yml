@@ -4,7 +4,7 @@ admin:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: admin
-  email: info@human-faktor.com
+  email: info01@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Admin
@@ -26,7 +26,7 @@ manager:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: manager
-  email: info@human-faktor.com
+  email: info02@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Manager
@@ -48,7 +48,7 @@ approver:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: approver
-  email: info@human-faktor.com
+  email: info03@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Approver
@@ -70,7 +70,7 @@ employee:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee
-  email: info@human-faktor.com
+  email: info04@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee
@@ -95,7 +95,7 @@ test:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: test.employee
-  email: info@human-faktor.com
+  email: info05@human-faktor.com
   title: Mr
   first_name: Test
   last_name: Employee
@@ -120,7 +120,7 @@ takeon:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: takeon.employee
-  email: info@human-faktor.com
+  email: info06@human-faktor.com
   title: Mr
   first_name: TakeOn
   last_name: Employee
@@ -183,7 +183,7 @@ admin1:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: admin1
-  email: info@human-faktor.com
+  email: info07@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Admin1
@@ -203,7 +203,7 @@ manager1:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: manager1
-  email: info@human-faktor.com
+  email: info08@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Manager1
@@ -223,7 +223,7 @@ approver1:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: approver1
-  email: info@human-faktor.com
+  email: info09@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Approver1
@@ -243,7 +243,7 @@ approver2:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: approver2
-  email: info@human-faktor.com
+  email: info10@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Approver2
@@ -263,7 +263,7 @@ employee1:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee1
-  email: info@human-faktor.com
+  email: info11@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee1
@@ -284,7 +284,7 @@ employee2:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee2
-  email: info@human-faktor.com
+  email: info12@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee2
@@ -305,7 +305,7 @@ employee3:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee3
-  email: info@human-faktor.com
+  email: info13@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee3
@@ -326,7 +326,7 @@ manager2:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: manager2
-  email: info@human-faktor.com
+  email: info14@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Manager2
@@ -346,7 +346,7 @@ employee4:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee4
-  email: info@human-faktor.com
+  email: info15@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee4
@@ -367,7 +367,7 @@ manager3:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: manager3
-  email: info@human-faktor.com
+  email: info16@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Manager3
@@ -387,7 +387,7 @@ employee5:
   account: one
   identifier: <%= TokenHelper.friendly_token %>
   user_name: employee5
-  email: info@human-faktor.com
+  email: info17@human-faktor.com
   title: Mr
   first_name: Joe
   last_name: Employee5
