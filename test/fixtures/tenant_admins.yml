@@ -1,5 +1,12 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
+admin:
+  identifier: <%= TokenHelper.friendly_token %>
+  user_name: admin
+  email: admin@human-faktor.com
+  active: true
+  encrypted_password: sekret
+
 robink:
   identifier: <%= TokenHelper.friendly_token %>
   user_name: robink
