@@ -47,6 +47,11 @@ class ActionController::TestCase
     @account = accounts(DEFAULT_ACCOUNT)
   end
 
+  def admin_sign_in_as(tenant_admin)
+    admin = tenant_admins(tenant_admin)
+    sign_in admin
+  end
+
   def sign_in_as(role)
     employee = employees(role)
     sign_in employee
