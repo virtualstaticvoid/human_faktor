@@ -11,8 +11,8 @@ employee,take_on,carried_forward,allowance,taken,unpaid,balance,cycle_start_date
   data << leave_balance.leave_taken.round(2)
   data << leave_balance.unpaid_leave_taken.round(2)
   data << leave_balance.available.round(2)
-  data << @staff_balance.leave_type.cycle_start_date_of(@staff_balance.date_as_at, employee).strftime('%Y-%m-%d')
-  data << @staff_balance.leave_type.cycle_end_date_of(@staff_balance.date_as_at, employee).strftime('%Y-%m-%d')
+  data << @staff_balance.leave_type.cycle_start_date_for(@staff_balance.date_as_at, employee).strftime('%Y-%m-%d')
+  data << @staff_balance.leave_type.cycle_end_date_for(@staff_balance.date_as_at, employee).strftime('%Y-%m-%d')
   data << leave_balance.outstanding.round(2)
 
 %><%= data.join(',').html_safe %>
