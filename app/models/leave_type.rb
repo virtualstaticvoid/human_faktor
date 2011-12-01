@@ -229,16 +229,46 @@ class LeaveType < ActiveRecord::Base
     def leave_carried_forward_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
-      # TODO: accumulate leave from the previous period(s) up to the `date_as_at`
-      #   and subtract the leave taken in this period
-      0
+      # accumulate leave from the start date up to the cycle start date of `date_as_at`
+      # subtract the leave taken in this period
+      # NOTE: allowance is pro-rated if the employee started intra cycle
+
+      up_to_date = self.cycle_start_date_for(date_as_at, employee) - 1
+
+      return 0 if employee.start_date > up_to_date
+
+      leave_allowance = 0
+      cycle_duration_days = cycle_duration_in_units / 1.days
+      
+      start_date = employee.start_date
+
+      while start_date < up_to_date
+
+        end_date = self.cycle_end_date_for(start_date, employee)
+
+        days_in_cycle = end_date - start_date
+        leave_taken = leave_taken(employee, start_date, end_date, false)
+        unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
+
+        leave_allowance += ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle) - leave_taken
+
+        start_date = end_date + 1
+
+      end
+
+      leave_allowance
     end
 
     def allowance_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
-      # TODO: accumulate leave from the current period start date to the `date_as_at`
-      #   and subtract the leave taken in this period
+      return 0 if employee.start_date > date_as_at
+
+      # accumulate leave from the current period start date to the `date_as_at`
+      # subtract the leave taken in this period
+
+      # NOTE: allowance is pro-rated if the employee started intra cycle
+
       0
     end
     
