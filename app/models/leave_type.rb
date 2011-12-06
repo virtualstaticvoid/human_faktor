@@ -365,11 +365,11 @@ class LeaveType < ActiveRecord::Base
 
   end
   
-  def cycle_duration_in_units(multiplier = 1)
+  def cycle_duration_in_units
     case self.cycle_duration_unit
-      when DURATION_UNIT_DAYS then (self.cycle_duration * multiplier).days
-      when DURATION_UNIT_MONTHS then (self.cycle_duration * multiplier).months
-      when DURATION_UNIT_YEARS then (self.cycle_duration * multiplier).years
+      when DURATION_UNIT_DAYS then self.cycle_duration.days
+      when DURATION_UNIT_MONTHS then self.cycle_duration.months
+      when DURATION_UNIT_YEARS then self.cycle_duration.years
     end
   end
   
