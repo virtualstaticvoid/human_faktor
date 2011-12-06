@@ -26,7 +26,7 @@ class AnnualLeaveTypeTest < ActiveSupport::TestCase
 
   # configuration
 
-  test "configuration should have absolute start and end dates for leave cycle" do
+  test "configuration should have absolute start and end dates for cycle" do
     assert @leave_type.has_absolute_start_date?
   end
 
@@ -64,6 +64,58 @@ class AnnualLeaveTypeTest < ActiveSupport::TestCase
     assert_equal Date.new(2012, 1, 1), @leave_type.cycle_start_date_for(Date.new(2012, 1, 1))
   end
 
+  # start date with new employee
+
+  test "start dates for new employee should accept start date" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 1, 1), @new_employee)
+  end
+
+  test "start dates for new employee should accept any date in between" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 6, 30), @new_employee)
+  end
+
+  test "start dates for new employee should accept end date" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 12, 31), @new_employee)
+  end
+
+  test "start dates for new employee should yield employee start date" do
+    assert_equal @new_employee.start_date, @leave_type.cycle_start_date_for(Date.new(2010, 1, 1), @new_employee)
+  end
+
+  test "start dates for new employee should yield next start date" do
+    assert_equal Date.new(2012, 1, 1), @leave_type.cycle_start_date_for(Date.new(2012, 1, 1), @new_employee)
+  end
+
+  test "start dates for new employee prior to employee start date should yield nil" do
+    assert_equal nil, @leave_type.cycle_start_date_for(Date.new(2009, 1, 1), @new_employee)
+  end
+
+  # start date with existing employee
+
+  test "start dates for existing employee should accept start date" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 1, 1), @existing_employee)
+  end
+
+  test "start dates for existing employee should accept any date in between" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 6, 30), @existing_employee)
+  end
+
+  test "start dates for existing employee should accept end date" do
+    assert_equal @start_date, @leave_type.cycle_start_date_for(Date.new(2011, 12, 31), @existing_employee)
+  end
+
+  test "start dates for existing employee should yield employee start date" do
+    assert_equal Date.new(2005, 1, 1), @leave_type.cycle_start_date_for(Date.new(2005, 10, 1), @existing_employee)
+  end
+
+  test "start dates for existing employee should yield next start date" do
+    assert_equal Date.new(2012, 1, 1), @leave_type.cycle_start_date_for(Date.new(2012, 2, 1), @existing_employee)
+  end
+
+  test "start dates for existing employee prior to employee start date should yield nil" do
+    assert_equal nil, @leave_type.cycle_start_date_for(Date.new(2004, 1, 1), @existing_employee)
+  end
+
   # end date
 
   test "end dates w/o employee should accept start date" do
@@ -84,6 +136,28 @@ class AnnualLeaveTypeTest < ActiveSupport::TestCase
 
   test "end dates w/o employee should yield next end date" do
     assert_equal Date.new(2012, 12, 31), @leave_type.cycle_end_date_for(Date.new(2012, 1, 1))
+  end
+
+  # end date with new employee
+
+  test "end dates for new employee should accept start date" do
+    assert_equal Date.new(2011, 5, 31), @leave_type.cycle_end_date_for(Date.new(2010, 6, 1), @new_employee)
+  end
+
+  test "end dates for new employee should accept any date in between" do
+    assert_equal Date.new(2011, 5, 31), @leave_type.cycle_end_date_for(Date.new(2011, 1, 1), @new_employee)
+  end
+
+  test "end dates for new employee should accept end date" do
+    assert_equal Date.new(2011, 5, 31), @leave_type.cycle_end_date_for(Date.new(2011, 5, 31), @new_employee)
+  end
+
+  test "end dates for new employee should yield previous end date" do
+    assert_equal Date.new(2011, 5, 31), @leave_type.cycle_end_date_for(Date.new(2011, 4, 30), @new_employee)
+  end
+
+  test "end dates for new employee should yield next end date" do
+    assert_equal Date.new(2012, 12, 31), @leave_type.cycle_end_date_for(Date.new(2012, 1, 1), @new_employee)
   end
 
   # take_on_balance_for
@@ -113,9 +187,40 @@ class AnnualLeaveTypeTest < ActiveSupport::TestCase
   end
 
   # leave_carried_forward_for
+
+  test "leave_carried_forward_for new employee prior to start date yields nil" do
+    assert_equal nil, @leave_type.leave_carried_forward_for(@new_employee, Date.new(2011, 1, 1))
+  end
+
+  test "leave_carried_forward_for new employee at beginning yields zero" do
+    assert_equal 0, @leave_type.leave_carried_forward_for(@new_employee, Date.new(2010, 6, 1))
+  end
+
+  test "leave_carried_forward_for new employee at midway yields zero" do
+    assert_equal 10, @leave_type.leave_carried_forward_for(@new_employee, Date.new(2011, 1, 1))
+  end
+
+  test "leave_carried_forward_for new employee at end yields allowance" do
+    assert_equal 20, @leave_type.leave_carried_forward_for(@new_employee, Date.new(2011, 6, 1))
+  end
+
+
   # allowance_for
+
+  test "allowance_for" do
+    
+  end
   
   # leave_taken_for
+
+  test "leave_taken_for" do
+    
+  end
+
   # leave_outstanding_for
+
+  test "leave_outstanding_for" do
+    
+  end
 
 end
