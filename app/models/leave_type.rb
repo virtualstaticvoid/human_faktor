@@ -141,7 +141,7 @@ class LeaveType < ActiveRecord::Base
   end
 
   def cycle_end_date_for(date_as_at, employee = nil)
-    cycle_start_date_for(date_as_at, employee) + cycle_duration_in_units - 1
+    self.cycle_start_date_for(date_as_at, employee) + cycle_duration_in_units - 1.day
   end
 
   def leave_carried_forward_for(employee, date_as_at)
