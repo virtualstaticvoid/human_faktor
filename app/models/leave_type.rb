@@ -195,7 +195,7 @@ class LeaveType < ActiveRecord::Base
     return nil if date_as_at < employee.start_date
   
     start_date = self.cycle_start_date_for(date_as_at, employee)
-    end_date = date_as_at - 1.day
+    end_date = date_as_at
     
     leave_taken(employee, start_date, end_date, unpaid)
   end
@@ -204,7 +204,7 @@ class LeaveType < ActiveRecord::Base
     return nil unless employee && date_as_at
     return nil if date_as_at < employee.start_date
   
-    start_date = date_as_at
+    start_date = date_as_at + 1.day
     end_date = self.cycle_end_date_for(date_as_at, employee)
     
     leave_taken(employee, start_date, end_date, unpaid)
