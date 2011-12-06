@@ -2,7 +2,7 @@ module Paperclip
   module Interpolations
 
     def rails_root(attachment, style_name)
-      File.join(Rails.root, 'public', 'system')
+      File.join(::Rails.root, 'public', 'system')
     end
 
     def identifier(attachment, style_name)

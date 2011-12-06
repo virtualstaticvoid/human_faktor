@@ -9,7 +9,7 @@ class DemoRequestsController < ApplicationController
     @demo_request = DemoRequest.new()
   
     # use Geo IP to figure out the country from the IP address
-    geoinf = GeoIP.new(File.join(Rails.root, 'db', 'geoip.dat')).country(request.remote_ip)
+    geoinf = GeoIP.new(File.join(::Rails.root, 'db', 'geoip.dat')).country(request.remote_ip)
     @demo_request.country = Country.by_iso_code(geoinf.country_code2) || @demo_request.country
 
   end
