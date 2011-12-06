@@ -214,6 +214,12 @@ class Employee < ActiveRecord::Base
     self.send(:"#{leave_type.leave_type_name}_leave_take_on_balance")
   end
   
+  def set_take_on_balance_for(leave_type, value)
+    self.send(:"#{leave_type.leave_type_name}_leave_take_on_balance=", value)
+  end
+
+  # helper for calculating leave balances
+  # TODO: consider caching the results per leave type
   def leave_balance(leave_type, date_as_at = Date.today)
     LeaveBalanceDetail.new(leave_type, self, date_as_at)
   end
