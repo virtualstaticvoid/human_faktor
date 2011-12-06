@@ -181,9 +181,8 @@ class LeaveType < ActiveRecord::Base
     # include take on balance if within the given leave cycle
     if self.can_take_on? &&
          !employee.take_on_balance_as_at.nil? && 
-            employee.take_on_balance_as_at >= cycle_start_date && 
-                employee.take_on_balance_as_at <= cycle_end_date
-
+            employee.take_on_balance_as_at <= cycle_end_date &&
+              employee.take_on_balance_as_at >= cycle_start_date
       employee.take_on_balance_for(self)
     else
       0
