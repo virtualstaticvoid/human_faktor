@@ -49,12 +49,12 @@ class ActionController::TestCase
 
   def admin_sign_in_as(tenant_admin)
     admin = tenant_admins(tenant_admin)
-    sign_in admin
+    sign_in :tenant_admin, admin
   end
 
   def sign_in_as(role)
     employee = employees(role)
-    sign_in employee
+    sign_in :employee, employee
     AccountTracker.current = employee.account
   end
 
