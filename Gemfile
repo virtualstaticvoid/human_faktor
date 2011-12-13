@@ -46,13 +46,16 @@ gem 'validates_timeliness', '~> 3.0.2'
 # and rake tasks are available in development mode:
 
 group :development, :test do
+  gem 'capybara'
   gem 'cover_me'
   gem 'guard'
   gem 'guard-livereload'
+  gem 'guard-rspec'
   gem 'guard-test'
   gem 'libnotify'
   gem 'pry'
   gem 'rb-inotify'
+  gem 'rspec-rails'
   gem 'ruby-prof'
   gem 'test-unit'
 end
