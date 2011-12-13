@@ -6,10 +6,6 @@ class LeaveType < ActiveRecord::Base
   extend NestedClassesHelper
   include ActionView::Helpers::TextHelper
   
-  #
-  # NNB: assumes that the cycle_start_date is less than any employee start or take on date!
-  #
-  
   default_scope order(:display_order)
 
   # units for cycle duration
@@ -36,16 +32,40 @@ class LeaveType < ActiveRecord::Base
                  :required_days_notice => 1,
                  :max_negative_balance => 0
 
-  # maps to derived class of LeaveType::Base
+  # maps to derived classes of LeaveType (handled by ActiveRecord)
   validates :type, :uniqueness => { :scope => [ :account_id ] }
 
+  def leave_type_name
+    self.class.name.gsub(/LeaveType::/, '').downcase
+  end
+
   # leave cycle information
-  validates :cycle_start_date, :timeliness => { :type => :date }
+  validates :cycle_start_date, :timeliness => { :type => :date }    # only applicable for accruing types
+
   validates :cycle_duration, :numericality => { :greater_than => 0 }
   validates :cycle_duration_unit, :inclusion => { :in => DURATIONS }
+
+  def cycle_duration_in_units
+    case self.cycle_duration_unit
+      when DURATION_UNIT_DAYS then self.cycle_duration.days
+      when DURATION_UNIT_MONTHS then self.cycle_duration.months
+      when DURATION_UNIT_YEARS then self.cycle_duration.years
+    end
+  end
+  
+  def duration_display
+    case self.cycle_duration_unit
+      when DURATION_UNIT_DAYS then pluralize(self.cycle_duration, 'day')
+      when DURATION_UNIT_MONTHS then pluralize(self.cycle_duration, 'month')
+      when DURATION_UNIT_YEARS then pluralize(self.cycle_duration, 'year')
+    end
+  end
+    
   validates :cycle_days_allowance, :numericality => { :greater_than => 0 }
   validates :cycle_days_carry_over, :numericality => { :greater_than_or_equal_to => 0 }
 
+  # TODO: need a better name for this property/behaviour
+  # ... rolling window... fixed aniversary date...
   # default to false for all leave types (except Annual - below)
   def has_absolute_start_date?
     false
@@ -96,52 +116,26 @@ class LeaveType < ActiveRecord::Base
     self.class.name.gsub(/LeaveType::/, '')
   end
   
-  def duration_display
-    case self.cycle_duration_unit
-      when DURATION_UNIT_DAYS then pluralize(self.cycle_duration, 'day')
-      when DURATION_UNIT_MONTHS then pluralize(self.cycle_duration, 'month')
-      when DURATION_UNIT_YEARS then pluralize(self.cycle_duration, 'year')
-    end
-  end
-  
-  def leave_type_name
-    self.class.name.gsub(/LeaveType::/, '').downcase
-  end
+  def cycle_start_date_for(date_as_at, employee)
 
-  def cycle_start_date_for(date_as_at, employee = nil)
+    # for non-accruing leave types
+    # the start date co-incides with the employees start date
+    # and each aniversary is an increment of the cycle duration
 
-    # given the cycle start date (without year!)
-    # calculate the beginning date of the cycle
+    start_date = employee.start_date
 
-    start_date = Date.new(date_as_at.year, self.cycle_start_date.month, self.cycle_start_date.day)
+    return nil if date_as_at < start_date
 
-    if date_as_at < start_date
-      start_date = Date.new(date_as_at.year - 1, self.cycle_start_date.month, self.cycle_start_date.day)      
-    end
-
-    unless employee.nil?
-      if employee.start_date > (start_date + cycle_duration_in_units)
-
-        # if the employee start date is beyond the cycle end date
-        # then the start date is nil!
-
-        start_date = nil
-
-      elsif employee.start_date > start_date
-
-        # if the employee start date is within the cycle
-        # then use the employee start date
-
-        start_date = employee.start_date
-
-      end 
+    while date_as_at >= (start_date + cycle_duration_in_units)
+      start_date += cycle_duration_in_units
     end
 
     start_date
   end
 
-  def cycle_end_date_for(date_as_at, employee = nil)
-    self.cycle_start_date_for(date_as_at, employee) + cycle_duration_in_units - 1.day
+  def cycle_end_date_for(date_as_at, employee)
+    start_date = self.cycle_start_date_for(date_as_at, employee)
+    start_date + cycle_duration_in_units - 1.day if start_date
   end
 
   def leave_carried_forward_for(employee, date_as_at)
@@ -216,12 +210,23 @@ class LeaveType < ActiveRecord::Base
   
     default_values :color => '0037C7'
   
+    # TODO: need a better name for this property/behaviour
+    # ... rolling window... fixed aniversary date...
     def has_absolute_start_date?
       true
     end
 
     def can_carry_over?
       true
+    end
+
+    def cycle_start_date_for(date_as_at, employee)
+
+      # TODO: annual leave cycle starts with the employee start date
+      #  up to the end of the first cycle, thereafter co-incides with the leave cycle start date aniversaries
+
+      super
+
     end
   
     def leave_carried_forward_for(employee, date_as_at)
@@ -363,14 +368,6 @@ class LeaveType < ActiveRecord::Base
       { :from => start_date, :to => end_date }
     ).sum(:duration)
 
-  end
-  
-  def cycle_duration_in_units
-    case self.cycle_duration_unit
-      when DURATION_UNIT_DAYS then self.cycle_duration.days
-      when DURATION_UNIT_MONTHS then self.cycle_duration.months
-      when DURATION_UNIT_YEARS then self.cycle_duration.years
-    end
   end
   
 end

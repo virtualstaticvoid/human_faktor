@@ -66,8 +66,8 @@ class DashboardData
   def unscheduled_leave_heatmap
     @unscheduled_leave_heatmap ||= HeatMapEnquiry.new(@account, @employee).tap do |c|
       c.enquiry = 'HeatMapEnquiry::UnscheduledLeave'
-      c.date_from = @account.leave_type_annual.cycle_start_date_for(Date.today)
-      c.date_to = @account.leave_type_annual.cycle_end_date_for(Date.today)
+      c.date_from = Date.new(Date.today.year, 1, 1)
+      c.date_to = Date.new(Date.today.year, 12, 31)
     end
   end
   

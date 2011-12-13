@@ -38,11 +38,11 @@ class ApplicationController < ActionController::Base
   end
 
   def leave_cycle_start_date(for_date = Date.today)
-    current_account.leave_type_annual.cycle_start_date_for(for_date)
+    Date.new(for_date.year, 1, 1)
   end
 
   def leave_cycle_end_date(for_date = Date.today)
-    current_account.leave_type_annual.cycle_end_date_for(for_date)
+    Date.new(for_date.year, 12, 31)
   end
 
   def ensure_account
