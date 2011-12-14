@@ -168,15 +168,18 @@ class LeaveType < ActiveRecord::Base
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
   def take_on_balance_for(employee, date_as_at)
     return nil unless employee && date_as_at
+
+    # need to have a `take_on_balance_as_at` date
+    return 0 if employee.take_on_balance_as_at.nil?
+    return 0 if date_as_at < employee.take_on_balance_as_at
   
     cycle_start_date = self.cycle_start_date_for(date_as_at, employee)
     cycle_end_date = self.cycle_start_date_for(date_as_at, employee)
 
     # include take on balance if within the given leave cycle
     if self.can_take_on? &&
-         !employee.take_on_balance_as_at.nil? && 
-            employee.take_on_balance_as_at <= cycle_end_date &&
-              employee.take_on_balance_as_at >= cycle_start_date
+        employee.take_on_balance_as_at >= cycle_start_date &&
+          employee.take_on_balance_as_at <= cycle_end_date
       employee.take_on_balance_for(self)
     else
       0
