@@ -127,11 +127,11 @@ shared_examples_for 'non accuring leave type' do
         @employee.take_on_balance_as_at = Date.new(2011, 1, 1)
       end
 
-      it "should be the take on balance for that cycle" do
-        @leave_type.allowance_for(@employee, Date.new(2011, 1, 1)).should == 10
+      it "should have no allowance" do
+        @leave_type.allowance_for(@employee, Date.new(2011, 1, 1)).should == 0
       end
 
-      it "should be the allowance for subsequent cycles" do
+      it "should have allowance for subsequent cycles" do
         @leave_type.allowance_for(@employee, Date.new(2012, 1, 1)).should == 20
         @leave_type.allowance_for(@employee, Date.new(2013, 1, 1)).should == 20
       end
@@ -141,10 +141,50 @@ shared_examples_for 'non accuring leave type' do
   end
 
   describe "take_on_balance_for" do
+
+    context "employee with take on balance" do
+
+      before do
+        @employee.set_take_on_balance_for(@leave_type, 10)
+        @employee.take_on_balance_as_at = Date.new(2011, 1, 1)
+      end
+
+      it "should have take on balance in period" do
+        @leave_type.take_on_balance_for(@employee, Date.new(2011, 1, 1)).should == 10
+      end
+
+      it "should not have take on balance in period prior to take on as at date" do
+        @leave_type.take_on_balance_for(@employee, Date.new(2010, 1, 1)).should == 0
+      end
+
+      it "should not have take on balance in subsequent period" do
+        @leave_type.take_on_balance_for(@employee, Date.new(2012, 1, 1)).should == 0
+      end
+
+      it "should not have a take on balance if no take on as at date given" do
+        @employee.take_on_balance_as_at = nil
+        @leave_type.take_on_balance_for(@employee, Date.new(2010, 1, 1)).should == 0
+        @leave_type.take_on_balance_for(@employee, Date.new(2011, 1, 1)).should == 0
+        @leave_type.take_on_balance_for(@employee, Date.new(2012, 1, 1)).should == 0
+      end
+      
+    end
+
+    context "employee without take on balance" do
+
+      it "should not have take on balance" do
+        @leave_type.take_on_balance_for(@employee, Date.new(2010, 1, 1)).should == 0
+        @leave_type.take_on_balance_for(@employee, Date.new(2011, 1, 1)).should == 0
+        @leave_type.take_on_balance_for(@employee, Date.new(2012, 1, 1)).should == 0
+      end
+      
+    end
     
   end
 
   describe "leave_taken_for" do
+
+
     
   end
 
