@@ -143,7 +143,6 @@ GEM
       ruby_parser (>= 2.3.1)
     mime-types (1.17.2)
     multi_json (1.0.3)
-    newrelic_rpm (3.3.0)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
     paperclip (2.4.5)
@@ -254,7 +253,6 @@ DEPENDENCIES
   kaminari (~> 0.12.4)
   kmandrup-colorist!
   libnotify
-  newrelic_rpm
   paperclip (~> 2.3)
   pg
   pry

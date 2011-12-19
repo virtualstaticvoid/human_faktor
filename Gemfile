@@ -59,6 +59,3 @@ group :development, :test do
   gem 'ruby-prof'
   gem 'test-unit'
 end
-
-# instrumentation
-gem 'newrelic_rpm', :group => :production
