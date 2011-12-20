@@ -65,7 +65,10 @@
 
 <% else %>
 
-  <p>No leave balance available prior to employee&#39;s start date (<%= employee.start_date.strftime('%e %B %Y') %>).</p>
+  <% if employee.start_date.present?  %>
+    <p>No leave balance available prior to employee&#39;s start date (<%= employee.start_date.strftime('%e %B %Y') %>).</p>
+  <% else %>
+    <p>No leave balance available...</p>
+  <% end %>
 
 <% end %>
-
