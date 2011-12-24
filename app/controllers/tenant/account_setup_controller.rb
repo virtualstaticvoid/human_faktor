@@ -38,14 +38,16 @@ module Tenant
     def update
       @account = current_account
 
+      setup_params = params[:account_setup]
+      
       # fix up the date
-      params[:account_setup][:leave_cycle_start_date] = Date.civil(
-        params[:account_setup].delete(:"leave_cycle_start_date(1i)").to_i,
-        params[:account_setup].delete(:"leave_cycle_start_date(2i)").to_i,
-        params[:account_setup].delete(:"leave_cycle_start_date(3i)").to_i
-      )
+      setup_params[:leave_cycle_start_date] = Date.civil(
+        setup_params.delete(:"leave_cycle_start_date(1i)").to_i,
+        setup_params.delete(:"leave_cycle_start_date(2i)").to_i,
+        setup_params.delete(:"leave_cycle_start_date(3i)").to_i
+      ) unless setup_params[:leave_cycle_start_date].present?
 
-      @account_setup = AccountSetup.new(params[:account_setup])
+      @account_setup = AccountSetup.new(setup_params)
       @account_setup.auth_token = @account.auth_token
       
       respond_to do |format|
