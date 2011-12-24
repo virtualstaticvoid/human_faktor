@@ -234,14 +234,12 @@ class LeaveType < ActiveRecord::Base
     def leave_carried_forward_for(employee, date_as_at)
       return nil unless employee && date_as_at
 
-# TODO: take into account take on balance
-
       # accumulate leave from the start date up to the cycle start date of `date_as_at`
 
       up_to_date = self.cycle_start_date_for(date_as_at, employee) - 1
 
       return 0 if employee.start_date > up_to_date
-#return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
+      return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
 
       leave_allowance = 0.0
       cycle_duration_days = cycle_duration_in_units / 1.days
