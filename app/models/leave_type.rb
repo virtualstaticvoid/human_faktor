@@ -151,7 +151,8 @@ class LeaveType < ActiveRecord::Base
     # if the date_as_at is prior to the start date, then return zero!
     return 0 if date_as_at < employee.start_date
     return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
-    
+    return 0 if self.take_on_balance_for(employee, date_as_at) > 0
+
     # for non-accruing leave types, this is simply the configured
     # allowance irrespective of the leave cycle of the given `date_as_at`
     # unless there is a take on balance
@@ -159,9 +160,7 @@ class LeaveType < ActiveRecord::Base
     # NOTE: Employee#leave_cycle_allocation_for reverts to leave_type.cycle_days_allowance
     #  unless the employee has an override for the allocation
 
-    self.take_on_balance_for(employee, date_as_at) > 0 ? 
-      0 : 
-      employee.leave_cycle_allocation_for(self)
+    employee.leave_cycle_allocation_for(self)
 
   end
 
