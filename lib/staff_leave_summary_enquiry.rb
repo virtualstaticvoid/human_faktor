@@ -70,7 +70,7 @@ class StaffLeaveSummaryEnquiry
 
     @summary_for = self.account
         .leave_requests
-        .approved
+        .active
         .where(
           ' (date_from BETWEEN :date_from AND :date_to) OR (date_to BETWEEN :date_from AND :date_to) ',
           { :date_from => self.date_from, :date_to => self.date_to }
