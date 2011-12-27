@@ -1,6 +1,7 @@
 <tr id="_employee_<%= employee.to_param %>" data-url="<%= edit_employee_path(employee, :tenant => current_account.subdomain) %>" style="<% unless employee.active %>text-decoration: line-through;<% end %>">
   <td><%= image_tag(employee.avatar.url(:avatar), :width => 24, :height => 24, :class => 'avatar boxradius') %></td>
   <td><%= employee.full_name %></td>
+  <td><%= employee.start_date.strftime('%Y-%m-%d') %> </td>
   <td><%= employee.designation %></td>
   <td><%= t(employee.role_sym, :scope => :roles) %></td>
   <td><%= employee.location %></td>
