@@ -13,7 +13,7 @@
     <td><%= format_duration(leave_balance.leave_taken) %></td>
     <td><%= format_duration(leave_balance.unpaid_leave_taken) %></td>
     <td><strong><%= format_duration(leave_balance.available) %></strong></td>
-    <td><%= @staff_balance.leave_type.cycle_end_date_for(@staff_balance.date_as_at, employee).strftime('%Y-%m-%d') %></td>
+    <td><%= leave_balance.cycle_end_date ? leave_balance.cycle_end_date.strftime('%Y-%m-%d') : "-" %></td>
     <td><%= format_duration(leave_balance.outstanding * -1) %></td>
 
     <td class="centered">
