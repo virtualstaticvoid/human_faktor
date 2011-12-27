@@ -146,7 +146,7 @@ class LeaveType < ActiveRecord::Base
   # calculates the total allowance for the leave cycle of the given `date_as_at`
   # there is no carried forward balance for non-accrued leave types... only take on balances...
   def allowance_for(employee, date_as_at)
-    return nil unless employee && date_as_at
+    raise ArgumentError unless employee && date_as_at
   
     # if the date_as_at is prior to the start date, then return zero!
     return 0 if date_as_at < employee.start_date
@@ -166,7 +166,7 @@ class LeaveType < ActiveRecord::Base
 
   # calculates the leave take on balance for the leave cycle of the given `date_as_at`
   def take_on_balance_for(employee, date_as_at)
-    return nil unless employee && date_as_at
+    raise ArgumentError unless employee && date_as_at
 
     # need to have a `take_on_balance_as_at` date
     return 0 if employee.take_on_balance_as_at.nil?
@@ -187,7 +187,7 @@ class LeaveType < ActiveRecord::Base
 
   # calculates the leave taken for the leave cycle of the given `date_as_at`
   def leave_taken_for(employee, date_as_at, unpaid = false)
-    return nil unless employee && date_as_at
+    raise ArgumentError unless employee && date_as_at
     return nil if date_as_at < employee.start_date
   
     start_date = self.cycle_start_date_for(date_as_at, employee)
@@ -197,7 +197,7 @@ class LeaveType < ActiveRecord::Base
   end
   
   def leave_outstanding_for(employee, date_as_at, unpaid = false)
-    return nil unless employee && date_as_at
+    raise ArgumentError unless employee && date_as_at
     return nil if date_as_at < employee.start_date
   
     start_date = date_as_at + 1.day
@@ -232,7 +232,7 @@ class LeaveType < ActiveRecord::Base
     end
   
     def leave_carried_forward_for(employee, date_as_at)
-      return nil unless employee && date_as_at
+      raise ArgumentError unless employee && date_as_at
 
       # accumulate leave from the start date up to the cycle start date of `date_as_at`
 
@@ -268,7 +268,7 @@ class LeaveType < ActiveRecord::Base
     end
 
     def allowance_for(employee, date_as_at)
-      return nil unless employee && date_as_at
+      raise ArgumentError unless employee && date_as_at
 
       return 0 if employee.start_date > date_as_at
       return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
