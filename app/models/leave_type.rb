@@ -134,6 +134,11 @@ class LeaveType < ActiveRecord::Base
   end
 
   def cycle_end_date_for(date_as_at, employee)
+
+    # for non-accruing leave types
+    # the start date co-incides with the employees start date
+    # and each aniversary is an increment of the cycle duration
+
     start_date = self.cycle_start_date_for(date_as_at, employee)
     start_date + cycle_duration_in_units - 1.day if start_date
   end
