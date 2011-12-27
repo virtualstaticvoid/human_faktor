@@ -232,40 +232,50 @@ class LeaveType < ActiveRecord::Base
     def cycle_start_date_for(date_as_at, employee)
       raise ArgumentError unless employee && date_as_at
 
-      # for accruing leave types
-      # for the first leave cycle the start date is the employees start date 
-      # thereafter the dates co-incide with the leave cycle aniversaries
+      return nil if employee.start_date > date_as_at
 
-      start_date = employee.start_date
-      return nil if date_as_at < start_date
+      # cycle start date is the employee start date 
+      # if the date as at is within the first cycle
+      # there after, it is the date in respect of the 
+      # cycle start date, except for the year of the date as at.
 
-      cycle_start_date = Date.new(
+      start_date = Date.new(
         date_as_at.year, 
         self.cycle_start_date.month, 
         self.cycle_start_date.day
       )
+      
+      start_date = Date.new(
+        date_as_at.year - 1, 
+        self.cycle_start_date.month, 
+        self.cycle_start_date.day
+      ) if start_date > date_as_at
 
-      start_date < cycle_start_date ? start_date : cycle_start_date
+      cycle_duration_days = cycle_duration_in_units / 1.days
+      (employee.start_date > start_date) && (employee.start_date < (start_date + cycle_duration_days)) ?
+        employee.start_date :
+        start_date 
 
     end
 
     def cycle_end_date_for(date_as_at, employee)
       raise ArgumentError unless employee && date_as_at
 
-      # for accruing leave types
-      # for the first leave cycle the start date is the employees start date 
-      # thereafter the dates co-incide with the leave cycle aniversaries
+      return nil if employee.start_date > date_as_at
 
-      start_date = employee.start_date
-      return nil if date_as_at < start_date
-
-      cycle_end_date = cycle_start_date = Date.new(
+      start_date = Date.new(
         date_as_at.year, 
         self.cycle_start_date.month, 
         self.cycle_start_date.day
-      ) + cycle_duration_in_units
+      )
+      
+      start_date = Date.new(
+        date_as_at.year - 1, 
+        self.cycle_start_date.month, 
+        self.cycle_start_date.day
+      ) if start_date > date_as_at
 
-      cycle_end_date < start_date ? nil : cycle_end_date
+      start_date + (cycle_duration_in_units / 1.days)
 
     end
   
