@@ -1,11 +1,11 @@
 Leave Balance Details:
 
   Balance as at:    <%= @leave_request.date_from_s %><% if @leave_balance.leave_type.can_take_on? && @leave_balance.take_on != 0 %>
-  Take On:          <%= pluralize(number_with_precision(@leave_balance.take_on, :precision => 1), 'day') %><% end %><% if @leave_balance.leave_type.can_carry_over? && @leave_balance.carried_forward != 0 %>
-  Carried Forward:  <%= pluralize(number_with_precision(@leave_balance.carried_forward, :precision => 1), 'day') %><% end %>
-  Allowance:        <%= pluralize(number_with_precision(@leave_balance.allowance, :precision => 1), 'day') %>
-  less Leave taken: <%= pluralize(number_with_precision(@leave_balance.leave_taken, :precision => 1), 'day') %>
-  Leave available:  <%= pluralize(number_with_precision(@leave_balance.available, :precision => 1), 'day') %>
-  less Requested:   <%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %>
-  Leave balance:    <%= pluralize(number_with_precision(@leave_balance.projected, :precision => 1), 'day') %>
+  Take On:          <%= pluralize(format_duration(@leave_balance.take_on), 'day') %><% end %><% if @leave_balance.leave_type.can_carry_over? && @leave_balance.carried_forward != 0 %>
+  Carried Forward:  <%= pluralize(format_duration(@leave_balance.carried_forward), 'day') %><% end %>
+  Allowance:        <%= pluralize(format_duration(@leave_balance.allowance), 'day') %>
+  less Leave taken: <%= pluralize(format_duration(@leave_balance.leave_taken), 'day') %>
+  Leave available:  <%= pluralize(format_duration(@leave_balance.available), 'day') %>
+  less Requested:   <%= pluralize(format_duration(@leave_request.duration), 'day') %>
+  Leave balance:    <%= pluralize(format_duration(@leave_balance.projected), 'day') %>
 

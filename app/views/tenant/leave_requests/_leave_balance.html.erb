@@ -22,7 +22,7 @@
     <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on != 0 %>
       <div class="field">
         <div><%= label_tag :take_on_balance, 'Take-on', :title => 'Take on leave balance allowance' %></div>
-        <span><%= text_field_tag :take_on_balance, number_with_precision(leave_balance.take_on, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span><%= text_field_tag :take_on_balance, format_duration(leave_balance.take_on), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
     <% end %>
@@ -30,33 +30,33 @@
     <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward != 0 %>
       <div class="field">
         <div><%= label_tag :carried_forward, 'Carried Forward', :title => 'Leave balance carried forward from previous cycle' %></div>
-        <span><%= text_field_tag :carried_forward, number_with_precision(leave_balance.carried_forward, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span><%= text_field_tag :carried_forward, format_duration(leave_balance.carried_forward), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
     <% end %>
 
     <div class="field">
       <div><%= label_tag :leave_allowance, 'Allowance', :title => 'Allowance for the current leave cycle' %></div>
-      <span><%= text_field_tag :leave_allowance, number_with_precision(leave_balance.allowance, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :leave_allowance, format_duration(leave_balance.allowance), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
     
     <div class="field">
       <div><em>less</em> <%= label_tag :leave_taken, 'Leave taken', :title => 'Leave taken to date' %></div>
-      <span><%= text_field_tag :leave_taken, number_with_precision(leave_balance.leave_taken, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :leave_taken, format_duration(leave_balance.leave_taken), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
     
     <div class="field">
       <div class="total_row"><strong><%= label_tag :leave_available, 'Available leave', :title => 'Available leave balance up to the requested date' %></strong></div>
-      <span><%= text_field_tag :leave_available, number_with_precision(leave_balance.available, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :leave_available, format_duration(leave_balance.available), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
 
     <% if leave_balance.outstanding != 0 %>
       <div class="field">
         <div><em>less</em> <%= label_tag :outstanding, 'Outstanding Future Req.', :title => 'Pending and approved leave, not yet taken' %></div>
-        <span><%= text_field_tag :outstanding, number_with_precision(leave_balance.outstanding, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span><%= text_field_tag :outstanding, format_duration(leave_balance.outstanding), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
     <% end %>
@@ -77,7 +77,7 @@
     
       <div class="field">
         <div><%= unpaid ? 'Unpaid' : raw('<em>less</em>') %> <%= label_tag :leave_requested, 'Leave requested', :title => 'The duration of this leave request' %></div>
-        <span><%= text_field_tag :leave_requested, number_with_precision(request_duration, :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span><%= text_field_tag :leave_requested, format_duration(request_duration), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
       
@@ -85,7 +85,7 @@
 
     <div class="field">
       <div class="total_row"><strong><%= label_tag :balance, 'New Balance', :title => 'The new leave balance, taking into account this leave request' %></strong></div>
-      <span><%= text_field_tag :balance, number_with_precision(leave_balance.projected - (unpaid ? 0 : request_duration), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+      <span><%= text_field_tag :balance, format_duration(leave_balance.projected - (unpaid ? 0 : request_duration)), { :style => 'width: 158px;', :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
 
@@ -93,7 +93,7 @@
       <div style="height: 12px;"></div>
       <div class="field">
         <div><%= label_tag :unpaid_leave, 'Unpaid leave',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
-        <span><%= text_field_tag :unpaid_leave, number_with_precision(leave_balance.unpaid_leave_taken + (unpaid ? request_duration : 0), :precision => 1), { :style => 'width: 158px;', :disabled => true} %></span>
+        <span><%= text_field_tag :unpaid_leave, format_duration(leave_balance.unpaid_leave_taken + (unpaid ? request_duration : 0)), { :style => 'width: 158px;', :disabled => true} %></span>
         <span class="field_info">days</span>
       </div>
     <% end %>

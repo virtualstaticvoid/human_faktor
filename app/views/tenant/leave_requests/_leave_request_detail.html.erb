@@ -129,7 +129,7 @@
       <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on != 0 %>
         <tr>
           <td>Take On:</td>
-          <td><%= pluralize(number_with_precision(leave_balance.take_on, :precision => 1), 'day') %></td>
+          <td><%= pluralize(format_duration(leave_balance.take_on), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
@@ -137,20 +137,20 @@
       <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward != 0 %>
         <tr>
           <td>Carried Forward:</td>
-          <td><%= pluralize(number_with_precision(leave_balance.carried_forward, :precision => 1), 'day') %></td>
+          <td><%= pluralize(format_duration(leave_balance.carried_forward), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
 
       <tr>
         <td>Allowance:</td>
-        <td><%= pluralize(number_with_precision(leave_balance.allowance, :precision => 1), 'day') %></td>
+        <td><%= pluralize(format_duration(leave_balance.allowance), 'day') %></td>
         <td></td>
       </tr>
 
       <tr>
         <td><abbr title="Leave taken to date"><em>less</em> Leave taken</abbr>:</td>
-        <td><%= pluralize(number_with_precision(leave_balance.leave_taken, :precision => 1), 'day') %></td>
+        <td><%= pluralize(format_duration(leave_balance.leave_taken), 'day') %></td>
         <td></td>
       </tr>
 
@@ -161,21 +161,21 @@
 
       <tr>
         <td>Leave available:</td>
-        <td><%= pluralize(number_with_precision(leave_balance.available, :precision => 1), 'day') %></td>
+        <td><%= pluralize(format_duration(leave_balance.available), 'day') %></td>
         <td></td>
       </tr>
 
       <% if leave_balance.outstanding != 0 %>
         <tr>
           <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
-          <td><%= pluralize(number_with_precision(leave_balance.outstanding - @leave_request.duration, :precision => 1), 'day') %></td>
+          <td><%= pluralize(format_duration(leave_balance.outstanding - @leave_request.duration), 'day') %></td>
           <td></td>
         </tr>
       <% end %>
 
       <tr>
         <td><em>less</em> Requested:</td>
-        <td><%= pluralize(number_with_precision(@leave_request.duration, :precision => 1), 'day') %></td>
+        <td><%= pluralize(format_duration(@leave_request.duration), 'day') %></td>
         <td></td>
       </tr>
 
@@ -186,7 +186,7 @@
       
       <tr>
         <td><abbr title="Leave balance including this request">New Leave balance</abbr>:</td>
-        <td><%= pluralize(number_with_precision(leave_balance.projected, :precision => 1), 'day') %></td>
+        <td><%= pluralize(format_duration(leave_balance.projected), 'day') %></td>
         <td></td>
       </tr>
       

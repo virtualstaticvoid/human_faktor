@@ -11,7 +11,7 @@
     <tr>
       <td></td>
       <td>Take On:</td>
-      <td><%= pluralize(number_with_precision(@leave_balance.take_on, :precision => 1), 'day') %></td>
+      <td><%= pluralize(format_duration(@leave_balance.take_on), 'day') %></td>
     </tr>
   <% end %>
   
@@ -19,34 +19,34 @@
     <tr>
       <td></td>
       <td>Carried Forward:</td>
-      <td><%= pluralize(number_with_precision(@leave_balance.carried_forward, :precision => 1), 'day') %></td>
+      <td><%= pluralize(format_duration(@leave_balance.carried_forward), 'day') %></td>
     </tr>
   <% end %>
 
   <tr>
     <td></td>
     <td>Allowance:</td>
-    <td><%= pluralize(number_with_precision(@leave_balance.allowance, :precision => 1), 'day') %></td>
+    <td><%= pluralize(format_duration(@leave_balance.allowance), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td><em>less</em> Leave taken:</td>
-    <td><%= pluralize(number_with_precision(@leave_balance.leave_taken, :precision => 1), 'day') %></td>
+    <td><%= pluralize(format_duration(@leave_balance.leave_taken), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td>Leave available:</td>
-    <td><%= pluralize(number_with_precision(@leave_balance.available, :precision => 1), 'day') %></td>
+    <td><%= pluralize(format_duration(@leave_balance.available), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td><em>less</em> Outstanding:</td>
-    <td><%= pluralize(number_with_precision(@leave_balance.outstanding, :precision => 1), 'day') %></td>
+    <td><%= pluralize(format_duration(@leave_balance.outstanding), 'day') %></td>
   </tr>
   <tr>
     <td></td>
     <td>Leave balance:</td>
-    <td><%= pluralize(number_with_precision(@leave_balance.projected, :precision => 1), 'day') %></td>
+    <td><%= pluralize(format_duration(@leave_balance.projected), 'day') %></td>
   </tr>
 </table>
 
