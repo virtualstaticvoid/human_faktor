@@ -297,7 +297,9 @@ class LeaveType < ActiveRecord::Base
       leave_allowance = 0.0
       cycle_duration_days = cycle_duration_in_units / 1.days
       
-      start_date = employee.start_date
+      start_date = employee.take_on_balance_as_at.present? ?
+          employee.take_on_balance_as_at :
+          employee.start_date
 
       while start_date < up_to_date
 
