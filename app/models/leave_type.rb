@@ -230,11 +230,42 @@ class LeaveType < ActiveRecord::Base
     end
 
     def cycle_start_date_for(date_as_at, employee)
+      raise ArgumentError unless employee && date_as_at
 
-      # TODO: annual leave cycle starts with the employee start date
-      #  up to the end of the first cycle, thereafter co-incides with the leave cycle start date aniversaries
+      # for accruing leave types
+      # for the first leave cycle the start date is the employees start date 
+      # thereafter the dates co-incide with the leave cycle aniversaries
 
-      super
+      start_date = employee.start_date
+      return nil if date_as_at < start_date
+
+      cycle_start_date = Date.new(
+        date_as_at.year, 
+        self.cycle_start_date.month, 
+        self.cycle_start_date.day
+      )
+
+      start_date < cycle_start_date ? start_date : cycle_start_date
+
+    end
+
+    def cycle_end_date_for(date_as_at, employee)
+      raise ArgumentError unless employee && date_as_at
+
+      # for accruing leave types
+      # for the first leave cycle the start date is the employees start date 
+      # thereafter the dates co-incide with the leave cycle aniversaries
+
+      start_date = employee.start_date
+      return nil if date_as_at < start_date
+
+      cycle_end_date = cycle_start_date = Date.new(
+        date_as_at.year, 
+        self.cycle_start_date.month, 
+        self.cycle_start_date.day
+      ) + cycle_duration_in_units
+
+      cycle_end_date < start_date ? nil : cycle_end_date
 
     end
   
