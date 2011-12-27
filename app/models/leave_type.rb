@@ -269,7 +269,7 @@ class LeaveType < ActiveRecord::Base
 
       end
 
-      leave_allowance.round(1)
+      leave_allowance.round(2)
     end
 
     def allowance_for(employee, date_as_at)
@@ -292,7 +292,7 @@ class LeaveType < ActiveRecord::Base
 
       leave_allowance = ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle)
 
-      leave_allowance.round(1)
+      leave_allowance.round(2)
     end
     
   end
