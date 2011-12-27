@@ -323,7 +323,6 @@ class LeaveType < ActiveRecord::Base
 
       return 0 if employee.start_date > date_as_at
       return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
-      return 0 if self.take_on_balance_for(employee, date_as_at) > 0
 
       # accumulate leave from the current period start date to the `date_as_at`
       # NOTE: no deductions are made!
