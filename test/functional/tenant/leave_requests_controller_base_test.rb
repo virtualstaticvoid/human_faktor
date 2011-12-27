@@ -34,6 +34,13 @@ module Tenant
             assert_not_nil assigns(:leave_requests)
           end
 
+          test "should get index.js as #{role}" do
+            sign_in_as role
+            get :index, :format => :js, :tenant => @account.subdomain
+            assert_response :success
+            assert_not_nil assigns(:leave_requests)
+          end
+
           [
             LeaveRequest::FILTER_STATUS_ACTIVE, 
             LeaveRequest::FILTER_STATUS_APPROVED, 
@@ -48,11 +55,25 @@ module Tenant
               assert_not_nil assigns(:leave_requests)
             end
 
+            test "should get index.js as #{role} filtered by #{status}" do
+              sign_in_as role
+              get :index, :format => :js, :tenant => @account.subdomain, :status => status
+              assert_response :success
+              assert_not_nil assigns(:leave_requests)
+            end
+
           end
 
           test "should get index as #{role} with date from" do
             sign_in_as role
             get :index, :tenant => @account.subdomain, :date_from => Date.new(2011, 1, 1)
+            assert_response :success
+            assert_not_nil assigns(:leave_requests)
+          end
+
+          test "should get index.js as #{role} with date from" do
+            sign_in_as role
+            get :index, :format => :js, :tenant => @account.subdomain, :date_from => Date.new(2011, 1, 1)
             assert_response :success
             assert_not_nil assigns(:leave_requests)
           end
@@ -64,9 +85,23 @@ module Tenant
             assert_not_nil assigns(:leave_requests)
           end
 
+          test "should get index.js as #{role} with date to" do
+            sign_in_as role
+            get :index, :format => :js, :tenant => @account.subdomain, :date_to => Date.new(2011, 12, 31)
+            assert_response :success
+            assert_not_nil assigns(:leave_requests)
+          end
+
           test "should get index as #{role} with date from and date to" do
             sign_in_as role
             get :index, :tenant => @account.subdomain, :date_from => Date.new(2011, 1, 1), :date_to => Date.new(2011, 12, 31)
+            assert_response :success
+            assert_not_nil assigns(:leave_requests)
+          end
+
+          test "should get index.js as #{role} with date from and date to" do
+            sign_in_as role
+            get :index, :format => :js, :tenant => @account.subdomain, :date_from => Date.new(2011, 1, 1), :date_to => Date.new(2011, 12, 31)
             assert_response :success
             assert_not_nil assigns(:leave_requests)
           end
