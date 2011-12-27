@@ -233,6 +233,7 @@ class LeaveType < ActiveRecord::Base
       raise ArgumentError unless employee && date_as_at
 
       return nil if employee.start_date > date_as_at
+      return nil if employee.take_on_balance_as_at.present? && employee.take_on_balance_as_at > date_as_at
 
       # cycle start date is the employee start date 
       # if the date as at is within the first cycle
@@ -262,6 +263,7 @@ class LeaveType < ActiveRecord::Base
       raise ArgumentError unless employee && date_as_at
 
       return nil if employee.start_date > date_as_at
+      return nil if employee.take_on_balance_as_at.present? && employee.take_on_balance_as_at > date_as_at
 
       start_date = Date.new(
         date_as_at.year, 
