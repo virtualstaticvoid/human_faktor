@@ -294,12 +294,15 @@ class LeaveType < ActiveRecord::Base
       return 0 if employee.start_date > up_to_date
       return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
 
-      leave_allowance = 0.0
       cycle_duration_days = cycle_duration_in_units / 1.days
       
       start_date = employee.take_on_balance_as_at.present? ?
           employee.take_on_balance_as_at :
           employee.start_date
+
+      leave_allowance = employee.take_on_balance_as_at.present? ?
+          employee.take_on_balance_for(self) :
+          0.0
 
       while start_date < up_to_date
 
