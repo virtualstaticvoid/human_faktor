@@ -146,7 +146,11 @@ class LeaveType < ActiveRecord::Base
     # and each aniversary is an increment of the cycle duration
 
     start_date = self.cycle_start_date_for(date_as_at, employee)
-    start_date + cycle_duration_days if start_date
+
+    (Date.leap?(start_date.year) ?
+      start_date + cycle_duration_days :
+      start_date + cycle_duration_days - 1.day) if start_date
+
   end
 
   def leave_carried_forward_for(employee, date_as_at)
@@ -287,7 +291,9 @@ class LeaveType < ActiveRecord::Base
         self.cycle_start_date.day
       ) if start_date > date_as_at
 
-      start_date + cycle_duration_days
+      Date.leap?(start_date.year) ?
+        start_date + cycle_duration_days :
+        start_date + cycle_duration_days - 1.day
 
     end
   
