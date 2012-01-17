@@ -10,15 +10,15 @@
 
 <div class="leave_balance_detail" style="width: 230px;">
 
-  <% if leave_balance.leave_type.can_take_on? && leave_balance.take_on != 0 %>
+  <% if leave_balance.leave_type.can_take_on? %>
     <div class="field">
-      <div><%= label_tag :take_on_balance, 'Take-on', :title => 'Take on leave balance allowance' %></div>
+      <div><%= label_tag :take_on_balance, 'Take-on Allowance', :title => 'Take on leave balance allowance' %></div>
       <span><%= text_field_tag :take_on_balance, format_duration(leave_balance.take_on), { :disabled => true} %></span>
       <span class="field_info">days</span>
     </div>
   <% end %>
 
-  <% if leave_balance.leave_type.can_carry_over? && leave_balance.carried_forward != 0 %>
+  <% if leave_balance.leave_type.can_carry_over? %>
     <div class="field">
       <div><%= label_tag :carried_forward, 'Carried Forward', :title => 'Leave balance carried forward from previous cycle' %></div>
       <span><%= text_field_tag :carried_forward, format_duration(leave_balance.carried_forward), { :disabled => true} %></span>
@@ -38,14 +38,12 @@
     <span class="field_info">days</span>
   </div>
   
-  <% if leave_balance.unpaid_leave_taken != 0 %>
-    <div style="height: 12px;"></div>
-    <div class="field">
-      <div><%= label_tag :unpaid_leave, 'Unpaid leave taken',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
-      <span><%= text_field_tag :unpaid_leave, format_duration(leave_balance.unpaid_leave_taken), { :disabled => true} %></span>
-      <span class="field_info">days</span>
-    </div>
-  <% end %>
+  <div style="height: 12px;"></div>
+  <div class="field">
+    <div><%= label_tag :unpaid_leave, 'Unpaid leave taken',:title => 'Number of days of unpaid leave taken or outstanding' %></div>
+    <span><%= text_field_tag :unpaid_leave, format_duration(leave_balance.unpaid_leave_taken), { :disabled => true} %></span>
+    <span class="field_info">days</span>
+  </div>
 
   <div class="field">
     <div class="total_row"><strong><%= label_tag :leave_available, 'Balance', :title => 'Available leave balance to date' %></strong></div>
