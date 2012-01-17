@@ -52,6 +52,10 @@ class LeaveType < ActiveRecord::Base
       when DURATION_UNIT_YEARS then self.cycle_duration.years
     end
   end
+
+  def cycle_duration_days
+    self.cycle_duration_in_units / 1.day
+  end
   
   def duration_display
     case self.cycle_duration_unit
@@ -128,8 +132,8 @@ class LeaveType < ActiveRecord::Base
 
     return nil if date_as_at < start_date
 
-    while date_as_at >= (start_date + cycle_duration_in_units)
-      start_date += cycle_duration_in_units
+    while date_as_at >= (start_date + cycle_duration_days)
+      start_date += cycle_duration_days
     end
 
     start_date
@@ -142,7 +146,7 @@ class LeaveType < ActiveRecord::Base
     # and each aniversary is an increment of the cycle duration
 
     start_date = self.cycle_start_date_for(date_as_at, employee)
-    start_date + cycle_duration_in_units - 1.day if start_date
+    start_date + cycle_duration_days - 1.day if start_date
   end
 
   def leave_carried_forward_for(employee, date_as_at)
@@ -160,7 +164,7 @@ class LeaveType < ActiveRecord::Base
     return 0 if employee.take_on_balance_as_at.present? && date_as_at < employee.take_on_balance_as_at
     return 0 if self.take_on_balance_for(employee, date_as_at) > 0
 
-    # for non-accruing leave types, this is simply the configured
+    # for NON-ACCRUING leave types, this is simply the configured
     # allowance irrespective of the leave cycle of the given `date_as_at`
     # unless there is a take on balance
 
@@ -222,7 +226,7 @@ class LeaveType < ActiveRecord::Base
     default_values :color => '0037C7'
   
     # TODO: need a better name for this property/behaviour
-    # ... rolling window... fixed aniversary date...
+    # ... rolling window... fixed anniversary date...
     def has_absolute_start_date?
       true
     end
@@ -259,7 +263,6 @@ class LeaveType < ActiveRecord::Base
         employee.take_on_balance_as_at :
         employee.start_date
 
-      cycle_duration_days = cycle_duration_in_units / 1.day
       (employee_start_date > start_date) && (employee_start_date < (start_date + cycle_duration_days)) ?
         employee_start_date :
         start_date 
@@ -284,7 +287,7 @@ class LeaveType < ActiveRecord::Base
         self.cycle_start_date.day
       ) if start_date > date_as_at
 
-      start_date + (cycle_duration_in_units / 1.day)
+      start_date + cycle_duration_days - 1.day
 
     end
   
@@ -293,21 +296,15 @@ class LeaveType < ActiveRecord::Base
 
       # accumulate leave from the start date up to the cycle start date of `date_as_at`
       cycle_start_date = self.cycle_start_date_for(date_as_at, employee)
-
       return 0 unless cycle_start_date
 
       up_to_date = cycle_start_date - 1.day
 
-      return 0 if employee.start_date > up_to_date
-      return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
-
-      cycle_duration_days = cycle_duration_in_units / 1.day
-      
       start_date = employee.take_on_balance_as_at.present? ?
           employee.take_on_balance_as_at :
           employee.start_date
 
-      return 0 if start_date >= up_to_date
+      return 0 if start_date > up_to_date
 
       leave_allowance = employee.take_on_balance_as_at.present? ?
           employee.take_on_balance_for(self) :
@@ -331,7 +328,7 @@ class LeaveType < ActiveRecord::Base
 
       end
 
-      leave_allowance.round(2)
+      leave_allowance
     end
 
     def allowance_for(employee, date_as_at)
@@ -343,17 +340,17 @@ class LeaveType < ActiveRecord::Base
       # accumulate leave from the current period start date to the `date_as_at`
       # NOTE: no deductions are made!
 
-      cycle_duration_days = cycle_duration_in_units / 1.day
       start_date = self.cycle_start_date_for(date_as_at, employee)
+      return 0 unless start_date
+
       end_date = date_as_at
       days_in_cycle = end_date - start_date
 
       # NOTE: allowance is pro-rated if the employee started intra cycle
       unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
-      leave_allowance = ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle)
+      ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle)
 
-      leave_allowance.round(2)
     end
     
   end
