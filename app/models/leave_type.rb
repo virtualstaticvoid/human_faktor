@@ -146,7 +146,7 @@ class LeaveType < ActiveRecord::Base
     # and each aniversary is an increment of the cycle duration
 
     start_date = self.cycle_start_date_for(date_as_at, employee)
-    start_date + cycle_duration_days - 1.day if start_date
+    start_date + cycle_duration_days if start_date
   end
 
   def leave_carried_forward_for(employee, date_as_at)
@@ -287,7 +287,7 @@ class LeaveType < ActiveRecord::Base
         self.cycle_start_date.day
       ) if start_date > date_as_at
 
-      start_date + cycle_duration_days - 1.day
+      start_date + cycle_duration_days
 
     end
   
@@ -319,9 +319,9 @@ class LeaveType < ActiveRecord::Base
         # subtract the leave taken in this period
         leave_taken = leave_taken(employee, start_date, end_date, false)
 
-        # NOTE: allowance is pro-rated if the employee started intra cycle
         unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
 
+        # NOTE: allowance is pro-rated
         leave_allowance += ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle) - leave_taken
 
         start_date = end_date + 1.day
