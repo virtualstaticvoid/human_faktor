@@ -118,11 +118,13 @@ class LeaveType < ActiveRecord::Base
   
   def cycle_start_date_for(date_as_at, employee)
 
-    # for non-accruing leave types
+    # for NON-ACCRUING leave types
     # the start date co-incides with the employees start date
     # and each aniversary is an increment of the cycle duration
 
-    start_date = employee.start_date
+    start_date = employee.take_on_balance_as_at.present? ?
+      employee.take_on_balance_as_at :
+      employee.start_date
 
     return nil if date_as_at < start_date
 
@@ -235,8 +237,9 @@ class LeaveType < ActiveRecord::Base
       return nil if employee.start_date > date_as_at
       return nil if employee.take_on_balance_as_at.present? && employee.take_on_balance_as_at > date_as_at
 
-      # cycle start date is the employee start date 
-      # if the date as at is within the first cycle
+      # for ACCRUING leave types
+      # cycle start date is the employee start date
+      # if the date is within the first cycle
       # there after, it is the date in respect of the 
       # cycle start date, except for the year of the date as at.
 
@@ -245,16 +248,20 @@ class LeaveType < ActiveRecord::Base
         self.cycle_start_date.month, 
         self.cycle_start_date.day
       )
-      
+
       start_date = Date.new(
         date_as_at.year - 1, 
         self.cycle_start_date.month, 
         self.cycle_start_date.day
       ) if start_date > date_as_at
 
-      cycle_duration_days = cycle_duration_in_units / 1.days
-      (employee.start_date > start_date) && (employee.start_date < (start_date + cycle_duration_days)) ?
-        employee.start_date :
+      employee_start_date = employee.take_on_balance_as_at.present? ?
+        employee.take_on_balance_as_at :
+        employee.start_date
+
+      cycle_duration_days = cycle_duration_in_units / 1.day
+      (employee_start_date > start_date) && (employee_start_date < (start_date + cycle_duration_days)) ?
+        employee_start_date :
         start_date 
 
     end
@@ -277,7 +284,7 @@ class LeaveType < ActiveRecord::Base
         self.cycle_start_date.day
       ) if start_date > date_as_at
 
-      start_date + (cycle_duration_in_units / 1.days)
+      start_date + (cycle_duration_in_units / 1.day)
 
     end
   
@@ -289,16 +296,18 @@ class LeaveType < ActiveRecord::Base
 
       return 0 unless cycle_start_date
 
-      up_to_date = cycle_start_date - 1
+      up_to_date = cycle_start_date - 1.day
 
       return 0 if employee.start_date > up_to_date
       return 0 if employee.take_on_balance_as_at.present? && up_to_date < employee.take_on_balance_as_at
 
-      cycle_duration_days = cycle_duration_in_units / 1.days
+      cycle_duration_days = cycle_duration_in_units / 1.day
       
       start_date = employee.take_on_balance_as_at.present? ?
           employee.take_on_balance_as_at :
           employee.start_date
+
+      return 0 if start_date >= up_to_date
 
       leave_allowance = employee.take_on_balance_as_at.present? ?
           employee.take_on_balance_for(self) :
@@ -318,7 +327,7 @@ class LeaveType < ActiveRecord::Base
 
         leave_allowance += ((self.cycle_days_allowance / (cycle_duration_days - unpaid_leave_taken)) * days_in_cycle) - leave_taken
 
-        start_date = end_date + 1
+        start_date = end_date + 1.day
 
       end
 
@@ -334,7 +343,7 @@ class LeaveType < ActiveRecord::Base
       # accumulate leave from the current period start date to the `date_as_at`
       # NOTE: no deductions are made!
 
-      cycle_duration_days = cycle_duration_in_units / 1.days
+      cycle_duration_days = cycle_duration_in_units / 1.day
       start_date = self.cycle_start_date_for(date_as_at, employee)
       end_date = date_as_at
       days_in_cycle = end_date - start_date
