@@ -3,11 +3,10 @@ class LeaveRequestDay < ActiveRecord::Base
 
   #
   # each record represents one day of the associated leave request
-  #  NOTE: calendars must be intersected so that holidays are dynamically removed
   #
-
-  #scope :current, joins(:leave_request).where(:leave_requests => { :status => LeaveRequest::CURRENT_STATUSES })
-  #scope :pending, joins(:leave_request).where(:leave_requests => { :status => LeaveRequest::STATUS_PENDING })
+  # NOTE: the corresponding calendar of the account is intersected 
+  #       so that holidays are dynamically removed
+  #
 
   scope :active, lambda { |country|
     joins(:leave_request)
@@ -17,8 +16,6 @@ class LeaveRequestDay < ActiveRecord::Base
       .where(:leave_requests => { :status => LeaveRequest::ACTIVE_STATUSES } )
       .where(" calendar_entries.entry_date IS NULL ")
   } 
-
-  #scope :approved, joins(:leave_request).where(:leave_requests => { :status => LeaveRequest::APPROVED_STATUSES })
 
   belongs_to :leave_request
 
@@ -38,14 +35,19 @@ class LeaveRequestDay < ActiveRecord::Base
 
     # create an entry per half_day
     (date_from..date_to).each do |date|
+  
+      # weekend? (6 = Sat, 0 = Sun)
+      next if date.wday == 6 || date.wday == 0
+
       LeaveRequestDay.new(
         :account_id => account_id,
         :leave_request_id => leave_request_id,
         :leave_date => date,
         :duration => ((date == date_from) && half_day_from) ||
                      ((date == date_to) && half_day_to) ? 0.5 : 1.0
-      ).save!
-    end
+      ).save
+    
+  end
 
   end
 
@@ -56,6 +58,15 @@ class LeaveRequestDay < ActiveRecord::Base
 
   def self.destroy_for(leave_request)
     LeaveRequestDay.where(:leave_request_id => leave_request.id).destroy_all
+  end
+
+  def self.resync_all_leave_requests()
+    ActiveRecord::Base.transaction do
+      LeaveRequestDay.destroy_all
+      LeaveRequest.all.each do |leave_request|
+        LeaveRequestDay.create_for(leave_request)
+      end
+    end
   end
 
 end
