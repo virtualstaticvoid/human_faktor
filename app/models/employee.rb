@@ -47,6 +47,10 @@ class Employee < ActiveRecord::Base
   
   has_many :leave_requests, :dependent => :destroy
 
+  def active_leave_request_days
+    LeaveRequestDay.active(self.account.country).where(:leave_requests => { :employee_id => self.id })
+  end
+
   # identifier  
   validates :identifier, :presence => true, :uniqueness => true
   validates :user_name, :presence => true, 
