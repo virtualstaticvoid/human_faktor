@@ -283,7 +283,7 @@ class HeatMapEnquiry
   class LeaveRequestsByDuration < Base
     include LeaveRequestsByEmployeeBase
     include ColorSchemes::BlueGreen
-    
+
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee) },
@@ -297,7 +297,7 @@ class HeatMapEnquiry
     
     def json
       load_json self.criteria.employees,
-                lambda {|employee| self.criteria.leave_requests_for(employee).where(:unpaid => true) },
+                lambda {|employee| self.criteria.leave_requests_for(employee).where(:leave_requests => { :unpaid => true }) },
                 lambda {|leave_requests| leave_requests.count() },
                 'request'
     end
@@ -320,7 +320,7 @@ class HeatMapEnquiry
     end
     
     def leave_requests_query(employee)
-      self.criteria.leave_requests_for(employee).where(self.constraint.as_constraint_override => true)
+      self.criteria.leave_requests_for(employee).where(:leave_requests => { self.constraint.as_constraint_override => true })
     end
     
     def heat_measure(leave_requests)
@@ -447,7 +447,7 @@ class HeatMapEnquiry
 
     def leave_requests_query(employee)
       # add on additional constraint
-      super.where(:is_adjacent.as_constraint_override => true)
+      super.where(:leave_requests => { :is_adjacent.as_constraint_override => true })
     end
 
     # override to apply additional filtering logic
@@ -507,7 +507,8 @@ class HeatMapEnquiry
       employees.each do |employee|
         leave_requests[employee] = self.criteria
                                     .leave_requests_for(employee)
-                                    .where(:is_unscheduled.as_constraint_override => true)
+                                    .where(:leave_requests => { :is_unscheduled.as_constraint_override => true })
+
         leave_request_durations[employee] = leave_requests[employee].sum(:duration)
       end
       
@@ -576,7 +577,8 @@ class HeatMapEnquiry
       employees.each do |employee|
         leave_requests[employee] = self.criteria
                                     .leave_requests_for(employee)
-                                    .where(:is_unscheduled.as_constraint_override => true)
+                                    .where(:leave_requests => { :is_unscheduled.as_constraint_override => true })
+
         leave_request_durations[employee] = leave_requests[employee].sum(:duration)
       end
       
@@ -655,12 +657,11 @@ class HeatMapEnquiry
   end
 
   def collect_leave_requests_for(employee)
-    employee.leave_requests
-            .active
-            .where(
-              ' (date_from BETWEEN :date_from AND :date_to) OR (date_to BETWEEN :date_from AND :date_to) ',
-              { :date_from => self.date_from, :date_to => self.date_to }
-            )
+    employee.active_leave_request_days
+      .where(
+        ' leave_date BETWEEN :date_from AND :date_to ',
+        { :date_from => self.date_from, :date_to => self.date_to }
+      )
   end
 
   def constantize(string)
