@@ -223,6 +223,26 @@ class LeaveType < ActiveRecord::Base
     leave_taken(employee, start_date, end_date, unpaid)
   end
 
+  # some flags magic!
+  def self.inherited(klass)
+
+    name = klass.name.gsub(/LeaveType::/, '').downcase
+
+    # create base version
+    define_method :"is_#{name}?" do
+      false
+    end
+
+    # create derived version
+    klass.class_eval do
+      define_method :"is_#{name}?" do
+        true
+      end
+    end
+
+    super    
+  end
+
   # supported leave types
 
   class Annual < LeaveType
