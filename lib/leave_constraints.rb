@@ -122,7 +122,7 @@ module LeaveConstraints
   class IsUnscheduled < Base
   
     def initialize()
-      @defer_evaluation = true
+      #@defer_evaluation = true
     end
 
     def self.can_override?(leave_request)
@@ -130,7 +130,12 @@ module LeaveConstraints
     end
 
     def evaluate(request)
+      
+      # only evaluate for medical and compassionate leave
+      return false unless request.leave_type.is_medical? || request.leave_type.is_compassionate?
+
       request.date_from < request.created_at.to_date
+
     end
 
   end
@@ -139,10 +144,13 @@ module LeaveConstraints
   class IsAdjacent < Base
 
     def initialize()
-      @defer_evaluation = true
+      #@defer_evaluation = true
     end
   
     def evaluate(request)
+
+      # only evaluate for medical and compassionate leave
+      return false unless request.leave_type.is_medical? || request.leave_type.is_compassionate?
     
       # only applicable if unscheduled
       return false unless request.date_from < request.created_at.to_date
