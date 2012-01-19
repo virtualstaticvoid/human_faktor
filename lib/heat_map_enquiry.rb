@@ -173,7 +173,8 @@ class HeatMapEnquiry
 
     def build_leave_requests(query, count)
       json = []
-      query.each do |leave_request|
+
+      resolve_leave_requests(query).each do |leave_request|
         json << build_item(
           leave_request.to_s,
           leave_request.duration,
@@ -209,7 +210,15 @@ class HeatMapEnquiry
     def heat_map_color(value)
       @color_map.color_for(value).to_s
     end
+
+    protected
     
+    def resolve_leave_requests(query)
+      query
+        .group_by {|leave_request_day| leave_request_day.leave_request }
+        .collect {|leave_request, leave_request_days| leave_request }
+    end
+
     private 
     
     def make_id
@@ -275,7 +284,7 @@ class HeatMapEnquiry
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee) },
-                lambda {|leave_requests| leave_requests.count() },
+                lambda {|leave_requests| resolve_leave_requests(leave_requests).count() },
                 'request'
     end
   end
@@ -298,7 +307,7 @@ class HeatMapEnquiry
     def json
       load_json self.criteria.employees,
                 lambda {|employee| self.criteria.leave_requests_for(employee).where(:leave_requests => { :unpaid => true }) },
-                lambda {|leave_requests| leave_requests.count() },
+                lambda {|leave_requests| resolve_leave_requests(leave_requests).count() },
                 'request'
     end
   end
@@ -324,7 +333,7 @@ class HeatMapEnquiry
     end
     
     def heat_measure(leave_requests)
-      leave_requests.count()
+      resolve_leave_requests(leave_requests).count()
     end
     
     def measure_unit
