@@ -6,6 +6,10 @@ class LeaveRequest < ActiveRecord::Base
   include AccountScopedModel
   include ActionView::Helpers::TextHelper
 
+  # callbacks
+  after_create :create_leave_request_days
+  after_update :update_leave_request_days
+
   # status values
   STATUS_NEW = 1
   STATUS_PENDING = 2
@@ -421,6 +425,14 @@ class LeaveRequest < ActiveRecord::Base
 
   private
   
+  def create_leave_request_days
+    LeaveRequestDay.create_for(self)
+  end 
+
+  def update_leave_request_days
+    LeaveRequestDay.update_for(self)
+  end
+
   def date_from_must_occur_before_date_to
     errors.add(:date_from, "can't be after the to date") if
       !(date_from.blank? || date_to.blank?) && (date_from > date_to)

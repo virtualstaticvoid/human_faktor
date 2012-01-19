@@ -130,4 +130,63 @@ class LeaveRequestTest < ActiveSupport::TestCase
     
   end
 
+  test "should create leave request day records" do
+    leave_type = leave_types(:annual)
+    leave_type.approval_required = false
+    leave_type.save!
+    
+    leave = LeaveRequest.new(
+      :account_id => accounts(:one).id,
+      :leave_type_id => leave_type.id,
+      :employee_id => employees(:employee).id,
+      :approver_id => employees(:admin).id,
+      :date_from => Date.new(2011, 9, 20),
+      :date_to => Date.new(2011, 9, 22),
+      :comment => 'Test'
+    )
+    assert leave.save!
+
+    assert_equal 3, LeaveRequestDay.where(:leave_request_id => leave.id).count()
+  end
+
+  test "should update leave request day records" do
+    leave_type = leave_types(:annual)
+    leave_type.approval_required = false
+    leave_type.save!
+    
+    leave = LeaveRequest.new(
+      :account_id => accounts(:one).id,
+      :leave_type_id => leave_type.id,
+      :employee_id => employees(:employee).id,
+      :approver_id => employees(:admin).id,
+      :date_from => Date.new(2011, 9, 20),
+      :date_to => Date.new(2011, 9, 22),
+      :comment => 'Test'
+    )
+    assert leave.save!
+    assert leave.update_attributes(:date_to => Date.new(2011, 9, 21))
+
+    assert_equal 2, LeaveRequestDay.where(:leave_request_id => leave.id).count()
+  end
+
+  test "should destroy leave request day records" do
+    leave_type = leave_types(:annual)
+    leave_type.approval_required = false
+    leave_type.save!
+    
+    leave = LeaveRequest.new(
+      :account_id => accounts(:one).id,
+      :leave_type_id => leave_type.id,
+      :employee_id => employees(:employee).id,
+      :approver_id => employees(:admin).id,
+      :date_from => Date.new(2011, 9, 20),
+      :date_to => Date.new(2011, 9, 22),
+      :comment => 'Test'
+    )
+    assert leave.save!
+    assert leave.destroy
+
+    assert_equal 0, LeaveRequestDay.where(:leave_request_id => leave.id).count()
+  end
+
 end
