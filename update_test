@@ -1,4 +1,0 @@
-#!/bin/bash
-git push origin master
-ssh root@test.human-faktor.com
-
