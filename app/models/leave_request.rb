@@ -65,6 +65,8 @@ class LeaveRequest < ActiveRecord::Base
   belongs_to :cancelled_by, :class_name => 'Employee'
   belongs_to :reinstated_by, :class_name => 'Employee'
 
+  has_many :leave_request_days, :dependent => :destroy
+
   validates :identifier, :presence => true, :uniqueness => true
 
   validates :employee, :existence => true

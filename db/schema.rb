@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129160232) do
+ActiveRecord::Schema.define(:version => 20120119073850) do
 
   create_table "account_subscriptions", :force => true do |t|
     t.integer  "account_id",                            :null => false
@@ -241,6 +241,16 @@ ActiveRecord::Schema.define(:version => 20111129160232) do
   end
 
   add_index "leave_balances", ["account_id", "employee_id", "leave_type_id", "date_as_at"], :name => "leave_balances_unique_index", :unique => true
+
+  create_table "leave_request_days", :force => true do |t|
+    t.integer "account_id",                        :null => false
+    t.integer "leave_request_id",                  :null => false
+    t.date    "leave_date",                        :null => false
+    t.decimal "duration",         :default => 1.0, :null => false
+  end
+
+  add_index "leave_request_days", ["account_id", "leave_request_id"], :name => "index_leave_request_days_on_account_id_and_leave_request_id"
+  add_index "leave_request_days", ["leave_date"], :name => "index_leave_request_days_on_leave_date"
 
   create_table "leave_requests", :force => true do |t|
     t.integer  "account_id",                                                               :null => false

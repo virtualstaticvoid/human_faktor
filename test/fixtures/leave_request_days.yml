@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  account: one
+  leave_request: one
+  leave_date: 2011-03-01  
+  duration: 0.5
+
+one_1:
+  account: one
+  leave_request: one
+  leave_date: 2011-03-02
+  duration: 1.0
+
+one_2:
+  account: one
+  leave_request: one
+  leave_date: 2011-03-03
+  duration: 1.0
+
+one_3:
+  account: one
+  leave_request: one
+  leave_date: 2011-03-04
+  duration: 1.0
+
+one_4:
+  account: one
+  leave_request: one
+  leave_date: 2011-03-05
+  duration: 0.5

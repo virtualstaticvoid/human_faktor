@@ -39,6 +39,7 @@ class Account < ActiveRecord::Base
   has_many :employees, :dependent => :destroy
   has_many :leave_types, :dependent => :destroy
   has_many :leave_requests, :dependent => :destroy
+  has_many :leave_request_days, :dependent => :destroy
   has_many :leave_balances, :dependent => :destroy
   has_many :bulk_uploads, :dependent => :destroy
 
