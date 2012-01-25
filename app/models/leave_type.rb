@@ -218,9 +218,7 @@ class LeaveType < ActiveRecord::Base
     return 0 if date_as_at < employee.start_date
   
     start_date = date_as_at + 1.day
-    end_date = self.cycle_end_date_for(date_as_at, employee)
-    
-    leave_taken(employee, start_date, end_date, unpaid)
+    leave_taken(employee, start_date, nil, unpaid)
   end
 
   # some flags magic!
@@ -441,17 +439,33 @@ class LeaveType < ActiveRecord::Base
   
   protected
   
-  def leave_taken(employee, start_date, end_date, unpaid = false)
+  def leave_taken(employee, start_date = nil, end_date = nil, unpaid = false)
 
-    employee.active_leave_request_days.where(
-      :leave_requests => {
-        :leave_type_id => self.id,
-        :unpaid => unpaid
-      }
-    ).where(
-      ' leave_date BETWEEN :date_from AND :date_to ',
-      { :date_from => start_date, :date_to => end_date }
-    ).sum(:duration)
+    query = employee.active_leave_request_days.where(
+        :leave_requests => {
+          :leave_type_id => self.id,
+          :unpaid => unpaid
+        }
+      )
+
+    if start_date.nil?
+      query = query.where(
+        ' leave_date <= :date_to ',
+        { :date_to => end_date }
+      )
+    elsif end_date.nil?
+      query = query.where(
+        ' leave_date >= :date_from ',
+        { :date_from => start_date }
+      )
+    else
+      query = query.where(
+        ' leave_date BETWEEN :date_from AND :date_to ',
+        { :date_from => start_date, :date_to => end_date }
+      )
+    end
+    
+    query.sum(:duration)
 
   end
   
