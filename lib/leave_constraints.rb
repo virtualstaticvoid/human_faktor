@@ -91,29 +91,28 @@ module LeaveConstraints
   class ExceedsLeaveCycleAllowance < Base
   
     def evaluate(request)
-      !request.unpaid? && self.leave_taken(request) > self.leave_allowance(request)
+      balance = LeaveBalanceDetail.new(request.leave_type, request.employee, request.date_from)
+      evaluate_with_balance(request, balance)
     end
 
     protected
     
-    def leave_taken(request)
-      request.leave_type.leave_taken_for(request.employee, request.date_from) + request.duration
+    def evaluate_with_balance(request, balance)
+      # NOTE: excludes outstanding leave!
+      !request.unpaid? && ((balance.available - request.duration) > balance.allowance)
     end
 
-    def leave_allowance(request)
-      leave_type = request.leave_type
-      leave_type.take_on_balance_for(request.employee, request.date_from) +
-        leave_type.allowance_for(request.employee, request.date_from)
-    end
-  
   end
   
   # Exceeds allowed negative leave balance
   class ExceedsNegativeLeaveBalance < ExceedsLeaveCycleAllowance
   
-    def evaluate(request)
+    protected
+
+    def evaluate_with_balance(request, balance)
+      # NOTE: excludes outstanding leave!
       super && 
-        (self.leave_taken(request) - self.leave_allowance(request)) < request.leave_type.max_negative_balance
+        (balance.available - request.duration) < request.leave_type.max_negative_balance
     end
     
   end
