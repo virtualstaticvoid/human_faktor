@@ -209,9 +209,7 @@
 		});
 		
   function zoom(incr) {
-    var slider = $('#zoom_slider')
-    slider.slider('value', slider.slider('option', 'value') + incr);
-    update_calendar_zoom(slider.slider('option', 'value'));
+    update_calendar_zoom($('#zoom_slider').slider('option', 'value') + incr);
   }		
   
   function update_calendar_zoom(value) {
@@ -221,6 +219,8 @@
 		$(".week_days").css('display', (value > 4 ? 'inline' : 'none'));
 		$(".days").css('display', (value > 6 ? 'inline' : 'none'));
 		
+    $('#zoom_slider').slider('option', 'value', value);
+
 		var width, border;
 		
 		switch(value) {
@@ -275,9 +275,8 @@
   }
   
   // set default zoom and scroll to today
-  $('#zoom_slider').slider('option', 'value', '7');
   update_calendar_zoom(7);
-	
+
   var todayCol = $('td[data="<%= Date.today.strftime('%Y-%m-%d') %>"]');
   var scrollArea = $('#staff_calendar_scroll');
   if (todayCol) {
