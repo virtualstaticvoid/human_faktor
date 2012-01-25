@@ -148,11 +148,13 @@
         <td></td>
       </tr>
 
-      <tr>
-        <td><abbr title="Leave taken to date"><em>less</em> Leave taken</abbr>:</td>
-        <td><%= pluralize(format_duration(leave_balance.leave_taken), 'day') %></td>
-        <td></td>
-      </tr>
+      <% if leave_balance.leave_taken != 0 %>
+        <tr>
+          <td><abbr title="Leave taken to date"><em>less</em> Leave taken</abbr>:</td>
+          <td><%= pluralize(format_duration(leave_balance.leave_taken), 'day') %></td>
+          <td></td>
+        </tr>
+      <% end %>
 
       <tr>
         <td></td>
@@ -165,19 +167,19 @@
         <td></td>
       </tr>
 
-      <% if leave_balance.outstanding != 0 %>
-        <tr>
-          <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
-          <td><%= pluralize(format_duration(leave_balance.outstanding - @leave_request.duration), 'day') %></td>
-          <td></td>
-        </tr>
-      <% end %>
-
       <tr>
         <td><em>less</em> Requested:</td>
         <td><%= pluralize(format_duration(@leave_request.duration), 'day') %></td>
         <td></td>
       </tr>
+
+      <% if leave_balance.outstanding != 0 %>
+        <tr>
+          <td><abbr title="Pending and approved leave, not yet taken"><em>less</em> Outstanding</abbr>:</td>
+          <td><%= pluralize(format_duration(leave_balance.outstanding), 'day') %></td>
+          <td></td>
+        </tr>
+      <% end %>
 
       <tr>
         <td></td>
@@ -186,7 +188,7 @@
       
       <tr>
         <td><abbr title="Leave balance including this request">New Leave balance</abbr>:</td>
-        <td><%= pluralize(format_duration(leave_balance.projected), 'day') %></td>
+        <td><%= pluralize(format_duration(leave_balance.projected - @leave_request.duration), 'day') %></td>
         <td></td>
       </tr>
       
