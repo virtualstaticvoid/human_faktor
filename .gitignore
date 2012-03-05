@@ -7,6 +7,7 @@ coverage.data
 coverage/
 db/*.sqlite3
 db/backups/*.backup
+db/backups/*.tar.gz
 db/backups/*.restore
 heroku_setup.sh
 heroku_setup_worker.sh
