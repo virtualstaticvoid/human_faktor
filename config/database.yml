@@ -11,6 +11,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: hf_development
   pool: 5
   username: human_faktor
@@ -37,6 +38,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: hf_test
   pool: 5
   username: human_faktor
@@ -45,6 +47,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: hf_production
   pool: 5
   username: human_faktor
