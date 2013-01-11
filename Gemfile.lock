@@ -105,6 +105,9 @@ GEM
     daemons (1.1.9)
     delayed_job (3.0.4)
       activesupport (~> 3.0)
+    delayed_job_active_record (0.3.3)
+      activerecord (>= 2.1.0, < 4)
+      delayed_job (~> 3.0)
     diff-lcs (1.1.3)
     em-websocket (0.3.8)
       addressable (>= 2.1.1)
@@ -257,6 +260,7 @@ DEPENDENCIES
   cover_me
   default_value_for!
   delayed_job
+  delayed_job_active_record
   devise!
   foreman
   geoip
