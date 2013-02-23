@@ -22,7 +22,7 @@ module ApplicationHelper
           }
         });
       JS
-    end
+    end.html_safe
   end
 
   # NNB: this demo data must exist, and is created in the seeds
