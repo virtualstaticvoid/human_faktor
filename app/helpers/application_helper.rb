@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def table_grid_row_click_handler
     javascript_tag do
-      <<-JS
+      script = <<-JS
         $('.table_grid tbody').delegate('tr', 'click', function(e) {
           // figure out whether the row was clicked, or a link (or image) on the row (e.g. delete button)
           if (e.target.parentNode == this) {
@@ -22,7 +22,9 @@ module ApplicationHelper
           }
         });
       JS
-    end.html_safe
+
+      script.html_safe
+    end
   end
 
   # NNB: this demo data must exist, and is created in the seeds
