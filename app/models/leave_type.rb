@@ -297,24 +297,9 @@ class LeaveType < ActiveRecord::Base
       return nil if employee.start_date > date_as_at
       return nil if employee.take_on_balance_as_at.present? && employee.take_on_balance_as_at > date_as_at
 
-      start_date = Date.new(
-        date_as_at.year, 
-        self.cycle_start_date.month, 
-        self.cycle_start_date.day
-      )
-      
-      start_date = Date.new(
-        date_as_at.year - 1, 
-        self.cycle_start_date.month, 
-        self.cycle_start_date.day
-      ) if start_date > date_as_at
-
-      Date.leap?(start_date.year) ?
-        start_date + cycle_duration_days :
-        start_date + cycle_duration_days - 1.day
-
+      cycle_start_date_for(date_as_at, employee) + cycle_duration_days
     end
-  
+
     def leave_carried_forward_for(employee, date_as_at)
       raise ArgumentError unless employee && date_as_at
 
@@ -339,6 +324,8 @@ class LeaveType < ActiveRecord::Base
         end_date = self.cycle_end_date_for(start_date, employee)
 
         days_in_cycle = end_date - start_date
+
+        break if days_in_cycle <= 0
 
         # subtract the leave taken in this period
         leave_taken = leave_taken(employee, start_date, end_date, false)
