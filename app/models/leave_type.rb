@@ -355,7 +355,7 @@ class LeaveType < ActiveRecord::Base
       return 0 unless start_date
 
       end_date = date_as_at
-      days_in_cycle = end_date - start_date
+      days_in_cycle = (end_date - start_date) + 1
 
       # NOTE: allowance is pro-rated if the employee started intra cycle
       unpaid_leave_taken = leave_taken(employee, start_date, end_date, true)
