@@ -79,10 +79,10 @@ class BulkUpload < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     },
                     :s3_permissions => :private,    # NB!
-                    :hash_secret => AppConfig.hash_secret
+                    :hash_secret => Rails.application.config.secret_token
 
   validates_attachment_presence :csv
-  
+
   validates_attachment_content_type :csv,
     :content_type => [
       'application/csv',

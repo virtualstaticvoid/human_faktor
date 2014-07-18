@@ -143,10 +143,10 @@ class LeaveRequest < ActiveRecord::Base
                       :secret_access_key => AppConfig.s3_secret
                     },
                     :s3_permissions => :private,    # NB!
-                    :hash_secret => AppConfig.hash_secret
+                    :hash_secret => Rails.application.config.secret_token
 
   validates_attachment_size :document, :less_than => 5.megabytes
-                    
+
   def document_attached?
     # correct method for determining whether there is an attached file?
     self.document.file?

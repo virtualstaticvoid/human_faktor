@@ -67,7 +67,7 @@ class Account < ActiveRecord::Base
                       :access_key_id => AppConfig.s3_key,
                       :secret_access_key => AppConfig.s3_secret
                     },
-                    :hash_secret => AppConfig.hash_secret
+                    :hash_secret => Rails.application.config.secret_token
 
   validates_attachment_content_type :logo,
     :content_type => [
