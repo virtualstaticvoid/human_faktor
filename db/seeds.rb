@@ -82,7 +82,8 @@ registration = Registration.create(
   :title => 'Demo',
   :first_name => 'Demo',
   :last_name => 'User',
-  :email => 'demo.user@human-faktor.com',
+  :email => 'demo.user@example.com',
+  :country => Country.find_by_iso_code('za')
 )
 
 account = AccountProvisioner.new(registration.id).perform()
