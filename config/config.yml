@@ -37,6 +37,9 @@ shared: &shared
   default_theme: default
   default_country_iso_code: <%= ENV["DEFAULT_COUNTRY_ISO_CODE"] || "za" %>
 
+  # bucket for S3 files
+  s3_bucket: <%= ENV["S3_BUCKET_NAME"] %>
+
 ##
 # Define settings per Rails environment,
 # provide overrides to the shared settings as needed
@@ -53,9 +56,6 @@ development:
   smtp_server: localhost
   smtp_port: 1025
 
-  # bucket for S3 files
-  s3_bucket: "dev-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
-
 test:
   # inherit shared settings
   <<: *shared
@@ -63,15 +63,9 @@ test:
   # url settings
   subdomain: test
 
-  # bucket for S3 files
-  s3_bucket: "test-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
-
 production:
   # inherit shared settings
   <<: *shared
 
   # url settings
-  subdomain: <%= ENV["SUB_DOMAIN"] || "www" %>
-
-  # bucket for S3 files
-  s3_bucket: "prod-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
+  subdomain: www
