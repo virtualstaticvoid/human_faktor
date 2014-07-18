@@ -30,7 +30,6 @@ gem 'default_value_for', :git => 'git://github.com/virtualstaticvoid/default_val
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'devise', :git => 'git://github.com/virtualstaticvoid/devise.git', :branch => 'find_for_authentication'
-gem 'foreman'
 gem 'geoip'
 gem 'informal', :git => 'git://github.com/virtualstaticvoid/informal.git', :branch => 'rails_3_0_model_name_back_port'
 gem 'jquery-rails', '~> 1.0.3'
@@ -60,4 +59,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'ruby-prof'
   gem 'test-unit'
+  gem 'dotenv'
 end
