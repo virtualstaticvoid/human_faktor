@@ -12,7 +12,7 @@ development:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  database: hf_heroku_live
+  database: hf_development
   pool: 5
   username: human_faktor
   password:

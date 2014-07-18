@@ -1,0 +1,77 @@
+##
+# Configuration settings for use by the Rails application
+# Made available via the SimpleConfig global class
+# Use for settings such as mail server configurations, Amazon keys and secrets etc...
+# You can use ERB too
+#
+
+##
+# Define shared settings
+#
+shared: &shared
+
+  # application settings
+  product_group: Online Leave
+  title: Online Leave Management
+  description: Online employee leave management application
+  version: <%= ENV["APP_VERSION"] || "1.0" %>
+  author: "Chris Stefano <virtualstaticvoid@gmail.com>"
+
+  # vendor settings
+  company_name: <%= ENV["COMPANY_NAME"] %>
+  company_registration_number: <%= ENV["COMPANY_REGISTRATION"] %>
+
+  # url settings
+  scheme: http
+  domain: <%= ENV["DOMAIN_NAME"] || "example.com" %>
+
+  # mail settings
+  smtp_domain: <%= ENV["SMTP_DOMAIN"] %>
+  smtp_server: <%= ENV["SMTP_SERVER"] %>
+
+  # email addresses
+  info_email: info@<%= ENV["DOMAIN_NAME"] || "example.com" %>
+  no_reply_email: noreply@<%= ENV["DOMAIN_NAME"] || "example.com" %>
+  support_email: support@<%= ENV["DOMAIN_NAME"] || "example.com" %>
+
+  default_theme: default
+  default_country_iso_code: <%= ENV["DEFAULT_COUNTRY_ISO_CODE"] || "za" %>
+
+##
+# Define settings per Rails environment,
+# provide overrides to the shared settings as needed
+#
+development:
+  # inherit shared settings
+  <<: *shared
+
+  # url settings
+  subdomain: dev
+  domain: localhost:3000
+
+  # mail setting (for mailcatcher)
+  smtp_server: localhost
+  smtp_port: 1025
+
+  # bucket for S3 files
+  s3_bucket: "dev-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
+
+test:
+  # inherit shared settings
+  <<: *shared
+
+  # url settings
+  subdomain: test
+
+  # bucket for S3 files
+  s3_bucket: "test-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
+
+production:
+  # inherit shared settings
+  <<: *shared
+
+  # url settings
+  subdomain: <%= ENV["SUB_DOMAIN"] || "www" %>
+
+  # bucket for S3 files
+  s3_bucket: "prod-<%= ENV["DOMAIN_NAME"] || "example.com" %>"
